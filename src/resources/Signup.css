@@ -1,0 +1,21 @@
+#Signup-Grid {
+  height: 90vh;
+}
+
+#Signup-Grid .Signup-Column {
+  max-width: 450px;
+}
+
+#Signup-Grid .Signup-Header {
+  /* color: #534292; */
+  color: #ffffff;
+}
+
+#Signup-Grid .Signup-Column .Signup-Button-Color {
+  background: #534292;
+  color: #ffffff;
+}
+
+#Signup-Grid .Signup-Message {
+  color: #534292;
+}

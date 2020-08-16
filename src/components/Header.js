@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Dropdown, Menu } from 'semantic-ui-react'
+import { Dropdown, Menu, Button } from 'semantic-ui-react';
+import '../resources/Header.css';
 
 const Header = (props) => {
 
@@ -9,101 +10,50 @@ const Header = (props) => {
   const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
 
-  // menu state
-  const [ activeItem, setItem ] = useState('home')
-
   const handleLogout = () => {
+    // clear localStorage
     localStorage.clear()
-    dispatch({ type: "SET KEY HOLDER", payload: null })
-    props.history.push('/home')
-  }
 
-  // set menu state on click
-  const handleItemClick = (e, { name }) => {
-    name === "logout" && handleLogout()
-    setItem(name) 
+    // update state
+    dispatch({ type: "SET KEY HOLDER", payload: null })
+
+    // send user to the home page when logged out
+    props.history.push('/home')
+
+    // change body background color
+    const body = document.querySelector('body')
+    body.classList.add("bg-color-signed-in");
   }
 
   return(
     <>
-      <Menu inverted stackable>
-        {/* { !currentAdmin &&
-          <Menu.Item
-          as={Link} 
-          to='/'
-          name='home'
-          active={activeItem === 'home'}
-          onClick={handleItemClick}
-          >
-            Home
-        </Menu.Item>
-        } */}
-        <Menu.Item
-          as={Link}
-          to={`/admins/${1}`}
-          name='account'
-          active={activeItem === 'account'}
-          onClick={handleItemClick}
-        >
+      <Menu id="Header-Container">
+        <Menu.Item as={Link} to={`/admins/${keyHolder.id}`} className="Header-Font-Color">
           Account
         </Menu.Item>
-          <Dropdown 
-            item 
-            text='Collaborators'
-            name='collaborators'
-            active={activeItem === 'collaborators'}
-            onClick={handleItemClick} >
+        <Dropdown item text='Collaborators' className="Header-Font-Color">
             <Dropdown.Menu>
-              <Dropdown.Item>Invite</Dropdown.Item>
-              <Dropdown.Item as={Link} to='/users' >
-                  View Users List
+              <Dropdown.Item>
+                <span className="Header-Font-Color">Invite</span>
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to='/users'>
+                <span className="Header-Font-Color">View Users List</span>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Dropdown 
-            item 
-            text='Projects'
-            name='projects'
-            active={activeItem === 'projects'}
-            onClick={handleItemClick}>
+          <Dropdown item text='Projects' className="Header-Font-Color">
           <Dropdown.Menu>
             <Dropdown.Item as={Link} to='/projects/new' >
-              Create Project
+              <span className="Header-Font-Color">Create Project</span>
             </Dropdown.Item>
             <Dropdown.Item as={Link} to='/projects' >
-              View Projects List
+              <span className="Header-Font-Color">View Projects List</span>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <Menu.Menu position='right'>
-          { !keyHolder && 
-            <>
-              <Menu.Item
-                as={Link}
-                to="/signup"
-                name='signup'
-                active={activeItem === 'signup'}
-                onClick={handleItemClick}
-              >
-                Sign Up
-              </Menu.Item>
-              <Menu.Item
-                as={Link}
-                to="/login"
-                name='sign-in'
-                active={activeItem === 'sign-in'}
-                onClick={handleItemClick}
-              >
-                Sign In
-              </Menu.Item>
-            </>
-          }
-          <Menu.Item
-            name='logout'
-            active={activeItem === 'logout'}
-            onClick={handleItemClick}
-          >
-            Logout
+          <Menu.Item onClick={handleLogout}>
+            <Button className="Header-Button-Color">Logout</Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>

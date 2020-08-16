@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createAdmin } from '../api';
 import useFormFields from "../hooks/useFormFields";
+import '../resources/Signup.css';
 import { Button, Form, Grid, Header, Message, Segment, Icon, Input } from 'semantic-ui-react';
 
 const Signup = (props) => {
@@ -39,30 +40,33 @@ const Signup = (props) => {
       localStorage.token = newAdmin.admin.id
       localStorage.credentials = "admin"
 
-      console.log("SIGNED UP:", newAdmin)
-      // send new user to their account
+      // send new user to their account page
       props.history.push(`/admins/${newAdmin.admin.id}`)
+
+      // change body background color
+      const body = document.querySelector('body')
+      body.classList.remove("bg-color-signed-in")
     })
   }
 
   return (
-    <Grid textAlign='center' style={{ height: '75vh' }} verticalAlign='middle'>
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as='h2' color='teal' textAlign='center'>
+    <Grid textAlign='center' id="Signup-Grid" verticalAlign='middle'>
+      <Grid.Column className="Signup-Column">
+        <Header as='h2' className="Signup-Header" textAlign='center'>
           <Icon name='signup' />
-           Sign Up
+          Sign Up
         </Header>
         <Form size='large' onSubmit={handleSubmit}>
           <Segment stacked>
             <Form.Group widths='equal'>
               <Form.Field
-                placeholder='First name'
+                placeholder='First Name'
                 control={Input}
                 name='firstName'
                 onChange={handleFieldChange}
               />
               <Form.Field
-                placeholder='Last name'
+                placeholder='Last Name'
                 control={Input}
                 name='lastName'
                 onChange={handleFieldChange}
@@ -103,15 +107,15 @@ const Signup = (props) => {
               onChange={handleFieldChange}
             />
 
-            <Button color='teal' fluid size='large'>
+            <Button className="Signup-Button-Color" fluid size='large'>
               Sign Up
             </Button>
           </Segment>
         </Form>
-        <Message>
+        <Message className="Signup-Message">
           <span>Already have an account? </span>
           <Link to="/login">
-            Sign In
+            Sign-In
           </Link>
         </Message>
       </Grid.Column>

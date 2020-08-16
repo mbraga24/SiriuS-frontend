@@ -8,4 +8,6 @@
   color: #fff;
 }
 
-/* style={{ margin: '25vh auto', height: '50vh' }} */
+#Home-Container .Home-Header {
+  color: #534292;
+}

@@ -16,13 +16,13 @@ const Home = () => {
     <Container id="Home-Container">
       <Segment placeholder className="Home-Segment">
         <Grid columns={2} stackable textAlign='center'>
-          <Divider vertical>Or</Divider>
+          <Divider className="Home-Header" vertical>OR</Divider>
 
           <Grid.Row verticalAlign='middle'>
             <Grid.Column>
-              <Header icon>
+              <Header icon className="Home-Header">
                 <Icon name='sign-in' />
-                Already have an account?
+                <span>Already have an account?</span>
               </Header>
               <Link to="/login">
                 <Button className="Home-Button-Color">Sign In</Button>
@@ -30,7 +30,7 @@ const Home = () => {
             </Grid.Column>
 
             <Grid.Column>
-              <Header icon>
+              <Header icon className="Home-Header"> 
                 <Icon name='signup' />
                 Wanna be part of our community?
               </Header>

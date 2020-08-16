@@ -1,15 +1,16 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { getAdmin } from '../api';
 import useFormFields from '../hooks/useFormFields';
 import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react';
+import '../resources/Login.css'
+import '../resources/index.css'
 
 const Login = (props) => {
 
-  const keyHolder = useSelector(state => state.app.keyHolder)
+  // const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
-  console.log("SET ADMIN STATE", keyHolder)
 
   const [fields, handleFieldChange] = useFormFields({
     email: "",
@@ -18,11 +19,14 @@ const Login = (props) => {
 
   const handleSubmit = e => {
     e.preventDefault()    
+    
+    // create object to send in the fetch body
     const loginAdmin = {
       email: fields.email,
       password: fields.password,
     }
 
+    // fetch admin
     getAdmin(loginAdmin)
     .then(loggedInAdmin => {
       // update state
@@ -34,15 +38,19 @@ const Login = (props) => {
 
       // send loggedin user to their account
       props.history.push(`/admins/${loggedInAdmin.id}`)
+
+      // change body background color
+      const body = document.querySelector('body')
+      body.classList.remove("bg-color-signed-in")
     })
   }
 
   return (
-      <Grid textAlign='center' style={{ height: '75vh' }} verticalAlign='middle'>
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as='h2' color='teal' textAlign='center'>
+    <Grid textAlign='center' verticalAlign='middle' id="Login-Grid">
+      <Grid.Column className="Login-Column">
+        <Header as='h2' className="Login-Header" textAlign='center'>
           <Icon name='sign-in' />
-          Log-in to your account
+          Log-In to your account
         </Header>
         <Form size='large' onSubmit={handleSubmit}>
           <Segment stacked>
@@ -62,13 +70,12 @@ const Login = (props) => {
               name='password'
               onChange={handleFieldChange}
             />
-
-            <Button color='teal' fluid size='large'>
-              Login
+            <Button className="Login-Button-Color" fluid size='large'>
+              Log-In
             </Button>
           </Segment>
         </Form>
-        <Message>
+        <Message className="Login-Message">
           <span>Don't have an account? </span>
           <Link to="/signup">
             Sign Up

@@ -31,12 +31,17 @@ const App = () => {
       if (credentials === 'admin') {
         isLoggedIn(token)
         .then(loggedInAdmin => {
+          // update state
           dispatch({ type: "SET KEY HOLDER", payload: loggedInAdmin })
         })
 
       } else {
         console.log("IT MUST BE A USER THEN")
       }
+      
+      // change body background color
+      const body = document.querySelector('body')
+      body.classList.remove("bg-color-signed-in")
     }
   }, [dispatch]) 
 
