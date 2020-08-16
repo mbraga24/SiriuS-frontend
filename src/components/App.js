@@ -23,34 +23,15 @@ const App = () => {
     }
   })
 
-  // const checkAdmin = (loggedInAdmin) => {
-  //   console.log("INSIDE CHECKADMIN:", isLoading)
-  //   console.log("INSIDE CHECKADMIN")
-  //   dispatch({ type: "SET ADMIN", payload: loggedInAdmin })
-    // dispatch({ type: "SET LOAD" })
-  // }
-
-  // console.log("current logged in:", keyHolder)
-
-  // console.log("ADMIN APP", currentViewer)  
-
-
-  // wait until fetch is over to get my currentAdmin
   useEffect(() => {
     if (localStorage.token) {
       const token = localStorage.token
       const credentials = localStorage.credentials
 
-      console.log("TOKEN:", token)
-      console.log("CREDENTIALS:", credentials)
-
       if (credentials === 'admin') {
         isLoggedIn(token)
         .then(loggedInAdmin => {
-          // // this object is fine!
-          console.log("RESET LOGGEDIN USER: ", loggedInAdmin)
-
-          dispatch({ type: "SET ADMIN", payload: loggedInAdmin })
+          dispatch({ type: "SET KEY HOLDER", payload: loggedInAdmin })
         })
 
       } else {
@@ -60,19 +41,19 @@ const App = () => {
   }, [dispatch]) 
 
   console.log("IS LOADING JUST BEFORE RETURN:", isLoading)
-
   return (
     <div>
       { keyHolder && <Header/> }
       <Switch>
         <Route exact path="/" render={ () => <Home/>} />
-        { keyHolder &&
-          <>
-            <Route path="/users" render={ () => <ViewUsers/>} />
-            <Route exact path="/projects" render={ () => <Project/>} />
-            <Route path="/projects/new" render={ () => <NewProject/>} />
-            <Route exact path='/admins/:id' render={ () => <Account />} />
-          </>
+        { keyHolder && (
+            <>
+              <Route path="/users" render={ () => <ViewUsers/>} />
+              <Route exact path="/projects" render={ () => <Project/>} />
+              <Route path="/projects/new" render={ () => <NewProject/>} />
+              <Route exact path='/admins/:id' render={ () => <Account />} />
+            </>
+          )
         }
         <Route path="/signup" render={ () => <Signup/>} />
         <Route path="/login" render={ () => <Login/>} />

@@ -6,7 +6,7 @@ const defaultState = {
 const reducer = (state = defaultState, action) => {
   console.log("APP REDUCER: ", state.isLoading)
   switch(action.type) {
-    case "SET ADMIN":
+    case "SET KEY HOLDER":
       return {
         ...state,
         keyHolder: action.payload

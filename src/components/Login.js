@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { getAdmin } from '../api';
 import useFormFields from '../hooks/useFormFields';
 import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react';
 
-const LoginForm = () => {
+const Login = (props) => {
 
   const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
@@ -25,10 +25,15 @@ const LoginForm = () => {
 
     getAdmin(loginAdmin)
     .then(loggedInAdmin => {
-      // console.log("SIGNEDIN:", loggedInAdmin)
-      dispatch({ type: "SET ADMIN", payload: loggedInAdmin })
+      // update state
+      dispatch({ type: "SET KEY HOLDER", payload: loggedInAdmin })
+
+      // update localStorage
       localStorage.token = loggedInAdmin.id
       localStorage.credentials = "admin"
+
+      // send loggedin user to their account
+      props.history.push(`/admins/${loggedInAdmin.id}`)
     })
   }
 
@@ -74,7 +79,7 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm;
+export default withRouter(Login);
 
 // ========================> CONCEPTS <============================
 // 1) custom hooks -> useFormFields

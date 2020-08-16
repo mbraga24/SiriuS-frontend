@@ -1,0 +1,11 @@
+#Home-Container .Home-Segment {
+  margin: 25vh auto;
+  height: 50vh;
+}
+
+#Home-Container .Home-Button-Color {
+  background-color: #534292;
+  color: #fff;
+}
+
+/* style={{ margin: '25vh auto', height: '50vh' }} */

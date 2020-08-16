@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import { Dropdown, Menu } from 'semantic-ui-react'
 
-const Header = () => {
+const Header = (props) => {
 
   // retrieve keyHolder from state
   const keyHolder = useSelector(state => state.app.keyHolder)
+  const dispatch = useDispatch()
 
   // menu state
   const [ activeItem, setItem ] = useState('home')
 
+  const handleLogout = () => {
+    localStorage.clear()
+    dispatch({ type: "SET KEY HOLDER", payload: null })
+    props.history.push('/home')
+  }
+
   // set menu state on click
   const handleItemClick = (e, { name }) => {
-    setItem(name)
+    name === "logout" && handleLogout()
+    setItem(name) 
   }
 
   return(
@@ -103,7 +111,7 @@ const Header = () => {
   )
 }
 
-export default Header;
+export default withRouter(Header);
 
 // ========================> LEARNED <============================
 // 1) component augmentation

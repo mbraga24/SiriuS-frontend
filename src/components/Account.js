@@ -8,7 +8,6 @@ const Account = () => {
 
   return (
     <>
-      {/* <h1>Welcome, {first_name} {last_name} </h1> */}
       <h1>Welcome, {email} </h1>
     </>
   )

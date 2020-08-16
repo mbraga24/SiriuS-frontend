@@ -1,6 +1,6 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import '../resources/Home.css';
 import {
   Button,
   Divider,
@@ -13,8 +13,8 @@ import {
 
 const Home = () => {
   return(
-    <Container>
-      <Segment placeholder style={{ margin: '25vh auto', height: '50vh' }}>
+    <Container id="Home-Container">
+      <Segment placeholder className="Home-Segment">
         <Grid columns={2} stackable textAlign='center'>
           <Divider vertical>Or</Divider>
 
@@ -25,7 +25,7 @@ const Home = () => {
                 Already have an account?
               </Header>
               <Link to="/login">
-                <Button color='teal'>Sign In</Button>
+                <Button className="Home-Button-Color">Sign In</Button>
               </Link>
             </Grid.Column>
 
@@ -35,7 +35,7 @@ const Home = () => {
                 Wanna be part of our community?
               </Header>
               <Link to="/signup">
-                <Button color='teal'>Create Account</Button>
+                <Button className="Home-Button-Color">Create Account</Button>
               </Link>
             </Grid.Column>
           </Grid.Row>

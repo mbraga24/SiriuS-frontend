@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createAdmin } from '../api';
 import useFormFields from "../hooks/useFormFields";
 import { Button, Form, Grid, Header, Message, Segment, Icon, Input } from 'semantic-ui-react';
 
-const Signup = () => {
+const Signup = (props) => {
 
   const dispatch = useDispatch()
 
@@ -20,7 +20,6 @@ const Signup = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log("SIGNUP:", fields)
 
     const adminInfo = {
       email: fields.email,
@@ -33,10 +32,16 @@ const Signup = () => {
 
     createAdmin(adminInfo)
     .then(newAdmin => {
-      console.log(newAdmin.admin.id)
-      dispatch({ type: "SET ADMIN", payload: newAdmin })
+      // update state
+      dispatch({ type: "SET KEY HOLDER", payload: newAdmin })
+
+      // update localStorage
       localStorage.token = newAdmin.admin.id
       localStorage.credentials = "admin"
+
+      console.log("SIGNED UP:", newAdmin)
+      // send new user to their account
+      props.history.push(`/admins/${newAdmin.admin.id}`)
     })
   }
 
@@ -114,4 +119,4 @@ const Signup = () => {
   )
 }
 
-export default Signup;
+export default withRouter(Signup);
