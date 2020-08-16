@@ -27,3 +27,9 @@ export const isLoggedIn = (adminId) => {
   return fetch(`http://localhost:3000/autologin/${adminId}`)
   .then(r => r.json())
 }
+
+export const getProjects = () => {
+  console.log("FETCH PROJECTS")
+  return fetch(`http://localhost:3000/projects/`)
+  .then(r => r.json())
+}

@@ -1,9 +1,11 @@
 import { createStore, combineReducers } from 'redux';
-import appReducer from './appReducer'; // => generic name until more state is added
+import appReducer from './appReducer';
+import projectReducer from './projectReducer';
 // import adminReducer from './adminReducer';
 
 const rootReducer = combineReducers({
-  app: appReducer
+  app: appReducer,
+  project: projectReducer
 })
 
 const store = createStore(rootReducer)

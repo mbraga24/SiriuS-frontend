@@ -4,7 +4,7 @@ const defaultState = {
 }
 
 const reducer = (state = defaultState, action) => {
-  console.log("APP REDUCER: ", state.isLoading)
+  // console.log("APP REDUCER: ", state.isLoading)
   switch(action.type) {
     case "SET KEY HOLDER":
       return {

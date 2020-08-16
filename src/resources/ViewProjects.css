@@ -1,0 +1,34 @@
+#ViewProjects-Container .ViewProjects-Button-Color {
+  background: none;
+  border: 1px solid #60467e;
+  color: #60467e;
+}
+
+/* .ViewProjects-Title => add to css or remove it from component */
+#ViewProjects-Container, .ViewProjects-Icon-Color {
+  color: #79589f;
+}
+
+#ViewProjects-Container .ViewProjects-Project-Name {
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+
+#ViewProjects-Container .ViewProjects-List-Item {
+  padding: 20px 10px;
+}
+
+#ViewProjects-Container .ViewProjects-Project-Date {
+  font-size: 15px;
+}
+
+#ViewProjects-Container .ViewProjects-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#ViewProjects-Container .ViewProjects-Button-Create-Project {
+  background-color: #534292;
+  color: #ffffff;
+}

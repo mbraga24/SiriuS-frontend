@@ -2,19 +2,18 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn } from '../api';
+import { isLoggedIn, getProjects } from '../api';
 import Header from './Header';
 import Home from './Home';
 import ViewUsers from './ViewUsers';
 import Login from './Login';
 import Signup from './Signup';
 import Account from './Account';
-import Project from './Project';
+import ViewProjects from './ViewProjects';
 import NewProject from './NewProject';
 
 const App = () => {
 
-  
   const dispatch = useDispatch()
   const { keyHolder, isLoading } = useSelector(state => {
     return {
@@ -38,14 +37,13 @@ const App = () => {
       } else {
         console.log("IT MUST BE A USER THEN")
       }
-      
       // change body background color
       const body = document.querySelector('body')
       body.classList.remove("bg-color-signed-in")
     }
   }, [dispatch]) 
 
-  console.log("IS LOADING JUST BEFORE RETURN:", isLoading)
+  // console.log("IS LOADING JUST BEFORE RETURN:", isLoading)
   return (
     <div>
       { keyHolder && <Header/> }
@@ -54,7 +52,7 @@ const App = () => {
         { keyHolder && (
             <>
               <Route path="/users" render={ () => <ViewUsers/>} />
-              <Route exact path="/projects" render={ () => <Project/>} />
+              <Route exact path="/projects" render={ () => <ViewProjects/>} />
               <Route path="/projects/new" render={ () => <NewProject/>} />
               <Route exact path='/admins/:id' render={ () => <Account />} />
             </>
