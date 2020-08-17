@@ -23,13 +23,17 @@ export const createAdmin = (data) => {
 }
 
 export const isLoggedIn = (adminId) => {
-  console.log("AUTO LOGIN ADMIN", adminId)
   return fetch(`http://localhost:3000/autologin/${adminId}`)
   .then(r => r.json())
 }
 
 export const getProjects = () => {
-  console.log("FETCH PROJECTS")
   return fetch(`http://localhost:3000/projects/`)
+  .then(r => r.json())
+}
+
+export const getUsers = () => {
+  console.log("FETCH USERS")
+  return fetch(`http://localhost:3000/users/`)
   .then(r => r.json())
 }

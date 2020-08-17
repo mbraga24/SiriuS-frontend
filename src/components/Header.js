@@ -1,10 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Dropdown, Menu, Button } from 'semantic-ui-react';
+import { Dropdown, Menu, Button, Icon, Popup } from 'semantic-ui-react';
 import '../resources/Header.css';
 
 const Header = (props) => {
+
+  const style = {
+    borderRadius: 0,
+    opacity: 0.7,
+    padding: '1em',
+  }
+  const chatFeatureMessage = "'Siri-me that list later today!' You'll be saying that soon! We're excited about our new chat feature. Our engineers are working around the clock so users can chat in real-time."
 
   // retrieve keyHolder from state
   const keyHolder = useSelector(state => state.app.keyHolder)
@@ -51,6 +58,16 @@ const Header = (props) => {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        <Menu.Item className="Header-Font-Color" disabled>
+          <Popup
+            trigger={<Icon name='discussions' className="Header-Chat"/>}
+            content={chatFeatureMessage}
+            position='bottom center'
+            style={style}
+            inverted
+          />
+            Chat
+          </Menu.Item>
         <Menu.Menu position='right'>
           <Menu.Item onClick={handleLogout}>
             <Button className="Header-Button-Color">Logout</Button>

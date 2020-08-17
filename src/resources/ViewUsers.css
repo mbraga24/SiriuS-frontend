@@ -1,0 +1,20 @@
+#ViewUsers-Container .ViewUsers-Button-Invite-User {
+  background-color: #534292;
+  color: #ffffff;
+}
+
+#ViewUsers-Container .ViewUsers-Title {
+  font-size: 30px;
+  padding-left: 8px;
+}
+
+#ViewUsers-Container, .ViewUsers-Icon-Color {
+  color: #79589f;
+}
+
+#ViewUsers-Container .ViewUsers-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
