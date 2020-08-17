@@ -8,7 +8,7 @@ const Header = (props) => {
 
   const style = {
     borderRadius: 0,
-    opacity: 0.7,
+    opacity: 0.9,
     padding: '1em',
   }
   const chatFeatureMessage = "'Siri-me that list later today!' You'll be saying that soon! We're excited about our new chat feature. Our engineers are working around the clock so users can chat in real-time."

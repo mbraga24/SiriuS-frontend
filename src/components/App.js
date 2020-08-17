@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn } from '../api';
+import { isLoggedIn, getProjects } from '../api';
 import Header from './Header';
 import Home from './Home';
 import ViewUsers from './ViewUsers';
@@ -42,6 +42,14 @@ const App = () => {
       body.classList.remove("bg-color-signed-in")
     }
   }, [dispatch]) 
+
+
+  useEffect(() => {
+    getProjects()
+    .then(projectData => {
+      dispatch({ type: "SET PROJECTS", payload: projectData })
+    })
+  }, [dispatch])
 
   // console.log("IS LOADING JUST BEFORE RETURN:", isLoading)
   return (

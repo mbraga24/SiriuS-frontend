@@ -9,13 +9,6 @@ const ViewProjects = () => {
   const dispatch = useDispatch() 
   const projects = useSelector(state => state.project.projects)
 
-  useEffect(() => {
-    getProjects()
-    .then(projectData => {
-      dispatch({ type: "SET PROJECTS", payload: projectData })
-    })
-  }, [dispatch])
-
   const displayProjects = () => {
     return projects.map(project => (
       <List.Item key={project.id} className="ViewProjects-List-Item">

@@ -8,7 +8,7 @@ const reducer = (state = defaultState, action) => {
     case "SET USERS":
       return {
         ...state,
-        users: action.payload
+        users: [...action.payload]
       }
     default: 
       return state
