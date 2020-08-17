@@ -4,7 +4,10 @@
   color: #60467e;
 }
 
-/* .ViewProjects-Title => add to css or remove it from component */
+#ViewProjects-Container .ViewProjects-Title {
+  font-size: 30px;
+}
+
 #ViewProjects-Container, .ViewProjects-Icon-Color {
   color: #79589f;
 }
@@ -26,6 +29,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding: 10px 0;
 }
 
 #ViewProjects-Container .ViewProjects-Button-Create-Project {

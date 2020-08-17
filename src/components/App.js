@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn, getProjects } from '../api';
+import { isLoggedIn } from '../api';
 import Header from './Header';
 import Home from './Home';
 import ViewUsers from './ViewUsers';

@@ -17,7 +17,6 @@ const Home = () => {
       <Segment placeholder className="Home-Segment">
         <Grid columns={2} stackable textAlign='center'>
           <Divider className="Home-Header" vertical>OR</Divider>
-
           <Grid.Row verticalAlign='middle'>
             <Grid.Column>
               <Header icon className="Home-Header">

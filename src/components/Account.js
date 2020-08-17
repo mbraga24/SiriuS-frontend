@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { getProjects } from '../api';
-import { Header, Icon, Container, List } from 'semantic-ui-react';
+import { Header, Icon, Container, List, Divider, Label } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
+import '../resources/Account.css';
 
 const Account = () => {
 
   const dispatch = useDispatch() 
   const projects = useSelector(state => state.project.projects)
   const keyHolder = useSelector(state => state.app.keyHolder) 
-  const { email, first_name, last_name } = keyHolder
+  const { email, first_name, last_name, company, users, job_title } = keyHolder
 
   useEffect(() => {
     getProjects()
@@ -17,46 +18,55 @@ const Account = () => {
     })
   }, [dispatch])
 
-  console.log("ACCOUNT:", keyHolder.)
-
   return (
     <>
-    <Container>
-      <Header as='h2'>
-        <Icon name='address card'/>
+    <Container id="Account-Container">
+      <Header as='h2' className="Account-Header">
+        <Icon name='address card' className="Account-Items"/>
         <Header.Content>
-          Account Summary
+          <span className="Account-Title">Account Summary</span>
           <Header.Subheader>{ first_name } { last_name } { keyHolder.company ? "- Administrator" : "Collaborator" }</Header.Subheader>
         </Header.Content>
       </Header>
-
-      <List>
-        <List.Item>
-          <List.Icon name='clipboard list' />
+      <Divider/>
+      <List divided className="Account-List">
+        <List.Item className="Account-Items">
+          <List.Icon name='tasks' size="large"/>
           <List.Content>Projects: {projects.length}</List.Content>
         </List.Item>
-        <List.Item>
-          <List.Icon name='users'/>
-          <List.Content>Collaborators: {keyHolder.users_count} </List.Content>
+        <List.Item className="Account-Items">
+          <List.Icon name='users' size="large"/>
+          <List.Content>Collaborators: {users.length} </List.Content>
         </List.Item>
-        <List.Item>
-          <List.Icon name='travel' />
-          <List.Content>Company Name: IntellActions</List.Content>
-        </List.Item>
-        <List.Item>
-          <List.Icon name='mail' />
-          <List.Content>
-            <a href='mailto:jack@semantic-ui.com'>jack@semantic-ui.com</a>
+        <List.Item disabled className="Account-Items-Disabled">
+          <Label as='a' color='purple' ribbon='right' className="Account-Feature-Ribbon">
+            Feature coming soon
+          </Label>
+          <List.Icon name='user x' size="large"/>
+          <List.Content>Pending Acceptance: {users.length-2} 
           </List.Content>
         </List.Item>
-        <List.Item>
-          <List.Icon name='linkify' />
+        <List.Item className="Account-Items">
+          <List.Icon name='travel' size="large"/>
+          <List.Content>Company Name: {company}</List.Content>
+        </List.Item>
+        <List.Item className="Account-Items">
+          <List.Icon name='id badge' size="large"/>
+          <List.Content>Job Title: {job_title}</List.Content>
+        </List.Item>
+        <List.Item className="Account-Items">
+          <List.Icon name='mail' size="large"/>
           <List.Content>
-            <a href='http://www.semantic-ui.com'>semantic-ui.com</a>
+            <a href={`${email}`}>{email}</a>
+          </List.Content>
+        </List.Item>
+        <List.Item className="Account-Items">
+          <List.Icon name='linkify' size="large"/>
+          <List.Content>
+            <a href='http://www.semantic-ui.com'>company-site.com</a>
           </List.Content>
         </List.Item>
       </List>
-      
     </Container>
     </>
   )

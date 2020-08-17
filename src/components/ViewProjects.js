@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { getProjects } from '../api';
-import { Header, Icon, Container, List, Divider, Button, Menu } from 'semantic-ui-react';
+import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../resources/ViewProjects.css';
 
@@ -8,8 +8,6 @@ const ViewProjects = () => {
 
   const dispatch = useDispatch() 
   const projects = useSelector(state => state.project.projects)
-  const keyHolder = useSelector(state => state.app.keyHolder) 
-  const { email, first_name, last_name } = keyHolder
 
   useEffect(() => {
     getProjects()
@@ -41,7 +39,7 @@ const ViewProjects = () => {
     <Container id="ViewProjects-Container">
       <Header as='h2' className="ViewProjects-Header-Align-Items">
         <span>
-          <Icon name='clipboard list' className="ViewProjects-Icon-Color"/>
+          <Icon name='clipboard list' size="large" className="ViewProjects-Icon-Color"/>
           <Header.Content>
             <span className="ViewProjects-Title">Projects</span>
           </Header.Content>
@@ -53,7 +51,7 @@ const ViewProjects = () => {
           </Button>
         </span>
       </Header>
-      <Divider clearing />
+      <Divider/>
       <List divided relaxed size="large">
         { projects && displayProjects() }
       </List>

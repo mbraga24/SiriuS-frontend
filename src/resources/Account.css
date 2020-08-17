@@ -1,0 +1,25 @@
+#Account-Container .Account-Items {
+  padding: 15px 0;
+  color: #79589f;
+}
+
+#Account-Container .Account-Items-Disabled {
+  padding-bottom: 15px;
+  padding-top: 0;
+}
+
+#Account-Container .Account-List {
+  width: 40vw;
+}
+
+#Account-Container .Account-Header {
+  padding: 10px 0;
+}
+
+#Account-Container .Account-Title {
+  font-size: 28px;
+}
+
+#Account-Container .Account-Feature-Ribbon {
+  margin: 0;
+}
