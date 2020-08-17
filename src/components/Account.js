@@ -17,7 +17,7 @@ const Account = () => {
     })
   }, [dispatch])
 
-  console.log("ACCOUNT:", keyHolder.projects)
+  console.log("ACCOUNT:", keyHolder.)
 
   return (
     <>
@@ -37,7 +37,7 @@ const Account = () => {
         </List.Item>
         <List.Item>
           <List.Icon name='users'/>
-          <List.Content>Collaborators: </List.Content>
+          <List.Content>Collaborators: {keyHolder.users_count} </List.Content>
         </List.Item>
         <List.Item>
           <List.Icon name='travel' />
