@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
 import { Container, Form } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
-import AddUsersTable from './AddUsersTable'
+import AddUsersTable from './AddUsersTable';
 // import { getUsers } from '../api';
 
 const NewProject = () => {
@@ -12,7 +12,7 @@ const NewProject = () => {
     title: "",
     description: ""
   })
-  const [dateRange, setDateRange] = useState("");
+  const [dateRange, setDateRange] = useState("")
   const keyHolder = useSelector(state => state.app.keyHolder)
 
   const handleDateRangeChange = (name, value) => {
@@ -33,7 +33,6 @@ const NewProject = () => {
       dueDate: dueDate,
       admin: keyHolder.id
     }
-
     console.log(newProject)
   }
 

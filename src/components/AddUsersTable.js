@@ -5,46 +5,40 @@ import { getUsers } from '../api';
 
 const AddUsersTable = () => {
 
-  const [users, setUsers] = useState([])
+  // const [users, setUsers] = useState([])
+  // const dispatch = useDispatch()
   const [totalUsers, setTotalUsers] = useState(0)
   const [availableCount, setAvailableCount] = useState(0)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    getUsers()
-    .then(returnedUsers => {
-      const users = availableForAssignment(returnedUsers)
-      setUsers(users)
-      setTotalUsers(users.length)
-      setAvailableCount(countAvailableUsers(users).length)
-    })
-  }, [dispatch])
-
-  const availableForAssignment = (users) => {
-    return users.map(user => {
-      if (user.projects.length < 3) {
-        return Object.assign({}, user, { available: true }) 
-      } else {
-        return Object.assign({}, user, { available: false }) 
-      }
-    })
+  const users = useSelector(state => state.user.users)
+ 
+  const countAvailableUsers = (usersObj) => {
+    return usersObj.filter(user => user.available !== false)
   }
-  
-  const countAvailableUsers = (users) => {
-    return users.filter(user => user.available !== false)
-  }
+
   const fullName = (firstName, lastName) => {
     return `${firstName} ${lastName}`
   }
 
-  const handleClick = (e) => {
-    const userId = e.target.parentElement.id
-    const user = users.find(user => user.id === parseInt(userId))
-    const toggleUser = Object.assign({}, user, {available: !user.available}) 
-  }
+  // const availableForAssignment = (users) => {
+  //   return users.map(user => {
+  //     if (user.projects.length < 3) {
+  //       return Object.assign({}, user, { available: true }) 
+  //     } else {
+  //       return Object.assign({}, user, { available: false }) 
+  //     }
+  //   })
+  // }
 
-  const renderCollabotors = () =>{
-    // console.log("INSIDE OF RENDER COLLABORATORS", users)
+  setTotalUsers(users.length)
+  setAvailableCount(countAvailableUsers(users).length)
+
+  // const handleClick = (e) => {
+  //   const userId = e.target.parentElement.id
+  //   // const user = users.find(user => user.id === parseInt(userId))
+  //   // const toggleUser = Object.assign({}, user, {available: !user.available}) 
+  // }
+
+  const renderCollabotors = (users) =>{
      return users.map(user => (
       <Table.Row>
         <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
@@ -56,7 +50,7 @@ const AddUsersTable = () => {
             labelPosition='left'
             primary
             size='small'
-            onClick={handleClick}
+            // onClick={handleClick}
           >
             { user.available ? <Icon name='user' /> : <Icon name='x' /> }
             { user.available ? "Add User" : "Not Available" }
@@ -66,7 +60,7 @@ const AddUsersTable = () => {
      ))
   }
 
-  console.log("AVAILABLE?", availableForAssignment(users))
+  // console.log("USER AVAILABLE", users[0].available)
   return (
       <Table columns={3}>
         <Table.Header>
@@ -78,7 +72,7 @@ const AddUsersTable = () => {
         </Table.Header>
 
         <Table.Body>  
-          {users && renderCollabotors()}
+          {users && renderCollabotors(users)}
         </Table.Body>
 
         <Table.Footer>

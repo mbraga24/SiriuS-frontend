@@ -21,7 +21,7 @@ const ViewUsers = () => {
         <Table.Cell>{user.email}</Table.Cell>
         <Table.Cell>{user.job_title}</Table.Cell>
         <Table.Cell textAlign='center'>
-          <Link to={`user/projects/${user.id}`}>
+          <Link to={`/user/projects/${user.id}`}>
             <Icon name='list alternate' size="big" className="ViewUsers-Icon-Color"/>
           </Link>
         </Table.Cell>

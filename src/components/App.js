@@ -14,13 +14,13 @@ import NewProject from './NewProject';
 import ViewUserProjects from './ViewUserProjects';
 
 const App = () => {
-
+  
   const dispatch = useDispatch()
   const keyHolder = useSelector(state => state.app.keyHolder)
 
-  // =====================================================================
-  // DO I CREATE MULTIPLE useEffect TO FETCH OR MULTIPLE FOR EACH FETCH ?
-  // =====================================================================
+  // ======================================================================
+  //  DO I CREATE MULTIPLE useEffect TO FETCH OR MULTIPLE FOR EACH FETCH ?
+  // ======================================================================
   useEffect(() => {
     if (localStorage.token) {
       const token = localStorage.token
@@ -40,23 +40,19 @@ const App = () => {
       const body = document.querySelector('body')
       body.classList.remove("bg-color-signed-in")
     }
-  }, [dispatch]) 
 
-  useEffect(() => {
     getProjects()
     .then(projectData => {
       dispatch({ type: "SET PROJECTS", payload: projectData })
     })
-  }, [dispatch])
 
-  useEffect(() => {
     getUsers()
     .then(usersData => {
       dispatch({ type: "SET USERS", payload: usersData })
     })
-  }, [dispatch])
 
-  console.log("App", keyHolder)
+  }, [dispatch]) 
+
   return (
     <div>
       { keyHolder && <Header/> }
@@ -65,7 +61,7 @@ const App = () => {
         { keyHolder && (
             <>
               <Route path="/users" render={ () => <ViewUsers/>} />
-              <Route exact path='user/projects/:id' component={<ViewUserProjects/>} />
+              <Route exact path='/user/projects/:id' render={() => <ViewUserProjects/>} />
               <Route exact path="/projects" render={ () => <ViewProjects/>} />
               <Route path="/projects/new" render={ () => <NewProject/>} />
               <Route exact path='/admins/:id' render={ () => <Account />} />
