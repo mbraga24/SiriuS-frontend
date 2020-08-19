@@ -1,5 +1,5 @@
 const defaultState = {
-  keyHolder: null,
+  keyHolder: localStorage.token ? localStorage.token : null,
   isLoading: false
 }
 

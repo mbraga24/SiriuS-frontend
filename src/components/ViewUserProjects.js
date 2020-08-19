@@ -1,10 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Header, Icon, Container, List, Divider, Button, Table, Label } from 'semantic-ui-react';
+import { Header, Icon, Container, List, Divider, Button, Table } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import '../resources/ViewUserProjects.css';
 
 const ViewUserProjects = (props) => {
+  
   const projects = useSelector(state => state.project.projects)
   const users = useSelector(state => state.user.users)
 
