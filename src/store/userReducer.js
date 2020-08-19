@@ -10,6 +10,11 @@ const reducer = (state = defaultState, action) => {
         ...state,
         users: [...action.payload]
       }
+    case "TOGGLE USER":
+      return {
+        ...state,
+        users: [...state.users, action.payload]
+      }
     default: 
       return state
   }

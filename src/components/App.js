@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn, getProjects } from '../api';
+import { isLoggedIn, getProjects, getUsers } from '../api';
 import Header from './Header';
 import Home from './Home';
 import ViewUsers from './ViewUsers';
@@ -15,13 +15,11 @@ import NewProject from './NewProject';
 const App = () => {
 
   const dispatch = useDispatch()
-  const { keyHolder, isLoading } = useSelector(state => {
-    return {
-      keyHolder: state.app.keyHolder,
-      isLoading: state.app.isLoading
-    }
-  })
+  const keyHolder = useSelector(state => state.app.keyHolder)
 
+  // =====================================================================
+  // DO I CREATE MULTIPLE useEffect TO FETCH OR MULTIPLE FOR EACH FETCH ?
+  // =====================================================================
   useEffect(() => {
     if (localStorage.token) {
       const token = localStorage.token
@@ -43,7 +41,6 @@ const App = () => {
     }
   }, [dispatch]) 
 
-
   useEffect(() => {
     getProjects()
     .then(projectData => {
@@ -51,7 +48,13 @@ const App = () => {
     })
   }, [dispatch])
 
-  // console.log("IS LOADING JUST BEFORE RETURN:", isLoading)
+  useEffect(() => {
+    getUsers()
+    .then(usersData => {
+      dispatch({ type: "SET USERS", payload: usersData })
+    })
+  }, [dispatch])
+
   return (
     <div>
       { keyHolder && <Header/> }

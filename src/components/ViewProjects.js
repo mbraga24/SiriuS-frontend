@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
-import { getProjects } from '../api';
+import React from 'react';
 import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import '../resources/ViewProjects.css';
 
 const ViewProjects = () => {
 
-  const dispatch = useDispatch() 
   const projects = useSelector(state => state.project.projects)
 
   const displayProjects = () => {

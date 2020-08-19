@@ -2,37 +2,26 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Table, Container, Header, Button, Divider } from 'semantic-ui-react';
 import '../resources/ViewUsers.css';
-import { getUsers } from '../api'
+import ViewUserProjects from './ViewUserProjects';
+// import { getUsers } from '../api'
 
 
 const ViewUsers = () => {
 
-  const dispatch = useDispatch()
   const users = useSelector(state => state.user.users)
   const projects = useSelector(state => state.project.projects)
-
-  useEffect(() => {
-    getUsers()
-    .then(usersData => {
-      dispatch({ type: "SET USERS", payload: usersData })
-    })
-  }, [dispatch])
 
   // create an array of null values of the same number of projects
   const noAssignments = () => {
     const setAllToNull = []
     let n = 0;
     while (n < projects.length) {
-      
-
-      
       setAllToNull.push(null)
       n++;
     }
     return setAllToNull
   }
 
-  // 
   const setAssignedProjects = (userData) => {
     if (userData.length === 0) {
       return noAssignments()
@@ -101,7 +90,7 @@ const ViewUsers = () => {
       </Table.Header>
           {users && renderRows()}
         <Table.Body>
-          
+          {/* <ViewUserProjects /> */}
         </Table.Body>
       </Table>
     </Container>
@@ -109,30 +98,3 @@ const ViewUsers = () => {
 }
 
 export default ViewUsers;
-{/* <Table.Cell error>
-<Icon name='attention' />
-  Classified
-</Table.Cell> 
-</Table.Cell> */}
-
-
-const collectProjects = (user) => {
-  return user.projects.map(project => project) 
-}
-    //  users.map(user => (
-        //    console.log(user)
-        //   // console.log(collectProjects(user))
-        //  ))
-        // projects.map((project) => {
-        //   return users.projects.map(userProject => {
-        //     return userProject === project ? (
-              // <>
-              //   <Table.Cell textAlign='center'>
-              //     <Icon color='green' name='checkmark' size='large' />
-              //   </Table.Cell>
-              // </>
-        //     ) : (
-              // <Table.Cell></Table.Cell>
-        //     )
-        //   })
-        // })
