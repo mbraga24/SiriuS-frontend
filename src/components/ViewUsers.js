@@ -42,18 +42,7 @@ const ViewUsers = () => {
         <Table.Cell>{user.last_name}</Table.Cell>
         <Table.Cell>{user.email}</Table.Cell>
         <Table.Cell>{user.job_title}</Table.Cell>
-        {
-          setAssignedProjects(user.projects).map(project => (
-            project ?
-            <>
-              <Table.Cell textAlign='center'>
-                <Icon color='green' name='checkmark' size='large' />
-              </Table.Cell> 
-            </>
-            : 
-            <Table.Cell></Table.Cell>
-          )) 
-         } 
+        <Table.Cell>User Details Button</Table.Cell>
       </Table.Row>
     ))
   }
@@ -82,10 +71,7 @@ const ViewUsers = () => {
           <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
           <Table.HeaderCell rowSpan='2'>Job Title</Table.HeaderCell>
           <Table.HeaderCell colSpan='2'>Projects</Table.HeaderCell>
-        </Table.Row>
-        <Table.Row>
-          <Table.HeaderCell>Project 1</Table.HeaderCell>
-          <Table.HeaderCell>Project 2</Table.HeaderCell>
+          <Table.HeaderCell colSpan='2'>User Details</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
           {users && renderRows()}

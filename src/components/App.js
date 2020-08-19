@@ -11,6 +11,7 @@ import Signup from './Signup';
 import Account from './Account';
 import ViewProjects from './ViewProjects';
 import NewProject from './NewProject';
+import ViewUserProjects from './ViewUserProjects';
 
 const App = () => {
 
@@ -63,6 +64,7 @@ const App = () => {
         { keyHolder && (
             <>
               <Route path="/users" render={ () => <ViewUsers/>} />
+              <Route exact path='user/projects/:id' render={ () => <ViewUserProjects />} />
               <Route exact path="/projects" render={ () => <ViewProjects/>} />
               <Route path="/projects/new" render={ () => <NewProject/>} />
               <Route exact path='/admins/:id' render={ () => <Account />} />
