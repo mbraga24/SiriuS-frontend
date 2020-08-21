@@ -18,9 +18,9 @@ const App = () => {
   const dispatch = useDispatch()
   const keyHolder = useSelector(state => state.app.keyHolder)
 
-  // ======================================================================
-  //  DO I CREATE MULTIPLE useEffect TO FETCH OR MULTIPLE FOR EACH FETCH ?
-  // ======================================================================
+  // ==================================================================================
+  //    DO I CREATE MULTIPLE useEffect TO FETCH OR ADD ALL OF THEM IN ONE useEffect ?
+  // ==================================================================================
   useEffect(() => {
     if (localStorage.token) {
       const token = localStorage.token

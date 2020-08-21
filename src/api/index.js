@@ -37,19 +37,6 @@ export const getUsers = () => {
   .then(r => r.json())
 }
 
-// export const updateUser = (data) => {
-//   console.log("UPDATE USER", data)
-//   return fetch(`http://localhost:3000/users/${data.id}`, {
-//     method: "PATCH",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Accept: "application/json"
-//     },
-//     body: JSON.stringify(data)
-//   })
-//   .then(r => r.json())
-// }
-
 // get all projects
 export const getProjects = () => {
   return fetch(`http://localhost:3000/projects/`)
@@ -58,7 +45,7 @@ export const getProjects = () => {
 
 // create new project
 export const createProject = (data) => {
-  console.log("CREATE PROJECT", data)
+  // console.log("CREATE PROJECT", data)
   return fetch(`http://localhost:3000/projects`, {
     method: "POST",
     headers: {

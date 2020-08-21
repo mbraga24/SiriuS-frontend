@@ -1,0 +1,22 @@
+#NewProject-Container .NewProject-Submit-Button-Color {
+  background-color: #534292;
+  color: #fff;
+  margin: 20px 0;
+}
+
+#NewProject-Container .NewProject-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
+
+#NewProject-Container, .NewProject-Icon-Color {
+  color: #79589f;
+  cursor: pointer;
+}
+
+#NewProject-Container .NewProject-Title {
+  font-size: 30px;
+  padding-left: 8px;
+}

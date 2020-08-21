@@ -1,0 +1,10 @@
+#NewProject-Container .AddUsersTable-Button-Color {
+  background: #60467e;
+  color: #ffffff;
+}
+
+#NewProject-Container .Selected {
+  background: #e0e1e2;
+  color: #5e5d5d;
+}
+

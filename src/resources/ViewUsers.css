@@ -1,11 +1,10 @@
-
 #ViewUsers-Container .ViewUsers-Button-Invite-User {
   background-color: #534292;
   color: #ffffff;
 }
 
 #ViewUsers-Container .ViewUsers-Button-Color {
-  color: #60467e;
+  color: #60467e;  
 }
 
 #ViewUsers-Container .ViewUsers-Title {
@@ -24,3 +23,4 @@
   width: 100%;
   padding: 10px 0;
 }
+

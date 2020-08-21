@@ -1,66 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon } from 'semantic-ui-react';
-import { getUsers } from '../api';
+import '../resources/AddUsersTable.css';
 
 const AddUsersTable = () => {
 
-  // const [users, setUsers] = useState([])
-  // const dispatch = useDispatch()
-  const [totalUsers, setTotalUsers] = useState(0)
-  const [availableCount, setAvailableCount] = useState(0)
   const users = useSelector(state => state.user.users)
- 
-  const countAvailableUsers = (usersObj) => {
-    return usersObj.filter(user => user.available !== false)
-  }
+  const addUsersId = useSelector(state => state.project.addUsersId)
+  const dispatch = useDispatch()
 
   const fullName = (firstName, lastName) => {
     return `${firstName} ${lastName}`
   }
 
-  // const availableForAssignment = (users) => {
-  //   return users.map(user => {
-  //     if (user.projects.length < 3) {
-  //       return Object.assign({}, user, { available: true }) 
-  //     } else {
-  //       return Object.assign({}, user, { available: false }) 
-  //     }
-  //   })
-  // }
+  const handleClick = (userId) => {
+    // find elements
+    const button = document.getElementById(`Assign-User-${userId}`)
+    const icon = document.getElementById(`Assign-Button-${userId}`)
 
-  setTotalUsers(users.length)
-  setAvailableCount(countAvailableUsers(users).length)
+    if (!addUsersId.includes(userId)) {
+      dispatch({ type: "ADD USER TO PROJECT", payload: userId })
+      // change button and icon
+      button.className += " Selected"
+      icon.classList.remove("user")
+      icon.className += " check"
+    } else {
+      const filteredIds = addUsersId.filter(id => id !== userId)
+      dispatch({ type: "REMOVE USER FROM PROJECT", payload: filteredIds })
+      // change button and icon back
+      button.classList.remove("Selected")
+      icon.classList.remove("check")
+      icon.className += " user"
+    }
+  }
 
-  // const handleClick = (e) => {
-  //   const userId = e.target.parentElement.id
-  //   // const user = users.find(user => user.id === parseInt(userId))
-  //   // const toggleUser = Object.assign({}, user, {available: !user.available}) 
-  // }
-
-  const renderCollabotors = (users) =>{
+  const renderCollabotors = (users) => {
      return users.map(user => (
-      <Table.Row>
-        <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
-        <Table.Cell>{user.job_title}</Table.Cell>
-        <Table.Cell id={`${user.id}`}>
-          <Button
-            type="button"
-            icon
-            labelPosition='left'
-            primary
-            size='small'
-            // onClick={handleClick}
-          >
-            { user.available ? <Icon name='user' /> : <Icon name='x' /> }
-            { user.available ? "Add User" : "Not Available" }
-          </Button>
-        </Table.Cell>
-      </Table.Row>
+      <React.Fragment key={user.id}>
+        { user.available && (
+          <Table.Row>
+            <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
+            <Table.Cell>{user.job_title}</Table.Cell>
+            <Table.Cell>
+              <Button
+                type="button"
+                labelPosition='left'
+                size='small'
+                icon
+                id={`Assign-User-${user.id}`}
+                className="AddUsersTable-Button-Color"
+                onClick={() => handleClick(user.id)}
+              >
+              <>
+                <Icon name="user" id={`Assign-Button-${user.id}`}/> 
+                  Assign
+              </>
+              </Button>
+            </Table.Cell>
+          </Table.Row>
+          )
+        }
+      </React.Fragment>
      ))
   }
 
-  // console.log("USER AVAILABLE", users[0].available)
   return (
       <Table columns={3}>
         <Table.Header>
@@ -74,14 +77,6 @@ const AddUsersTable = () => {
         <Table.Body>  
           {users && renderCollabotors(users)}
         </Table.Body>
-
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell>{totalUsers} Collaborators</Table.HeaderCell>
-            <Table.HeaderCell>{availableCount} Available</Table.HeaderCell>
-            <Table.HeaderCell />
-          </Table.Row>
-        </Table.Footer>
       </Table>
   );
 };

@@ -3,17 +3,12 @@ const defaultState = {
 }
 
 const reducer = (state = defaultState, action) => {
-  console.log("INSIDE USER REDUCER:", action.payload)
+  // console.log("INSIDE USER REDUCER:", action.payload)
   switch(action.type) {
     case "SET USERS":
       return {
         ...state,
         users: [...action.payload]
-      }
-    case "TOGGLE USER":
-      return {
-        ...state,
-        users: [...state.users, action.payload]
       }
     default: 
       return state

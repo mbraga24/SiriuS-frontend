@@ -8,11 +8,7 @@ const ViewUserProjects = (props) => {
   
   const projects = useSelector(state => state.project.projects)
   const users = useSelector(state => state.user.users)
-
-  // console.log("PROPS:", props.match.params)
-  // console.log(projects)
-  // console.log(users)
-
+  
   const userPage = (userId) => {
     return users.find(user => user.id.toString() === userId )
   }

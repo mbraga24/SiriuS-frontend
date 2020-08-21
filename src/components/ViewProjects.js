@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import '../resources/ViewProjects.css';
@@ -24,7 +25,7 @@ const ViewProjects = () => {
       </List.Item>
     ))
   }
-
+  
   return (
     <>
     <Container id="ViewProjects-Container">
@@ -36,10 +37,12 @@ const ViewProjects = () => {
           </Header.Content>
         </span>
         <span>
-          <Button className="ViewProjects-Button-Create-Project">
-            <Icon name='add' /> 
-            New Project
-          </Button>
+          <Link to="/projects/new">
+            <Button className="ViewProjects-Button-Create-Project">
+              <Icon name='add' /> 
+              New Project
+            </Button>
+          </Link>
         </span>
       </Header>
       <Divider/>
