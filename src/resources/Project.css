@@ -1,0 +1,24 @@
+#Project-Container .Project-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
+
+#Project-Container .Project-Icon-Color {
+  color: #79589f;
+}
+
+#Project-Container .Project-Title {
+  font-size: 30px;
+}
+
+/* #Project-Container Project-Table-Body {
+  color: #534292; 
+} */
+
+/* #Project-Container Project-Button-Color {
+  background: none;
+  border: 1px solid #60467e;
+  color: #60467e;
+} */

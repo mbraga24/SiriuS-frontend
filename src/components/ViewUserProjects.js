@@ -34,28 +34,25 @@ const ViewUserProjects = (props) => {
   return (
     <>
     <Container id="ViewUserProjects-Container">
-      <Header as='h2' className="ViewUserProjects-Header-Align-Items">
-        <span>
-          <Icon name='user' size="large" className="ViewUserProjects-Icon-Color"/>
-          <Header.Content>
-            <span className="ViewUserProjects-Title">{thisUser.first_name} {thisUser.last_name}'s Project History</span>
-          </Header.Content>
-        </span>
-      </Header>
-      <Divider/>
-      <List divided relaxed size="large">
-        { projects && renderProjects() }
-      </List>
-      <Divider/>
-      <Header as='h2' className="ViewUserProjects-Header-Align-Items">
-        <span>
-          <Icon name='attach' size="large" className="ViewUserProjects-Icon-Color"/>
-          <Header.Content>
-            <span className="ViewUserProjects-Title">Documents</span>
-          </Header.Content>
-        </span>
-      </Header>
-      <DocumentList/>
+      {
+        thisUser && 
+        <>
+          <Header as='h2' className="ViewUserProjects-Header-Align-Items">
+            <span>
+              <Icon name='user' size="large" className="ViewUserProjects-Icon-Color"/>
+              <Header.Content>
+                <span className="ViewUserProjects-Title">{thisUser.first_name} {thisUser.last_name}'s Project History</span>
+              </Header.Content>
+            </span>
+          </Header>
+          <Divider/>
+          <List divided relaxed size="large">
+            { projects && renderProjects() }
+          </List>
+          <Divider/>
+          <DocumentList/>
+        </>
+      }
     </Container>
     </>
   )

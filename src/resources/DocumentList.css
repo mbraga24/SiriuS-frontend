@@ -1,0 +1,26 @@
+#DocumentList-Container {
+  padding-bottom: 15px;
+}
+
+#DocumentList-Container .DocumentList-Header {
+  padding: 15px 0;
+}
+
+#DocumentList-Container .DocumentList-Icon-Color {
+  color: #79589f;
+}
+
+#DocumentList-Container .DocumentList-Title {
+  font-size: 30px;
+  padding-left: 7px;
+}
+
+#DocumentList-Container .DocumentList-Table-Body {
+  color: #534292; 
+}
+
+#DocumentList-Container .DocumentList-Button-Color {
+  background: none;
+  border: 1px solid #60467e;
+  color: #60467e;
+}

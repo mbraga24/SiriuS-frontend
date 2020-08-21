@@ -1,10 +1,26 @@
-#NewProject-Container .AddUsersTable-Button-Color {
+#AddUsersTable-Container .AddUsersTable-Header {
+  padding: 15px 0;
+}
+
+#AddUsersTable-Container .AddUsersTable-Icon-Color {
+  color: #79589f;
+}
+
+#AddUsersTable-Container .AddUsersTable-Title {
+  font-size: 30px;
+  padding-left: 7px;
+}
+
+
+#AddUsersTable-Container .AddUsersTable-Button-Color {
   background: #60467e;
   color: #ffffff;
 }
 
-#NewProject-Container .Selected {
+#AddUsersTable-Container .Selected {
   background: #e0e1e2;
   color: #5e5d5d;
 }
 
+
+/* #534292 */

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Button, Icon } from 'semantic-ui-react';
+import { Table, Button, Icon, Header } from 'semantic-ui-react';
 import '../resources/AddUsersTable.css';
 
 const AddUsersTable = () => {
@@ -65,19 +65,30 @@ const AddUsersTable = () => {
   }
 
   return (
-      <Table columns={3}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Job Title</Table.HeaderCell>
-            <Table.HeaderCell>Add collaborator</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>  
-          {users && renderCollabotors(users)}
-        </Table.Body>
-      </Table>
+    <>
+      <div id="AddUsersTable-Container">
+        <Header as='h2' className="AddUsersTable-Header">
+          <span>
+            <Icon name='users' size="large" className="AddUsersTable-Icon-Color"/>
+            <Header.Content>
+              <span className="AddUsersTable-Title">Collaborators</span>
+            </Header.Content>
+          </span>
+        </Header>
+        <Table columns={3}>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Job Title</Table.HeaderCell>
+              <Table.HeaderCell>Add collaborator</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>  
+            {users && renderCollabotors(users)}
+          </Table.Body>
+        </Table>
+      </div>
+    </>
   );
 };
 

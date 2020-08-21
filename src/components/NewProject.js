@@ -73,7 +73,7 @@ const NewProject = (props) => {
       <Form onSubmit={handleSubmit}>
         <Header as='h2' className="NewProject-Header-Align-Items">
           <span>
-            <Icon name='users' size="large" className="NewProject-Icon-Color"/>
+            <Icon name='puzzle' size="large" className="NewProject-Icon-Color"/>
             <Header.Content>
               <span className="NewProject-Title">Create Project</span>
             </Header.Content>
