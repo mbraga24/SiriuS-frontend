@@ -12,6 +12,7 @@ import Account from './Account';
 import ViewProjects from './ViewProjects';
 import NewProject from './NewProject';
 import ViewUserProjects from './ViewUserProjects';
+import Project from './Project';
 
 const App = () => {
   
@@ -57,19 +58,20 @@ const App = () => {
     <div>
       { keyHolder && <Header/> }
       <Switch>
-        <Route exact path="/" render={ () => <Home/>} />
+          <Route exact path="/" render={ () => <Home/>} />
         { keyHolder && (
             <>
               <Route path="/users" render={ () => <ViewUsers/>} />
               <Route exact path='/user/projects/:id' render={() => <ViewUserProjects/>} />
               <Route exact path="/projects" render={ () => <ViewProjects/>} />
+              <Route path="/project/:id" render={ () => <Project/>} />
               <Route path="/projects/new" render={ () => <NewProject/>} />
               <Route exact path='/admins/:id' render={ () => <Account />} />
             </>
           )
         }
-        <Route path="/signup" render={ () => <Signup/>} />
-        <Route path="/login" render={ () => <Login/>} />
+          <Route path="/signup" render={ () => <Signup/>} />
+          <Route path="/login" render={ () => <Login/>} />
         { !keyHolder ? <Redirect to="/" /> : <Redirect to="/account" />}
       </Switch>
     </div>

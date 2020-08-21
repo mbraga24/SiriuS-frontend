@@ -17,7 +17,9 @@ const ViewProjects = () => {
             <Button className="ViewProjects-Button-Color">Done</Button>
           </List.Content>
           <List.Content floated='right'>
-            <Button className="ViewProjects-Button-Color">Details</Button>
+            <Link to={`/project/${project.id}`}>
+              <Button className="ViewProjects-Button-Color">Details</Button>
+            </Link>
           </List.Content>
           <List.Header as='a' className="ViewProjects-Project-Name">{project.name}</List.Header>
           <List.Description as='a'className="ViewProjects-Project-Date">Start date: {project.start_date} | Due date: {project.due_date}</List.Description>
