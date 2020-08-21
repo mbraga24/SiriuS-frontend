@@ -13,12 +13,40 @@
   font-size: 30px;
 }
 
-/* #Project-Container Project-Table-Body {
-  color: #534292; 
-} */
+#Project-Container .Project-Description-Text {
+  color: #000000;
+  display: block;
+  padding: 5px 0;
+  font-size: 18px;
+}
 
-/* #Project-Container Project-Button-Color {
-  background: none;
-  border: 1px solid #60467e;
-  color: #60467e;
-} */
+#Project-Container .Project-Button-Style {
+  background-color: #534292;
+  color: #ffffff;
+}
+
+#Project-Container .Project-Items {
+  padding: 15px 0;
+  color: #79589f;
+}
+
+#Project-Container .Project-Items-Disabled {
+  padding-bottom: 15px;
+  padding-top: 0;
+}
+
+#Project-Container .Project-List {
+  width: 40vw;
+}
+
+#Project-Container .Project-Header {
+  padding: 10px 0;
+}
+
+#Project-Container .Project-Title {
+  font-size: 28px;
+}
+
+#Project-Container .Project-Feature-Ribbon {
+  margin: 0;
+}

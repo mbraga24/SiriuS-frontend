@@ -1,12 +1,8 @@
 import React from 'react';
-import { Header, Icon, Container, Divider, Button } from 'semantic-ui-react';
+import { Header, Icon, Container, Divider, Button, List, Label } from 'semantic-ui-react';
 import { Link, withRouter } from 'react-router-dom';
-// import { useSelector, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import AddUsersTable from './AddUsersTable';
-import DocumentList from './DocumentList';
 import '../resources/Project.css';
-// import { getProjects } from '../api';
 
 const Project = (props) => {
 
@@ -14,7 +10,6 @@ const Project = (props) => {
   const matchId = parseInt(props.match.params.id)
   const thisProject = projects.find(pro => pro.id === matchId)
 
-console.log(projects)
   return (
     <Container id="Project-Container">
       { 
@@ -29,7 +24,7 @@ console.log(projects)
               </span>
               <span>
                 <Link to="/">
-                  <Button className="Project-Button-Create-Project">
+                  <Button className="Project-Button-Style" disabled>
                     <Icon name='add' /> 
                     Add Collaborator
                   </Button>
@@ -37,12 +32,50 @@ console.log(projects)
               </span>
             </Header>
             <Divider/>
-            <DocumentList/>
-            <AddUsersTable/>
+            <List divided className="Project-List">
+              <List.Item className="Project-Items">
+                <List.Icon name='file alternate' size="large"/>
+                <List.Content>Description: <span className="Project-Description-Text">{thisProject.description}</span></List.Content>
+              </List.Item>
+              <List.Item className="Project-Items">
+                <List.Icon name='calendar alternate' size="large"/>
+                <List.Content>Start Date: {thisProject.start_date}</List.Content>
+              </List.Item>
+              <List.Item className="Project-Items">
+                <List.Icon name='calendar check' size="large"/>
+                <List.Content>Due Date: {thisProject.due_date}</List.Content>
+              </List.Item>
+              <List.Item className="Project-Items">
+                <List.Icon name='users end' size="large"/>
+                <List.Content>Collaborators: {thisProject.users.length}</List.Content>
+              </List.Item>
+              <List.Item className="Project-Items">
+                <List.Icon name='linkify' size="large"/>
+                <List.Content>
+                  <a href='http://www.semantic-ui.com'>company-site.com</a>
+                </List.Content>
+              </List.Item>
+            </List>
+            <List.Item className="Project-Items">
+              <Button
+                content="Share New Document"
+                labelPosition="left"
+                icon="file"
+                className="Project-Button-Style"
+              />
+              <input
+                type="file"
+                hidden
+              />
+            </List.Item>
           </>
       }
     </Container>
   )
 }
-
 export default withRouter(Project);
+
+// t.string "name"
+// t.string "description"
+// t.string "start_date"
+// t.string "due_date"
