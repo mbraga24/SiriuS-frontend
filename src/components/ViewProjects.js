@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
+import { Container, List, Divider } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import Project from './Project';
 import CompleteProject from './CompleteProject';
+import ProjectHeader from './ProjectHeader';
 import '../resources/ViewProjects.css';
 
 const ViewProjects = () => {
@@ -26,45 +26,15 @@ const ViewProjects = () => {
   return (
     <>
       <Container id="ViewProjects-Container">
-        <Header as='h2' className="ViewProjects-Header-Align-Items">
-          <span>
-            <Icon name='clipboard list' size="large" className="ViewProjects-Icon-Color"/>
-            <Header.Content>
-              <span className="ViewProjects-Title">Projects</span>
-            </Header.Content>
-          </span>
-          <span>
-            <Link to="/projects/new">
-              <Button className="ViewProjects-Button-Create-Project">
-                <Icon name='add' /> 
-                New Project
-              </Button>
-            </Link>
-          </span>
-        </Header>
+        <ProjectHeader title={"Project"} button={"New Project"} newProject={"/projects/new"} />
         <List divided relaxed size="large">
           { projects ? renderProjects() :  <h1>No New Projects</h1> }
         </List>
         <Divider/>
-        <Header as='h2' className="ViewProjects-Header-Align-Items">
-            <span>
-              <Icon name='clipboard check' size="large" className="ViewProjects-Icon-Color"/>
-              <Header.Content>
-                <span className="ViewProjects-Title">Concluded</span>
-              </Header.Content>
-            </span>
-            <span>
-              <Link to="/projects/new">
-                <Button className="ViewProjects-Button-Create-Project">
-                  <Icon name='trash' /> 
-                  Clear List
-                </Button>
-              </Link>
-            </span>
-          </Header>
-          <List divided relaxed size="large">
-            { completedProjects ? renderCompleteProjects() : <h1>No Finished Projects</h1> }
-          </List>
+        <ProjectHeader title={"Concluded"} button={"Clear List"} clear={true} />
+        <List divided relaxed size="large">
+          { completedProjects ? renderCompleteProjects() : <h1>No Finished Projects</h1> }
+        </List>
       </Container>
     </>
   )

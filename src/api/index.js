@@ -57,7 +57,7 @@ export const createProject = data => {
 }
 
 // complete project
-export const completeProject = (projectId) => {
+export const completeProject = projectId => {
   return fetch(`http://localhost:3000//project/complete/${projectId}`, {
     method: "PATCH",
     headers: {
@@ -66,4 +66,11 @@ export const completeProject = (projectId) => {
     // body: JSON.stringify({  })
   })
   .then(r => r.json())
+}
+
+// clear all complete projects
+export const clearProjectList = () => {
+  return fetch(`http://localhost:3000//projects/clear`, {
+    method: "DELETE"
+  })
 }
