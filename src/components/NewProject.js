@@ -7,7 +7,7 @@ import useFormFields from '../hooks/useFormFields';
 import AddUsersTable from './AddUsersTable';
 import "../resources/NewProject.css";
 import { createProject } from '../api';
-import { SET_USERS, ADD_NEW_PROJECT, REMOVE_USER_PROJECT } from '../store/type';
+import { SET_USERS, ADD_NEW_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 
 const NewProject = (props) => {
   const [fields, handleFieldChange] = useFormFields({
@@ -24,9 +24,9 @@ const NewProject = (props) => {
     setDateRange(value)
   }
 
-  // update users state
-  const updateUsers = (usersProjects) => {
-    for (let user of usersProjects) {
+  // update users available state =======> FUTURE HELPER <======= 
+  const updateUsers = userProjects => {
+    for (let user of userProjects) {
       const filteredUsers = users.map(userMap => { 
         if (userMap.id === user.id) {
           return user
@@ -60,9 +60,12 @@ const NewProject = (props) => {
         // flash message logic goes here
         console.log(data.error)
       } else {
+        // update users available state
         updateUsers(data.users)
+        // add new project to redux store
         dispatch({ type: ADD_NEW_PROJECT, payload: data.project })
-        dispatch({ type: REMOVE_USER_PROJECT, payload: [] })
+        // remove users from temporary s 
+        dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
         props.history.push('/projects')
       }
     })

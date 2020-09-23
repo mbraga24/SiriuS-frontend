@@ -5,7 +5,6 @@ const defaultState = {
 }
 
 const reducer = (state = defaultState, action) => {
-  // console.log("INSIDE USER REDUCER:", action.payload)
   switch(action.type) {
     case SET_USERS:
       // filter out the first user (admin)

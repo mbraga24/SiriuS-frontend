@@ -40,7 +40,6 @@ const App = () => {
   useEffect(() => {
     getProjects()
     .then(projectData  => {
-      console.log("FETCH ALL PROJECTS -- APP:", projectData)
       dispatch({ type: SET_PROJECTS, payload: projectData })
       dispatch({ type: SET_COMPLETE_PROJECTS, payload: projectData })
     })

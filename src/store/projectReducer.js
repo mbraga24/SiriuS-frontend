@@ -1,4 +1,4 @@
-import { SET_PROJECTS, ADD_NEW_PROJECT, ADD_USER_PROJECT, REMOVE_USER_PROJECT, REMOVE_PROJECT } from './type';
+import { SET_PROJECTS, ADD_NEW_PROJECT, REMOVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, ADD_USER_TO_TEMP_PROJECT } from './type';
 
 const defaultState = {
   projects: [],
@@ -19,22 +19,22 @@ const reducer = (state = defaultState, action) => {
         ...state,
         projects: [...state.projects, action.payload]
       }
-    case ADD_USER_PROJECT:
-    return {
-      ...state,
-      addUsersId: [...state.addUsersId, action.payload]
-    }
-    case REMOVE_USER_PROJECT:
-    return {
-      ...state,
-      addUsersId: [...action.payload]
-    }
     case REMOVE_PROJECT:
       const filteredList = state.projects.filter(project => project.id !== action.payload.id )
       return {
         ...state,
         projects: [...filteredList]
       }
+    case ADD_USER_TO_TEMP_PROJECT:
+    return {
+      ...state,
+      addUsersId: [...state.addUsersId, action.payload]
+    }
+    case REMOVE_USER_FROM_TEMP_PROJECT:
+    return {
+      ...state,
+      addUsersId: [...action.payload]
+    }
     default:
       return state
   }
