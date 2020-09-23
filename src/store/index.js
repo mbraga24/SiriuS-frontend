@@ -14,7 +14,3 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer)
 
 export default store;
-
-// ========================> CONCEPTS <===========================
-// 1) combining reducers
-// ===============================================================

@@ -29,12 +29,8 @@ const reducer = (state = defaultState, action) => {
       ...state,
       addUsersId: [...action.payload]
     }
-    // =======================================================
-    // NOT SURE IF IT'S WORKING ----- 
-    // =======================================================
     case REMOVE_PROJECT:
       const filteredList = state.projects.filter(project => project.id !== action.payload.id )
-      console.log("UPDATED LIST OF PROJECTS:", filteredList)
       return {
         ...state,
         projects: [...filteredList]
