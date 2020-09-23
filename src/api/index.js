@@ -1,5 +1,5 @@
 // login Admin
-export const getAdmin = (data) => {
+export const loginUser = data => {
   // console.log("LOGIN ADMIN", data)
   return fetch(`http://localhost:3000/login`, {
     method: "POST",
@@ -12,7 +12,7 @@ export const getAdmin = (data) => {
 }
 
 // create new admin
-export const createAdmin = (data) => {
+export const createUser = data => {
   // console.log("CREATE ADMIN", data)
   return fetch(`http://localhost:3000/signup`, {
     method: "POST",
@@ -25,7 +25,7 @@ export const createAdmin = (data) => {
 }
 
 // admin autologin 
-export const isLoggedIn = (adminId) => {
+export const isLoggedIn = adminId => {
   return fetch(`http://localhost:3000/autologin/${adminId}`)
   .then(r => r.json())
 }
@@ -44,7 +44,7 @@ export const getProjects = () => {
 }
 
 // create new project
-export const createProject = (data) => {
+export const createProject = data => {
   // console.log("CREATE PROJECT", data)
   return fetch(`http://localhost:3000/projects`, {
     method: "POST",
@@ -52,6 +52,18 @@ export const createProject = (data) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+}
+
+// complete project
+export const completeProject = (projectId) => {
+  return fetch(`http://localhost:3000//project/complete/${projectId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    }
+    // body: JSON.stringify({  })
   })
   .then(r => r.json())
 }

@@ -1,9 +1,10 @@
 import React from "react";
 import { Link, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { createAdmin } from '../api';
+import { createUser } from '../api';
 import useFormFields from "../hooks/useFormFields";
 import '../resources/Signup.css';
+import { SET_KEY_HOLDER } from '../store/type';
 import { Button, Form, Grid, Header, Message, Segment, Icon, Input } from 'semantic-ui-react';
 
 const Signup = (props) => {
@@ -22,7 +23,7 @@ const Signup = (props) => {
   const handleSubmit = e => {
     e.preventDefault()
 
-    const adminInfo = {
+    const userInfo = {
       email: fields.email,
       first_name: fields.firstName,
       last_name: fields.lastName,
@@ -31,21 +32,25 @@ const Signup = (props) => {
       password: fields.password
     }
 
-    createAdmin(adminInfo)
-    .then(newAdmin => {
+    createUser(userInfo)
+    .then(newUser => {
       // update state
-      dispatch({ type: "SET KEY HOLDER", payload: newAdmin })
+      dispatch({ type: SET_KEY_HOLDER, payload: newUser })
 
       // update localStorage
-      localStorage.token = newAdmin.admin.id
-      localStorage.credentials = "admin"
-
-      // send new user to their account page
-      props.history.push(`/admins/${newAdmin.admin.id}`)
+      localStorage.token = newUser.id
+      localStorage.credentials = newUser.admin
 
       // change body background color
       const body = document.querySelector('body')
       body.classList.remove("bg-color-signed-in")
+
+      // send new user to their account page
+      if (newUser.admin) {
+        props.history.push(`/admins/${newUser.id}`)
+      } else {
+        props.history.push(`/users/${newUser.id}`)
+      }
     })
   }
 

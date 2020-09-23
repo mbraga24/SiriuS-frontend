@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon, Header } from 'semantic-ui-react';
+import { ADD_USER_PROJECT, REMOVE_USER_PROJECT } from '../store/type';
 import '../resources/AddUsersTable.css';
 
 const AddUsersTable = () => {
@@ -19,14 +20,14 @@ const AddUsersTable = () => {
     const icon = document.getElementById(`Assign-Button-${userId}`)
 
     if (!addUsersId.includes(userId)) {
-      dispatch({ type: "ADD USER TO PROJECT", payload: userId })
+      dispatch({ type: ADD_USER_PROJECT, payload: userId })
       // change button and icon
       button.className += " Selected"
       icon.classList.remove("user")
       icon.className += " check"
     } else {
       const filteredIds = addUsersId.filter(id => id !== userId)
-      dispatch({ type: "REMOVE USER FROM PROJECT", payload: filteredIds })
+      dispatch({ type: REMOVE_USER_PROJECT, payload: filteredIds })
       // change button and icon back
       button.classList.remove("Selected")
       icon.classList.remove("check")

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Dropdown, Menu, Button, Icon, Popup } from 'semantic-ui-react';
 import '../resources/Header.css';
+import { SET_KEY_HOLDER } from '../store/type';
 
 const Header = (props) => {
 
@@ -22,7 +23,7 @@ const Header = (props) => {
     localStorage.clear()
 
     // update state
-    dispatch({ type: "SET KEY HOLDER", payload: null })
+    dispatch({ type: SET_KEY_HOLDER, payload: null })
 
     // send user to the home page when logged out
     props.history.push('/home')
@@ -35,7 +36,7 @@ const Header = (props) => {
   return(
     <>
       <Menu id="Header-Container">
-        <Menu.Item as={Link} to={`/admins/${keyHolder.id}`} className="Header-Font-Color">
+        <Menu.Item as={Link} to={keyHolder.admin ? `/admin/${keyHolder.id}` : `/users/${keyHolder.id}`} className="Header-Font-Color">
           Account
         </Menu.Item>
         <Dropdown item text='Collaborators' className="Header-Font-Color">

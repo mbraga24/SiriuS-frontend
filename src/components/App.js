@@ -12,66 +12,68 @@ import Account from './Account';
 import ViewProjects from './ViewProjects';
 import NewProject from './NewProject';
 import ViewUserProjects from './ViewUserProjects';
-import Project from './Project';
+import ShowProject from './ShowProject';
+import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS } from '../store/type';
 
 const App = () => {
   
   const dispatch = useDispatch()
   const keyHolder = useSelector(state => state.app.keyHolder)
 
-  // ==================================================================================
-  //    DO I CREATE MULTIPLE useEffect TO FETCH OR ADD ALL OF THEM IN ONE useEffect ?
-  // ==================================================================================
+  // Fetch user to keep user logged in
   useEffect(() => {
     if (localStorage.token) {
       const token = localStorage.token
-      const credentials = localStorage.credentials
-
-      if (credentials === 'admin') {
-        isLoggedIn(token)
-        .then(loggedInAdmin => {
-          // update state
-          dispatch({ type: "SET KEY HOLDER", payload: loggedInAdmin })
-        })
-
-      } else {
-        console.log("IT MUST BE A USER THEN")
-      }
+      isLoggedIn(token)
+      .then(loggedInUser => {
+        // update state
+        dispatch({ type: SET_KEY_HOLDER, payload: loggedInUser })
+      })
       // change body background color
       const body = document.querySelector('body')
       body.classList.remove("bg-color-signed-in")
     }
 
-    getProjects()
-    .then(projectData => {
-      dispatch({ type: "SET PROJECTS", payload: projectData })
-    })
+  }, [dispatch]) 
 
+  // Fetch projects
+  useEffect(() => {
+    getProjects()
+    .then(projectData  => {
+      console.log("FETCH ALL PROJECTS -- APP:", projectData)
+      dispatch({ type: SET_PROJECTS, payload: projectData })
+      dispatch({ type: SET_COMPLETE_PROJECTS, payload: projectData })
+    })
+  }, [dispatch])
+
+  // Fetch users
+  useEffect(() => {
     getUsers()
     .then(usersData => {
-      dispatch({ type: "SET USERS", payload: usersData })
+      dispatch({ type: SET_USERS, payload: usersData })
     })
-
-  }, [dispatch]) 
+  }, [dispatch])
 
   return (
     <div>
-      { keyHolder && <Header/> }
+      { keyHolder ? <Header /> : null}
       <Switch>
-          <Route exact path="/" render={ () => <Home/>} />
         { keyHolder && (
             <>
-              <Route path="/users" render={ () => <ViewUsers/>} />
-              <Route exact path='/user/projects/:id' render={() => <ViewUserProjects/>} />
-              <Route exact path="/projects" render={ () => <ViewProjects/>} />
-              <Route path="/project/:id" render={ () => <Project/>} />
-              <Route path="/projects/new" render={ () => <NewProject/>} />
-              <Route exact path='/admins/:id' render={ () => <Account />} />
+              <Route exact path="/users" render={ () => <ViewUsers/>} />
+              <Route path="/users/:id" render={ () => <Account />} />
+              <Route exact path="/projects" render={ () => <ViewProjects />} />
+              <Route path="/project/:id" render={ () => <ShowProject/>} />
+              <Route path="/project/done/:id" render={ () => <ShowProject/>} />
+              <Route path='/user/projects/:id' render={() => <ViewUserProjects />} />
+              <Route path="/projects/new" render={ () => <NewProject />} />
+              <Route path="/admin/:id" render={ () => <Account />} />
             </>
-          )
+          ) 
         }
-          <Route path="/signup" render={ () => <Signup/>} />
-          <Route path="/login" render={ () => <Login/>} />
+        <Route exact path="/" render={ () => <Home/>} />
+        <Route path="/signup" render={ () => <Signup/>} />
+        <Route path="/login" render={ () => <Login/>} />
         { !keyHolder ? <Redirect to="/" /> : <Redirect to="/account" />}
       </Switch>
     </div>

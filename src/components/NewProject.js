@@ -7,15 +7,16 @@ import useFormFields from '../hooks/useFormFields';
 import AddUsersTable from './AddUsersTable';
 import "../resources/NewProject.css";
 import { createProject } from '../api';
+import { SET_USERS, ADD_NEW_PROJECT, REMOVE_USER_PROJECT } from '../store/type';
 
 const NewProject = (props) => {
   const [fields, handleFieldChange] = useFormFields({
     title: "",
     description: ""
   })
+  
   const [dateRange, setDateRange] = useState("")
   const users = useSelector(state => state.user.users)
-  const keyHolder = useSelector(state => state.app.keyHolder)
   const addUsersId = useSelector(state => state.project.addUsersId)
   const dispatch = useDispatch()
 
@@ -35,7 +36,7 @@ const NewProject = (props) => {
         }
       })
       // set users state with the updatedUsers
-      dispatch({ type: "SET USERS", payload: updatedUsers })
+      dispatch({ type: SET_USERS, payload: updatedUsers })
     }
   }
 
@@ -51,7 +52,6 @@ const NewProject = (props) => {
       description: fields.description,
       startDate: startDate,
       dueDate: dueDate,
-      admin: keyHolder.id,
       assigned: [...addUsersId]
     }
 
@@ -61,8 +61,8 @@ const NewProject = (props) => {
         console.log(data.error)
       } else {
         updateUsers(data.users)
-        dispatch({ type: "ADD NEW PROJECT", payload: data.project })
-        dispatch({ type: "REMOVE USER FROM PROJECT", payload: [] })
+        dispatch({ type: ADD_NEW_PROJECT, payload: data.project })
+        dispatch({ type: REMOVE_USER_PROJECT, payload: [] })
         props.history.push('/projects')
       }
     })

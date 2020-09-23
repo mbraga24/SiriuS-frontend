@@ -21,6 +21,11 @@
   padding: 20px 10px;
 }
 
+#ViewProjects-Container .ViewProjects-List-Item-Complete {
+  padding: 20px 10px;
+  background-color:rgba(171, 180, 207, 0.3);
+}
+
 #ViewProjects-Container .ViewProjects-Project-Date {
   font-size: 15px;
 }

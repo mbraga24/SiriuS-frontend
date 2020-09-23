@@ -14,10 +14,12 @@
 }
 
 #Project-Container .Project-Description-Text {
-  color: #000000;
+  color: #534292;
   display: block;
   padding: 5px 0;
-  font-size: 18px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 25px;
 }
 
 #Project-Container .Project-Button-Style {

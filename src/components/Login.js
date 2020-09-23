@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { getAdmin } from '../api';
+import { loginUser } from '../api';
 import useFormFields from '../hooks/useFormFields';
 import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react';
-import '../resources/Login.css'
+import { SET_KEY_HOLDER } from '../store/type';
+import '../resources/Login.css';
 import '../resources/index.css'
 
 const Login = (props) => {
@@ -17,31 +18,40 @@ const Login = (props) => {
     password: ""
   });
 
+  const changeBackground = () => {
+    // change body background color
+    const body = document.querySelector('body')
+    body.classList.remove("bg-color-signed-in")
+  }
+
   const handleSubmit = e => {
     e.preventDefault()    
     
     // create object to send in the fetch body
-    const loginAdmin = {
+    const userLogin = {
       email: fields.email,
       password: fields.password,
     }
 
-    // fetch admin
-    getAdmin(loginAdmin)
-    .then(loggedInAdmin => {
+    // fetch user
+    loginUser(userLogin)
+    .then(loggedInUser => {
+      // console.log("LOGGED IN USER:", loggedInUser)
       // update state
-      dispatch({ type: "SET KEY HOLDER", payload: loggedInAdmin })
+      dispatch({ type: SET_KEY_HOLDER, payload: loggedInUser })
 
       // update localStorage
-      localStorage.token = loggedInAdmin.id
-      localStorage.credentials = "admin"
+      localStorage.token = loggedInUser.id
+      localStorage.admin = loggedInUser.admin
 
       // send loggedin user to their account
-      props.history.push(`/admins/${loggedInAdmin.id}`)
-
-      // change body background color
-      const body = document.querySelector('body')
-      body.classList.remove("bg-color-signed-in")
+      if (loggedInUser.admin) {
+        changeBackground()
+        props.history.push(`/admin/${loggedInUser.id}`)
+      } else {
+        changeBackground()
+        props.history.push(`/users/${loggedInUser.id}`)
+      }
     })
   }
 
