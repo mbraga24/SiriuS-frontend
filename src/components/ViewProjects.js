@@ -26,12 +26,12 @@ const ViewProjects = () => {
   return (
     <>
       <Container id="ViewProjects-Container">
-        <ProjectHeader title={"Project"} button={"New Project"} newProject={"/projects/new"} />
+        <ProjectHeader title={"Projects"} button={"New Project"} newProject={"/projects/new"} iconButton={"add"} iconHeader={"clipboard list"} />
         <List divided relaxed size="large">
           { projects ? renderProjects() :  <h1>No New Projects</h1> }
         </List>
         <Divider/>
-        <ProjectHeader title={"Concluded"} button={"Clear List"} clear={true} />
+        <ProjectHeader title={"Done"} button={"Clear List"} clear={true} iconButton={"trash"} iconHeader={"calendar check"} />
         <List divided relaxed size="large">
           { completedProjects ? renderCompleteProjects() : <h1>No Finished Projects</h1> }
         </List>

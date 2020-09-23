@@ -80,7 +80,3 @@ const App = () => {
 }
 
 export default withRouter(App);
-
-// ========================> CONCEPTS <============================
-// 1) Implemented the Redirect component from react-router-dom
-// ===============================================================

@@ -5,9 +5,9 @@ import { DatesRangeInput } from 'semantic-ui-calendar-react';
 import { Container, Form, Button, Header, Icon, Divider } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
 import AddUsersTable from './AddUsersTable';
-import "../resources/NewProject.css";
 import { createProject } from '../api';
 import { SET_USERS, ADD_NEW_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import "../resources/NewProject.css";
 
 const NewProject = (props) => {
   const [fields, handleFieldChange] = useFormFields({

@@ -97,7 +97,3 @@ const Login = (props) => {
 }
 
 export default withRouter(Login);
-
-// ========================> CONCEPTS <============================
-// 1) custom hooks -> useFormFields
-// ===============================================================

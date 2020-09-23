@@ -22,7 +22,7 @@ const ViewUserProjects = (props) => {
         <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewUserProjects-Icon-Color" />
         <List.Content>
           <List.Content floated='right'>
-            <Button className="ViewUserProjects-Button-Color" disabled>Delete</Button>
+            <Button className="ViewUserProjects-Button-Color" disabled>Remove Project</Button>
           </List.Content>
           <List.Header as='a' className="ViewUserProjects-Project-Name">{project.name}</List.Header>
           <List.Description as='a'className="ViewUserProjects-Project-Date">Start date: {project.start_date} | Due date: {project.due_date}</List.Description>
@@ -49,7 +49,6 @@ const ViewUserProjects = (props) => {
           <List divided relaxed size="large">
             { projects && renderProjects() }
           </List>
-          <Divider/>
           <DocumentList/>
         </>
       }

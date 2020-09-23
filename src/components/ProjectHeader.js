@@ -1,5 +1,5 @@
 import React from 'react';
-import { SET_USERS, UPDATE_COMPLETE_PROJECTS } from '../store/type';
+import { SET_USERS, CLEAR_COMPLETE_PROJECTS } from '../store/type';
 import { useSelector, useDispatch } from 'react-redux';
 import { Header, Icon, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
@@ -30,16 +30,15 @@ const ProjectHeader = props => {
     .then(data => {
       // update users available state
       updateUsers(data.available_users)
-      console.log("AVAILABLE USERS", data.available_users)
       // update projects from the redux store
-      dispatch({ type: UPDATE_COMPLETE_PROJECTS, payload: data.deleted_projects })
+      dispatch({ type: CLEAR_COMPLETE_PROJECTS })
     })
   }
 
   return (
     <Header as='h2' className="ViewProjects-Header-Align-Items">
       <span>
-        <Icon name='clipboard list' size="large" className="ViewProjects-Icon-Color"/>
+        <Icon name={props.iconHeader} size="large" className="ViewProjects-Icon-Color"/>
         <Header.Content>
           <span className="ViewProjects-Title">{props.title}</span>
         </Header.Content>
@@ -49,7 +48,7 @@ const ProjectHeader = props => {
           <Button 
             className="ViewProjects-Button-Create-Project"
             onClick={props.clear && clearList} >
-            <Icon name='add' /> 
+            <Icon name={props.iconButton} /> 
             {props.button}
           </Button>
         </Link>
