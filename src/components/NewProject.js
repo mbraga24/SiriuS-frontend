@@ -20,23 +20,22 @@ const NewProject = (props) => {
   const addUsersId = useSelector(state => state.project.addUsersId)
   const dispatch = useDispatch()
 
-
   const handleDateRangeChange = (name, value) => {
     setDateRange(value)
   }
 
   // update users state
   const updateUsers = (usersProjects) => {
-    for (let u of usersProjects) {
-      const updatedUsers = users.map(user => { 
-        if (user.id === u.id) {
-          return u
-        } else {
+    for (let user of usersProjects) {
+      const filteredUsers = users.map(userMap => { 
+        if (userMap.id === user.id) {
           return user
+        } else {
+          return userMap
         }
       })
       // set users state with the updatedUsers
-      dispatch({ type: SET_USERS, payload: updatedUsers })
+      dispatch({ type: SET_USERS, payload: filteredUsers })
     }
   }
 
@@ -58,6 +57,7 @@ const NewProject = (props) => {
     createProject(newProject)
     .then(data => {
       if (data.error) {
+        // flash message logic goes here
         console.log(data.error)
       } else {
         updateUsers(data.users)

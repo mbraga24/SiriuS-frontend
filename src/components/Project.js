@@ -10,19 +10,15 @@ const Project = props => {
   const { id, name, start_date, due_date } = props.project
   const dispatch = useDispatch()
 
+  // add project to the complete project list
   const complete = () => {
     completeProject(id)
     .then(completed => {
-      console.log("CLICK TO ADD COMPLETE PROJECT:", completed)
-      // =======================================================
-      // NOT SURE IF IT'S WORKING -----
-      // =======================================================
       dispatch({ type: ADD_COMPLETE_PROJECT, payload: completed })
       dispatch({ type: REMOVE_PROJECT, payload: completed })
     })
   }
 
-  
   return (
     <List.Item className="ViewProjects-List-Item">
       <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />

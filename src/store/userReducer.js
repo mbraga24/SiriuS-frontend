@@ -8,9 +8,11 @@ const reducer = (state = defaultState, action) => {
   // console.log("INSIDE USER REDUCER:", action.payload)
   switch(action.type) {
     case SET_USERS:
-      return {
+      // filter out the first user (admin)
+      const filteredUsers = action.payload.filter(user => user.id !== 1)
+      return {  
         ...state,
-        users: [...action.payload]
+        users: [...filteredUsers]
       }
     default: 
       return state
