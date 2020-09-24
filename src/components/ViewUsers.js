@@ -1,20 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Table, Container, Header, Button, Divider } from 'semantic-ui-react';
+import { deleteUser } from '../api';
+import { REMOVE_USER } from '../store/type';
 import '../resources/ViewUsers.css';
 
 
 const ViewUsers = () => {
 
   const users = useSelector(state => state.user.users)
+  const dispatch = useDispatch()
+
+  const removeUser = userId => {
+    deleteUser(userId)
+    .then(deletedUser => {
+      dispatch({ type: REMOVE_USER, payload: deletedUser })
+    })
+  }
 
   const renderRows = () => {
     return users.map(user => (
       
       <Table.Row key={user.id}>
         <Table.Cell textAlign='center'>
-          <Icon name='trash' size="large" className="ViewUsers-Icon-Color"/>
+          <Icon 
+            name='trash' 
+            size="large" 
+            className="ViewUsers-Icon-Color"
+            onClick={() => removeUser(user.id)}
+            />
         </Table.Cell>
         <Table.Cell>{user.first_name}</Table.Cell>
         <Table.Cell>{user.last_name}</Table.Cell>

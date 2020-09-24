@@ -1,4 +1,4 @@
-import { SET_USERS } from './type';
+import { SET_USERS, REMOVE_USER } from './type';
 
 const defaultState = {
   users: []
@@ -12,6 +12,12 @@ const reducer = (state = defaultState, action) => {
       return {  
         ...state,
         users: [...filteredUsers]
+      }
+    case REMOVE_USER:
+      const updatedUsers = state.users.filter(user => user.id !== action.payload.id)
+
+      return {
+        users: [...updatedUsers]
       }
     default: 
       return state
