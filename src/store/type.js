@@ -16,4 +16,5 @@ export const REMOVE_USER_FROM_TEMP_PROJECT = "REMOVE_USER_FROM_TEMP_PROJECT"
 
 // User Reducer
 export const SET_USERS = "SET_USERS"
+export const UPDATE_USER = "UPDATE_USER" 
 export const REMOVE_USER = "REMOVE_USER" 

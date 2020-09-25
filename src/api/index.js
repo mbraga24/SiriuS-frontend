@@ -42,6 +42,14 @@ export const deleteUser = userId => {
   .then(r => r.json())
 }
 
+// remove project from user
+export const removeProjectFromUser = (userId, projectId) => {
+  return fetch(`http://localhost:3000/users/${userId}/remove-project/${projectId}`, {
+    method: "DELETE"
+  })
+  .then(r => r.json())
+}
+
 // get all projects
 export const getProjects = () => {
   return fetch(`http://localhost:3000/projects/`)
