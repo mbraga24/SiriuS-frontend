@@ -27,6 +27,14 @@
   color: #ffffff;
 }
 
+#Project-Container .Project-Spacing-Style {
+  margin-top: 20px;
+}
+
+#Project-Container .Project-Document-Form {
+  width: 50vw;
+}
+
 #Project-Container .Project-Items {
   padding: 15px 0;
   color: #79589f;

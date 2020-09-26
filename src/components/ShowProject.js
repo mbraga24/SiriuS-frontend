@@ -1,8 +1,16 @@
-import React from 'react';
-import { Header, Icon, Container, Divider, Button, List, Segment } from 'semantic-ui-react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Header, Icon, Container, Divider, Button, List, Segment, Form } from 'semantic-ui-react';
+import { Link, withRouter } from 'react-router-dom';
 import '../resources/Project.css';
+
+// TEMPORARY IMPORTS AND VARIABLES
+// ================================================================================
+import axios from "axios";
+const MockAdapter = require("axios-mock-adapter");
+const mock = new MockAdapter(axios);
+mock.onPost("/file/upload/enpoint").reply(200);
+// ================================================================================
 
 const ShowProject = props => {
 
@@ -20,8 +28,62 @@ const ShowProject = props => {
       }
     }
   })
+  
+  const [ file, setFile ] = useState(null)
+  const [ fileName, setFileName ] = useState("")
+  const [ statusCode, setStatusCode ] = useState("")
+  const [ loading, setLoading ] = useState(false)
+  const [ buttonStatus, setButtonStatus ] = useState(false)
   const matchId = parseInt(props.match.params.id)
   const thisProject = projects.data.find(pro => pro.id === matchId)
+
+  // wait 2 seconds and reset loading
+  const resetLoading = () => {
+    setTimeout(function(){ setLoading(false) }, 1000)
+  }
+
+  // wait 3 seconds and reset buttonStatus
+  const resetButtonStatus = () => {
+    setTimeout(function(){ setButtonStatus(false) }, 1500)
+  }
+
+  // set file and set fileName
+  const fileChange = e => {
+    console.log("File chosen --->:", e.target.files[0])
+    console.log("File name  --->:" ,e.target.files[0].name)
+    setFile(e.target.files[0])
+    setFileName(e.target.files[0].name)
+  };
+
+  const fileUpload = async file => {
+    // mimic fetch
+    const formData = new FormData();
+    formData.append("fileUpload ---> file", file);
+    try {
+      axios.post("/file/upload/enpoint").then(response => {
+        console.log("RESPONSE:", response);
+        console.log("RESPONSE STATUS:", response.status);
+        setStatusCode(response.status)
+      });
+    } catch (error) {
+      console.error(Error(`Error uploading file ${error.message}`));
+    }
+  };
+
+  const onFormSubmit = e => {
+    e.preventDefault(); // Stop form submit
+    // upload file to database
+    fileUpload(file);
+    // set loading to true
+    setLoading(true)
+    // wait 2 seconds to set buttonStatus to true and reset buttonStatus to false again
+    setTimeout(function(){ 
+      setButtonStatus(true) 
+      resetButtonStatus()
+    }, 1000)
+    // reset loading to false again
+    resetLoading()
+  };
 
   return (
     <Container id="Project-Container">
@@ -76,18 +138,49 @@ const ShowProject = props => {
               </List.Item>
             </List>
             <List.Item className="Project-Items">
-              <Button
-                content="Share New Document"
-                labelPosition="left"
-                icon="file"
-                className="Project-Button-Style"
-                disabled
-                
-              />
-              <input
-                type="file"
-                hidden
-              />
+              <Form onSubmit={onFormSubmit} className="Project-Document-Form">
+                <Form.Field>
+                  <label>File input & upload </label>
+                  <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
+                    <Button.Content visible>
+                      <Icon name="file" />
+                    </Button.Content>
+                    <Button.Content hidden>Share New Document</Button.Content>
+                  </Button>
+                  <input
+                    type="file"
+                    id="file"
+                    hidden
+                    onChange={fileChange}
+                  />
+                  <Form.Input
+                    fluid
+                    label="File Chosen: "
+                    placeholder="Use the above bar to browse your file system"
+                    readOnly
+                    value={fileName}
+                  />
+                    { !buttonStatus && // if buttonStatus is false display original button and hide it otherwise
+                      <Button className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"}`} type="submit">
+                        { !loading ? `${"Upload File"}` : `${"Loading"}` }
+                      </Button>
+                    }
+                    {
+                      statusCode && statusCode === 200 && buttonStatus ?
+                        (
+                          <Button className="Project-Spacing-Style" color='green'>
+                            File Upload Success
+                          </Button>
+                        )
+                      : statusCode && statusCode === 500 && buttonStatus ?
+                        (
+                          <Button className="Project-Spacing-Style" color='red'>
+                            File Upload Failed
+                          </Button>
+                        ) : null
+                    }
+                </Form.Field>
+              </Form>
             </List.Item>
           </>
       }
