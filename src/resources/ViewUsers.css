@@ -12,9 +12,11 @@
   padding-left: 8px;
 }
 
-#ViewUsers-Container, .ViewUsers-Icon-Color {
+#ViewUsers-Container .ViewUsers-Icon-Color {
   color: #79589f;
   cursor: pointer;
+  width: 50px;
+  height: 25px;
 }
 
 #ViewUsers-Container .ViewUsers-Header-Align-Items {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn, getProjects, getUsers } from '../api';
+import { isLoggedIn, getProjects, getUsers, getDocuments } from '../api';
 import Header from './Header';
 import Home from './Home';
 import ViewUsers from './ViewUsers';
@@ -13,7 +13,7 @@ import ViewProjects from './ViewProjects';
 import NewProject from './NewProject';
 import ViewUserProjects from './ViewUserProjects';
 import ShowProject from './ShowProject';
-import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS } from '../store/type';
+import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS } from '../store/type';
 
 const App = () => {
   
@@ -42,6 +42,14 @@ const App = () => {
     .then(projectData  => {
       dispatch({ type: SET_PROJECTS, payload: projectData })
       dispatch({ type: SET_COMPLETE_PROJECTS, payload: projectData })
+    })
+  }, [dispatch])
+
+  // Fetch projects
+  useEffect(() => {
+    getDocuments()
+    .then(docuData  => {
+      dispatch({ type: SET_DOCUMENTS, payload: docuData })
     })
   }, [dispatch])
 

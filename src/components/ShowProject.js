@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Header, Icon, Container, Divider, Button, List, Segment, Form } from 'semantic-ui-react';
+import { newDocument } from '../api';
 import { Link, withRouter } from 'react-router-dom';
 import '../resources/Project.css';
 
@@ -29,13 +30,13 @@ const ShowProject = props => {
     }
   })
   
+  const matchId = parseInt(props.match.params.id)
+  const thisProject = projects.data.find(pro => pro.id === matchId)
   const [ file, setFile ] = useState(null)
   const [ fileName, setFileName ] = useState("")
   const [ statusCode, setStatusCode ] = useState("")
   const [ loading, setLoading ] = useState(false)
   const [ buttonStatus, setButtonStatus ] = useState(false)
-  const matchId = parseInt(props.match.params.id)
-  const thisProject = projects.data.find(pro => pro.id === matchId)
 
   // wait 2 seconds and reset loading
   const resetLoading = () => {
@@ -49,31 +50,55 @@ const ShowProject = props => {
 
   // set file and set fileName
   const fileChange = e => {
-    console.log("File chosen --->:", e.target.files[0])
-    console.log("File name  --->:" ,e.target.files[0].name)
+    // console.log("File chosen --->:", e.target.files[0])
+    // console.log("File name  --->:" ,e.target.files[0].name)
     setFile(e.target.files[0])
     setFileName(e.target.files[0].name)
   };
 
-  const fileUpload = async file => {
+  const fileUpload = (file, fileName, projectId) => {
+
+    console.log("FILE:", file)
+    console.log("FILE NAME:", fileName)
+    console.log("PROJECT ID:", projectId)
+
+    // const formElement = document.querySelector("form")
+    // console.log(formElement)
+
     // mimic fetch
     const formData = new FormData();
-    formData.append("fileUpload ---> file", file);
-    try {
-      axios.post("/file/upload/enpoint").then(response => {
-        console.log("RESPONSE:", response);
-        console.log("RESPONSE STATUS:", response.status);
-        setStatusCode(response.status)
-      });
-    } catch (error) {
-      console.error(Error(`Error uploading file ${error.message}`));
-    }
+    formData.append("file", file, fileName);
+    formData.append("fileName", fileName);
+    formData.append("projectId", projectId);
+
+    // =======================================================
+    // ==    Checking the key/value in formData instance    ==
+    // =======================================================
+    // for (var key of formData.entries()) {
+    //   console.log(key[0] + ', ' + key[1]);
+    // }
+    // console.log(formData.get("file"))
+    // console.log(formData.get("fileName"))
+    // console.log(formData.get("projectId"))
+    // =======================================================
+
+    newDocument(formData)
+    .then(r => {
+      if (r.ok) {
+        // set statusCode 
+        setStatusCode(r.status)
+        return r.json()
+      }
+    })
+    .then(data => {
+      console.log("SUCCESS -> ", data)
+    })
   };
 
   const onFormSubmit = e => {
     e.preventDefault(); // Stop form submit
     // upload file to database
-    fileUpload(file);
+    fileUpload(file, fileName, thisProject.id);
     // set loading to true
     setLoading(true)
     // wait 2 seconds to set buttonStatus to true and reset buttonStatus to false again
@@ -93,7 +118,7 @@ const ShowProject = props => {
           {projects.message}
         </Segment>
       }
-      { 
+      {
         thisProject && 
           <>
             <Header as='h2' className="Project-Header-Align-Items">
@@ -150,6 +175,7 @@ const ShowProject = props => {
                   <input
                     type="file"
                     id="file"
+                    name="file"
                     hidden
                     onChange={fileChange}
                   />
@@ -187,4 +213,5 @@ const ShowProject = props => {
     </Container>
   )
 }
+
 export default withRouter(ShowProject);

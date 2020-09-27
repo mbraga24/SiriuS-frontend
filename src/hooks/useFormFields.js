@@ -13,8 +13,3 @@ export default initialState => {
     }
   ];
 }
-
-// ========================> CONCEPTS <============================
-// 1) custom hooks
-// 2) function within an array as an element - setting values of state within the function 
-// ===============================================================

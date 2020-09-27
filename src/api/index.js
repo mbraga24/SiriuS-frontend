@@ -1,16 +1,4 @@
-// login Admin
-export const loginUser = data => {
-  return fetch(`http://localhost:3000/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-}
-
-// create new admin
+// create new user
 export const createUser = data => {
   return fetch(`http://localhost:3000/signup`, {
     method: "POST",
@@ -22,7 +10,20 @@ export const createUser = data => {
   .then(r => r.json())
 }
 
-// admin autologin 
+// login user
+export const loginUser = data => {
+  return fetch(`http://localhost:3000/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+}
+
+
+// user autologin 
 export const isLoggedIn = adminId => {
   return fetch(`http://localhost:3000/autologin/${adminId}`)
   .then(r => r.json())
@@ -85,4 +86,21 @@ export const clearProjectList = () => {
     method: "DELETE"
   })
   .then(r => r.json())
+}
+
+// set documents
+export const getDocuments = () => {
+  return fetch(`http://localhost:3000/documents`)
+  .then(r => r.json())
+}
+
+// create documents
+export const newDocument = formData => {
+  return fetch(`http://localhost:3000/documents`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: formData
+  })
 }
