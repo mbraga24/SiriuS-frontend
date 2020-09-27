@@ -31,7 +31,7 @@ const ViewProjects = () => {
           { projects ? renderProjects() :  <h1>No New Projects</h1> }
         </List>
         <Divider/>
-        <ProjectHeader title={"Done"} button={"Clear List"} clear={true} iconButton={"trash"} iconHeader={"calendar check"} />
+        <ProjectHeader title={"Done"} button={"Clear List"} clear={true} iconButton={"trash"} iconHeader={"archive"} />
         <List divided relaxed size="large">
           { completedProjects ? renderCompleteProjects() : <h1>No Finished Projects</h1> }
         </List>

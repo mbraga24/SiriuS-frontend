@@ -98,9 +98,6 @@ export const getDocuments = () => {
 export const newDocument = formData => {
   return fetch(`http://localhost:3000/documents`, {
     method: 'POST',
-    headers: {
-      "Content-Type": "application/json"
-    },
     body: formData
   })
 }

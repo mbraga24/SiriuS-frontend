@@ -1,8 +1,39 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { withRouter } from 'react-router';
 import { Table, Icon, Button, Header, Container } from 'semantic-ui-react';
 import '../resources/DocumentList.css';
 
-const DocumentList = () => {
+const DocumentList = props => {
+
+  const documents = useSelector(state => state.document.documents)
+  const matchId = parseInt(props.match.params.id)
+
+  // collect all the documents that belong to this project 
+  const projectDocuments = () => {
+    return documents.filter(document => document.project_id === matchId)
+  }
+
+  const renderDocuments = () => {
+    return projectDocuments().map(project => (
+      <Table.Row key={project.id}>
+        <Table.Cell>
+          <Icon name='folder' />
+          {project.name}
+        </Table.Cell>
+        <Table.Cell>
+          Username
+        </Table.Cell>
+        <Table.Cell>
+          10 hours ago
+        </Table.Cell>
+        <Table.Cell>
+          <Button size='small' compact className="DocumentList-Button-Color" href={`${project.url}`}>Open</Button>
+        </Table.Cell>
+      </Table.Row>
+    ))
+  }
+
   return (
         <Container id="DocumentList-Container">
           <Header as='h2' className="DocumentList-Header">
@@ -13,66 +44,28 @@ const DocumentList = () => {
               </Header.Content>
             </span>
           </Header>
-          <Table basic className="DocumentList-Table">
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Name</Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Posted</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body className="DocumentList-Table-Body">
-              <Table.Row>
-                <Table.Cell>
-                  <Icon name='folder' />
-                  js
-                </Table.Cell>
-                <Table.Cell>
-                  error on send
-                </Table.Cell>
-                <Table.Cell>
-                  10 hours ago
-                </Table.Cell>
-                <Table.Cell>
-                  <Button size='small' compact className="DocumentList-Button-Color" disabled>Open</Button>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  <Icon name='folder' />
-                  chat feature
-                </Table.Cell>
-                <Table.Cell>
-                  chat feature attempt 2
-                </Table.Cell>
-                <Table.Cell>
-                  7 hours ago
-                </Table.Cell>
-                <Table.Cell>
-                  <Button size='small' compact className="DocumentList-Button-Color" disabled>Open</Button>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  <Icon name='folder' />
-                  pdf
-                </Table.Cell>
-                <Table.Cell>
-                  request for contacts
-                </Table.Cell>
-                <Table.Cell>
-                  2 days ago
-                </Table.Cell>
-                <Table.Cell>
-                  <Button size='small' compact className="DocumentList-Button-Color" disabled>Open</Button>
-                </Table.Cell>
-              </Table.Row>
-            </Table.Body>
-          </Table>
+          { projectDocuments().length !== 0 ?
+           ( 
+            <Table basic className="DocumentList-Table">
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Name</Table.HeaderCell>
+                  <Table.HeaderCell>Collaborator</Table.HeaderCell>
+                  <Table.HeaderCell>Posted</Table.HeaderCell>
+                  <Table.HeaderCell></Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body className="DocumentList-Table-Body">
+                { renderDocuments() }
+              </Table.Body>
+            </Table>
+            ) :
+            (
+              <h1>This Project Has No Documents Yet</h1>
+            )
+          }
         </Container>
-  
   )
 }
 
-export default DocumentList;
+export default withRouter(DocumentList);

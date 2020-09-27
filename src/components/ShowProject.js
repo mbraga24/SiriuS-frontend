@@ -3,15 +3,8 @@ import { useSelector } from 'react-redux';
 import { Header, Icon, Container, Divider, Button, List, Segment, Form } from 'semantic-ui-react';
 import { newDocument } from '../api';
 import { Link, withRouter } from 'react-router-dom';
+import DocumentList from './DocumentList';
 import '../resources/Project.css';
-
-// TEMPORARY IMPORTS AND VARIABLES
-// ================================================================================
-import axios from "axios";
-const MockAdapter = require("axios-mock-adapter");
-const mock = new MockAdapter(axios);
-mock.onPost("/file/upload/enpoint").reply(200);
-// ================================================================================
 
 const ShowProject = props => {
 
@@ -29,15 +22,15 @@ const ShowProject = props => {
       }
     }
   })
-  
+
   const matchId = parseInt(props.match.params.id)
-  const thisProject = projects.data.find(pro => pro.id === matchId)
+  const currentProject = projects.data.find(pro => pro.id === matchId)
   const [ file, setFile ] = useState(null)
   const [ fileName, setFileName ] = useState("")
   const [ statusCode, setStatusCode ] = useState("")
   const [ loading, setLoading ] = useState(false)
   const [ buttonStatus, setButtonStatus ] = useState(false)
-
+  
   // wait 2 seconds and reset loading
   const resetLoading = () => {
     setTimeout(function(){ setLoading(false) }, 1000)
@@ -50,55 +43,35 @@ const ShowProject = props => {
 
   // set file and set fileName
   const fileChange = e => {
-    // console.log("File chosen --->:", e.target.files[0])
-    // console.log("File name  --->:" ,e.target.files[0].name)
     setFile(e.target.files[0])
     setFileName(e.target.files[0].name)
   };
 
   const fileUpload = (file, fileName, projectId) => {
-
-    console.log("FILE:", file)
-    console.log("FILE NAME:", fileName)
-    console.log("PROJECT ID:", projectId)
-
-    // const formElement = document.querySelector("form")
-    // console.log(formElement)
-
-    // mimic fetch
     const formData = new FormData();
     formData.append("file", file, fileName);
     formData.append("fileName", fileName);
     formData.append("projectId", projectId);
 
-    // =======================================================
-    // ==    Checking the key/value in formData instance    ==
-    // =======================================================
-    // for (var key of formData.entries()) {
-    //   console.log(key[0] + ', ' + key[1]);
-    // }
-    // console.log(formData.get("file"))
-    // console.log(formData.get("fileName"))
-    // console.log(formData.get("projectId"))
-    // =======================================================
-
     newDocument(formData)
     .then(r => {
       if (r.ok) {
         // set statusCode 
+        console.log("STATUS CODE:", r.status)
         setStatusCode(r.status)
         return r.json()
       }
     })
     .then(data => {
       console.log("SUCCESS -> ", data)
+      setFileName("")
     })
   };
 
   const onFormSubmit = e => {
-    e.preventDefault(); // Stop form submit
+    e.preventDefault(); 
     // upload file to database
-    fileUpload(file, fileName, thisProject.id);
+    fileUpload(file, fileName, currentProject.id);
     // set loading to true
     setLoading(true)
     // wait 2 seconds to set buttonStatus to true and reset buttonStatus to false again
@@ -119,13 +92,13 @@ const ShowProject = props => {
         </Segment>
       }
       {
-        thisProject && 
+        currentProject && 
           <>
             <Header as='h2' className="Project-Header-Align-Items">
               <span>
                 <Icon name='clipboard list' size="large" className="Project-Icon-Color"/>
                 <Header.Content>
-                  <span className="Project-Title">Project: {thisProject.name}</span>
+                  <span className="Project-Title">Project: {currentProject.name}</span>
                 </Header.Content>
               </span>
               <span>
@@ -141,19 +114,19 @@ const ShowProject = props => {
             <List divided className="Project-List">
               <List.Item className="Project-Items">
                 <List.Icon name='file alternate' size="large"/>
-                <List.Content>Description: <span className="Project-Description-Text">{thisProject.description}</span></List.Content>
+                <List.Content>Description: <span className="Project-Description-Text">{currentProject.description}</span></List.Content>
               </List.Item>
               <List.Item className="Project-Items">
                 <List.Icon name='calendar alternate' size="large"/>
-                <List.Content>Start Date: {thisProject.start_date}</List.Content>
+                <List.Content>Start Date: {currentProject.start_date}</List.Content>
               </List.Item>
               <List.Item className="Project-Items">
                 <List.Icon name='calendar check' size="large"/>
-                <List.Content>Due Date: {thisProject.due_date}</List.Content>
+                <List.Content>Due Date: {currentProject.due_date}</List.Content>
               </List.Item>
               <List.Item className="Project-Items">
                 <List.Icon name="users" size="large"/>
-                <List.Content>Collaborators: {thisProject.users.length}</List.Content>
+                <List.Content>Collaborators: {currentProject.users.length}</List.Content>
               </List.Item>
               <List.Item className="Project-Items">
                 <List.Icon name='linkify' size="large"/>
@@ -187,7 +160,7 @@ const ShowProject = props => {
                     value={fileName}
                   />
                     { !buttonStatus && // if buttonStatus is false display original button and hide it otherwise
-                      <Button className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"}`} type="submit">
+                      <Button className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"} ${!fileName && "disabled"}`} type="submit">
                         { !loading ? `${"Upload File"}` : `${"Loading"}` }
                       </Button>
                     }
@@ -208,6 +181,7 @@ const ShowProject = props => {
                 </Form.Field>
               </Form>
             </List.Item>
+            <DocumentList />
           </>
       }
     </Container>

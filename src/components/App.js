@@ -45,7 +45,7 @@ const App = () => {
     })
   }, [dispatch])
 
-  // Fetch projects
+  // Fetch documents
   useEffect(() => {
     getDocuments()
     .then(docuData  => {
