@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Header, Icon, Container, Divider, Button, List, Segment, Form } from 'semantic-ui-react';
 import { newDocument } from '../api';
+import { ADD_DOCUMENT } from '../store/type';
 import { Link, withRouter } from 'react-router-dom';
 import DocumentList from './DocumentList';
 import '../resources/Project.css';
@@ -22,7 +23,8 @@ const ShowProject = props => {
       }
     }
   })
-
+  const currentUser = useSelector(state => state.app.keyHolder)
+  const dispatch = useDispatch()
   const matchId = parseInt(props.match.params.id)
   const currentProject = projects.data.find(pro => pro.id === matchId)
   const [ file, setFile ] = useState(null)
@@ -47,23 +49,24 @@ const ShowProject = props => {
     setFileName(e.target.files[0].name)
   };
 
-  const fileUpload = (file, fileName, projectId) => {
+  const fileUpload = (file, fileName, projectId, userId) => {
     const formData = new FormData();
     formData.append("file", file, fileName);
     formData.append("fileName", fileName);
     formData.append("projectId", projectId);
+    formData.append("userId", userId);
 
     newDocument(formData)
     .then(r => {
       if (r.ok) {
         // set statusCode 
-        console.log("STATUS CODE:", r.status)
         setStatusCode(r.status)
         return r.json()
       }
     })
-    .then(data => {
-      console.log("SUCCESS -> ", data)
+    .then(newDoc => {
+      console.log("SUCCESS -> ", newDoc)
+      dispatch({ type: ADD_DOCUMENT, payload: newDoc })
       setFileName("")
     })
   };
@@ -71,7 +74,7 @@ const ShowProject = props => {
   const onFormSubmit = e => {
     e.preventDefault(); 
     // upload file to database
-    fileUpload(file, fileName, currentProject.id);
+    fileUpload(file, fileName, currentProject.id, currentUser.id);
     // set loading to true
     setLoading(true)
     // wait 2 seconds to set buttonStatus to true and reset buttonStatus to false again

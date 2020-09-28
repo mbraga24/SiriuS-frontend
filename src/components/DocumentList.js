@@ -8,13 +8,12 @@ const DocumentList = props => {
 
   const documents = useSelector(state => state.document.documents)
   const matchId = parseInt(props.match.params.id)
+  const store = props.match.url.split("/")[1]
 
   // collect all the documents that belong to this project 
   const projectDocuments = () => {
-    return documents.filter(document => document.project.id === matchId)
+    return documents.filter(document => document[`${store}`].id === matchId)
   }
-  console.log("MATCHID:", matchId)
-  console.log(projectDocuments())
 
   const renderDocuments = () => {
     return projectDocuments().map(document => (

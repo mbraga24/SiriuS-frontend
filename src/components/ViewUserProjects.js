@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
-// import DocumentList from './DocumentList';
+import DocumentList from './DocumentList';
 import { removeProjectFromUser } from '../api';
 import { UPDATE_USER } from '../store/type';
 import '../resources/ViewUserProjects.css';
@@ -61,7 +61,7 @@ const ViewUserProjects = (props) => {
           <List divided relaxed size="large">
             { projects && renderProjects() }
           </List>
-          {/* <DocumentList  /> */}
+          <DocumentList />
         </>
       }
     </Container>

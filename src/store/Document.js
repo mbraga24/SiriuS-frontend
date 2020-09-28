@@ -1,4 +1,4 @@
-import { SET_DOCUMENTS } from '../store/type';
+import { SET_DOCUMENTS, ADD_DOCUMENT } from '../store/type';
 
 const defaultState = {
   documents: []
@@ -10,6 +10,11 @@ const store = (state = defaultState, action) => {
       return {
         ...state,
         documents: action.payload
+      }
+    case ADD_DOCUMENT:
+      return {
+        ...state,
+        documents: [...state.documents, action.payload]
       }
     default:
       return state
