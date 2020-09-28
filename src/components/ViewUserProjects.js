@@ -24,12 +24,19 @@ const ViewUserProjects = (props) => {
   const removeProject = (userId, projectId) => {
     removeProjectFromUser(userId, projectId)
     .then(updateUser => {
-      dispatch({ type: UPDATE_USER, payload: updateUser })
+      dispatch({ type: UPDATE_USER, payload: updateUser }) 
     })
   }
 
+  // filter current active user's projects
+  const filteredProjects = () => {
+    const userProjects = []
+    projects.map(project => thisUser.projects.map(pro => (project.id === pro.id) && userProjects.push(project)))
+    return userProjects
+  }
+
   const renderProjects = () => {
-    return thisUser.projects.map(project => (
+    return filteredProjects().map(project => (
       <List.Item key={project.id} className="ViewUserProjects-List-Item">
         <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewUserProjects-Icon-Color" />
         <List.Content>

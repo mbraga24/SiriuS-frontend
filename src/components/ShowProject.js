@@ -19,7 +19,9 @@ const ShowProject = props => {
     } else {
       return {
         data: state.completeProject.complete,
-        message: `All activities for this project were closed on <INSERT SOME DATE HERE>`
+        message: function(date) {
+          return `All activities for this project were closed on ${date}`
+        }
       }
     }
   })
@@ -88,10 +90,10 @@ const ShowProject = props => {
 
   return (
     <Container id="Project-Container">
-      { projects.message && 
+      { (projects.message && currentProject) && 
         <Segment inverted color='red' tertiary size="big" textAlign="center">
           <Icon name='warning' />
-          {projects.message}
+          {projects.message(currentProject.finish_date)}
         </Segment>
       }
       {
@@ -142,7 +144,7 @@ const ShowProject = props => {
               <Form onSubmit={onFormSubmit} className="Project-Document-Form">
                 <Form.Field>
                   <label>File input & upload </label>
-                  <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
+                  <Button as="label" htmlFor="file" type="button" animated="fade" className={`Project-Button-Style ${projects.message && "disabled"}`}>
                     <Button.Content visible>
                       <Icon name="file" />
                     </Button.Content>

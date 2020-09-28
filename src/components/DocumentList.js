@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Table, Icon, Button, Header, Container } from 'semantic-ui-react';
+import NoDocument from './NoDocument';
 import '../resources/DocumentList.css';
 
 const DocumentList = props => {
@@ -26,7 +27,7 @@ const DocumentList = props => {
           {document.user.first_name} {document.user.last_name}
         </Table.Cell>
         <Table.Cell>
-          10 hours ago
+          {document.created_at}
         </Table.Cell>
         <Table.Cell>
           <Button size='small' compact className="DocumentList-Button-Color" href={`${document.url}`}>Open</Button>
@@ -60,11 +61,12 @@ const DocumentList = props => {
                 { renderDocuments() }
               </Table.Body>
             </Table>
-            ) :
+            ) 
+            :
             (
-              <h1>This Project Has No Documents Yet</h1>
+              <NoDocument />
             )
-          }
+          } 
         </Container>
   )
 }
