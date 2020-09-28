@@ -11,24 +11,26 @@ const DocumentList = props => {
 
   // collect all the documents that belong to this project 
   const projectDocuments = () => {
-    return documents.filter(document => document.project_id === matchId)
+    return documents.filter(document => document.project.id === matchId)
   }
+  console.log("MATCHID:", matchId)
+  console.log(projectDocuments())
 
   const renderDocuments = () => {
-    return projectDocuments().map(project => (
-      <Table.Row key={project.id}>
+    return projectDocuments().map(document => (
+      <Table.Row key={document.id}>
         <Table.Cell>
           <Icon name='folder' />
-          {project.name}
+          {document.name}
         </Table.Cell>
         <Table.Cell>
-          Username
+          {document.user.first_name} {document.user.last_name}
         </Table.Cell>
         <Table.Cell>
           10 hours ago
         </Table.Cell>
         <Table.Cell>
-          <Button size='small' compact className="DocumentList-Button-Color" href={`${project.url}`}>Open</Button>
+          <Button size='small' compact className="DocumentList-Button-Color" href={`${document.url}`}>Open</Button>
         </Table.Cell>
       </Table.Row>
     ))
