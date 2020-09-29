@@ -55,6 +55,18 @@ export const removeProjectFromUser = (userId, projectId) => {
 export const getProjects = () => {
   return fetch(`http://localhost:3000/projects/`)
   .then(r => r.json())
+
+}
+// add user to project
+export const addUserProject = updateProject => {
+  return fetch(`http://localhost:3000/add_user/project/`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(updateProject)
+  })
+  .then(r => r.json())
 }
 
 // create new project

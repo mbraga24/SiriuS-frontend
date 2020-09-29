@@ -1,4 +1,4 @@
-import { SET_PROJECTS, ADD_NEW_PROJECT, REMOVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, ADD_USER_TO_TEMP_PROJECT } from './type';
+import { SET_PROJECTS, ADD_NEW_PROJECT, REMOVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT } from './type';
 
 const defaultState = {
   projects: [],
@@ -18,6 +18,19 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         projects: [...state.projects, action.payload]
+      }
+    case UPDATE_PROJECT:
+      console.log("UPDATE PROJECT", action.payload)
+      const updatedProject = state.projects.map(project => {
+        if (project.id === action.payload.id) {
+          return action.payload
+        } else {
+          return project
+        }
+      })
+      return {
+        ...state,
+        projects: [...updatedProject]
       }
     case REMOVE_PROJECT:
       const filteredList = state.projects.filter(project => project.id !== action.payload.id )

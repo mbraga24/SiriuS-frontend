@@ -20,3 +20,11 @@
   font-size: 30px;
   padding-left: 8px;
 }
+
+#NewProject-Container .NewProject-Header {
+  padding: 15px 0;
+}
+
+#NewProject-Container .NewProject-Icon-Color {
+  color: #79589f;
+}

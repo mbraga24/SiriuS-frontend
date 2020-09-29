@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Button, Icon, Header } from 'semantic-ui-react';
+import { Table, Button, Icon } from 'semantic-ui-react';
 import { ADD_USER_TO_TEMP_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import '../resources/AddUsersTable.css';
 
@@ -18,7 +18,6 @@ const AddUsersTable = () => {
     // find elements
     const button = document.getElementById(`Assign-User-${userId}`)
     const icon = document.getElementById(`Assign-Button-${userId}`)
-
     if (!addUsersId.includes(userId)) {
       dispatch({ type: ADD_USER_TO_TEMP_PROJECT, payload: userId })
       // change button and icon
@@ -68,14 +67,6 @@ const AddUsersTable = () => {
   return (
     <>
       <div id="AddUsersTable-Container">
-        <Header as='h2' className="AddUsersTable-Header">
-          <span>
-            <Icon name='users' size="large" className="AddUsersTable-Icon-Color"/>
-            <Header.Content>
-              <span className="AddUsersTable-Title">Collaborators</span>
-            </Header.Content>
-          </span>
-        </Header>
         <Table columns={3}>
           <Table.Header>
             <Table.Row>

@@ -67,7 +67,7 @@ const App = () => {
       <Switch>
         { keyHolder && (
             <>
-              <Route exact path="/users" render={ () => <ViewUsers/>} />
+              <Route exact path="/users" render={ () => <ViewUsers hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
               <Route exact path="/projects" render={ () => <ViewProjects />} />
               <Route path="/project/:id" render={ () => <ShowProject/>} />

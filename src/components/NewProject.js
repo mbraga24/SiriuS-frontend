@@ -14,10 +14,9 @@ const NewProject = (props) => {
     title: "",
     description: ""
   })
-  
   const [dateRange, setDateRange] = useState("")
-  const users = useSelector(state => state.user.users)
   const addUsersId = useSelector(state => state.project.addUsersId)
+  const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
 
   const handleDateRangeChange = (name, value) => {
@@ -95,6 +94,14 @@ const NewProject = (props) => {
           onChange={(a, {name, value}) => handleDateRangeChange(name, value)}
         />
         <Form.Field widths='equal'>
+          <Header as='h2' className="NewProject-Header">
+            <span>
+              <Icon name='users' size="large" className="NewProject-Icon-Color"/>
+              <Header.Content>
+                <span className="NewProject-Title">Collaborators</span>
+              </Header.Content>
+            </span>
+          </Header>
           <AddUsersTable/>
         </Form.Field>
         <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button>

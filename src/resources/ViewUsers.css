@@ -3,6 +3,10 @@
   color: #ffffff;
 }
 
+#ViewUsers-Container .ViewUsers-Hide-Button {
+  display: none;
+}
+
 #ViewUsers-Container .ViewUsers-Button-Color {
   color: #60467e;  
 }

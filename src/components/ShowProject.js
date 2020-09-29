@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Header, Icon, Container, Divider, Button, List, Segment, Form } from 'semantic-ui-react';
+import { Header, Icon, Container, Divider, Button, List, Segment, Form, Modal } from 'semantic-ui-react';
 import { newDocument } from '../api';
 import { ADD_DOCUMENT } from '../store/type';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import DocumentList from './DocumentList';
+import AddUsersTable from './AddUsersTable';
+import { addUserProject } from '../api';
+import { UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import '../resources/Project.css';
 
 const ShowProject = props => {
@@ -26,6 +29,7 @@ const ShowProject = props => {
     }
   })
   const currentUser = useSelector(state => state.app.keyHolder)
+  const addUsersId = useSelector(state => state.project.addUsersId)
   const dispatch = useDispatch()
   const matchId = parseInt(props.match.params.id)
   const currentProject = projects.data.find(pro => pro.id === matchId)
@@ -34,6 +38,7 @@ const ShowProject = props => {
   const [ statusCode, setStatusCode ] = useState("")
   const [ loading, setLoading ] = useState(false)
   const [ buttonStatus, setButtonStatus ] = useState(false)
+  const [open, setOpen] = useState(false)
   
   // wait 2 seconds and reset loading
   const resetLoading = () => {
@@ -73,6 +78,24 @@ const ShowProject = props => {
     })
   };
 
+  const addCollaborators = () => {
+    setOpen(false)
+    console.log("SELECTED USERS:", addUsersId)
+    const updateProject = {
+      users: addUsersId,
+      projectId: currentProject.id
+    }
+    addUserProject(updateProject)
+    .then(data => {
+
+      dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
+      dispatch({ type: UPDATE_PROJECT, payload: data.project })
+      for (let user of data.users) {
+        dispatch({ type: UPDATE_USER, payload: user })
+      }
+    })
+  }
+
   const onFormSubmit = e => {
     e.preventDefault(); 
     // upload file to database
@@ -107,12 +130,24 @@ const ShowProject = props => {
                 </Header.Content>
               </span>
               <span>
-                <Link to="/">
-                  <Button className="Project-Button-Style" disabled>
-                    <Icon name='add' /> 
-                    Add Collaborator
-                  </Button>
-                </Link>
+                <Modal
+                  onClose={() => setOpen(false)}
+                  onOpen={() => setOpen(true)}
+                  open={open}
+                  trigger={<Button className="Project-Button-Style"> <Icon name='add' />Add Collaborator</Button>}>
+                  <Modal.Header>
+                    <span className="AddUsersTable-Title">Collaborators</span>
+                  </Modal.Header>
+                  <Modal.Content>
+                    <Modal.Description>
+                      <AddUsersTable />
+                    </Modal.Description>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button onClick={addCollaborators} positive>Done</Button>
+                  </Modal.Actions>
+                </Modal>
               </span>
             </Header>
             <Divider/>

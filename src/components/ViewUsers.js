@@ -19,6 +19,10 @@ const ViewUsers = () => {
     })
   }
 
+  const addToProject = () => {
+    console.log("ADD COLLABORATOR")
+  }
+
   const renderRows = () => {
     return users.map(user => (
       
@@ -33,12 +37,10 @@ const ViewUsers = () => {
           </Link>
         </Table.Cell>
         <Table.Cell textAlign='center'>
-          <Icon 
-            name='delete' 
-            size="large" 
-            className="ViewUsers-Icon-Color"
-            onClick={() => removeUser(user.id)}
-            />
+          <Icon name='delete' size="large" className="ViewUsers-Icon-Color" onClick={() => removeUser(user.id)} />
+        </Table.Cell>
+        <Table.Cell textAlign='center'>
+          <Icon name='add' size="large" className="ViewUsers-Icon-Color" onClick={() => addToProject(user.id)} />
         </Table.Cell>
       </Table.Row>
     ))
@@ -53,6 +55,7 @@ const ViewUsers = () => {
           </Header.Content>
         </span>
         <span>
+          {/* attribute: disabled */}
           <Button className="ViewUsers-Button-Invite-User" disabled>
             <Icon name='add' /> 
             Invite Collaborator
@@ -67,7 +70,7 @@ const ViewUsers = () => {
           <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
           <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
           <Table.HeaderCell rowSpan='2'>Job Title</Table.HeaderCell>
-          <Table.HeaderCell colSpan='1'>History</Table.HeaderCell>
+          <Table.HeaderCell rowSpan='1'>History</Table.HeaderCell>
           <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell>
         </Table.Row>
         </Table.Header>
