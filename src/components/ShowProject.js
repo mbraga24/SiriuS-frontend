@@ -186,7 +186,7 @@ const ShowProject = props => {
                 </Form.Field>
               </Form>
             </List.Item>
-            <DocumentList />
+            <DocumentList message={"No documents are listed for this project"} icon={"pdf file outline"} />
           </>
       }
     </Container>

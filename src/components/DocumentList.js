@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Table, Icon, Button, Header, Container } from 'semantic-ui-react';
-import NoDocument from './NoDocument';
+import MissingAsset from './MissingAsset';
 import '../resources/DocumentList.css';
 
 const DocumentList = props => {
@@ -64,7 +64,7 @@ const DocumentList = props => {
             ) 
             :
             (
-              <NoDocument />
+              <MissingAsset message={props.message} icon={props.icon} displayUrl={props.displayUrl} />
             )
           } 
         </Container>

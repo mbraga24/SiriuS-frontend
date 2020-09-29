@@ -2,10 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
-import DocumentList from './DocumentList';
 import { removeProjectFromUser } from '../api';
 import { UPDATE_USER } from '../store/type';
 import '../resources/ViewUserProjects.css';
+import DocumentList from './DocumentList';
 
 const ViewUserProjects = (props) => {
   
@@ -68,7 +68,7 @@ const ViewUserProjects = (props) => {
           <List divided relaxed size="large">
             { projects && renderProjects() }
           </List>
-          <DocumentList />
+          <DocumentList message={"No documents are listed for this user"} icon={"pdf file outline"} />
         </>
       }
     </Container>
