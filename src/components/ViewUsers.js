@@ -19,10 +19,6 @@ const ViewUsers = () => {
     })
   }
 
-  const addToProject = () => {
-    console.log("ADD COLLABORATOR")
-  }
-
   const renderRows = () => {
     return users.map(user => (
       
@@ -38,9 +34,6 @@ const ViewUsers = () => {
         </Table.Cell>
         <Table.Cell textAlign='center'>
           <Icon name='delete' size="large" className="ViewUsers-Icon-Color" onClick={() => removeUser(user.id)} />
-        </Table.Cell>
-        <Table.Cell textAlign='center'>
-          <Icon name='add' size="large" className="ViewUsers-Icon-Color" onClick={() => addToProject(user.id)} />
         </Table.Cell>
       </Table.Row>
     ))

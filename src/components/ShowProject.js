@@ -24,7 +24,8 @@ const ShowProject = props => {
         data: state.completeProject.complete,
         message: function(date) {
           return `All activities for this project were closed on ${date}`
-        }
+        },
+        disable: true
       }
     }
   })
@@ -72,7 +73,6 @@ const ShowProject = props => {
       }
     })
     .then(newDoc => {
-      console.log("SUCCESS -> ", newDoc)
       dispatch({ type: ADD_DOCUMENT, payload: newDoc })
       setFileName("")
     })
@@ -80,7 +80,6 @@ const ShowProject = props => {
 
   const addCollaborators = () => {
     setOpen(false)
-    console.log("SELECTED USERS:", addUsersId)
     const updateProject = {
       users: addUsersId,
       projectId: currentProject.id
@@ -134,18 +133,20 @@ const ShowProject = props => {
                   onClose={() => setOpen(false)}
                   onOpen={() => setOpen(true)}
                   open={open}
-                  trigger={<Button className="Project-Button-Style"> <Icon name='add' />Add Collaborator</Button>}>
+                  trigger={<Button className={`Project-Button-Style ${projects.disable && "disabled"}`}> <Icon name='add' />Add Collaborator</Button>}>
                   <Modal.Header>
                     <span className="AddUsersTable-Title">Collaborators</span>
                   </Modal.Header>
                   <Modal.Content>
                     <Modal.Description>
-                      <AddUsersTable />
+                      <AddUsersTable userType={"currentProject"} hideButton={false}/>
                     </Modal.Description>
                   </Modal.Content>
                   <Modal.Actions>
                     <Button onClick={() => setOpen(false)}>Cancel</Button>
-                    <Button onClick={addCollaborators} positive>Done</Button>
+                    { false && 
+                      <Button onClick={addCollaborators} positive>Add</Button>
+                    }
                   </Modal.Actions>
                 </Modal>
               </span>
@@ -179,7 +180,7 @@ const ShowProject = props => {
               <Form onSubmit={onFormSubmit} className="Project-Document-Form">
                 <Form.Field>
                   <label>File input & upload </label>
-                  <Button as="label" htmlFor="file" type="button" animated="fade" className={`Project-Button-Style ${projects.message && "disabled"}`}>
+                  <Button as="label" htmlFor="file" type="button" animated="fade" className={`Project-Button-Style ${projects.disable && "disabled"}`}>
                     <Button.Content visible>
                       <Icon name="file" />
                     </Button.Content>

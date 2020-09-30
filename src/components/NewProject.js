@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
-import { Container, Form, Button, Header, Icon, Divider } from 'semantic-ui-react';
+import { Container, Form, Header, Icon, Divider } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
 import AddUsersTable from './AddUsersTable';
 import { createProject } from '../api';
@@ -102,9 +102,9 @@ const NewProject = (props) => {
               </Header.Content>
             </span>
           </Header>
-          <AddUsersTable/>
+          <AddUsersTable userType={"newProject"} hideButton={true}/>
         </Form.Field>
-        <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button>
+        {/* <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button> */}
       </Form>
     </Container>
   );

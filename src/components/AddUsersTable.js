@@ -1,12 +1,15 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon } from 'semantic-ui-react';
 import { ADD_USER_TO_TEMP_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import MissingAsset from './MissingAsset';
 import '../resources/AddUsersTable.css';
 
-const AddUsersTable = () => {
+const AddUsersTable = props => {
 
   const users = useSelector(state => state.user.users)
+  const projectId = parseInt(props.match.url.split("/")[2])
   const addUsersId = useSelector(state => state.project.addUsersId)
   const dispatch = useDispatch()
 
@@ -14,7 +17,31 @@ const AddUsersTable = () => {
     return `${firstName} ${lastName}`
   }
 
-  const handleClick = (userId) => {
+  // return the users based on the page selected
+  const currentlyAvailable = () => {
+    return props.userType === "newProject" ? availableUsers(users) : notOnCurrentProject(users)
+  }
+
+  const availableUsers = data => {
+    return data.filter(user => user.available)
+  }
+  
+  // filter out all the users that are working at the selected project
+  const notOnCurrentProject = data => {
+    const available = []
+    for (let user of data) {
+      const projectIds = []
+      for (let pro of user.projects) { 
+        projectIds.push(pro.id)
+      } 
+      if (!projectIds.includes(projectId)) {
+        available.push(user)  
+      }
+    }
+    return available
+  }
+
+  const handleClick = userId => {
     // find elements
     const button = document.getElementById(`Assign-User-${userId}`)
     const icon = document.getElementById(`Assign-Button-${userId}`)
@@ -34,11 +61,11 @@ const AddUsersTable = () => {
     }
   }
 
-  const renderCollabotors = (users) => {
-     return users.map(user => (
-      <React.Fragment key={user.id}>
-        { user.available && (
-          <Table.Row>
+  const renderCollaborators = () => {
+     return currentlyAvailable().map(user => (
+      user.available &&
+        (
+          <Table.Row key={user.id}>
             <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
             <Table.Cell>{user.job_title}</Table.Cell>
             <Table.Cell>
@@ -51,37 +78,48 @@ const AddUsersTable = () => {
                 className="AddUsersTable-Button-Color"
                 onClick={() => handleClick(user.id)}
               >
-              <>
                 <Icon name="user" id={`Assign-Button-${user.id}`}/> 
                   Assign
-              </>
               </Button>
             </Table.Cell>
           </Table.Row>
-          )
-        }
-      </React.Fragment>
+        ) 
      ))
   }
+
+  console.log("ADD USERS TABLE:", renderCollaborators())
 
   return (
     <>
       <div id="AddUsersTable-Container">
-        <Table columns={3}>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-              <Table.HeaderCell>Job Title</Table.HeaderCell>
-              <Table.HeaderCell>Add collaborator</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>  
-            {users && renderCollabotors(users)}
-          </Table.Body>
-        </Table>
+        {
+          currentlyAvailable().length !== 0 ?
+            (
+              <React.Fragment>
+                <Table columns={3}>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>Name</Table.HeaderCell>
+                      <Table.HeaderCell>Job Title</Table.HeaderCell>
+                      <Table.HeaderCell>Add collaborator</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                    <Table.Body> 
+                      {renderCollaborators()}
+                    </Table.Body>
+                </Table>
+                { props.hideButton &&
+                    <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button>
+                }
+              </React.Fragment>
+            ) : 
+            (
+              <MissingAsset message={"All users seem to be currently unavailable"} icon={"user times"} />
+            )
+        }
       </div>
     </>
   );
 };
 
-export default AddUsersTable;
+export default withRouter(AddUsersTable);
