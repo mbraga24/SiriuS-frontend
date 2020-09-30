@@ -92,9 +92,9 @@ export const completeProject = projectId => {
   .then(r => r.json())
 }
 
-// clear all complete projects
-export const clearProjectList = () => {
-  return fetch(`http://localhost:3000/projects/clear`, {
+// delete complete projects
+export const deleteProject = (projectId) => {
+  return fetch(`http://localhost:3000/projects/${projectId}`, {
     method: "DELETE"
   })
   .then(r => r.json())

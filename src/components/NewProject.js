@@ -6,7 +6,7 @@ import { Container, Form, Header, Icon, Divider } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
 import AddUsersTable from './AddUsersTable';
 import { createProject } from '../api';
-import { SET_USERS, ADD_NEW_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
+import { ADD_NEW_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import "../resources/NewProject.css";
 
 const NewProject = (props) => {
@@ -16,7 +16,6 @@ const NewProject = (props) => {
   })
   const [dateRange, setDateRange] = useState("")
   const addUsersId = useSelector(state => state.project.addUsersId)
-  const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
 
   const handleDateRangeChange = (name, value) => {
