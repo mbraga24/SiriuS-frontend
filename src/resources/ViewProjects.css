@@ -4,6 +4,12 @@
   color: #60467e;
 }
 
+#ViewProjects-Container .ViewProjects-Button-Color-Delete {
+  background: none;
+  border: 1px solid #ac4444;
+  color: #ac4444;
+}
+
 #ViewProjects-Container .ViewProjects-Title {
   font-size: 30px;
 }

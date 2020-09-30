@@ -6,18 +6,26 @@ const CompleteProject = props => {
 
   const { id, name, start_date, due_date } = props.project
 
+  const deleteProject = () => {
+    console.log("click")
+  }
+
+
   return  (
     <List.Item className="ViewProjects-List-Item-Complete">
       <List.Icon name='checkmark' size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
       <List.Content>
         <List.Content floated='right'>
+            <Button className="ViewProjects-Button-Color-Delete" onClick={deleteProject}>Delete</Button>        
+        </List.Content>
+        <List.Content floated='right'>
           <Link to={`/project/done/${id}`}>
             <Button className="ViewProjects-Button-Color">Details</Button>
           </Link>
         </List.Content>
-          <Link to={`/project/done/${id}`}>
-            <List.Header as='a' className="ViewProjects-Project-Name">{name}</List.Header>
-          </Link>
+        <Link to={`/project/done/${id}`}>
+          <List.Header as='a' className="ViewProjects-Project-Name">{name}</List.Header>
+        </Link>
         <List.Description as='a'className="ViewProjects-Project-Date">Start date: {start_date} | Due date: {due_date}</List.Description>
       </List.Content>
     </List.Item>

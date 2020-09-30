@@ -107,8 +107,7 @@ const AddUsersTable = props => {
      ))
   }
 
-  console.log("ADD USERS TABLE:", currentlyAvailable())
-  // console.log("CURRENT PROJECT", props.currentProject)
+  // console.log("ADD USERS TABLE:", currentlyAvailable())
 
   return (
     <>
