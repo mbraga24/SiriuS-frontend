@@ -1,8 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Button, Icon } from 'semantic-ui-react';
-import { ADD_USER_TO_TEMP_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { Table, Button, Icon, Divider } from 'semantic-ui-react';
+import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUsersTable.css';
 
@@ -61,6 +62,25 @@ const AddUsersTable = props => {
     }
   }
 
+  const addCollaborators = () => {
+    props.setOpen(false)
+    const updateProject = {
+      users: addUsersId,
+      projectId: props.currentProject.id
+    }
+    addUserProject(updateProject)
+    .then(data => {
+      // set selected user ids back to an empty array 
+      dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
+      // pass updated project with new users to the redux store for updating
+      dispatch({ type: UPDATE_PROJECT, payload: data.project })
+      // pass each updated user to the redux store for updating
+      for (let user of data.users) {
+        dispatch({ type: UPDATE_USER, payload: user })
+      }
+    })
+  }
+
   const renderCollaborators = () => {
      return currentlyAvailable().map(user => (
       user.available &&
@@ -83,11 +103,12 @@ const AddUsersTable = props => {
               </Button>
             </Table.Cell>
           </Table.Row>
-        ) 
+        )
      ))
   }
 
-  console.log("ADD USERS TABLE:", renderCollaborators())
+  console.log("ADD USERS TABLE:", currentlyAvailable())
+  // console.log("CURRENT PROJECT", props.currentProject)
 
   return (
     <>
@@ -108,8 +129,16 @@ const AddUsersTable = props => {
                       {renderCollaborators()}
                     </Table.Body>
                 </Table>
-                { props.hideButton &&
-                    <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button>
+                <Divider/>
+                { props.button ?
+                  <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button>
+                  :
+                  (
+                    <>
+                      <Button className="NewProject-Submit-Button-Color" onClick={addCollaborators}>Add</Button>
+                      <Button onClick={() => props.setOpen(false)}>Cancel</Button>
+                    </>
+                  )
                 }
               </React.Fragment>
             ) : 

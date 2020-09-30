@@ -6,8 +6,6 @@ import { ADD_DOCUMENT } from '../store/type';
 import { withRouter } from 'react-router-dom';
 import DocumentList from './DocumentList';
 import AddUsersTable from './AddUsersTable';
-import { addUserProject } from '../api';
-import { UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import '../resources/Project.css';
 
 const ShowProject = props => {
@@ -30,16 +28,16 @@ const ShowProject = props => {
     }
   })
   const currentUser = useSelector(state => state.app.keyHolder)
-  const addUsersId = useSelector(state => state.project.addUsersId)
   const dispatch = useDispatch()
   const matchId = parseInt(props.match.params.id)
   const currentProject = projects.data.find(pro => pro.id === matchId)
+
   const [ file, setFile ] = useState(null)
   const [ fileName, setFileName ] = useState("")
   const [ statusCode, setStatusCode ] = useState("")
   const [ loading, setLoading ] = useState(false)
   const [ buttonStatus, setButtonStatus ] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [ open, setOpen ] = useState(false)
   
   // wait 2 seconds and reset loading
   const resetLoading = () => {
@@ -59,11 +57,12 @@ const ShowProject = props => {
 
   const fileUpload = (file, fileName, projectId, userId) => {
     const formData = new FormData();
+    // FormData attributes 
     formData.append("file", file, fileName);
     formData.append("fileName", fileName);
     formData.append("projectId", projectId);
     formData.append("userId", userId);
-
+    
     newDocument(formData)
     .then(r => {
       if (r.ok) {
@@ -77,23 +76,6 @@ const ShowProject = props => {
       setFileName("")
     })
   };
-
-  const addCollaborators = () => {
-    setOpen(false)
-    const updateProject = {
-      users: addUsersId,
-      projectId: currentProject.id
-    }
-    addUserProject(updateProject)
-    .then(data => {
-
-      dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-      dispatch({ type: UPDATE_PROJECT, payload: data.project })
-      for (let user of data.users) {
-        dispatch({ type: UPDATE_USER, payload: user })
-      }
-    })
-  }
 
   const onFormSubmit = e => {
     e.preventDefault(); 
@@ -110,6 +92,9 @@ const ShowProject = props => {
     resetLoading()
   };
 
+  console.log("CURRENT PROJECT", currentProject)
+  console.log("CURRENT PROJECT", currentProject && currentProject.users)
+
   return (
     <Container id="Project-Container">
       { (projects.message && currentProject) && 
@@ -119,7 +104,7 @@ const ShowProject = props => {
         </Segment>
       }
       {
-        currentProject && 
+        currentProject !== undefined && 
           <>
             <Header as='h2' className="Project-Header-Align-Items">
               <span>
@@ -139,15 +124,9 @@ const ShowProject = props => {
                   </Modal.Header>
                   <Modal.Content>
                     <Modal.Description>
-                      <AddUsersTable userType={"currentProject"} hideButton={false}/>
+                      <AddUsersTable userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
                     </Modal.Description>
                   </Modal.Content>
-                  <Modal.Actions>
-                    <Button onClick={() => setOpen(false)}>Cancel</Button>
-                    { false && 
-                      <Button onClick={addCollaborators} positive>Add</Button>
-                    }
-                  </Modal.Actions>
                 </Modal>
               </span>
             </Header>

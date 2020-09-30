@@ -1,5 +1,5 @@
 import React from 'react';
-import { SET_USERS, CLEAR_COMPLETE_PROJECTS } from '../store/type';
+import { UPDATE_USER, CLEAR_COMPLETE_PROJECTS } from '../store/type';
 import { useSelector, useDispatch } from 'react-redux';
 import { Header, Icon, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
@@ -7,29 +7,16 @@ import { clearProjectList } from '../api';
 
 const ProjectHeader = props => {
 
-  const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
-
-  // update users available state =======> FUTURE HELPER <======= 
-  const updateUsers = userProjects => {
-    for (let user of userProjects) {
-      const filteredUsers = users.map(userMap => { 
-        if (userMap.id === user.id) {
-          return user
-        } else {
-          return userMap
-        }
-      })
-      // set users state with the updatedUsers
-      dispatch({ type: SET_USERS, payload: filteredUsers })
-    }
-  }
-
+  
   const clearList = () => {
     clearProjectList()
     .then(data => {
-      // update users available state
-      updateUsers(data.available_users)
+      // console.log("RETURNED AVAILABLE USERS:", data.available_users)
+      // update each user in the redux store
+      for (let user of data.available_users) {
+        dispatch({ type: UPDATE_USER, payload: user })
+      }
       // update projects from the redux store
       dispatch({ type: CLEAR_COMPLETE_PROJECTS })
     })

@@ -6,7 +6,7 @@ import { Container, Form, Header, Icon, Divider } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
 import AddUsersTable from './AddUsersTable';
 import { createProject } from '../api';
-import { SET_USERS, ADD_NEW_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { SET_USERS, ADD_NEW_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import "../resources/NewProject.css";
 
 const NewProject = (props) => {
@@ -21,21 +21,6 @@ const NewProject = (props) => {
 
   const handleDateRangeChange = (name, value) => {
     setDateRange(value)
-  }
-
-  // update users available state =======> FUTURE HELPER <======= 
-  const updateUsers = userProjects => {
-    for (let user of userProjects) {
-      const filteredUsers = users.map(userMap => { 
-        if (userMap.id === user.id) {
-          return user
-        } else {
-          return userMap
-        }
-      })
-      // set users state with the updatedUsers
-      dispatch({ type: SET_USERS, payload: filteredUsers })
-    }
   }
 
   const handleSubmit = e => {
@@ -55,18 +40,15 @@ const NewProject = (props) => {
 
     createProject(newProject)
     .then(data => {
-      if (data.error) {
-        // flash message logic goes here
-        console.log(data.error)
-      } else {
-        // update users available state
-        updateUsers(data.users)
-        // add new project to redux store
-        dispatch({ type: ADD_NEW_PROJECT, payload: data.project })
-        // remove users from temporary s 
-        dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-        props.history.push('/projects')
+      // update each user in the redux store
+      for (let user of data.users) {
+        dispatch({ type: UPDATE_USER, payload: user })  
       }
+      // add new project to redux store
+      dispatch({ type: ADD_NEW_PROJECT, payload: data.project })
+      // remove users from temporary array in the redux store 
+      dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
+      props.history.push('/projects')
     })
   }
 
@@ -102,7 +84,7 @@ const NewProject = (props) => {
               </Header.Content>
             </span>
           </Header>
-          <AddUsersTable userType={"newProject"} hideButton={true}/>
+          <AddUsersTable userType={"newProject"} button={true}/>
         </Form.Field>
         {/* <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button> */}
       </Form>
