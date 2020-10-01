@@ -27,6 +27,11 @@
   color: #ffffff;
 }
 
+#Project-Container .Project-Download-Button-Style {
+  background-color: #e7ff86;
+  color: #000000;
+}
+
 #Project-Container .Project-Spacing-Style {
   margin-top: 20px;
 }

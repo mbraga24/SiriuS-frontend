@@ -5,7 +5,7 @@ export const SET_LOAD = "SET_LOAD"
 // Complete Project Reducer
 export const SET_COMPLETE_PROJECTS = "SET_COMPLETE_PROJECT"
 export const ADD_COMPLETE_PROJECT = "ADD_COMPLETE_PROJECT"
-export const UPDATE_COMPLETE_LIST = "UPDATE_COMPLETE_LIST"
+export const REMOVE_COMPLETE_PROJECT = "REMOVE_COMPLETE_PROJECT"
 
 // Project Reducer
 export const SET_PROJECTS = "SET_PROJECTS"

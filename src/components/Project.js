@@ -11,11 +11,11 @@ const Project = props => {
   const dispatch = useDispatch()
 
   // add project to the complete project list
-  const complete = () => {
+  const handleComplete = () => {
     completeProject(id)
-    .then(completed => {
-      dispatch({ type: ADD_COMPLETE_PROJECT, payload: completed })
-      dispatch({ type: REMOVE_PROJECT, payload: completed })
+    .then(data => {
+      dispatch({ type: ADD_COMPLETE_PROJECT, payload: data.project })
+      dispatch({ type: REMOVE_PROJECT, payload: data.project })
     })
   }
 
@@ -24,7 +24,7 @@ const Project = props => {
       <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
       <List.Content>
         <List.Content floated='right'>
-          <Button className="ViewProjects-Button-Color" onClick={complete}>Done</Button>
+          <Button className="ViewProjects-Button-Color" onClick={handleComplete}>Done</Button>
         </List.Content>
         <List.Content floated='right'>
           <Link to={`/project/${id}`}>

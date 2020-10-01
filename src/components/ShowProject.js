@@ -23,7 +23,7 @@ const ShowProject = props => {
         message: function(date) {
           return `All activities for this project were closed on ${date}`
         },
-        disable: true
+        disabled: true
       }
     }
   })
@@ -77,6 +77,10 @@ const ShowProject = props => {
     })
   };
 
+  const handleDownload = () => {
+    console.log("CLICK")
+  }
+
   const onFormSubmit = e => {
     e.preventDefault(); 
     // upload file to database
@@ -91,9 +95,6 @@ const ShowProject = props => {
     // reset loading to false again
     resetLoading()
   };
-
-  console.log("CURRENT PROJECT", currentProject)
-  console.log("CURRENT PROJECT", currentProject && currentProject.users)
 
   return (
     <Container id="Project-Container">
@@ -114,20 +115,26 @@ const ShowProject = props => {
                 </Header.Content>
               </span>
               <span>
-                <Modal
-                  onClose={() => setOpen(false)}
-                  onOpen={() => setOpen(true)}
-                  open={open}
-                  trigger={<Button className={`Project-Button-Style ${projects.disable && "disabled"}`}> <Icon name='add' />Add Collaborator</Button>}>
-                  <Modal.Header>
-                    <span className="AddUsersTable-Title">Collaborators</span>
-                  </Modal.Header>
-                  <Modal.Content>
-                    <Modal.Description>
-                      <AddUsersTable userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
-                    </Modal.Description>
-                  </Modal.Content>
-                </Modal>
+                { projects.disabled ?
+                  <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Download Project</Button>
+                  :
+                  <Modal
+                    onClose={() => setOpen(false)}
+                    onOpen={() => setOpen(true)}
+                    open={open}
+                    trigger={
+                        <Button className="Project-Button-Style"><Icon name="add"/> Add Collaborator </Button>
+                      }>
+                      <Modal.Header>
+                        <span className="AddUsersTable-Title">Collaborators</span>
+                      </Modal.Header>
+                      <Modal.Content>
+                        <Modal.Description>
+                          <AddUsersTable userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
+                        </Modal.Description>
+                      </Modal.Content>
+                  </Modal>
+                }
               </span>
             </Header>
             <Divider/>
@@ -155,52 +162,54 @@ const ShowProject = props => {
                 </List.Content>
               </List.Item>
             </List>
-            <List.Item className="Project-Items">
-              <Form onSubmit={onFormSubmit} className="Project-Document-Form">
-                <Form.Field>
-                  <label>File input & upload </label>
-                  <Button as="label" htmlFor="file" type="button" animated="fade" className={`Project-Button-Style ${projects.disable && "disabled"}`}>
-                    <Button.Content visible>
-                      <Icon name="file" />
-                    </Button.Content>
-                    <Button.Content hidden>Share New Document</Button.Content>
-                  </Button>
-                  <input
-                    type="file"
-                    id="file"
-                    name="file"
-                    hidden
-                    onChange={fileChange}
-                  />
-                  <Form.Input
-                    fluid
-                    label="File Chosen: "
-                    placeholder="Use the above bar to browse your file system"
-                    readOnly
-                    value={fileName}
-                  />
-                    { !buttonStatus && // if buttonStatus is false display original button and hide it otherwise
-                      <Button className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"} ${!fileName && "disabled"}`} type="submit">
-                        { !loading ? `${"Upload File"}` : `${"Loading"}` }
+              { !projects.disabled &&
+                <List.Item className="Project-Items">
+                  <Form onSubmit={onFormSubmit} className="Project-Document-Form">
+                    <Form.Field>
+                      <label>File input & upload </label>
+                      <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
+                        <Button.Content visible>
+                          <Icon name="file" />
+                        </Button.Content>
+                        <Button.Content hidden>Share New Document</Button.Content>
                       </Button>
-                    }
-                    {
-                      statusCode && statusCode === 200 && buttonStatus ?
-                        (
-                          <Button className="Project-Spacing-Style" color='green'>
-                            File Upload Success
+                      <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        hidden
+                        onChange={fileChange}
+                      />
+                      <Form.Input
+                        fluid
+                        label="File Chosen: "
+                        placeholder="Use the above bar to browse your file system"
+                        readOnly
+                        value={fileName}
+                      />
+                        { !buttonStatus && // if buttonStatus is false display original button and hide it otherwise
+                          <Button className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"} ${!fileName && "disabled"}`} type="submit">
+                            { !loading ? `${"Upload File"}` : `${"Loading"}` }
                           </Button>
-                        )
-                      : statusCode && statusCode === 500 && buttonStatus ?
-                        (
-                          <Button className="Project-Spacing-Style" color='red'>
-                            File Upload Failed
-                          </Button>
-                        ) : null
-                    }
-                </Form.Field>
-              </Form>
-            </List.Item>
+                        }
+                        {
+                          statusCode && statusCode === 200 && buttonStatus ?
+                            (
+                              <Button className="Project-Spacing-Style" color='green'>
+                                File Upload Success
+                              </Button>
+                            )
+                          : statusCode && statusCode === 500 && buttonStatus ?
+                            (
+                              <Button className="Project-Spacing-Style" color='red'>
+                                File Upload Failed
+                              </Button>
+                            ) : null
+                        }
+                    </Form.Field>
+                  </Form>
+                </List.Item>
+              }
             <DocumentList message={"No documents are listed for this project"} icon={"pdf file outline"} />
           </>
       }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button } from 'semantic-ui-react';
 import { deleteProject } from '../api';
-import { UPDATE_USER, UPDATE_COMPLETE_LIST } from '../store/type';
+import { UPDATE_USER, REMOVE_COMPLETE_PROJECT } from '../store/type';
 
 const CompleteProject = props => {
   
@@ -18,10 +18,10 @@ const CompleteProject = props => {
         dispatch({ type: UPDATE_USER, payload: user })
       }
       // update projects from the redux store
-      dispatch({ type: UPDATE_COMPLETE_LIST, payload: data.project })
+      dispatch({ type: REMOVE_COMPLETE_PROJECT, payload: data.projectId })
     })
   }
-
+  
   return  (
     <List.Item className="ViewProjects-List-Item-Complete">
       <List.Icon name='checkmark' size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />

@@ -32,7 +32,7 @@ const ViewProjects = () => {
           { projects.length !== 0 ? renderProjects() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} /> }
         </List>
         <Divider/>
-        <ProjectHeader title={"Done"} action={"none"} iconHeader={"archive"} />
+        <ProjectHeader title={"Arquive"} action={"none"} iconHeader={"archive"} />
         <List divided relaxed size="large">
           { completedProjects.length !== 0 ? renderCompleteProjects() : <MissingAsset message={"There are no past projects at the moment"} icon={"folder open outline"} /> }
         </List>
