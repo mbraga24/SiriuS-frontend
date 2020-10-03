@@ -13,7 +13,7 @@ import ViewProjects from './ViewProjects';
 import NewProject from './NewProject';
 import ViewUserProjects from './ViewUserProjects';
 import ShowProject from './ShowProject';
-import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS } from '../store/type';
+import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 
 const App = () => {
   
@@ -40,6 +40,7 @@ const App = () => {
   useEffect(() => {
     getProjects()
     .then(projectData  => {
+      dispatch({ type: SET_ACTIVE_PROJECTS, payload: projectData })
       dispatch({ type: SET_PROJECTS, payload: projectData })
       dispatch({ type: SET_COMPLETE_PROJECTS, payload: projectData })
     })
@@ -71,7 +72,6 @@ const App = () => {
               <Route path="/users/:id" render={ () => <Account />} />
               <Route exact path="/projects" render={ () => <ViewProjects />} />
               <Route path="/project/:id" render={ () => <ShowProject/>} />
-              <Route path="/project/done/:id" render={ () => <ShowProject/>} />
               <Route path='/user/projects/:id' render={() => <ViewUserProjects />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/admin/:id" render={ () => <Account />} />

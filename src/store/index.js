@@ -1,16 +1,18 @@
 import { createStore, combineReducers } from 'redux';
 import app from './App';
 import project from './Project';
-import document from './Document';
+import activeProject from './ActiveProject';
 import completeProject from './CompleteProject';
+import document from './Document';
 import user from './User';
 
 const rootReducer = combineReducers({
   app,
-  project,
   document,
   user,
-  completeProject
+  project,
+  activeProject,
+  completeProject,
 })
 
 const store = createStore(rootReducer)

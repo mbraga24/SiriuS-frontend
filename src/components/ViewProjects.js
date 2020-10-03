@@ -9,11 +9,13 @@ import '../resources/ViewProjects.css';
 
 const ViewProjects = () => {
 
-  const projects = useSelector(state => state.project.projects)
+  const activeProjects = useSelector(state => state.activeProject.active)
   const completedProjects = useSelector(state => state.completeProject.complete)
+  
+  console.log("VIEW PROJECTS --->", activeProjects)
 
   const renderProjects = () => {
-    return projects.map(project => (
+    return activeProjects.map(project => (
       <Project key={project.id} project={project} />
     ))
   }
@@ -29,7 +31,7 @@ const ViewProjects = () => {
       <Container id="ViewProjects-Container">
         <ProjectHeader title={"Projects"} buttonName={"New Project"} action={"new"} newProject={"/projects/new"} iconButton={"add"} iconHeader={"clipboard list"} />
         <List divided relaxed size="large">
-          { projects.length !== 0 ? renderProjects() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} /> }
+          { activeProjects.length !== 0 ? renderProjects() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} /> }
         </List>
         <Divider/>
         <ProjectHeader title={"Arquive"} action={"none"} iconHeader={"archive"} />

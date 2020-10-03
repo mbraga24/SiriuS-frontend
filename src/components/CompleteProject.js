@@ -30,7 +30,7 @@ const CompleteProject = props => {
             <Button className="ViewProjects-Button-Color-Delete" onClick={handleDelete}>Delete</Button>        
         </List.Content>
         <List.Content floated='right'>
-          <Link to={`/project/done/${id}`}>
+          <Link to={`/project/${id}`}>
             <Button className="ViewProjects-Button-Color">Details</Button>
           </Link>
         </List.Content>

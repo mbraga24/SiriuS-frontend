@@ -8,10 +8,11 @@ const store = (state = defaultState, action) => {
   switch(action.type) {
     case SET_COMPLETE_PROJECTS:
       // all true values
-      const filteredList =  action.payload.filter(project => project.done) 
+      const projectDone =  action.payload.filter(project => project.done) 
+      // console.log("SET COMPLETE PROJECTS:", projectDone)
       return {
         ...state,
-        complete: [...filteredList]
+        complete: [...projectDone]
       }
     case REMOVE_COMPLETE_PROJECT:
       const updatedList = state.complete.filter(project => project.id !== action.payload)

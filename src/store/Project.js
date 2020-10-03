@@ -1,18 +1,16 @@
-import { SET_PROJECTS, ADD_NEW_PROJECT, REMOVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT } from './type';
+import { SET_PROJECTS, ADD_NEW_PROJECT, REMOVE_PROJECT, UPDATE_PROJECT } from './type';
 
 const defaultState = {
-  projects: [],
-  addUsersId: []
+  projects: []
 }
 
 const reducer = (state = defaultState, action) => {
-  // console.log("INSIDE PROJECT REDUCER:", action.payload)
   switch(action.type) {
     case SET_PROJECTS:
-      const projectList = action.payload.filter(project => !project.done)
+      // console.log("SET PROJECTS:", action.payload)
       return {
         ...state,
-        projects: [...projectList]
+        projects: [...action.payload]
       }
     case ADD_NEW_PROJECT:
       return {
@@ -38,16 +36,6 @@ const reducer = (state = defaultState, action) => {
         ...state,
         projects: [...filteredList]
       }
-    case ADD_USER_TO_TEMP_PROJECT:
-    return {
-      ...state,
-      addUsersId: [...state.addUsersId, action.payload]
-    }
-    case REMOVE_USER_FROM_TEMP_PROJECT:
-    return {
-      ...state,
-      addUsersId: [...action.payload]
-    }
     default:
       return state
   }

@@ -1,3 +1,8 @@
+#Project-Container {
+  height: 100vh;
+  /* width: 50vw; */
+}
+
 #Project-Container .Project-Header-Align-Items {
   display: flex;
   justify-content: space-between;

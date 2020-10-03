@@ -8,14 +8,12 @@ import store from './store';
 import App from './components/App';
 
 ReactDOM.render(
+  <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>,
+        <Router>
+          <App />
+        </Router>
+    </Provider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
-
-// ========================> CONCEPTS <============================
-// 1) Provider wraps around Router and App
-// ===============================================================
