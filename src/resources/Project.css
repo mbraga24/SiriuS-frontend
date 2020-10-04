@@ -1,6 +1,5 @@
 #Project-Container {
-  height: 100vh;
-  /* width: 50vw; */
+  height: 100%;
 }
 
 #Project-Container .Project-Header-Align-Items {
@@ -48,6 +47,15 @@
 #Project-Container .Project-Items {
   padding: 15px 0;
   color: #79589f;
+}
+
+.Hidden {
+  display: none;
+}
+
+.Next-Line {
+  padding-top: 12px; 
+  padding-bottom: 12px; 
 }
 
 #Project-Container .Project-Items-Disabled {

@@ -76,36 +76,35 @@ const ShowProject = props => {
     })
   };
 
-  const pxToMm = (px) => {
-    return Math.floor(px/document.getElementById('myMm').offsetHeight);
-  };
+  const handleDownload = () => {
+    // const input = document.getElementById("Project-Details")
+    // let pdf; 
 
-  const downloadPdf = () => {
-    // console.log("PDF")
-    const input = document.getElementById("Project-Container")
-    // console.log("input", input)
-    // console.log("offsetHeight --->", input.offsetHeight)
-    const inputHeightMm = pxToMm(input.offsetHeight);
-    const a4HeightMm = 210; 
-    const a4WidthMm = 297; 
+    // html2canvas(input)
+    // .then((canvas) => {
+    //   const imgData = canvas.toDataURL('image/png');
+    //   pdf = new jsPDF();
+    //   pdf.addImage(imgData, 'JPEG', 20, 20);
+    //   pdf.save(`${currentProject.name}.pdf`);
+    //   console.log("MY PDF --->", pdf)
+    // });
 
-    html2canvas(input)
-    .then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      let pdf;
-      // Document of a4WidthMm wide and inputHeightMm high
-      if (inputHeightMm < a4HeightMm) {
-        // elongated a4 (system print dialog will handle page breaks)
-        pdf = new jsPDF('p', 'mm', [inputHeightMm, a4WidthMm+32]);
-        // console.log("PDF--- if ---->", pdf)
-      } else {
-        // standard a4
-        pdf = new jsPDF();
+    fetch(`http://localhost:3000/download/${currentProject.id}`, {
+      method: "GET",
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'disposition': "attachment"
       }
-      // console.log("PDF------>", pdf)
-      pdf.addImage(imgData, 'PNG', 0, 0);
-      pdf.save(`${currentProject.name}.pdf`);
-    });
+    })
+    .then(r => {
+      const data = r.text()
+      console.log("DATA --->", data)
+      return data
+    })
+    .then(data => {
+      console.log(data)
+    })
   }
 
   const onFormSubmit = e => {
@@ -122,9 +121,6 @@ const ShowProject = props => {
     // reset loading to false again
     resetLoading()
   };
-
-  console.log("ISCOMPLETE --->", currentProject && currentProject)
-  console.log("ISCOMPLETE --->", isComplete)
 
   return (
       <>
@@ -143,14 +139,14 @@ const ShowProject = props => {
                   <span>
                     <Icon name='clipboard list' size="large" className="Project-Icon-Color"/>
                     <Header.Content>
-                      <span className="Project-Title">Project: {currentProject.name}</span>
+                      <span className="Project-Title">Project</span>
                     </Header.Content>
                   </span>
                   <span>
                     { projects.disabled ?
                       <>
                         {/* <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Download Project</Button> */}
-                        <Button className="Project-Download-Button-Style" onClick={downloadPdf}><Icon name="download"/>Download PDF</Button>
+                        <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Download PDF</Button>
                       </>
                       :
                       <Modal
@@ -173,7 +169,11 @@ const ShowProject = props => {
                   </span>
                 </Header>
                 <Divider/>
-                <List divided className="Project-List">
+                <List divided className="Project-List" id="Project-Details">
+                  <List.Item className="Project-Items Hidden">
+                    <List.Icon name='clipboard list' size="large"/>
+                    <List.Content>Title: <div className="Project-Title Next-Line">{currentProject.name}</div></List.Content>
+                  </List.Item>
                   <List.Item className="Project-Items">
                     <List.Icon name='file alternate' size="large"/>
                     <List.Content>Description: <span className="Project-Description-Text">{currentProject.description}</span></List.Content>
