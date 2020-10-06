@@ -13,6 +13,7 @@ import '../resources/Project.css';
 const ProjectDetails = props => {
 
   const dispatch = useDispatch()
+  const keyHolder = useSelector(state => state.app.keyHolder)
   const currentUser = useSelector(state => state.app.keyHolder)
   const projectData = useSelector(state => state.project.projects)
   const matchId = parseInt(props.match.params.id)
@@ -150,7 +151,7 @@ const ProjectDetails = props => {
                           <Button className={`Project-Download-Button-Style ${loading && "loading"}`} onClick={resetButton}><Icon name="download"/><a href={downloadLink}>{ !loading && `${"Download Project"}`}</a></Button>
                         }                        
                       </>
-                      :
+                      : keyHolder.admin &&
                       <Modal
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}

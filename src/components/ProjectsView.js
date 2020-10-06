@@ -8,6 +8,7 @@ import '../resources/ViewProjects.css';
 
 const ProjectsView = () => {
 
+  const keyHolder = useSelector(state => state.app.keyHolder)
   const activeProjects = useSelector(state => state.activeProject.active)
   const completeProjects = useSelector(state => state.completeProject.complete)
 
@@ -21,7 +22,8 @@ const ProjectsView = () => {
       btnName={"Done"}
       linkTo={"/project/"}
       icon={"puzzle piece"}
-      project={project} />
+      project={project} 
+      admin={keyHolder.admin} />
     ))
   }
 
@@ -42,15 +44,19 @@ const ProjectsView = () => {
   return (
     <>
       <Container id="ViewProjects-Container">
-        <ProjectHeader title={"Projects"} buttonName={"New Project"} action={"new"} newProject={"/projects/new"} iconButton={"add"} iconHeader={"clipboard list"} />
+        <ProjectHeader admin={keyHolder.admin} title={"Projects"} buttonName={"New Project"} action={"new"} newProject={"/projects/new"} iconButton={"add"} iconHeader={"clipboard list"} />
         <List divided relaxed size="large">
           { activeProjects.length !== 0 ? renderActive() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} /> }
         </List>
         <Divider/>
-        <ProjectHeader title={"Arquive"} action={"none"} iconHeader={"archive"} />
-        <List divided relaxed size="large">
-          { completeProjects.length !== 0 ? renderComplete() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} /> }
-        </List>
+        { keyHolder.admin && 
+          <>
+            <ProjectHeader title={"Arquive"} action={"none"} iconHeader={"archive"} />
+            <List divided relaxed size="large">
+              { completeProjects.length !== 0 ? renderComplete() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} /> }
+            </List>
+          </>
+        }
       </Container>
     </>
   )

@@ -36,9 +36,11 @@ const Project = props => {
     <List.Item className={props.listClass}>
       <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
       <List.Content>
-        <List.Content floated='right'>
-          <Button className={`${props.btnClass}`} onClick={props.active ? handleComplete : handleDelete}>{props.btnName}</Button>
-        </List.Content>
+        { props.admin && 
+          <List.Content floated='right'>
+            <Button className={`${props.btnClass}`} onClick={props.active ? handleComplete : handleDelete}>{props.btnName}</Button>
+          </List.Content>
+        }
         <List.Content floated='right'>
           <Link to={`/project/${id}`}>
             <Button className="ViewProjects-Button-Color">Details</Button>

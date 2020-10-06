@@ -10,6 +10,7 @@ import '../resources/ViewUsers.css';
 const UserList = () => {
 
   const users = useSelector(state => state.user.users)
+  const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
 
   const removeUser = userId => {
@@ -24,23 +25,28 @@ const UserList = () => {
   }
 
   const renderRows = () => {
-    return users.map(user => (
-      
-      <Table.Row key={user.id}>
-        <Table.Cell>{user.first_name}</Table.Cell>
-        <Table.Cell>{user.last_name}</Table.Cell>
-        <Table.Cell>{user.email}</Table.Cell>
-        <Table.Cell>{user.job_title}</Table.Cell>
-        <Table.Cell textAlign='center'>
-          <Link to={`/user/projects/${user.id}`}> 
-            <Icon name='user' size="large" className="ViewUsers-Icon-Color"/>
-          </Link>
-        </Table.Cell>
-        <Table.Cell textAlign='center'>
-          <Icon name='delete' size="large" className="ViewUsers-Icon-Color" onClick={() => removeUser(user.id)} />
-        </Table.Cell>
-      </Table.Row>
-    ))
+    return users.map(user => {
+      return (user.id !== keyHolder.id) ? (
+                <Table.Row key={user.id}>
+                  <Table.Cell>{user.first_name}</Table.Cell>
+                  <Table.Cell>{user.last_name}</Table.Cell>
+                  <Table.Cell>{user.email}</Table.Cell>
+                  <Table.Cell>{user.job_title}</Table.Cell>
+                  { keyHolder.admin && 
+                    <>
+                      <Table.Cell textAlign='center'>
+                        <Link to={`/user/projects/${user.id}`}> 
+                          <Icon name='user' size="large" className="ViewUsers-Icon-Color"/>
+                        </Link>
+                      </Table.Cell>
+                      <Table.Cell textAlign='center'>
+                        <Icon name='delete' size="large" className="ViewUsers-Icon-Color" onClick={() => removeUser(user.id)} />
+                      </Table.Cell>
+                    </>
+                  }
+                </Table.Row>
+              ) : null
+    })
   }
   return (
     <Container id="ViewUsers-Container">
@@ -51,13 +57,15 @@ const UserList = () => {
             <span className="ViewUsers-Title">Collaborators</span>
           </Header.Content>
         </span>
-        <span>
-          {/* attribute: disabled */}
-          <Button className="ViewUsers-Button-Invite-User" disabled>
-            <Icon name='add' /> 
-            Invite Collaborator
-          </Button>
-        </span>
+        {
+          keyHolder.admin && 
+          <span>
+            <Button className="ViewUsers-Button-Invite-User" disabled>
+              <Icon name='add' /> 
+              Invite Collaborator
+            </Button>
+          </span>
+        }
       </Header>
       <Divider/>
       <Table celled structured>
@@ -67,8 +75,13 @@ const UserList = () => {
           <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
           <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
           <Table.HeaderCell rowSpan='2'>Job Title</Table.HeaderCell>
-          <Table.HeaderCell rowSpan='1'>History</Table.HeaderCell>
-          <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell>
+          {
+            keyHolder.admin &&
+            <>
+              <Table.HeaderCell rowSpan='1'>History</Table.HeaderCell>
+              <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell> 
+            </>
+          }
         </Table.Row>
         </Table.Header>
           {users && renderRows()}

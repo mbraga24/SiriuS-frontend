@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeProjectFromUser } from '../api';
@@ -10,6 +10,7 @@ import MissingAsset from './MissingAsset';
 
 const UserHistory = (props) => {
   
+  const keyHolder = useSelector(state => state.app.keyHolder)
   const projects = useSelector(state => state.project.projects)
   const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
@@ -40,14 +41,18 @@ const UserHistory = (props) => {
   }
 
   const renderProjects = () => {
-    return filteredProjects() && filteredProjects().map(project => (
-      <List.Item key={project.id} className="ViewUserProjects-List-Item">
-        <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewUserProjects-Icon-Color" />
+    return filteredProjects().map(project => (
+      <List.Item key={project.id} className={`ViewUserProjects-List-Item ${project.done && "Complete-Project"}`}>
+        <List.Icon name={`${project.done ? "check circle" : "puzzle piece"}`} size='large' verticalAlign='middle' className="ViewUserProjects-Icon-Color" />
         <List.Content>
-          <List.Content floated='right'>
-            <Button className="ViewUserProjects-Button-Color" onClick={() => removeProject(thisUser.id, project.id)}>Remove Project</Button>
-          </List.Content>
-          <List.Header as='a' className="ViewUserProjects-Project-Name">{project.name}</List.Header>
+          { keyHolder.admin && 
+            <List.Content floated='right'>
+              <Button className="ViewUserProjects-Button-Color" onClick={() => removeProject(thisUser.id, project.id)}>Remove Project</Button>
+            </List.Content>
+          }
+          <Link to={`/project/${project.id}`}>
+            <List.Header as='a' className="ViewUserProjects-Project-Name">{project.name}</List.Header>
+          </Link>
           <List.Description as='a'className="ViewUserProjects-Project-Date">Start date: {project.start_date} | Due date: {project.due_date}</List.Description>
         </List.Content>
       </List.Item>
@@ -64,7 +69,7 @@ const UserHistory = (props) => {
             <span>
               <Icon name='user' size="large" className="ViewUserProjects-Icon-Color"/>
               <Header.Content>
-                <span className="ViewUserProjects-Title">History: {thisUser.first_name} {thisUser.last_name}</span>
+                <span className="ViewUserProjects-Title">{thisUser.first_name} {thisUser.last_name}</span>
               </Header.Content>
             </span>
           </Header>

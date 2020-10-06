@@ -5,7 +5,7 @@ import { Dropdown, Menu, Button, Icon, Popup } from 'semantic-ui-react';
 import '../resources/Header.css';
 import { SET_KEY_HOLDER } from '../store/type';
 
-const Header = (props) => {
+const Header = (props) => { 
 
   const style = {
     borderRadius: 0,
@@ -14,7 +14,7 @@ const Header = (props) => {
   }
   const chatFeatureMessage = "'Siri-me that list later today!' You'll be saying that soon! We're excited about our new chat feature. Our engineers are working around the clock so users can chat in real-time."
 
-  // retrieve keyHolder from state
+  // retrieve keyHolder from store
   const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
 
@@ -33,32 +33,53 @@ const Header = (props) => {
     body.classList.add("bg-color-signed-in");
   }
 
+  // console.log("KEY HOLDER - HEADERS --->", keyHolder)
+
   return(
     <>
       <Menu id="Header-Container">
         <Menu.Item as={Link} to={keyHolder.admin ? `/admin/${keyHolder.id}` : `/users/${keyHolder.id}`} className="Header-Font-Color">
           Account
         </Menu.Item>
-        <Dropdown item text='Collaborators' className="Header-Font-Color">
+          { keyHolder.admin ?
+            <Dropdown item text='Collaborators' className="Header-Font-Color">
+              <Dropdown.Menu>
+                { keyHolder.admin && 
+                  <Dropdown.Item>
+                    <span className="Header-Font-Color">Invite</span>
+                  </Dropdown.Item>
+                }
+                <Dropdown.Item as={Link} to='/users'>
+                  <span className="Header-Font-Color">Users List</span>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            :
+            <Menu.Item as={Link} to={`/user/projects/${keyHolder.id}`} className="Header-Font-Color">
+              History
+            </Menu.Item>
+          }
+          <Dropdown item text={keyHolder.admin ? "Projects" : "More"} className="Header-Font-Color">
+          { keyHolder.admin ?
             <Dropdown.Menu>
-              <Dropdown.Item>
-                <span className="Header-Font-Color">Invite</span>
+              <Dropdown.Item as={Link} to='/projects' >
+                <span className="Header-Font-Color">Projects List</span>
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to='/users'>
-                <span className="Header-Font-Color">View Users List</span>
+              <Dropdown.Item as={Link} to='/projects/new' >
+                <span className="Header-Font-Color">Create Project</span>
               </Dropdown.Item>
             </Dropdown.Menu>
+            :
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to='/projects' >
+                <span className="Header-Font-Color">Projects List</span>
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to='/users' >
+                <span className="Header-Font-Color">Collaborators</span>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          }
           </Dropdown>
-          <Dropdown item text='Projects' className="Header-Font-Color">
-          <Dropdown.Menu>
-            <Dropdown.Item as={Link} to='/projects/new' >
-              <span className="Header-Font-Color">Create Project</span>
-            </Dropdown.Item>
-            <Dropdown.Item as={Link} to='/projects' >
-              <span className="Header-Font-Color">View Projects List</span>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
         <Menu.Item className="Header-Font-Color" disabled>
           <Popup
             trigger={<Icon name='discussions' className="Header-Chat"/>}

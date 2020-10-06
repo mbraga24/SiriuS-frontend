@@ -12,7 +12,7 @@ const ProjectHeader = props => {
           <span className="ViewProjects-Title">{props.title}</span>
         </Header.Content>
       </span>
-      { props.action !== "none" &&
+      { (props.action !== "none" && props.admin) &&
         <span>
           <Link to={props.action === "new" && `${props.newProject}`}>
             <Button className="ViewProjects-Button-Create-Project" >
