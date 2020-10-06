@@ -7,7 +7,7 @@ import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER } from '../store/typ
 import '../resources/ViewUsers.css';
 
 
-const ViewUsers = () => {
+const UserList = () => {
 
   const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
@@ -77,4 +77,4 @@ const ViewUsers = () => {
   )
 }
 
-export default ViewUsers;
+export default UserList;

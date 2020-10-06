@@ -7,7 +7,7 @@ import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/typ
 import '../resources/ViewUserProjects.css';
 import DocumentList from './DocumentList';
 
-const ViewUserProjects = (props) => {
+const UserProjects = (props) => {
   
   const projects = useSelector(state => state.project.projects)
   const users = useSelector(state => state.user.users)
@@ -79,4 +79,4 @@ const ViewUserProjects = (props) => {
   )
 }
 
-export default withRouter(ViewUserProjects);
+export default withRouter(UserProjects);

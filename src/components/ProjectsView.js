@@ -6,7 +6,7 @@ import ProjectHeader from './ProjectHeader';
 import MissingAsset from './MissingAsset';
 import '../resources/ViewProjects.css';
 
-const ViewProjects = () => {
+const ProjectsView = () => {
 
   const activeProjects = useSelector(state => state.activeProject.active)
   const completeProjects = useSelector(state => state.completeProject.complete)
@@ -54,4 +54,4 @@ const ViewProjects = () => {
   )
 }
 
-export default ViewProjects;
+export default ProjectsView;

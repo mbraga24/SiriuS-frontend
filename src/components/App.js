@@ -5,13 +5,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn, getProjects, getUsers, getDocuments } from '../api';
 import Header from './Header';
 import Home from './Home';
-import ViewUsers from './ViewUsers';
+import UserList from './UserList';
 import Login from './Login';
 import Signup from './Signup';
 import Account from './Account';
-import ViewProjects from './ViewProjects';
+import ProjectsView from './ProjectsView';
 import NewProject from './NewProject';
-import ViewUserProjects from './ViewUserProjects';
+import UserProjects from './UserProjects';
 import ShowProject from './ShowProject';
 import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 
@@ -68,11 +68,11 @@ const App = () => {
       <Switch>
         { keyHolder && (
             <>
-              <Route exact path="/users" render={ () => <ViewUsers hide={false} />} />
+              <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
-              <Route exact path="/projects" render={ () => <ViewProjects />} />
+              <Route exact path="/projects" render={ () => <ProjectsView />} />
               <Route path="/project/:id" render={ () => <ShowProject/>} />
-              <Route path='/user/projects/:id' render={() => <ViewUserProjects />} />
+              <Route path='/user/projects/:id' render={() => <UserProjects />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/admin/:id" render={ () => <Account />} />
             </>
