@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
 import { Container, Form, Header, Icon, Divider } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
-import AddUsersTable from './AddUsersTable';
+import AddUserList from './AddUserList';
 import { createProject } from '../api';
 import { ADD_PROJECT, ADD_ACTIVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import "../resources/NewProject.css";
@@ -85,7 +85,7 @@ const NewProject = (props) => {
               </Header.Content>
             </span>
           </Header>
-          <AddUsersTable userType={"newProject"} button={true}/>
+          <AddUserList userType={"newProject"} button={true}/>
         </Form.Field>
         {/* <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button> */}
       </Form>

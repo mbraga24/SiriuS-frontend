@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import html2canvas from 'html2canvas'; // => install html2canvas
 import jsPDF from 'jspdf'; // => install jspdf
 import DocumentList from './DocumentList';
-import AddUsersTable from './AddUsersTable';
+import AddUserList from './AddUserList';
 import '../resources/Project.css';
 
 const ShowProject = props => {
@@ -163,7 +163,7 @@ const ShowProject = props => {
                           </Modal.Header>
                           <Modal.Content>
                             <Modal.Description>
-                              <AddUsersTable userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
+                              <AddUserList userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
                             </Modal.Description>
                           </Modal.Content>
                       </Modal>

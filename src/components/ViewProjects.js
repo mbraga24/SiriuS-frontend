@@ -25,7 +25,7 @@ const ViewProjects = () => {
   }
 
   const renderComplete = () => {
-    return completedProjects.map(project => (
+    return completeProjects.map(project => (
       <Project 
         key={project.id}
         active={false}

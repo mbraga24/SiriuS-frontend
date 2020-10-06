@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeProjectFromUser } from '../api';
-import { UPDATE_USER } from '../store/type';
+import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
 import '../resources/ViewUserProjects.css';
 import DocumentList from './DocumentList';
 
@@ -23,8 +23,11 @@ const ViewUserProjects = (props) => {
 
   const removeProject = (userId, projectId) => {
     removeProjectFromUser(userId, projectId)
-    .then(updateUser => {
-      dispatch({ type: UPDATE_USER, payload: updateUser }) 
+    .then(data => {
+      console.log(data)
+      dispatch({ type: UPDATE_USER, payload: data.user }) 
+      dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: data.project }) 
+      dispatch({ type: UPDATE_PROJECT, payload: data.project }) 
     })
   }
 

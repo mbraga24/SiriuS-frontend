@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Table, Container, Header, Button, Divider } from 'semantic-ui-react';
 import { deleteUser } from '../api';
-import { REMOVE_USER } from '../store/type';
+import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER } from '../store/type';
 import '../resources/ViewUsers.css';
 
 
@@ -14,8 +14,12 @@ const ViewUsers = () => {
 
   const removeUser = userId => {
     deleteUser(userId)
-    .then(deletedUser => {
-      dispatch({ type: REMOVE_USER, payload: deletedUser })
+    .then(data => {
+      dispatch({ type: REMOVE_USER, payload: data.user })
+      for (let project of data.projects) {
+        dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: project })
+        dispatch({ type: UPDATE_PROJECT, payload: project })
+      }
     })
   }
 
