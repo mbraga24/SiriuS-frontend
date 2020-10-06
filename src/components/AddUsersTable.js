@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon, Divider } from 'semantic-ui-react';
-import { ADD_USER_TO_TEMP_PROJECT, UPDATE_ACTIVE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_ACTIVE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUsersTable.css';
@@ -70,11 +70,17 @@ const AddUsersTable = props => {
     }
     addUserProject(updateProject)
     .then(data => {
+      console.log("------ ADD USERS TABLE -----")
+      console.log("USERS ----->", data.users)
+      console.log("PROJECT ----->", data.project)
+
       // set selected user ids back to an empty array 
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-      // pass updated project with new users to the redux store for updating
+      // pass in updated active project with new users to the redux store
+      dispatch({ type: UPDATE_PROJECT, payload: data.project })
+      // pass in updated project with new users to the redux store
       dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: data.project })
-      // pass each updated user to the redux store for updating
+      // pass each updated user to the redux store
       for (let user of data.users) {
         dispatch({ type: UPDATE_USER, payload: user })
       }
@@ -106,8 +112,6 @@ const AddUsersTable = props => {
         )
      ))
   }
-
-  // console.log("ADD USERS TABLE:", currentlyAvailable())
 
   return (
     <>
