@@ -2,8 +2,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button } from 'semantic-ui-react';
-import { completeProject } from '../api';
-import { ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
+import { completeProject, deleteProject } from '../api';
+import { ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_COMPLETE_PROJECT } from '../store/type';
 
 const Project = props => {
 
@@ -20,19 +20,39 @@ const Project = props => {
     })
   }
 
+  const handleDelete = () => {
+    deleteProject(id)
+    .then(data => {
+      // update each user in the redux store
+      for (let user of data.users) {
+        dispatch({ type: UPDATE_USER, payload: user })
+      }
+      // update projects from the redux store
+      dispatch({ type: REMOVE_COMPLETE_PROJECT, payload: data.projectId })
+    })
+  }
+
+  console.log("LINK ---> ", props.linkTo)
+
+//  active project 
+//   buttons - Done 
+//           - Details
+//   button Class - ViewProjects-Button-Color
+//   Link - '/project/${id}'
+
   return (
-    <List.Item className="ViewProjects-List-Item">
+    <List.Item className={props.listClass}>
       <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
       <List.Content>
         <List.Content floated='right'>
-          <Button className="ViewProjects-Button-Color" onClick={handleComplete}>Done</Button>
+          <Button className={`${props.btnClass}`} onClick={props.active ? handleComplete : handleDelete}>{props.btnName}</Button>
         </List.Content>
         <List.Content floated='right'>
           <Link to={`/project/${id}`}>
             <Button className="ViewProjects-Button-Color">Details</Button>
           </Link>
         </List.Content>
-          <Link to={`/project/${id}`}>
+          <Link to={`${props.linkTo}${id}`}>
             <List.Header as='a' className="ViewProjects-Project-Name">{name}</List.Header>
           </Link>
         <List.Description as='a'className="ViewProjects-Project-Date">Start date: {start_date} | Due date: {due_date}</List.Description>

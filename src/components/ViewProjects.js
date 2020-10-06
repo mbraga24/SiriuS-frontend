@@ -2,7 +2,6 @@ import React from 'react';
 import { Container, List, Divider } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import Project from './Project';
-import CompleteProject from './CompleteProject';
 import ProjectHeader from './ProjectHeader';
 import MissingAsset from './MissingAsset';
 import '../resources/ViewProjects.css';
@@ -14,13 +13,27 @@ const ViewProjects = () => {
 
   const renderActiveProjects = () => {
     return activeProjects.map(project => (
-      <Project key={project.id} project={project} />
+      <Project 
+      key={project.id} 
+      active={true}
+      btnClass={"ViewProjects-Button-Color"} 
+      listClass={"ViewProjects-List-Item"} 
+      btnName={"Done"}
+      linkTo={"/project/"}
+      project={project} />
     ))
   }
 
   const renderCompleteProjects = () => {
     return completedProjects.map(project => (
-      <CompleteProject key={project.id} project={project} />
+      <Project 
+        key={project.id}
+        active={false}
+        btnClass={"ViewProjects-Button-Color-Delete"} 
+        listClass={"ViewProjects-List-Item-Complete"} 
+        btnName={"Delete"}
+        linkTo={"/project/done/"}
+        project={project} />
     ))
   }
   

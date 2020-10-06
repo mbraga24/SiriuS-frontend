@@ -7,7 +7,6 @@ const defaultState = {
 const reducer = (state = defaultState, action) => {
   switch(action.type) {
     case SET_PROJECTS:
-      // console.log("SET PROJECTS:", action.payload)
       return {
         ...state,
         projects: [...action.payload]
