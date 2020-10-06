@@ -32,14 +32,6 @@ const Project = props => {
     })
   }
 
-  console.log("LINK ---> ", props.linkTo)
-
-//  active project 
-//   buttons - Done 
-//           - Details
-//   button Class - ViewProjects-Button-Color
-//   Link - '/project/${id}'
-
   return (
     <List.Item className={props.listClass}>
       <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />

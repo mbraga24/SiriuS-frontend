@@ -9,9 +9,9 @@ import '../resources/ViewProjects.css';
 const ViewProjects = () => {
 
   const activeProjects = useSelector(state => state.activeProject.active)
-  const completedProjects = useSelector(state => state.completeProject.complete)
+  const completeProjects = useSelector(state => state.completeProject.complete)
 
-  const renderActiveProjects = () => {
+  const renderActive = () => {
     return activeProjects.map(project => (
       <Project 
       key={project.id} 
@@ -24,7 +24,7 @@ const ViewProjects = () => {
     ))
   }
 
-  const renderCompleteProjects = () => {
+  const renderComplete = () => {
     return completedProjects.map(project => (
       <Project 
         key={project.id}
@@ -42,12 +42,12 @@ const ViewProjects = () => {
       <Container id="ViewProjects-Container">
         <ProjectHeader title={"Projects"} buttonName={"New Project"} action={"new"} newProject={"/projects/new"} iconButton={"add"} iconHeader={"clipboard list"} />
         <List divided relaxed size="large">
-          { activeProjects.length !== 0 ? renderActiveProjects() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} /> }
+          { activeProjects.length !== 0 ? renderActive() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} /> }
         </List>
         <Divider/>
         <ProjectHeader title={"Arquive"} action={"none"} iconHeader={"archive"} />
         <List divided relaxed size="large">
-          { completedProjects.length !== 0 ? renderCompleteProjects() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} /> }
+          { completeProjects.length !== 0 ? renderComplete() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} /> }
         </List>
       </Container>
     </>
