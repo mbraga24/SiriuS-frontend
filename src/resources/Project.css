@@ -33,7 +33,13 @@
 
 #Project-Container .Project-Download-Button-Style {
   background-color: #e7ff86;
+  width: 180px;
   color: #000000;
+}
+
+#Project-Container .Project-Download-Button-Style a {
+  color: #000000;
+  text-decoration: none;
 }
 
 #Project-Container .Project-Spacing-Style {

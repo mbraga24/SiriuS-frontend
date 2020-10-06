@@ -10,12 +10,6 @@ import DocumentList from './DocumentList';
 import AddUsersTable from './AddUsersTable';
 import '../resources/Project.css';
 
-// =======================================================
-// 1) COMPONENT IS RENDERING TWICE
-// 2) READ MORE ON html2canvas
-// 3) SEARCH MORE ABOUT DOWNLOAD REACT COMPONENTS AS PDF
-// =======================================================
-
 const ShowProject = props => {
 
   const dispatch = useDispatch()
@@ -37,6 +31,7 @@ const ShowProject = props => {
   const [ loading, setLoading ] = useState(false)
   const [ buttonStatus, setButtonStatus ] = useState(false)
   const [ open, setOpen ] = useState(false)
+  const [ downloadLink, setDownloadLink ] = useState("")
 
   // wait 2 seconds and reset loading
   const resetLoading = () => {
@@ -76,35 +71,37 @@ const ShowProject = props => {
     })
   };
 
+  const resetButton = () => {
+    setButtonStatus(false)
+  }
+
   const handleDownload = () => {
-    // const input = document.getElementById("Project-Details")
-    // let pdf; 
+    setButtonStatus(true)
+    setLoading(true)
 
-    // html2canvas(input)
-    // .then((canvas) => {
-    //   const imgData = canvas.toDataURL('image/png');
-    //   pdf = new jsPDF();
-    //   pdf.addImage(imgData, 'JPEG', 20, 20);
-    //   pdf.save(`${currentProject.name}.pdf`);
-    //   console.log("MY PDF --->", pdf)
-    // });
+    setTimeout(function() { 
+      setButtonStatus(true) 
+      resetLoading()
+    }, 1000)
 
+    // create PDF of the project page with html2canvas and jsPDF
+    const input = document.getElementById("Project-Details")
+    html2canvas(input)
+    .then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      let pdf = new jsPDF();
+      pdf.addImage(imgData, 'JPEG', 20, 20);
+      pdf.save(`${currentProject.name}.pdf`);
+    });
+
+    // download zip file of a .json file with all the projects attributes
     fetch(`http://localhost:3000/download/${currentProject.id}`, {
-      method: "GET",
       headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'disposition': "attachment"
+        'Content-Type': 'application/json'
       }
     })
-    .then(r => {
-      const data = r.text()
-      console.log("DATA --->", data)
-      return data
-    })
-    .then(data => {
-      console.log(data)
-    })
+    .then(response => response)
+    .then(data => setDownloadLink(data.url))
   }
 
   const onFormSubmit = e => {
@@ -114,7 +111,7 @@ const ShowProject = props => {
     // set loading to true
     setLoading(true)
     // wait 2 seconds to set buttonStatus to true and reset buttonStatus to false again
-    setTimeout(function(){ 
+    setTimeout(function() { 
       setButtonStatus(true) 
       resetButtonStatus()
     }, 1000)
@@ -145,8 +142,12 @@ const ShowProject = props => {
                   <span>
                     { projects.disabled ?
                       <>
-                        {/* <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Download Project</Button> */}
-                        <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Download PDF</Button>
+                        {
+                          !buttonStatus ? 
+                          <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Back Up Project</Button>
+                          :
+                          <Button className={`Project-Download-Button-Style ${loading && "loading"}`} onClick={resetButton}><Icon name="download"/><a href={downloadLink}>{ !loading && `${"Download Project"}`}</a></Button>
+                        }                        
                       </>
                       :
                       <Modal
