@@ -34,7 +34,7 @@ const Project = props => {
 
   return (
     <List.Item className={props.listClass}>
-      <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
+      <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
       <List.Content>
         <List.Content floated='right'>
           <Button className={`${props.btnClass}`} onClick={props.active ? handleComplete : handleDelete}>{props.btnName}</Button>
@@ -44,7 +44,7 @@ const Project = props => {
             <Button className="ViewProjects-Button-Color">Details</Button>
           </Link>
         </List.Content>
-          <Link to={`${props.linkTo}${id}`}>
+          <Link to={`/project/${id}`}>
             <List.Header as='a' className="ViewProjects-Project-Name">{name}</List.Header>
           </Link>
         <List.Description as='a'className="ViewProjects-Project-Date">Start date: {start_date} | Due date: {due_date}</List.Description>

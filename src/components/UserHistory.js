@@ -6,6 +6,7 @@ import { removeProjectFromUser } from '../api';
 import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
 import '../resources/ViewUserProjects.css';
 import DocumentList from './DocumentList';
+import MissingAsset from './MissingAsset';
 
 const UserHistory = (props) => {
   
@@ -39,7 +40,7 @@ const UserHistory = (props) => {
   }
 
   const renderProjects = () => {
-    return filteredProjects().map(project => (
+    return filteredProjects() && filteredProjects().map(project => (
       <List.Item key={project.id} className="ViewUserProjects-List-Item">
         <List.Icon name='puzzle' size='large' verticalAlign='middle' className="ViewUserProjects-Icon-Color" />
         <List.Content>
@@ -63,13 +64,13 @@ const UserHistory = (props) => {
             <span>
               <Icon name='user' size="large" className="ViewUserProjects-Icon-Color"/>
               <Header.Content>
-                <span className="ViewUserProjects-Title">{thisUser.first_name} {thisUser.last_name}'s Project History</span>
+                <span className="ViewUserProjects-Title">History: {thisUser.first_name} {thisUser.last_name}</span>
               </Header.Content>
             </span>
           </Header>
           <Divider/>
-          <List divided relaxed size="large">
-            { projects && renderProjects() }
+          <List divided relaxed>
+          { renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign this user their first project"} icon={"puzzle piece"} /> }
           </List>
           <DocumentList message={"No documents are listed for this user"} icon={"pdf file outline"} />
         </>

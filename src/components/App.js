@@ -12,7 +12,7 @@ import Account from './Account';
 import ProjectsView from './ProjectsView';
 import NewProject from './NewProject';
 import UserHistory from './UserHistory';
-import ShowProject from './ShowProject';
+import ProjectDetails from './ProjectDetails';
 import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 
 const App = () => {
@@ -71,7 +71,7 @@ const App = () => {
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
               <Route exact path="/projects" render={ () => <ProjectsView />} />
-              <Route path="/project/:id" render={ () => <ShowProject/>} />
+              <Route path="/project/:id" render={ () => <ProjectDetails/>} />
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/admin/:id" render={ () => <Account />} />

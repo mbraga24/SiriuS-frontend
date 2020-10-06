@@ -10,7 +10,7 @@ import DocumentList from './DocumentList';
 import AddUserList from './AddUserList';
 import '../resources/Project.css';
 
-const ShowProject = props => {
+const ProjectDetails = props => {
 
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.app.keyHolder)
@@ -255,4 +255,4 @@ const ShowProject = props => {
   )
 }
 
-export default withRouter(ShowProject);
+export default withRouter(ProjectDetails);

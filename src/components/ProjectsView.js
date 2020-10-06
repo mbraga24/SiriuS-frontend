@@ -20,6 +20,7 @@ const ProjectsView = () => {
       listClass={"ViewProjects-List-Item"} 
       btnName={"Done"}
       linkTo={"/project/"}
+      icon={"puzzle piece"}
       project={project} />
     ))
   }
@@ -33,6 +34,7 @@ const ProjectsView = () => {
         listClass={"ViewProjects-List-Item-Complete"} 
         btnName={"Delete"}
         linkTo={"/project/done/"}
+        icon={"check circle"}
         project={project} />
     ))
   }
