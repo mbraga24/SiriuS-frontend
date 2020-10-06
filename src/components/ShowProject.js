@@ -119,6 +119,8 @@ const ShowProject = props => {
     resetLoading()
   };
 
+  console.log("CURRENT PROJECT ---->", currentProject && currentProject)
+
   return (
       <>
         <div id="myMm" style={{height: "1mm"}} />

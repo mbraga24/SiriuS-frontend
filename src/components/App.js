@@ -40,8 +40,8 @@ const App = () => {
   useEffect(() => {
     getProjects()
     .then(projectData  => {
-      dispatch({ type: SET_ACTIVE_PROJECTS, payload: projectData })
       dispatch({ type: SET_PROJECTS, payload: projectData })
+      dispatch({ type: SET_ACTIVE_PROJECTS, payload: projectData })
       dispatch({ type: SET_COMPLETE_PROJECTS, payload: projectData })
     })
   }, [dispatch])

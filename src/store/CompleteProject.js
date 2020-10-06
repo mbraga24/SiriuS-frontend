@@ -4,6 +4,10 @@ const defaultState = {
   complete: []
 }
 
+const crescOrder = (projects) => {
+  return projects.sort((a, b) => b - a)
+}
+
 const store = (state = defaultState, action) => {
   switch(action.type) {
     case SET_COMPLETE_PROJECTS:
@@ -12,18 +16,19 @@ const store = (state = defaultState, action) => {
       // console.log("SET COMPLETE PROJECTS:", projectDone)
       return {
         ...state,
-        complete: [...projectDone]
+        complete: [...crescOrder(projectDone)]
+      }
+    case ADD_COMPLETE_PROJECT:
+      console.log("ADD COMPLETE PROJECT -->", action.payload)
+      return {
+        ...state,
+        complete: [action.payload, ...state.complete]
       }
     case REMOVE_COMPLETE_PROJECT:
       const updatedList = state.complete.filter(project => project.id !== action.payload)
       return {
         ...state,
         complete: [...updatedList]
-      }
-    case ADD_COMPLETE_PROJECT:
-      return {
-        ...state,
-        complete: [...state.complete, action.payload]
       }
     default:
       return state

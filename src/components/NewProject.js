@@ -6,7 +6,7 @@ import { Container, Form, Header, Icon, Divider } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
 import AddUsersTable from './AddUsersTable';
 import { createProject } from '../api';
-import { ADD_NEW_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
+import { ADD_PROJECT, ADD_ACTIVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import "../resources/NewProject.css";
 
 const NewProject = (props) => {
@@ -15,7 +15,7 @@ const NewProject = (props) => {
     description: ""
   })
   const [dateRange, setDateRange] = useState("")
-  const addUsersId = useSelector(state => state.project.addUsersId)
+  const addUsersId = useSelector(state => state.activeProject.addUsersId)
   const dispatch = useDispatch()
 
   const handleDateRangeChange = (name, value) => {
@@ -44,7 +44,9 @@ const NewProject = (props) => {
         dispatch({ type: UPDATE_USER, payload: user })  
       }
       // add new project to redux store
-      dispatch({ type: ADD_NEW_PROJECT, payload: data.project })
+      dispatch({ type: ADD_PROJECT, payload: data.project })
+      // add new active project to redux store
+      dispatch({ type: ADD_ACTIVE_PROJECT, payload: data.project })
       // remove users from temporary array in the redux store 
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
       props.history.push('/projects')

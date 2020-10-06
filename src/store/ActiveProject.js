@@ -18,11 +18,11 @@ const reducer = (state = defaultState, action) => {
     case ADD_ACTIVE_PROJECT:
       return {
         ...state,
-        active: [...state.projects, action.payload]
+        active: [...state.active, action.payload]
       }
     case UPDATE_ACTIVE_PROJECT:
       console.log("UPDATE PROJECT", action.payload)
-      const updatedProject = state.projects.map(project => {
+      const updatedProject = state.active.map(project => {
         if (project.id === action.payload.id) {
           return action.payload
         } else {
@@ -34,7 +34,7 @@ const reducer = (state = defaultState, action) => {
         active: [...updatedProject]
       }
     case REMOVE_ACTIVE_PROJECT:
-      const filteredList = state.projects.filter(project => project.id !== action.payload.id )
+      const filteredList = state.active.filter(project => project.id !== action.payload.id )
       return {
         ...state,
         active: [...filteredList]

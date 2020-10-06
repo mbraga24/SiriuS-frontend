@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button } from 'semantic-ui-react';
 import { completeProject } from '../api';
-import { ADD_COMPLETE_PROJECT, REMOVE_PROJECT } from '../store/type';
+import { ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
 
 const Project = props => {
 
@@ -14,8 +14,9 @@ const Project = props => {
   const handleComplete = () => {
     completeProject(id)
     .then(data => {
+      dispatch({ type: UPDATE_PROJECT, payload: data.project })
       dispatch({ type: ADD_COMPLETE_PROJECT, payload: data.project })
-      dispatch({ type: REMOVE_PROJECT, payload: data.project })
+      dispatch({ type: REMOVE_ACTIVE_PROJECT, payload: data.project })
     })
   }
 

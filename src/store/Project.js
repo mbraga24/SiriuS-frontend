@@ -1,4 +1,4 @@
-import { SET_PROJECTS, ADD_NEW_PROJECT, REMOVE_PROJECT, UPDATE_PROJECT } from './type';
+import { SET_PROJECTS, ADD_PROJECT, REMOVE_PROJECT, UPDATE_PROJECT } from './type';
 
 const defaultState = {
   projects: []
@@ -12,13 +12,12 @@ const reducer = (state = defaultState, action) => {
         ...state,
         projects: [...action.payload]
       }
-    case ADD_NEW_PROJECT:
+    case ADD_PROJECT:
       return {
         ...state,
         projects: [...state.projects, action.payload]
       }
     case UPDATE_PROJECT:
-      console.log("UPDATE PROJECT", action.payload)
       const updatedProject = state.projects.map(project => {
         if (project.id === action.payload.id) {
           return action.payload
