@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Header, Icon, Container, List, Divider, Label } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import '../resources/Account.css';
@@ -25,6 +26,13 @@ const Account = () => {
         </Header>
         <Divider/>
         <List divided className="Account-List">
+          { 
+            !keyHolder.admin &&
+            <List.Item className="Account-Items" as={Link} to={`/user/projects/${keyHolder.id}`}>
+              <List.Icon name='history' size="large" className="Account-Items-Icon"/>
+              <List.Content>Account History</List.Content>
+            </List.Item>
+          }
           {
             keyHolder && 
             <List.Item className="Account-Items">

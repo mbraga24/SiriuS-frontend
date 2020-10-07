@@ -77,6 +77,10 @@ const ProjectDetails = props => {
     setButtonStatus(false)
   }
 
+  const isKeyHolderAssigned = () => {
+    return keyHolder.admin ? true : keyHolder.projects.find(project => project.id === currentProject.id ? true : false ) 
+  }
+
   const handleDownload = () => {
     setButtonStatus(true)
     setLoading(true)
@@ -200,7 +204,7 @@ const ProjectDetails = props => {
                     </List.Content>
                   </List.Item>
                 </List>
-                  { !projects.disabled &&
+                  { (!projects.disabled && isKeyHolderAssigned()) && 
                     <List.Item className="Project-Items">
                       <Form onSubmit={onFormSubmit} className="Project-Document-Form">
                         <Form.Field>
