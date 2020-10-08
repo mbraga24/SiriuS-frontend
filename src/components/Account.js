@@ -8,7 +8,7 @@ const Account = () => {
 
   const users = useSelector(state => state.user.users)
   const keyHolder = useSelector(state => state.app.keyHolder) 
-  const adminProjects = useSelector(state => state.project.projects)
+  const adminProjects = useSelector(state => state.project.projects.length)
   const { email, first_name, last_name, company, job_title, projects } = keyHolder
 
   return (
@@ -37,7 +37,7 @@ const Account = () => {
             keyHolder && 
             <List.Item className="Account-Items">
               <List.Icon name='tasks' size="large"/>
-              <List.Content>Projects: { keyHolder.admin ? adminProjects.length : projects.length }</List.Content>
+              <List.Content>Projects: { keyHolder.admin ? adminProjects : projects.length }</List.Content>
             </List.Item>
           }
           { 

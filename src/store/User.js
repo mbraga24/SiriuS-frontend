@@ -25,6 +25,8 @@ const reducer = (state = defaultState, action) => {
           return action.payload
         }
       })
+      console.log("UPDATE USERS --->", action.payload)
+      console.log("UPDATE USERS - UPDATEDUSERS --->", updatedUsers)
       return {
         ...state,
         users: [...updatedUsers]

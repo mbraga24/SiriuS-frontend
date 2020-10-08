@@ -10,18 +10,26 @@ import MissingAsset from './MissingAsset';
 
 const UserHistory = (props) => {
   
+  let currentUser;
   const keyHolder = useSelector(state => state.app.keyHolder)
   const projects = useSelector(state => state.project.projects)
   const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
-  
+
   // find the user for this page
   const userPage = userId => {
     return users.find(user => user.id.toString() === userId )
   }
 
-  // assign user object to thisUser variable
-  const thisUser = userPage(props.match.params.id)
+  // conditional statement - 
+  // if - the user viewing the page is not the admin assign the keyHolder to currentUser variable
+  // else - collect the id from the URL, find the respective user and assign user to currentUser variable
+  if (!keyHolder.admin) {
+    currentUser = keyHolder 
+  } else {
+    // assign user object to currentUser variable
+    currentUser = userPage(props.match.params.id)
+  }
 
   const removeProject = (userId, projectId) => {
     removeProjectFromUser(userId, projectId)
@@ -36,7 +44,7 @@ const UserHistory = (props) => {
   // filter current active user's projects
   const filteredProjects = () => {
     const userProjects = []
-    projects.map(project => thisUser.projects.map(pro => (project.id === pro.id) && userProjects.push(project)))
+    projects.map(project => currentUser.projects.map(pro => (project.id === pro.id) && userProjects.push(project)))
     return userProjects
   }
 
@@ -47,7 +55,7 @@ const UserHistory = (props) => {
         <List.Content>
           { keyHolder.admin && 
             <List.Content floated='right'>
-              <Button className="ViewUserProjects-Button-Color" onClick={() => removeProject(thisUser.id, project.id)}>Remove Project</Button>
+              <Button className="ViewUserProjects-Button-Color" onClick={() => removeProject(currentUser.id, project.id)}>Remove Project</Button>
             </List.Content>
           }
           <Link to={`/project/${project.id}`}>
@@ -58,19 +66,18 @@ const UserHistory = (props) => {
       </List.Item>
     ))
   }
-  // console.log("HISTORY - KEY HOLDER -->", keyHolder)
-  // console.log("HISTORY - PROJECTS -->", projects && filteredProjects())
+  
   return (
     <>
     <Container id="ViewUserProjects-Container">
       {
-        thisUser && 
+        currentUser && 
         <>
           <Header as='h2' className="ViewUserProjects-Header-Align-Items">
             <span>
               <Icon name='user' size="large" className="ViewUserProjects-Icon-Color"/>
               <Header.Content>
-                <span className="ViewUserProjects-Title">{thisUser.first_name} {thisUser.last_name}</span>
+                <span className="ViewUserProjects-Title">{currentUser.first_name} {currentUser.last_name}</span>
               </Header.Content>
             </span>
           </Header>
