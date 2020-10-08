@@ -18,7 +18,6 @@ const Signup = (props) => {
     email: "",
     firstName: "",
     lastName: "",
-    company: "",
     jobTitle: "",
     password: ""
   })
@@ -30,9 +29,9 @@ const Signup = (props) => {
   }
 
   const displayAlert = errors => {
-    console.log("ERROR ----> ", errors)
+    // console.log("ERROR ----> ", errors)
     return errors.map(e => (
-      <List.Item as='li'>{e}</List.Item>
+      <List.Item key={e.id} as='li'>{e}</List.Item>
     ))
   }
 
@@ -116,7 +115,7 @@ const Signup = (props) => {
               placeholder='Company Name'
               type='company'
               name='company'
-              onChange={handleFieldChange}
+              // onChange={handleFieldChange}
             />
             <Form.Input
               fluid
