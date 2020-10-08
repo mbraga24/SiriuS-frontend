@@ -4,13 +4,14 @@ import { useDispatch } from 'react-redux';
 import { createUser } from '../api';
 import useFormFields from "../hooks/useFormFields";
 import '../resources/Signup.css';
-import { SET_KEY_HOLDER } from '../store/type';
+import { SET_KEY_HOLDER, UPDATE_USER } from '../store/type';
 import { Button, Form, Grid, Header, Message, Segment, Icon, Input, List } from 'semantic-ui-react';
 
 const Signup = (props) => {
 
   const dispatch = useDispatch()
   const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ emptyPassword, setEmptyPassword ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
 
@@ -22,6 +23,14 @@ const Signup = (props) => {
     password: ""
   })
 
+  const runAlert = (header, error) => {
+    setHeader(header)
+    setErrorMsg(error)
+    setAlertStatus(true)
+    resetAlert()
+    emptyPassword && setEmptyPassword(!emptyPassword)
+  }
+
   const resetAlert = () => {
     setTimeout(() => {
       setAlertStatus(false)
@@ -29,13 +38,16 @@ const Signup = (props) => {
   }
 
   const displayAlert = errors => {
-    // console.log("ERROR ----> ", errors)
     return errors.map(e => (
       <List.Item key={e.id} as='li'>{e}</List.Item>
     ))
   }
 
   const handleSubmit = e => {
+    if (fields.password === "") {
+      setEmptyPassword(!emptyPassword)
+      fields.password = "0"
+    }
     e.preventDefault()
 
     const userInfo = {
@@ -46,19 +58,17 @@ const Signup = (props) => {
       job_title: fields.jobTitle,
       password: fields.password
     }
-
     createUser(userInfo)
     .then(data => {
       if (data.error) {
         const { error, header } = data
-        setHeader(header)
-        setErrorMsg(error)
-        setAlertStatus(true)
-        resetAlert()
+        !emptyPassword && error.push("Password can't be blank")
+        runAlert(header, error)
       } else {
         const { user } = data
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
+        dispatch({ type: UPDATE_USER, payload: user })
 
         // update localStorage
         localStorage.token = user.id
