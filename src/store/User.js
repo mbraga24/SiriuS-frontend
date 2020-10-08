@@ -18,15 +18,7 @@ const reducer = (state = defaultState, action) => {
         users: [...filteredUsers]
       }
     case UPDATE_USER:
-      const updatedUsers = state.users.map(user => {
-        if (user.id !== action.payload.id) {
-          return user
-        } else {
-          return action.payload
-        }
-      })
-      console.log("UPDATE USERS --->", action.payload)
-      console.log("UPDATE USERS - UPDATEDUSERS --->", updatedUsers)
+      const updatedUsers = state.users.map(user => user.id !== action.payload.id ? user : action.payload)
       return {
         ...state,
         users: [...updatedUsers]
