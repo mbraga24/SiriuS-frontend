@@ -58,7 +58,8 @@ const UserHistory = (props) => {
       </List.Item>
     ))
   }
-  
+  // console.log("HISTORY - KEY HOLDER -->", keyHolder)
+  // console.log("HISTORY - PROJECTS -->", projects && filteredProjects())
   return (
     <>
     <Container id="ViewUserProjects-Container">

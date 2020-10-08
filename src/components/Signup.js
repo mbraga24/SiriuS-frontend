@@ -29,8 +29,9 @@ const Signup = (props) => {
     }, 5000)
   }
 
-  const displayAlert = error => {
-    return error.map(e => (
+  const displayAlert = errors => {
+    console.log("ERROR ----> ", errors)
+    return errors.map(e => (
       <List.Item as='li'>{e}</List.Item>
     ))
   }
@@ -135,7 +136,6 @@ const Signup = (props) => {
               name='password'
               onChange={handleFieldChange}
             />
-
             <Button className="Signup-Button-Color" fluid size='large'>
               Sign Up
             </Button>
