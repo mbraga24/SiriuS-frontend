@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { loginUser } from '../api';
@@ -10,13 +10,25 @@ import '../resources/index.css'
 
 const Login = (props) => {
 
-  // const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
-
-  const [fields, handleFieldChange] = useFormFields({
+  const [ alertMessage, setAlertMessage ] = useState("")
+  const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ fields, handleFieldChange ] = useFormFields({
     email: "",
     password: ""
   });
+
+  const resetAlert = () => {
+    setTimeout(() => {
+      setAlertStatus(false)
+    }, 5000)
+  }
+
+  const handleMessages = (data) => {
+    setAlertMessage(data.header)
+    setAlertStatus(true)
+    resetAlert()
+  }
 
   const changeBackground = () => {
     // change body background color
@@ -35,23 +47,29 @@ const Login = (props) => {
 
     // fetch user
     loginUser(userLogin)
-    .then(loggedInUser => {
-      // console.log("LOGGED IN USER:", loggedInUser)
-      // update state
-      dispatch({ type: SET_KEY_HOLDER, payload: loggedInUser })
-
-      // update localStorage
-      localStorage.token = loggedInUser.id
-      localStorage.admin = loggedInUser.admin
-
-      // send loggedin user to their account
-      if (loggedInUser.admin) {
-        changeBackground()
-        props.history.push(`/admin/${loggedInUser.id}`)
+    .then(data => {
+      if (data.type === "error") {
+        handleMessages(data)
       } else {
-        changeBackground()
-        props.history.push(`/users/${loggedInUser.id}`)
+        const { user } = data
+        console.log("LOGIN --->", user)
+        // update state
+        dispatch({ type: SET_KEY_HOLDER, payload: user })
+
+        // update localStorage
+        localStorage.token = user.id
+        localStorage.admin = user.admin
+
+        // send loggedin user to their account
+        if (user.admin) {
+          changeBackground()
+          props.history.push(`/admin/${user.id}`)
+        } else {
+          changeBackground()
+          props.history.push(`/users/${user.id}`)
+        }    
       }
+    
     })
   }
 
@@ -63,7 +81,7 @@ const Login = (props) => {
           Log-In to your account
         </Header>
         <Form size='large' onSubmit={handleSubmit}>
-          <Segment stacked>
+          <Segment>
             <Form.Input 
               fluid icon='user' 
               iconPosition='left' 
@@ -85,6 +103,12 @@ const Login = (props) => {
             </Button>
           </Segment>
         </Form>
+        { alertStatus &&
+          <Message warning attached='bottom'>
+            {alertMessage}
+            <Icon name='warning' />
+          </Message>
+        }
         <Message className="Login-Message">
           <span>Don't have an account? </span>
           <Link to="/signup">

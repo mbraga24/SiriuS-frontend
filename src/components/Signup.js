@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../api';
 import useFormFields from "../hooks/useFormFields";
 import '../resources/Signup.css';
 import { SET_KEY_HOLDER } from '../store/type';
-import { Button, Form, Grid, Header, Message, Segment, Icon, Input } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Message, Segment, Icon, Input, List } from 'semantic-ui-react';
 
 const Signup = (props) => {
 
   const dispatch = useDispatch()
+  const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ header, setHeader ] = useState("")
+  const [ errorMsg, setErrorMsg ] = useState([])
 
   const [fields, handleFieldChange] = useFormFields({
     email: "",
@@ -19,6 +22,18 @@ const Signup = (props) => {
     jobTitle: "",
     password: ""
   })
+
+  const resetAlert = () => {
+    setTimeout(() => {
+      setAlertStatus(false)
+    }, 5000)
+  }
+
+  const displayAlert = error => {
+    return error.map(e => (
+      <List.Item as='li'>{e}</List.Item>
+    ))
+  }
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -33,23 +48,32 @@ const Signup = (props) => {
     }
 
     createUser(userInfo)
-    .then(newUser => {
-      // update state
-      dispatch({ type: SET_KEY_HOLDER, payload: newUser })
-
-      // update localStorage
-      localStorage.token = newUser.id
-      localStorage.credentials = newUser.admin
-
-      // change body background color
-      const body = document.querySelector('body')
-      body.classList.remove("bg-color-signed-in")
-
-      // send new user to their account page
-      if (newUser.admin) {
-        props.history.push(`/admins/${newUser.id}`)
+    .then(data => {
+      if (data.error) {
+        const { error, header } = data
+        setHeader(header)
+        setErrorMsg(error)
+        setAlertStatus(true)
+        resetAlert()
       } else {
-        props.history.push(`/users/${newUser.id}`)
+        const { user } = data
+        // update state
+        dispatch({ type: SET_KEY_HOLDER, payload: user })
+
+        // update localStorage
+        localStorage.token = user.id
+        localStorage.credentials = user.admin
+
+        // change body background color
+        const body = document.querySelector('body')
+        body.classList.remove("bg-color-signed-in")
+
+        // send new user to their account page
+        if (user.admin) {
+          props.history.push(`/admins/${user.id}`)
+        } else {
+          props.history.push(`/users/${user.id}`)
+        }
       }
     })
   }
@@ -62,7 +86,7 @@ const Signup = (props) => {
           Sign Up
         </Header>
         <Form size='large' onSubmit={handleSubmit}>
-          <Segment stacked>
+          <Segment>
             <Form.Group widths='equal'>
               <Form.Field
                 placeholder='First Name'
@@ -117,6 +141,21 @@ const Signup = (props) => {
             </Button>
           </Segment>
         </Form>
+        { alertStatus &&
+          <Message warning attached='bottom'>
+            { 
+              alertStatus && 
+              <>
+                <Header as='h5' dividing>
+                  {header}
+                </Header>
+                <List as='ol' style={{ textAlign: "left" }}>
+                  { displayAlert(errorMsg) }
+                </List>
+              </>
+            }
+          </Message>
+        }
         <Message className="Signup-Message">
           <span>Already have an account? </span>
           <Link to="/login">
