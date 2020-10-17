@@ -1,15 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../resources/Home.css';
-import {
-  Button,
-  Divider,
-  Grid,
-  Header,
-  Icon,
-  Segment,
-  Container
-} from 'semantic-ui-react'
+import { Button, Divider, Grid, Header, Icon, Segment, Container } from 'semantic-ui-react';
 
 const Home = () => {
   return(

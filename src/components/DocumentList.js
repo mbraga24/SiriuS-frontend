@@ -46,8 +46,8 @@ const DocumentList = props => {
               </Header.Content>
             </span>
           </Header>
-          { projectDocuments().length !== 0 ?
-           ( 
+          { 
+            projectDocuments().length !== 0 ?
             <Table basic className="DocumentList-Table">
               <Table.Header>
                 <Table.Row>
@@ -60,12 +60,8 @@ const DocumentList = props => {
               <Table.Body className="DocumentList-Table-Body">
                 { renderDocuments() }
               </Table.Body>
-            </Table>
-            ) 
-            :
-            (
-              <MissingAsset message={props.message} icon={props.icon} displayUrl={props.displayUrl} />
-            )
+            </Table> : 
+            <MissingAsset message={props.message} icon={props.icon} displayUrl={props.displayUrl} />
           } 
         </Container>
   )

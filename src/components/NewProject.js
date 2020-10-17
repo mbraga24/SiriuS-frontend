@@ -87,7 +87,6 @@ const NewProject = (props) => {
           </Header>
           <AddUserList userType={"newProject"} button={true}/>
         </Form.Field>
-        {/* <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button> */}
       </Form>
     </Container>
   );
