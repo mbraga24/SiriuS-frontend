@@ -120,9 +120,9 @@ const ProjectDetails = props => {
     setTimeout(function() { 
       setButtonStatus(true) 
       resetButtonStatus()
-    }, 1000)
+      resetLoading()
+    }, 2000)
     // reset loading to false again
-    resetLoading()
   };
 
   return (
@@ -229,12 +229,11 @@ const ProjectDetails = props => {
                             readOnly
                             value={fileName}
                           />
-                            { !buttonStatus && // if buttonStatus is false display original button and hide it otherwise
-                              <Button className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"} ${!fileName && "disabled"}`} type="submit">
+                            { !buttonStatus ?
+                              <Button type="submit" className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"} ${!fileName && "disabled"}`}>
                                 { !loading ? `${"Upload File"}` : `${"Loading"}` }
                               </Button>
-                            }
-                            {
+                              :
                               statusCode && statusCode === 200 && buttonStatus ?
                                 (
                                   <Button className="Project-Spacing-Style" color='green'>
