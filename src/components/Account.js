@@ -52,7 +52,7 @@ const Account = () => {
                   Feature coming soon
                 </Label>
                 <List.Icon name='user x' size="large"/>
-                <List.Content>Pending Acceptance: {users.length-6}</List.Content>
+                <List.Content>Pending Acceptance: 1</List.Content>
               </List.Item>
             </> 
           }

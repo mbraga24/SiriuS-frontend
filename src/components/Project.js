@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button } from 'semantic-ui-react';
 import { completeProject, deleteProject } from '../api';
@@ -8,6 +8,7 @@ import { ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT, UPDATE_USE
 const Project = props => {
 
   const { id, name, start_date, due_date } = props.project
+  const keyHolder = useSelector(state => state.app.keyHolder) 
   const dispatch = useDispatch()
 
   // add project to the complete project list
@@ -23,12 +24,12 @@ const Project = props => {
   const handleDelete = () => {
     deleteProject(id)
     .then(data => {
+      // update projects from the redux store
+      dispatch({ type: REMOVE_COMPLETE_PROJECT, payload: data.projectId })
       // update each user in the redux store
       for (let user of data.users) {
         dispatch({ type: UPDATE_USER, payload: user })
       }
-      // update projects from the redux store
-      dispatch({ type: REMOVE_COMPLETE_PROJECT, payload: data.projectId })
     })
   }
 
@@ -36,11 +37,12 @@ const Project = props => {
     <List.Item className={props.listClass}>
       <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
       <List.Content>
-        { props.admin && 
+        { keyHolder.admin ?
           <List.Content floated='right'>
             <Button className={`${props.btnClass}`} onClick={props.active ? handleComplete : handleDelete}>{props.btnName}</Button>
           </List.Content>
-        }
+          : null
+        } 
         <List.Content floated='right'>
           <Link to={`/project/${id}`}>
             <Button className="ViewProjects-Button-Color">Details</Button>

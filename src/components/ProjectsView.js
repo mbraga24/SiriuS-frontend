@@ -23,7 +23,8 @@ const ProjectsView = () => {
       linkTo={"/project/"}
       icon={"puzzle piece"}
       project={project} 
-      admin={keyHolder.admin} />
+      // admin={keyHolder.admin} 
+      />
     ))
   }
 
@@ -37,7 +38,9 @@ const ProjectsView = () => {
         btnName={"Delete"}
         linkTo={"/project/done/"}
         icon={"check circle"}
-        project={project} />
+        project={project} 
+        // admin={keyHolder.admin}
+        />
     ))
   }
   

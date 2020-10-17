@@ -29,3 +29,4 @@ export const REMOVE_USER = "REMOVE_USER"
 // Document Reducer
 export const SET_DOCUMENTS = "SET_DOCUMENTS"
 export const ADD_DOCUMENT = "ADD_DOCUMENT"
+export const REMOVE_DOCUMENT = "REMOVE_DOCUMENT"

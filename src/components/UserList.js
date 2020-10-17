@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Table, Container, Header, Button, Divider } from 'semantic-ui-react';
 import { deleteUser } from '../api';
-import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER } from '../store/type';
+import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
 import '../resources/ViewUsers.css';
 
 
@@ -16,10 +16,17 @@ const UserList = () => {
   const removeUser = userId => {
     deleteUser(userId)
     .then(data => {
+      console.log("REMOVE USER FETCH --> ", data)
       dispatch({ type: REMOVE_USER, payload: data.user })
       for (let project of data.projects) {
+        console.log("UPDATE PROJECT FETCH --> ", project)
         dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: project })
         dispatch({ type: UPDATE_PROJECT, payload: project })
+      }
+
+      for (let document of data.documents) {
+        console.log("UPDATE DOCUMENT FETCH --> ", document)
+        dispatch({ type: REMOVE_DOCUMENT, payload: document })
       }
     })
   }

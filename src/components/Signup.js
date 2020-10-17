@@ -44,11 +44,12 @@ const Signup = (props) => {
   }
 
   const handleSubmit = e => {
+    e.preventDefault()
+    
     if (fields.password === "") {
       setEmptyPassword(!emptyPassword)
       fields.password = "0"
     }
-    e.preventDefault()
 
     const userInfo = {
       email: fields.email,
