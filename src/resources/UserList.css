@@ -1,29 +1,29 @@
-#ViewUsers-Container .ViewUsers-Button-Invite-User {
+#UserList-Container .UserList-Button-Invite-User {
   background-color: #534292;
   color: #ffffff;
 }
 
-#ViewUsers-Container .ViewUsers-Hide-Button {
+#UserList-Container .UserList-Hide-Button {
   display: none;
 }
 
-#ViewUsers-Container .ViewUsers-Button-Color {
+#UserList-Container .UserList-Button-Color {
   color: #60467e;  
 }
 
-#ViewUsers-Container .ViewUsers-Title {
+#UserList-Container .UserList-Title {
   font-size: 30px;
   padding-left: 8px;
 }
 
-#ViewUsers-Container .ViewUsers-Icon-Color {
+#UserList-Container .UserList-Icon-Color {
   color: #79589f;
   cursor: pointer;
   width: 50px;
   height: 25px;
 }
 
-#ViewUsers-Container .ViewUsers-Header-Align-Items {
+#UserList-Container .UserList-Header-Align-Items {
   display: flex;
   justify-content: space-between;
   width: 100%;

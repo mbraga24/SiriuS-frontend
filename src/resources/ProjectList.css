@@ -1,0 +1,49 @@
+#ProjectList-Container .ProjectList-Button-Color {
+  background: none;
+  border: 1px solid #60467e;
+  color: #60467e;
+}
+
+#ProjectList-Container .ProjectList-Button-Color-Delete {
+  background: none;
+  border: 1px solid #ac4444;
+  color: #ac4444;
+}
+
+#ProjectList-Container .ProjectList-Title {
+  font-size: 30px;
+}
+
+#ProjectList-Container, .ProjectList-Icon-Color {
+  color: #79589f;
+}
+
+#ProjectList-Container .ProjectList-Project-Name {
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+
+#ProjectList-Container .ProjectList-List-Item {
+  padding: 20px 10px;
+}
+
+#ProjectList-Container .ProjectList-List-Item-Complete {
+  padding: 20px 10px;
+  background-color:rgba(171, 180, 207, 0.3);
+}
+
+#ProjectList-Container .ProjectList-Project-Date {
+  font-size: 15px;
+}
+
+#ProjectList-Container .ProjectList-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
+
+#ProjectList-Container .ProjectList-Button-Create-Project {
+  background-color: #534292;
+  color: #ffffff;
+}

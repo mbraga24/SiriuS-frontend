@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Table, Container, Header, Button, Divider } from 'semantic-ui-react';
 import { deleteUser } from '../api';
 import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
-import '../resources/ViewUsers.css';
+import '../resources/UserList.css';
 
 
 const UserList = () => {
@@ -43,11 +43,11 @@ const UserList = () => {
                     <>
                       <Table.Cell textAlign='center'>
                         <Link to={`/user/projects/${user.id}`}> 
-                          <Icon name='user' size="large" className="ViewUsers-Icon-Color"/>
+                          <Icon name='user' size="large" className="UserList-Icon-Color"/>
                         </Link>
                       </Table.Cell>
                       <Table.Cell textAlign='center'>
-                        <Icon name='delete' size="large" className="ViewUsers-Icon-Color" onClick={() => removeUser(user.id)} />
+                        <Icon name='delete' size="large" className="UserList-Icon-Color" onClick={() => removeUser(user.id)} />
                       </Table.Cell>
                     </>
                   }
@@ -56,18 +56,18 @@ const UserList = () => {
     })
   }
   return (
-    <Container id="ViewUsers-Container">
-      <Header as='h2' className="ViewUsers-Header-Align-Items">
+    <Container id="UserList-Container">
+      <Header as='h2' className="UserList-Header-Align-Items">
         <span>
-          <Icon name='users' size="large" className="ViewUsers-Icon-Color"/>
+          <Icon name='users' size="large" className="UserList-Icon-Color"/>
           <Header.Content>
-            <span className="ViewUsers-Title">Collaborators</span>
+            <span className="UserList-Title">Collaborators</span>
           </Header.Content>
         </span>
         {
           keyHolder.admin && 
           <span>
-            <Button className="ViewUsers-Button-Invite-User" disabled>
+            <Button className="UserList-Button-Invite-User" disabled>
               <Icon name='add' /> 
               Invite Collaborator
             </Button>

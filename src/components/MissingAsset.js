@@ -1,16 +1,17 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Header, Icon, Container } from 'semantic-ui-react'
+import { Header, Icon } from 'semantic-ui-react';
+import '../resources/MissingAsset.css';
 
 const MissingAsset = props => {
 
   return (
-    <Container textAlign='center' style={{padding: "50px"}}>
+    <div id="MissingAsset-Container">
       <Header icon size="small">
         <Icon name={props.icon} />
         {`${props.message}`}
       </Header>
-    </Container>
+    </div>
   )
 }
 

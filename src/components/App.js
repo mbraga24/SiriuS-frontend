@@ -3,13 +3,13 @@ import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { autoLogin, getProjects, getUsers, getDocuments } from '../api';
-import Header from './Header';
+import MenuBar from './MenuBar';
 import Home from './Home';
 import UserList from './UserList';
 import Login from './Login';
 import Signup from './Signup';
 import Account from './Account';
-import ProjectsView from './ProjectsView';
+import ProjectList from './ProjectList';
 import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
@@ -65,10 +65,9 @@ const App = () => {
     })
   }, [dispatch])
 
-  console.log("IS IT LOGGED IN? --->", isLoggedIn) 
   return (
     <div>
-      { isLoggedIn ? <Header /> : null}
+      { isLoggedIn ? <MenuBar /> : null}
       <Switch>
         <Container>
         { 
@@ -76,7 +75,7 @@ const App = () => {
             <React.Fragment>
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
-              <Route exact path="/projects" render={ () => <ProjectsView />} />
+              <Route exact path="/projects" render={ () => <ProjectList />} />
               <Route path="/project/:id" render={ () => <ProjectDetails/>} />
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />

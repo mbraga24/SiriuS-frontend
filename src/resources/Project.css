@@ -1,5 +1,5 @@
 #Project-Container {
-  height: 100%;
+  border: 3px solid red;
 }
 
 #Project-Container .Project-Header-Align-Items {
@@ -7,6 +7,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 10px 0;
+  border: 3px solid rgb(4, 0, 255);
 }
 
 #Project-Container .Project-Icon-Color {
@@ -67,6 +68,7 @@
 
 #Project-Container .Project-List {
   width: 40vw;
+  border: 3px solid rgb(128, 255, 69);
 }
 
 #Project-Container .Project-Header {

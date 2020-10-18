@@ -155,14 +155,14 @@ const Signup = (props) => {
           <Message warning attached='bottom'>
             { 
               alertStatus && 
-              <>
+              <React.Fragment>
                 <Header as='h5' dividing>
                   {header}
                 </Header>
                 <List as='ol' style={{ textAlign: "left" }}>
                   { displayAlert(errorMsg) }
                 </List>
-              </>
+              </React.Fragment>
             }
           </Message>
         }

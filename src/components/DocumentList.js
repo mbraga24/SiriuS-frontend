@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Table, Icon, Button, Header, Container } from 'semantic-ui-react';
+import { Table, Icon, Button, Header } from 'semantic-ui-react';
 import MissingAsset from './MissingAsset';
 import '../resources/DocumentList.css';
 
@@ -37,7 +37,7 @@ const DocumentList = props => {
   }
 
   return (
-        <Container id="DocumentList-Container">
+        <div id="DocumentList-Container">
           <Header as='h2' className="DocumentList-Header">
             <span>
               <Icon name='attach' size="large" className="DocumentList-Icon-Color"/>
@@ -63,7 +63,7 @@ const DocumentList = props => {
             </Table> : 
             <MissingAsset message={props.message} icon={props.icon} displayUrl={props.displayUrl} />
           } 
-        </Container>
+        </div>
   )
 }
 

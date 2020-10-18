@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Header, Icon, Container, Divider, Button, List, Segment, Form, Modal } from 'semantic-ui-react';
+import { Header, Icon, Divider, Button, List, Segment, Form, Modal } from 'semantic-ui-react';
 import { newDocument } from '../api';
 import { ADD_DOCUMENT } from '../store/type';
 import { withRouter } from 'react-router-dom';
@@ -126,9 +126,9 @@ const ProjectDetails = props => {
   };
 
   return (
-      <>
+      <React.Fragment>
         <div id="myMm" style={{height: "1mm"}} />
-        <Container id="Project-Container">
+        <div id="Project-Container">
           { (projects.message && currentProject) && 
             <Segment inverted color='red' tertiary size="big" textAlign="center">
               <Icon name='warning' />
@@ -137,7 +137,7 @@ const ProjectDetails = props => {
           }
           {
             currentProject !== undefined && 
-              <>
+              <React.Fragment>
                 <Header as='h2' className="Project-Header-Align-Items">
                   <span>
                     <Icon name='clipboard list' size="large" className="Project-Icon-Color"/>
@@ -147,14 +147,14 @@ const ProjectDetails = props => {
                   </span>
                   <span>
                     { projects.disabled ?
-                      <>
+                      <React.Fragment>
                         {
                           !buttonStatus ? 
                           <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Back Up Project</Button>
                           :
                           <Button className={`Project-Download-Button-Style ${loading && "loading"}`} onClick={resetButton}><Icon name="download"/><a href={downloadLink}>{ !loading && `${"Download Project"}`}</a></Button>
                         }                        
-                      </>
+                      </React.Fragment>
                       : keyHolder.admin &&
                       <Modal
                         onClose={() => setOpen(false)}
@@ -176,7 +176,7 @@ const ProjectDetails = props => {
                   </span>
                 </Header>
                 <Divider/>
-                <List divided className="Project-List" id="Project-Details">
+                <List divided className="Project-List">
                   <List.Item className="Project-Items Hidden">
                     <List.Icon name='clipboard list' size="large"/>
                     <List.Content>Title: <div className="Project-Title Next-Line">{currentProject.name}</div></List.Content>
@@ -253,10 +253,10 @@ const ProjectDetails = props => {
                     </List.Item>
                   }
                 <DocumentList message={"No documents are listed for this project"} icon={"pdf file outline"} />
-              </>
+              </React.Fragment>
           }
-        </Container>
-      </>
+        </div>
+      </React.Fragment>
   )
 }
 

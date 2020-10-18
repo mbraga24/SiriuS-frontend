@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Dropdown, Menu, Button, Icon, Popup } from 'semantic-ui-react';
-import '../resources/Header.css';
+import '../resources/MenuBar.css';
 import { SET_KEY_HOLDER, SET_LOGIN_STATE } from '../store/type';
 
-const Header = (props) => { 
+const MenuBar = (props) => { 
 
   const style = {
     borderRadius: 0,
@@ -34,56 +34,54 @@ const Header = (props) => {
     body.classList.add("bg-color-signed-in");
   }
 
-  // console.log("KEY HOLDER - HEADERS --->", keyHolder)
-
   return(
-    <>
-      <Menu id="Header-Container">
-        <Menu.Item as={Link} to={keyHolder.admin ? `/admin/${keyHolder.id}` : `/users/${keyHolder.id}`} className="Header-Font-Color">
+    <React.Fragment>
+      <Menu id="MenuBar-Container">
+        <Menu.Item as={Link} to={keyHolder.admin ? `/admin/${keyHolder.id}` : `/users/${keyHolder.id}`} className="MenuBar-Font-Color">
           Account
         </Menu.Item>
           { keyHolder.admin ?
-            <Dropdown item text='Collaborators' className="Header-Font-Color">
+            <Dropdown item text='Collaborators' className="MenuBar-Font-Color">
               <Dropdown.Menu>
                 { keyHolder.admin && 
                   <Dropdown.Item>
-                    <span className="Header-Font-Color">Invite</span>
+                    <span className="MenuBar-Font-Color">Invite</span>
                   </Dropdown.Item>
                 }
                 <Dropdown.Item as={Link} to='/users'>
-                  <span className="Header-Font-Color">Users List</span>
+                  <span className="MenuBar-Font-Color">Users List</span>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             :
-            <Menu.Item as={Link} to={`/user/projects/${keyHolder.id}`} className="Header-Font-Color">
+            <Menu.Item as={Link} to={`/user/projects/${keyHolder.id}`} className="MenuBar-Font-Color">
               History
             </Menu.Item>
           }
-          <Dropdown item text={keyHolder.admin ? "Projects" : "More"} className="Header-Font-Color">
+          <Dropdown item text={keyHolder.admin ? "Projects" : "More"} className="MenuBar-Font-Color">
           { keyHolder.admin ?
             <Dropdown.Menu>
               <Dropdown.Item as={Link} to='/projects' >
-                <span className="Header-Font-Color">Projects List</span>
+                <span className="MenuBar-Font-Color">Projects List</span>
               </Dropdown.Item>
               <Dropdown.Item as={Link} to='/projects/new' >
-                <span className="Header-Font-Color">Create Project</span>
+                <span className="MenuBar-Font-Color">Create Project</span>
               </Dropdown.Item>
             </Dropdown.Menu>
             :
             <Dropdown.Menu>
               <Dropdown.Item as={Link} to='/projects' >
-                <span className="Header-Font-Color">Projects List</span>
+                <span className="MenuBar-Font-Color">Projects List</span>
               </Dropdown.Item>
               <Dropdown.Item as={Link} to='/users' >
-                <span className="Header-Font-Color">Collaborators</span>
+                <span className="MenuBar-Font-Color">Collaborators</span>
               </Dropdown.Item>
             </Dropdown.Menu>
           }
           </Dropdown>
-        <Menu.Item className="Header-Font-Color" disabled>
+        <Menu.Item className="MenuBar-Font-Color" disabled>
           <Popup
-            trigger={<Icon name='discussions' className="Header-Chat"/>}
+            trigger={<Icon name='discussions' className="MenuBar-Chat"/>}
             content={chatFeatureMessage}
             position='bottom center'
             style={style}
@@ -93,15 +91,15 @@ const Header = (props) => {
           </Menu.Item>
         <Menu.Menu position='right'>
           <Menu.Item onClick={handleLogout}>
-            <Button className="Header-Button-Color">Logout</Button>
+            <Button className="MenuBar-Button-Color">Logout</Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
-    </>
+    </React.Fragment>
   )
 }
 
-export default withRouter(Header);
+export default withRouter(MenuBar);
 
 // ========================> LEARNED <============================
 // 1) component augmentation

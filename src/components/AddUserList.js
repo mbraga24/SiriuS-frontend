@@ -98,8 +98,7 @@ const AddUsersTable = props => {
                 icon
                 id={`Assign-User-${user.id}`}
                 className="AddUsersTable-Button-Color"
-                onClick={() => handleClick(user.id)}
-              >
+                onClick={() => handleClick(user.id)} >
                 <Icon name="user" id={`Assign-Button-${user.id}`}/> 
                   Assign
               </Button>

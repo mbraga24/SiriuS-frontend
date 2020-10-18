@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
-import { Container, Form, Header, Icon, Divider } from 'semantic-ui-react';
+import { Form, Header, Icon, Divider } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields';
 import AddUserList from './AddUserList';
 import { createProject } from '../api';
@@ -54,7 +54,7 @@ const NewProject = (props) => {
   }
 
   return (
-    <Container id="NewProject-Container">
+    <div id="NewProject-Container">
       <Form onSubmit={handleSubmit}>
         <Header as='h2' className="NewProject-Header-Align-Items">
           <span>
@@ -88,7 +88,7 @@ const NewProject = (props) => {
           <AddUserList userType={"newProject"} button={true}/>
         </Form.Field>
       </Form>
-    </Container>
+    </div>
   );
 };
 

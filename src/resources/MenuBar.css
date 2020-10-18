@@ -1,12 +1,12 @@
-#Header-Container {
+#MenuBar-Container {
   border-bottom: 2px solid #654a86;
 }
 
-#Header-Container .Header-Font-Color {
+#MenuBar-Container .MenuBar-Font-Color {
   color: #534292;
 }
 
-#Header-Container .Header-Button-Color {
+#MenuBar-Container .MenuBar-Button-Color {
   background-color: #534292;
   color: #fff;
 }

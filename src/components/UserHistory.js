@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Header, Icon, Container, List, Divider, Button } from 'semantic-ui-react';
+import { Header, Icon, List, Divider, Button } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeProjectFromUser } from '../api';
 import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
-import '../resources/ViewUserProjects.css';
 import DocumentList from './DocumentList';
 import MissingAsset from './MissingAsset';
+import '../resources/UserHistory.css';
 
 const UserHistory = (props) => {
   
@@ -50,34 +50,34 @@ const UserHistory = (props) => {
 
   const renderProjects = () => {
     return filteredProjects().map(project => (
-      <List.Item key={project.id} className={`ViewUserProjects-List-Item ${project.done && "Complete-Project"}`}>
-        <List.Icon name={`${project.done ? "check circle" : "puzzle piece"}`} size='large' verticalAlign='middle' className="ViewUserProjects-Icon-Color" />
+      <List.Item key={project.id} className={`UserHistory-List-Item ${project.done && "Complete-Project"}`}>
+        <List.Icon name={`${project.done ? "check circle" : "puzzle piece"}`} size='large' verticalAlign='middle' className="UserHistory-Icon-Color" />
         <List.Content>
           { keyHolder.admin && 
             <List.Content floated='right'>
-              <Button className="ViewUserProjects-Button-Color" onClick={() => removeProject(currentUser.id, project.id)}>Remove Project</Button>
+              <Button className="UserHistory-Button-Color" onClick={() => removeProject(currentUser.id, project.id)}>Remove Project</Button>
             </List.Content>
           }
           <Link to={`/project/${project.id}`}>
-            <List.Header as='a' className="ViewUserProjects-Project-Name">{project.name}</List.Header>
+            <List.Header as='a' className="UserHistory-Project-Name">{project.name}</List.Header>
           </Link>
-          <List.Description as='a'className="ViewUserProjects-Project-Date">Start date: {project.start_date} | Due date: {project.due_date}</List.Description>
+          <List.Description as='a'className="UserHistory-Project-Date">Start date: {project.start_date} | Due date: {project.due_date}</List.Description>
         </List.Content>
       </List.Item>
     ))
   }
   
   return (
-    <>
-    <Container id="ViewUserProjects-Container">
+    <React.Fragment>
+    <div id="UserHistory-Container">
       {
         currentUser && 
-        <>
-          <Header as='h2' className="ViewUserProjects-Header-Align-Items">
+        <React.Fragment>
+          <Header as='h2' className="UserHistory-Header-Align-Items">
             <span>
-              <Icon name='user' size="large" className="ViewUserProjects-Icon-Color"/>
+              <Icon name='user' size="large" className="UserHistory-Icon-Color"/>
               <Header.Content>
-                <span className="ViewUserProjects-Title">{currentUser.first_name} {currentUser.last_name}</span>
+                <span className="UserHistory-Title">{currentUser.first_name} {currentUser.last_name}</span>
               </Header.Content>
             </span>
           </Header>
@@ -86,10 +86,10 @@ const UserHistory = (props) => {
           { renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign this user their first project"} icon={"puzzle piece"} /> }
           </List>
           <DocumentList message={"No documents are listed for this user"} icon={"pdf file outline"} />
-        </>
+        </React.Fragment>
       }
-    </Container>
-    </>
+    </div>
+    </React.Fragment>
   )
 }
 

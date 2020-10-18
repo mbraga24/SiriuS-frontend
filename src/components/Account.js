@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Header, Icon, Container, List, Divider, Label } from 'semantic-ui-react';
+import { Header, Icon, List, Divider, Label } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import '../resources/Account.css';
 
@@ -16,7 +16,7 @@ const Account = () => {
       <h1>Loading...</h1>
     ) : (
     <>
-      <Container id="Account-Container">
+      <div id="Account-Container">
         <Header as='h2' className="Account-Header">
           <Icon name='address card' className="Account-Items"/>
           <Header.Content>
@@ -74,7 +74,7 @@ const Account = () => {
             </List.Content>
           </List.Item>
         </List>
-      </Container>
+      </div>
     </>
     ) 
   )

@@ -1,0 +1,40 @@
+#UserHistory-Container .UserHistory-Button-Color {
+  background: none;
+  border: 1px solid #60467e;
+  color: #60467e;
+}
+
+#UserHistory-Container .UserHistory-Icon-Color {
+  color: #79589f;
+}
+
+#UserHistory-Container .UserHistory-List-Item {
+  padding: 20px 10px;
+}
+
+.Complete-Project {
+  background-color:rgba(171, 180, 207, 0.3);
+}
+
+#UserHistory-Container .UserHistory-Project-Date {
+  font-size: 15px;
+}
+
+#UserHistory-Container .UserHistory-Table-Body {
+  font-size: 15px;
+}
+
+#UserHistory-Container .UserHistory-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
+
+#UserHistory-Container .UserHistory-Title {
+  font-size: 30px;
+}
+
+#UserHistory-Container .UserHistory-Table-Body {
+  color: #534292; 
+}

@@ -5,17 +5,17 @@ import { Link } from 'react-router-dom';
 const ProjectHeader = props => {
 
   return (
-    <Header as='h2' className="ViewProjects-Header-Align-Items">
+    <Header as='h2' className="ProjectList-Header-Align-Items">
       <span>
-        <Icon name={props.iconHeader} size="large" className="ViewProjects-Icon-Color"/>
+        <Icon name={props.iconHeader} size="large" className="ProjectList-Icon-Color"/>
         <Header.Content>
-          <span className="ViewProjects-Title">{props.title}</span>
+          <span className="ProjectList-Title">{props.title}</span>
         </Header.Content>
       </span>
       { (props.action !== "none" && props.admin) &&
         <span>
           <Link to={props.action === "new" && `${props.newProject}`}>
-            <Button className="ViewProjects-Button-Create-Project" >
+            <Button className="ProjectList-Button-Create-Project" >
               <Icon name={props.iconButton} /> 
               {props.buttonName}
             </Button>

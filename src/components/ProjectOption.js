@@ -5,7 +5,7 @@ import { List, Button } from 'semantic-ui-react';
 import { completeProject, deleteProject } from '../api';
 import { ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_COMPLETE_PROJECT } from '../store/type';
 
-const Project = props => {
+const ProjectOption = props => {
 
   const { id, name, start_date, due_date } = props.project
   const keyHolder = useSelector(state => state.app.keyHolder) 
@@ -34,8 +34,8 @@ const Project = props => {
   }
 
   return (
-    <List.Item className={props.listClass}>
-      <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ViewProjects-Icon-Color" />
+    <List.Item className={props.listClass} id="TEST">
+      <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ProjectList-Icon-Color" />
       <List.Content>
         { keyHolder.admin ?
           <List.Content floated='right'>
@@ -45,16 +45,16 @@ const Project = props => {
         } 
         <List.Content floated='right'>
           <Link to={`/project/${id}`}>
-            <Button className="ViewProjects-Button-Color">Details</Button>
+            <Button className="ProjectList-Button-Color">Details</Button>
           </Link>
         </List.Content>
           <Link to={`/project/${id}`}>
-            <List.Header as='a' className="ViewProjects-Project-Name">{name}</List.Header>
+            <List.Header as='a' className="ProjectList-Project-Name">{name}</List.Header>
           </Link>
-        <List.Description as='a'className="ViewProjects-Project-Date">Start date: {start_date} | Due date: {due_date}</List.Description>
+        <List.Description as='a'className="ProjectList-Project-Date">Start date: {start_date} | Due date: {due_date}</List.Description>
       </List.Content>
     </List.Item>
   )
 }
 
-export default Project;
+export default ProjectOption;
