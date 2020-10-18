@@ -24,7 +24,7 @@ export const loginUser = data => {
 
 
 // user autologin 
-export const isLoggedIn = adminId => {
+export const autoLogin = adminId => {
   return fetch(`http://localhost:3000/autologin/${adminId}`)
   .then(r => r.json())
 }

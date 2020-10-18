@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isLoggedIn, getProjects, getUsers, getDocuments } from '../api';
+import { autoLogin, getProjects, getUsers, getDocuments } from '../api';
 import Header from './Header';
 import Home from './Home';
 import UserList from './UserList';
@@ -13,21 +13,24 @@ import ProjectsView from './ProjectsView';
 import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
-import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
+import { SET_KEY_HOLDER, SET_PROJECTS, SET_LOGIN_STATE, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
+import { Container } from 'semantic-ui-react';
 
 const App = () => {
   
   const dispatch = useDispatch()
-  const keyHolder = useSelector(state => state.app.keyHolder)
+  // const keyHolder = useSelector(state => state.app.keyHolder)
+  const isLoggedIn = useSelector(state => state.app.isLoggedIn)
 
   // Fetch user to keep user logged in
   useEffect(() => {
     if (localStorage.token) {
       const token = localStorage.token
-      isLoggedIn(token)
+      autoLogin(token)
       .then(loggedInUser => {
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: loggedInUser })
+        dispatch({ type: SET_LOGIN_STATE })
       })
       // change body background color
       const body = document.querySelector('body')
@@ -62,12 +65,15 @@ const App = () => {
     })
   }, [dispatch])
 
+  console.log("IS IT LOGGED IN? --->", isLoggedIn) 
   return (
     <div>
-      { keyHolder ? <Header /> : null}
+      { isLoggedIn ? <Header /> : null}
       <Switch>
-        { keyHolder && (
-            <>
+        <Container>
+        { 
+          isLoggedIn && (
+            <React.Fragment>
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
               <Route exact path="/projects" render={ () => <ProjectsView />} />
@@ -75,13 +81,14 @@ const App = () => {
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/admin/:id" render={ () => <Account />} />
-            </>
+            </React.Fragment>
           ) 
         }
-        <Route exact path="/" render={ () => <Home/>} />
-        <Route path="/signup" render={ () => <Signup/>} />
-        <Route path="/login" render={ () => <Login/>} />
-        { !keyHolder ? <Redirect to="/" /> : <Redirect to="/account" />}
+          <Route exact path="/" render={ () => <Home/>} />
+          <Route path="/signup" render={ () => <Signup/>} />
+          <Route path="/login" render={ () => <Login/>} />
+          { !isLoggedIn ? <Redirect to="/" /> : <Redirect to="/account" />}
+        </Container>
       </Switch>
     </div>
   );

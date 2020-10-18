@@ -204,7 +204,8 @@ const ProjectDetails = props => {
                     </List.Content>
                   </List.Item>
                 </List>
-                  { (!projects.disabled && isKeyHolderAssigned()) && 
+                  { 
+                    (!projects.disabled && isKeyHolderAssigned()) && 
                     <List.Item className="Project-Items">
                       <Form onSubmit={onFormSubmit} className="Project-Document-Form">
                         <Form.Field>
