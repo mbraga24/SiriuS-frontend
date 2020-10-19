@@ -1,13 +1,8 @@
-#Project-Container {
-  border: 3px solid red;
-}
-
 #Project-Container .Project-Header-Align-Items {
   display: flex;
   justify-content: space-between;
   width: 100%;
   padding: 10px 0;
-  border: 3px solid rgb(4, 0, 255);
 }
 
 #Project-Container .Project-Icon-Color {
@@ -39,17 +34,21 @@
   text-decoration: none;
 }
 
-#Project-Container .Project-Spacing-Style {
+#Project-Container .Button-Spacing {
   margin-top: 20px;
 }
 
-#Project-Container .Project-Document-Form {
-  width: 50vw;
+#Project-Container .Project-Items-Style {
+  color: #79589f;
 }
 
-#Project-Container .Project-Items {
-  padding: 15px 0;
-  color: #79589f;
+#Project-Container .Items-Spacing {
+  margin-top: 20px;
+  padding: 2px 5px;
+}
+
+#Project-Container .User-Items {
+  padding: 10px 0;
 }
 
 .Hidden {
@@ -67,8 +66,19 @@
 }
 
 #Project-Container .Project-List {
-  width: 40vw;
-  border: 3px solid rgb(128, 255, 69);
+  width: 100%;
+}
+
+#Project-Container .Column-1 {
+  border: 1px solid black;
+}
+#Project-Container .Column-2 {
+  border: 1px solid blue;
+}
+
+#Project-Container .Project-File-Upload-Wrapper {
+  margin: 0 auto;
+  /* border: 3px solid rgb(184, 30, 120); */
 }
 
 #Project-Container .Project-Header {

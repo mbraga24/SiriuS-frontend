@@ -1,6 +1,7 @@
-#DocumentList-Container {
-  border: 2px solid blue;
-}
+/* #DocumentList-Container {
+  margin: 0 auto;
+  width: 50%
+} */
 
 #DocumentList-Container .DocumentList-Header {
   padding: 15px 0;

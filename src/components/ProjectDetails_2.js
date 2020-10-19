@@ -125,8 +125,6 @@ const ProjectDetails = props => {
     // reset loading to false again
   };
 
-  console.log("PROJECT DETAILS -->", currentProject)
-
   return (
       <React.Fragment>
         <div id="myMm" style={{height: "1mm"}} />
@@ -180,10 +178,11 @@ const ProjectDetails = props => {
                 </Header>
                 <Divider/>
                 <Grid columns={2} className="Project-List">
-                    <Grid.Column width={13}>
+                  <Grid.Row>
+                    <Grid.Column width={14}>
                       <Grid.Row>
                         <Grid.Column width={16}>
-                          <div className="Project-Items-Style Items-Spacing">
+                          <div className="Project-Items">
                             <Icon name='clipboard list' size="large"/>
                             Title:
                             <div className="Project-Title Next-Line">{currentProject.name}</div>
@@ -192,118 +191,122 @@ const ProjectDetails = props => {
                       </Grid.Row>
                       <Grid.Row>
                         <Grid.Column width={16}>
-                          <div className="Project-Items-Style Items-Spacing">
+                          <div className="Project-Items">
                             <Icon name='file alternate' size="large" />
                             Description:
                             <List.Content><span className="Project-Description-Text">{currentProject.description}</span></List.Content>
                           </div>
                         </Grid.Column>
                       </Grid.Row>
-                      <Grid>
-                        <Grid.Row>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='calendar alternate' size="large"/>
-                            Start Date: {currentProject.start_date}
-                          </div>
-                          </Grid.Column>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='calendar check' size="large"/>
-                              Due Date: {currentProject.due_date}
-                          </div>
-                          </Grid.Column>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name="users" size="large"/>
-                              Collaborators: {currentProject.users.length}
-                          </div>
-                          </Grid.Column>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='linkify' size="large"/>
-                            <a href='http://www.semantic-ui.com'>company-site.com</a>
-                          </div>
-                          </Grid.Column>
-                        </Grid.Row>
-                      </Grid>
+                      <Grid.Row>
+                        <Grid.Column width={3}>
+                        <div className="Project-Items">
+                          <Icon name='calendar alternate' size="large"/>
+                          Start Date: {currentProject.start_date}
+                        </div>
+                        </Grid.Column>
+                        <Grid.Column width={3}>
+                        <div className="Project-Items">
+                          <Icon name='calendar check' size="large"/>
+                            Due Date: {currentProject.due_date}
+                        </div>
+                        </Grid.Column>
+                        <Grid.Column width={3}>
+                        <div className="Project-Items">
+                          <Icon name="users" size="large"/>
+                            Collaborators: {currentProject.users.length}
+                        </div>
+                        </Grid.Column>
+                        <Grid.Column width={3}>
+                        <div className="Project-Items">
+                          <Icon name='linkify' size="large"/>
+                          <a href='http://www.semantic-ui.com'>company-site.com</a>
+                        </div>
+                        </Grid.Column>
+                        { 
+                          (!projects.disabled && isKeyHolderAssigned()) &&
+                            <Grid.Column width={8}>
+                              <div className="Project-Items Project-File-Upload-Wrapper">
+                                <Form onSubmit={onFormSubmit}>
+                                  <Form.Field>
+                                    <label>File input & upload </label>
+                                    <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
+                                      <Button.Content visible>
+                                        <Icon name="file" />
+                                      </Button.Content>
+                                      <Button.Content hidden>Share New Document</Button.Content>
+                                    </Button>
+                                    <input
+                                      type="file"
+                                      id="file"
+                                      name="file"
+                                      hidden
+                                      onChange={fileChange}
+                                    />
+                                    <Form.Input
+                                      fluid
+                                      label="File Chosen: "
+                                      placeholder="Use the above bar to browse your file system"
+                                      readOnly
+                                      value={fileName}
+                                    />
+                                      { 
+                                        !buttonStatus ?
+                                        <Button type="submit" className={`Project-Button-Style Project-Spacing-Style ${loading && "loading"} ${!fileName && "disabled"}`}>
+                                          { !loading ? `${"Upload File"}` : `${"Loading"}` }
+                                        </Button>
+                                        :
+                                        statusCode && statusCode === 200 && buttonStatus ?
+                                          (
+                                            <Button className="Project-Spacing-Style" color='green'>
+                                              File Upload Success
+                                            </Button>
+                                          )
+                                        : statusCode && statusCode === 500 && buttonStatus ?
+                                          (
+                                            <Button className="Project-Spacing-Style" color='red'>
+                                              File Upload Failed
+                                            </Button>
+                                          ) : null
+                                      }
+                                  </Form.Field>
+                                </Form>
+                              </div>
+                            </Grid.Column>
+
+                          }
+                          </Grid.Row>
                     </Grid.Column>
 
-                    <Grid.Column width={3}>
+
+                    <Grid.Column width={2}>
                       <List divided verticalAlign='middle'>
-                        <Header as='h5'>Collaborators</Header>
-                        { currentProject.users.map(user => (
-                          <List.Item className="Project-Items-Style User-Items">
-                            <List.Content floated='left'>
-                              <Icon name="user"/>
-                            </List.Content>
-                            <List.Content>{user.first_name} {user.last_name}</List.Content>
-                          </List.Item>
-                        ))
-                        }
+                        <List.Item>
+                          <List.Content floated='right'>
+                            <Button>Add</Button>
+                          </List.Content>
+                          <List.Content>Molly</List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content floated='right'>
+                            <Button>Add</Button>
+                          </List.Content>
+                          <List.Content>Molly</List.Content>
+                        </List.Item>
                       </List>
                     </Grid.Column>
-                </Grid> 
-                <Grid>
-                  <Grid.Row>
-                  { 
-                    (!projects.disabled && isKeyHolderAssigned()) &&
-                      <Grid.Column width={6}>
-                        <div className="Project-Items-Style Items-Spacing Project-File-Upload-Wrapper">
-                          <Form onSubmit={onFormSubmit}>
-                            <Form.Field>
-                              <label>File input & upload </label>
-                              <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
-                                <Button.Content visible>
-                                  <Icon name="file" />
-                                </Button.Content>
-                                <Button.Content hidden>Share New Document</Button.Content>
-                              </Button>
-                              <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                hidden
-                                onChange={fileChange}
-                              />
-                              <Form.Input
-                                fluid
-                                label="File Chosen: "
-                                placeholder="Use the above bar to browse your file system"
-                                readOnly
-                                value={fileName}
-                              />
-                                { 
-                                  !buttonStatus ?
-                                  <Button type="submit" className={`Project-Button-Style Button-Spacing ${loading && "loading"} ${!fileName && "disabled"}`}>
-                                    { !loading ? `${"Upload File"}` : `${"Loading"}` }
-                                  </Button>
-                                  :
-                                  statusCode && statusCode === 200 && buttonStatus ?
-                                    (
-                                      <Button className="Button-Spacing" color='green'>
-                                        File Upload Success
-                                      </Button>
-                                    )
-                                  : statusCode && statusCode === 500 && buttonStatus ?
-                                    (
-                                      <Button className="Button-Spacing" color='red'>
-                                        File Upload Failed
-                                      </Button>
-                                    ) : null
-                                }
-                            </Form.Field>
-                          </Form>
-                        </div>
-                      </Grid.Column>
-                  }
-                  <Grid.Column width={12}>
-                    <div className="Project-Items-Style Items-Spacing">
-                      <DocumentList message={"No documents are listed for this project"} icon={"pdf file outline"} />
-                    </div>
-                  </Grid.Column>
+
+
                   </Grid.Row>
-              </Grid>
+                  {/* <Grid.Row> */}
+                    <Grid.Column width={16}>
+                      <div className="Project-Items">
+                        <DocumentList message={"No documents are listed for this project"} icon={"pdf file outline"} />
+                      </div>
+                    </Grid.Column>
+                  {/* </Grid.Row> */}
+
+                </Grid> 
               </React.Fragment>
           }
         </div>

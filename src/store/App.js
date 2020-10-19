@@ -2,7 +2,6 @@ import { SET_KEY_HOLDER, SET_LOGIN_STATE, SET_LOAD } from './type';
 
 const defaultState = {
   keyHolder: localStorage.token ? localStorage.token : null,
-  isLoggedIn: false,
   isLoading: false
 }
 

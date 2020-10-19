@@ -19,8 +19,7 @@ import { Container } from 'semantic-ui-react';
 const App = () => {
   
   const dispatch = useDispatch()
-  // const keyHolder = useSelector(state => state.app.keyHolder)
-  const isLoggedIn = useSelector(state => state.app.isLoggedIn)
+  const keyHolder = useSelector(state => state.app.keyHolder)
 
   // Fetch user to keep user logged in
   useEffect(() => {
@@ -67,11 +66,11 @@ const App = () => {
 
   return (
     <div>
-      { isLoggedIn ? <MenuBar /> : null}
+      { keyHolder ? <MenuBar /> : null}
       <Switch>
         <Container>
         { 
-          isLoggedIn && (
+          keyHolder && (
             <React.Fragment>
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
@@ -86,7 +85,7 @@ const App = () => {
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
-          { !isLoggedIn ? <Redirect to="/" /> : <Redirect to="/account" />}
+          { !keyHolder ? <Redirect to="/" /> : <Redirect to="/account" />}
         </Container>
       </Switch>
     </div>
