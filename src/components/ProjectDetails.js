@@ -95,8 +95,11 @@ const ProjectDetails = props => {
     html2canvas(input)
     .then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-      let pdf = new jsPDF();
-      pdf.addImage(imgData, 'JPEG', 20, 20);
+      // console.log("offsetWidth --->", input.offsetWidth)
+      let pdf = new jsPDF("l", "mm", "a4"); // full screen
+      // let pdf = new jsPDF("p", "mm", "a4"); // tablet
+      // let pdf = new jsPDF("p", "mm", "a5"); // phone
+      pdf.addImage(imgData, 'JPEG', 5, 5);
       pdf.save(`${currentProject.name}.pdf`);
     });
 
@@ -124,8 +127,6 @@ const ProjectDetails = props => {
     }, 2000)
     // reset loading to false again
   };
-
-  console.log("PROJECT DETAILS -->", currentProject)
 
   return (
       <React.Fragment>
@@ -179,7 +180,7 @@ const ProjectDetails = props => {
                   </span>
                 </Header>
                 <Divider/>
-                <Grid columns={2} className="Project-List">
+                <Grid columns={2} className="Project-List" id="Project-Details">
                     <Grid.Column width={13}>
                       <Grid.Row>
                         <Grid.Column width={16}>
