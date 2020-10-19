@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Dropdown, Menu, Button, Icon, Popup } from 'semantic-ui-react';
 import '../resources/MenuBar.css';
-import { SET_KEY_HOLDER, SET_LOGIN_STATE } from '../store/type';
+import { SET_KEY_HOLDER } from '../store/type';
 
 const MenuBar = (props) => { 
 
@@ -24,7 +24,6 @@ const MenuBar = (props) => {
 
     // update state
     dispatch({ type: SET_KEY_HOLDER, payload: null })
-    dispatch({ type: SET_LOGIN_STATE })
 
     // send user to the home page when logged out
     props.history.push('/home')

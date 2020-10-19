@@ -1,4 +1,4 @@
-import { SET_KEY_HOLDER, SET_LOGIN_STATE, SET_LOAD } from './type';
+import { SET_KEY_HOLDER, SET_LOAD } from './type';
 
 const defaultState = {
   keyHolder: localStorage.token ? localStorage.token : null,
@@ -12,11 +12,6 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         keyHolder: action.payload
-      }
-    case SET_LOGIN_STATE:
-      return {
-        ...state,
-        isLoggedIn: !state.isLoggedIn
       }
     case SET_LOAD:
       return {

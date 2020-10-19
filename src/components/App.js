@@ -13,7 +13,7 @@ import ProjectList from './ProjectList';
 import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
-import { SET_KEY_HOLDER, SET_PROJECTS, SET_LOGIN_STATE, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
+import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
 const App = () => {
@@ -29,7 +29,6 @@ const App = () => {
       .then(loggedInUser => {
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: loggedInUser })
-        dispatch({ type: SET_LOGIN_STATE })
       })
       // change body background color
       const body = document.querySelector('body')

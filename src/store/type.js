@@ -1,6 +1,5 @@
 // App Reducer
 export const SET_KEY_HOLDER = "SET_KEY_HOLDER"
-export const SET_LOGIN_STATE = "SET_LOGIN_STATE"
 export const SET_LOAD = "SET_LOAD"
 
 // Complete Project Reducer
