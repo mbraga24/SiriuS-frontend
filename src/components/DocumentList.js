@@ -45,7 +45,7 @@ const DocumentList = props => {
                 <span className="DocumentList-Title">Documents</span>
               </Header.Content>
             </span>
-          </Header>
+          </Header> 
           { 
             projectDocuments().length !== 0 ?
             <Table basic className="DocumentList-Table">

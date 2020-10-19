@@ -73,18 +73,18 @@ const App = () => {
             <React.Fragment>
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
+              <Route path="/admin/:id" render={ () => <Account />} />
               <Route exact path="/projects" render={ () => <ProjectList />} />
               <Route path="/project/:id" render={ () => <ProjectDetails/>} />
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
-              <Route path="/admin/:id" render={ () => <Account />} />
             </React.Fragment>
           ) 
         }
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
-          { !keyHolder ? <Redirect to="/" /> : <Redirect to="/account" />}
+          { !keyHolder ? <Redirect to="/" /> : <Redirect to="/users" />}
         </Container>
       </Switch>
     </div>
