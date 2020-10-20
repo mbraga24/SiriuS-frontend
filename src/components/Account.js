@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Header, Icon, List, Divider, Label } from 'semantic-ui-react';
+import { Header, Icon, Divider, Grid, Button } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import '../resources/Account.css';
 
@@ -15,7 +15,7 @@ const Account = () => {
     !keyHolder.email ? (
       <h1>Loading...</h1>
     ) : (
-    <>
+    <React.Fragment>
       <div id="Account-Container">
         <Header as='h2' className="Account-Header">
           <Icon name='address card' className="Account-Items"/>
@@ -25,57 +25,54 @@ const Account = () => {
           </Header.Content>
         </Header>
         <Divider/>
-        <List divided className="Account-List">
-          { 
-            !keyHolder.admin &&
-            <List.Item className="Account-Items" as={Link} to={`/user/projects/${keyHolder.id}`}>
-              <List.Icon name='history' size="large" className="Account-Items-Icon"/>
-              <List.Content>Account History</List.Content>
-            </List.Item>
-          }
-          <List.Item className="Account-Items">
-            <List.Icon name='tasks' size="large"/>
-            <List.Content>Projects: { keyHolder.admin ? adminProjectsCount : projects.length }</List.Content>
-          </List.Item>
-          { 
-            keyHolder.admin &&
-            <>
-              <List.Item className="Account-Items">
-                <List.Icon name='users' size="large"/>
-                <List.Content>Collaborators: {users.length} </List.Content>
-              </List.Item>
-              <List.Item disabled className="Account-Items-Disabled">
-                <Label as='a' color='purple' ribbon='right' className="Account-Feature-Ribbon">
-                  Feature coming soon
-                </Label>
-                <List.Icon name='user x' size="large"/>
-                <List.Content>Pending Acceptance: 1</List.Content>
-              </List.Item>
-            </> 
-          }
-          <List.Item className="Account-Items">
-            <List.Icon name='travel' size="large"/>
-            <List.Content>Company Name: {company}</List.Content>
-          </List.Item>
-          <List.Item className="Account-Items">
-            <List.Icon name='id badge' size="large"/>
-            <List.Content>Job Title: {job_title}</List.Content>
-          </List.Item>
-          <List.Item className="Account-Items">
-            <List.Icon name='mail' size="large"/>
-            <List.Content>
-              <a href={`${email}`}>{email}</a>
-            </List.Content>
-          </List.Item>
-          <List.Item className="Account-Items">
-            <List.Icon name='linkify' size="large"/>
-            <List.Content>
-              <a href='http://www.semantic-ui.com'>company-site.com</a>
-            </List.Content>
-          </List.Item>
-        </List>
+        <Grid columns='3' celled='internally'>
+          <Grid.Row>
+            { 
+              <Grid.Column>  
+                <React.Fragment>
+                  { 
+                    !keyHolder.admin ?
+                    <Link to={`/user/projects/${keyHolder.id}`}>
+                      <div className="Account-Items" >
+                        <Icon name='history' size="large" className="Account-Items-Icon"/>
+                        Account History
+                      </div>
+                    </Link> : 
+                      <div className="Account-Items">
+                        <Icon name='users' size="large"/>
+                        Collaborators: {users.length}
+                      </div>
+                  }
+                  <div className="Account-Items">
+                    <Icon name='tasks' size="large"/>
+                    Projects: { keyHolder.admin ? adminProjectsCount : projects.length }
+                  </div>
+                  <div className="Account-Items">
+                    <Icon name='id badge' size="large"/>
+                    Job Title: {job_title}
+                  </div>
+                </React.Fragment>
+              </Grid.Column>
+              }
+            <Grid.Column>
+              <div className="Account-Items">
+                <Icon name='travel' size="large"/>
+                Company Name: {company}
+              </div>
+              <div className="Account-Items">
+                <Icon name='mail' size="large"/>
+                <a href={`${email}`}>{email}</a>
+              </div>
+              <div className="Account-Items">
+                <Icon name='linkify' size="large"/>
+                <a href='http://www.semantic-ui.com'>company-site.com</a>
+              </div>
+              <Button icon='user' content="Collaborators: 7" />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
-    </>
+    </React.Fragment>
     ) 
   )
 }

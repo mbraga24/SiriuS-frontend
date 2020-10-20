@@ -95,10 +95,10 @@ const ProjectDetails = props => {
     html2canvas(input)
     .then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-      // console.log("offsetWidth --->", input.offsetWidth)
-      let pdf = new jsPDF("l", "mm", "a4"); // full screen
+      // input.offsetWidth
       // let pdf = new jsPDF("p", "mm", "a4"); // tablet
       // let pdf = new jsPDF("p", "mm", "a5"); // phone
+      let pdf = new jsPDF("l", "mm", "a4"); // full screen
       pdf.addImage(imgData, 'JPEG', 5, 5);
       pdf.save(`${currentProject.name}.pdf`);
     });
@@ -187,7 +187,7 @@ const ProjectDetails = props => {
                           <div className="Project-Items-Style Items-Spacing">
                             <Icon name='clipboard list' size="large"/>
                             Title:
-                            <div className="Project-Title Next-Line">{currentProject.name}</div>
+                            <p className="Project-Title Next-Line">{currentProject.name}</p>
                           </div>
                         </Grid.Column>
                       </Grid.Row>
