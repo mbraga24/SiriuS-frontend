@@ -90,7 +90,7 @@ const MenuBar = (props) => {
           </Menu.Item>
         <Menu.Menu position='right'>
           <Menu.Item onClick={handleLogout}>
-            <Button className="MenuBar-Button-Color">Logout</Button>
+            <Button className="MenuBar-Button-Color Button-Change">Logout</Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>

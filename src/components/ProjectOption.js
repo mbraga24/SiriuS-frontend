@@ -45,7 +45,7 @@ const ProjectOption = props => {
         } 
         <List.Content floated='right'>
           <Link to={`/project/${id}`}>
-            <Button className="ProjectList-Button-Color">Details</Button>
+            <Button className="ProjectList-Button-Color Change-Invert">Details</Button>
           </Link>
         </List.Content>
           <Link to={`/project/${id}`}>

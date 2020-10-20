@@ -15,7 +15,7 @@ const ProjectHeader = props => {
       { (props.action !== "none" && props.admin) &&
         <span>
           <Link to={props.action === "new" && `${props.newProject}`}>
-            <Button className="ProjectList-Button-Create-Project" >
+            <Button className="ProjectList-Button-Create-Color Button-Change" >
               <Icon name={props.iconButton} /> 
               {props.buttonName}
             </Button>

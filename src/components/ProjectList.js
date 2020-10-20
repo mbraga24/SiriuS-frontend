@@ -17,7 +17,7 @@ const ProjectList = () => {
       <ProjectOption 
       key={project.id} 
       active={true}
-      btnClass={"ProjectList-Button-Color"} 
+      btnClass={"ProjectList-Button-Color Change-Invert"} 
       listClass={"ProjectList-List-Item"} 
       btnName={"Done"}
       linkTo={"/project/"}
@@ -32,7 +32,7 @@ const ProjectList = () => {
       <ProjectOption 
         key={project.id}
         active={false}
-        btnClass={"ProjectList-Button-Color-Delete"} 
+        btnClass={"ProjectList-Button-Color-Delete Change-Invert-Delete"} 
         listClass={"ProjectList-List-Item-Complete"} 
         btnName={"Delete"}
         linkTo={"/project/done/"}

@@ -5,7 +5,7 @@ import { Table, Button, Icon, Divider } from 'semantic-ui-react';
 import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_ACTIVE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
-import '../resources/AddUsersTable.css';
+import '../resources/AddUsersList.css';
 
 const AddUsersTable = props => {
 
@@ -49,14 +49,17 @@ const AddUsersTable = props => {
     if (!addUsersId.includes(userId)) {
       dispatch({ type: ADD_USER_TO_TEMP_PROJECT, payload: userId })
       // change button and icon
-      button.className += " Selected"
+      button.className += " Selected Selected-Change"
+      button.classList.remove("Button-Change")
       icon.classList.remove("user")
       icon.className += " check"
     } else {
       const filteredIds = addUsersId.filter(id => id !== userId)
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: filteredIds })
       // change button and icon back
+      button.className += "Button-Change"
       button.classList.remove("Selected")
+      button.classList.remove("Selected-Change")
       icon.classList.remove("check")
       icon.className += " user"
     }
@@ -97,7 +100,7 @@ const AddUsersTable = props => {
                 size='small'
                 icon
                 id={`Assign-User-${user.id}`}
-                className="AddUsersTable-Button-Color"
+                className="AddUsersTable-Button-Color Button-Change"
                 onClick={() => handleClick(user.id)} >
                 <Icon name="user" id={`Assign-Button-${user.id}`}/> 
                   Assign
@@ -109,7 +112,7 @@ const AddUsersTable = props => {
   }
 
   return (
-    <>
+    <React.Fragment>
       <div id="AddUsersTable-Container">
         {
           currentlyAvailable().length !== 0 ?
@@ -129,11 +132,11 @@ const AddUsersTable = props => {
                 </Table>
                 <Divider/>
                 { props.button ?
-                  <Button type="submit" className="NewProject-Submit-Button-Color">Create</Button>
+                  <Button type="submit" className="NewProject-Submit-Button-Color Button-Change">Create</Button>
                   :
                   (
                     <>
-                      <Button className="NewProject-Submit-Button-Color" onClick={addCollaborators}>Add</Button>
+                      <Button className="NewProject-Submit-Button-Color Button-Change" onClick={addCollaborators}>Add</Button>
                       <Button onClick={() => props.setOpen(false)}>Cancel</Button>
                     </>
                   )
@@ -145,7 +148,7 @@ const AddUsersTable = props => {
             )
         }
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

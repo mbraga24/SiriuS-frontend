@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Header, Icon, Divider, Grid, Button } from 'semantic-ui-react';
+import { Header, Icon, Divider, Grid } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import '../resources/Account.css';
 
@@ -25,7 +25,7 @@ const Account = () => {
           </Header.Content>
         </Header>
         <Divider/>
-        <Grid columns='3' celled='internally'>
+        <Grid columns='3'>
           <Grid.Row>
             { 
               <Grid.Column>  
@@ -67,7 +67,6 @@ const Account = () => {
                 <Icon name='linkify' size="large"/>
                 <a href='http://www.semantic-ui.com'>company-site.com</a>
               </div>
-              <Button icon='user' content="Collaborators: 7" />
             </Grid.Column>
           </Grid.Row>
         </Grid>

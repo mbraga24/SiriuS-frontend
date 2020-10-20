@@ -68,7 +68,7 @@ const NewProject = (props) => {
         <Form.Group widths='equal'>
           <Form.Input fluid name="title" placeholder='Project Title' onChange={handleFieldChange}/>
         </Form.Group>
-        <Form.TextArea name="description" placeholder='Project Description' onChange={handleFieldChange}/>
+        <Form.TextArea name="description" placeholder='Project Description' style={{height: "200px"}} onChange={handleFieldChange}/>
         <DatesRangeInput
           name="datesRange"
           placeholder="From - To"

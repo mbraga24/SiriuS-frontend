@@ -1,11 +1,15 @@
-/* #NewProject-Container {
-  border: 2px solid red;
-} */
-
 #NewProject-Container .NewProject-Submit-Button-Color {
   background-color: #534292;
   color: #fff;
   margin: 20px 0;
+}
+
+#NewProject-Container .Button-Change:hover {
+  background-color: #483396;
+}
+
+#NewProject-Container .Button-Change:active {
+  background-color: #3c2b79;
 }
 
 #NewProject-Container .NewProject-Header-Align-Items {

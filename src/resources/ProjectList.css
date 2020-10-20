@@ -10,6 +10,26 @@
   color: #ac4444;
 }
 
+#ProjectList-Container .Change-Invert:hover {
+  background-color: #534292;
+  color: #fff;
+}
+
+#ProjectList-Container .Change-Invert:active {
+  background-color: #3c2b79;
+  color: #fff;
+}
+
+#ProjectList-Container .Change-Invert-Delete:hover {
+  background-color: #ac4444;
+  color: #fff;
+}
+
+#ProjectList-Container .Change-Invert-Delete:active {
+  background-color: #973131;
+  color: #fff;
+}
+
 #ProjectList-Container .ProjectList-Title {
   font-size: 30px;
 }
@@ -43,7 +63,15 @@
   padding: 10px 0;
 }
 
-#ProjectList-Container .ProjectList-Button-Create-Project {
+#ProjectList-Container .ProjectList-Button-Create-Color {
   background-color: #534292;
   color: #ffffff;
+}
+
+#ProjectList-Container .Button-Change:hover {
+  background-color: #483396;
+}
+
+#ProjectList-Container .Button-Change:active {
+  background-color: #3c2b79;
 }
