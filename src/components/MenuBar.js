@@ -36,7 +36,7 @@ const MenuBar = (props) => {
   return(
     <React.Fragment>
       <Menu id="MenuBar-Container">
-        <Menu.Item as={Link} to={keyHolder.admin ? `/admin/${keyHolder.id}` : `/users/${keyHolder.id}`} className="MenuBar-Font-Color">
+        <Menu.Item as={Link} to={keyHolder.admin && `/users/${keyHolder.id}`} className="MenuBar-Font-Color">
           Account
         </Menu.Item>
           { keyHolder.admin ?

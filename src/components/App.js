@@ -26,9 +26,9 @@ const App = () => {
     if (localStorage.token) {
       const token = localStorage.token
       autoLogin(token)
-      .then(loggedInUser => {
+      .then(user => {
         // update state
-        dispatch({ type: SET_KEY_HOLDER, payload: loggedInUser })
+        dispatch({ type: SET_KEY_HOLDER, payload: user })
       })
       // change body background color
       const body = document.querySelector('body')
@@ -73,7 +73,7 @@ const App = () => {
             <React.Fragment>
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
-              <Route path="/admin/:id" render={ () => <Account />} />
+              {/* <Route path="/admin/:id" render={ () => <Account />} /> */}
               <Route exact path="/projects" render={ () => <ProjectList />} />
               <Route path="/project/:id" render={ () => <ProjectDetails/>} />
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
@@ -84,7 +84,7 @@ const App = () => {
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
-          { !keyHolder ? <Redirect to="/" /> : <Redirect to="/users" />}
+          { !keyHolder ? <Redirect to="/" /> : <Redirect to={`/users/${keyHolder.id}`} />}
         </Container>
       </Switch>
     </div>
