@@ -98,8 +98,9 @@ const ProjectDetails = props => {
       // input.offsetWidth
       // let pdf = new jsPDF("p", "mm", "a4"); // tablet
       // let pdf = new jsPDF("p", "mm", "a5"); // phone
+
       let pdf = new jsPDF("l", "mm", "a4"); // full screen
-      pdf.addImage(imgData, 'JPEG', 5, 5);
+      pdf.addImage(imgData, 'JPEG', 2, 2);
       pdf.save(`${currentProject.name}.pdf`);
     });
 

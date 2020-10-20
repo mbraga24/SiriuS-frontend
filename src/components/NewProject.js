@@ -65,18 +65,17 @@ const NewProject = (props) => {
           </span>
         </Header>
         <Divider className="NewProject-Divider" />
-        <Form.Group widths='equal'>
-          <Form.Input fluid name="title" placeholder='Project Title' onChange={handleFieldChange}/>
-        </Form.Group>
-        <Form.TextArea name="description" placeholder='Project Description' style={{height: "200px"}} onChange={handleFieldChange}/>
+        <Form.Input fluid name="title" placeholder='Project Title' className="NewProject-Form" onChange={handleFieldChange}/>
+        <Form.TextArea  name="description" placeholder='Project Description' className="NewProject-Form" style={{height: "200px"}} onChange={handleFieldChange}/>
         <DatesRangeInput
           name="datesRange"
           placeholder="From - To"
           value={dateRange}
           iconPosition="left"
+          className="NewProject-Form-Data"
           onChange={(a, {name, value}) => handleDateRangeChange(name, value)}
         />
-        <Form.Field widths='equal'>
+        <Form.Field className="NewProject-User-Choice-Wrapper">
           <Header as='h2' className="NewProject-Header">
             <span>
               <Icon name='users' size="large" className="NewProject-Icon-Color"/>

@@ -1,3 +1,9 @@
+#UserList-Container {
+  /* border: 2px solid yellow; */
+  width: 80%;
+  margin: 0 auto;
+}
+
 #UserList-Container .UserList-Button-Invite-User {
   background-color: #534292;
   color: #ffffff;

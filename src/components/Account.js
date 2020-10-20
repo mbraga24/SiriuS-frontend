@@ -25,7 +25,7 @@ const Account = () => {
           </Header.Content>
         </Header>
         <Divider/>
-        <Grid columns='3'>
+        <Grid columns='2'>
           <Grid.Row>
             { 
               <Grid.Column>  

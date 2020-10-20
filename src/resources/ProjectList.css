@@ -1,3 +1,9 @@
+#ProjectList-Container  {
+  /* border: 2px solid red; */
+  width: 80%;
+  margin: 0 auto;
+}
+
 #ProjectList-Container .ProjectList-Button-Color {
   background: none;
   border: 1px solid #60467e;

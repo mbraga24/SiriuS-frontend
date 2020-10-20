@@ -1,7 +1,20 @@
+#NewProject-Container {
+  /* border: 2px solid blue; */
+  margin: 0 auto;
+  width: 80%;
+}
+
 #NewProject-Container .NewProject-Submit-Button-Color {
   background-color: #534292;
   color: #fff;
-  margin: 20px 0;
+}
+
+#NewProject-Container .NewProject-Form {
+  width: 75%;
+}
+
+#NewProject-Container .NewProject-Form-Data {
+  width: 40%;
 }
 
 #NewProject-Container .Button-Change:hover {
@@ -17,6 +30,10 @@
   justify-content: space-between;
   width: 100%;
   padding: 10px 0;
+}
+
+#NewProject-Container .NewProject-User-Choice-Wrapper {
+  margin: 20px 0;
 }
 
 #NewProject-Container, .NewProject-Icon-Color {

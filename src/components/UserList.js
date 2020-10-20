@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Icon, Table, Container, Header, Button, Divider } from 'semantic-ui-react';
+import { Icon, Table, Header, Button, Divider } from 'semantic-ui-react';
 import { deleteUser } from '../api';
 import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
 import '../resources/UserList.css';
@@ -56,7 +56,7 @@ const UserList = () => {
     })
   }
   return (
-    <Container id="UserList-Container">
+    <div id="UserList-Container">
       <Header as='h2' className="UserList-Header-Align-Items">
         <span>
           <Icon name='users' size="large" className="UserList-Icon-Color"/>
@@ -93,7 +93,7 @@ const UserList = () => {
         </Table.Header>
           {users && renderRows()}
       </Table>
-    </Container>
+    </div>
   )
 }
 
