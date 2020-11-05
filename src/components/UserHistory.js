@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Header, Icon, List, Divider, Button } from 'semantic-ui-react';
+import { Header, Icon, List, Divider, Button, Loader } from 'semantic-ui-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeProjectFromUser } from '../api';
 import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
 import DocumentList from './DocumentList';
 import MissingAsset from './MissingAsset';
-import Loading from './Loading';
 import '../resources/UserHistory.css';
 
 const UserHistory = (props) => {
@@ -84,7 +83,7 @@ const UserHistory = (props) => {
           </Header>
           <Divider/>
           <List divided relaxed>
-          { loadProjects ? <Loading /> : renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign First Project"} icon={"puzzle piece"} /> }
+          { loadProjects ? <Loader active inline='centered' /> : renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign First Project"} icon={"puzzle piece"} /> }
           </List>
           <DocumentList message={"No documents"} icon={"pdf file outline"} />
         </React.Fragment>

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Table, Icon, Button, Header } from 'semantic-ui-react';
+import { Table, Icon, Button, Header, Loader } from 'semantic-ui-react';
 import MissingAsset from './MissingAsset';
-import Loading from './Loading';
 import '../resources/DocumentList.css';
 
 const DocumentList = props => {
@@ -49,8 +48,9 @@ const DocumentList = props => {
             </span>
           </Header> 
           { 
-            loadDocuments ?
-            <Loading /> :
+            loadDocuments ? 
+            <Loader active inline='centered' /> 
+            :
             (
               documents && projectDocuments().length !== 0 ?
               <Table basic className="DocumentList-Table">

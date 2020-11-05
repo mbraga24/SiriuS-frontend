@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
-import { Form, Header, Icon, Divider } from 'semantic-ui-react';
-import useFormFields from '../hooks/useFormFields';
-import AddUserList from './AddUserList';
+import { Form, Header, Icon, Divider, Loader } from 'semantic-ui-react';
 import { createProject } from '../api';
 import { ADD_PROJECT, ADD_ACTIVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
+import useFormFields from '../hooks/useFormFields';
+import AddUserList from './AddUserList';
 import "../resources/NewProject.css";
 
 const NewProject = (props) => {
@@ -15,8 +15,9 @@ const NewProject = (props) => {
     description: ""
   })
   const [dateRange, setDateRange] = useState("")
-  const addUsersId = useSelector(state => state.activeProject.addUsersId)
   const dispatch = useDispatch()
+  const addUsersId = useSelector(state => state.activeProject.addUsersId)
+  const loadUsers = useSelector(state => state.load.loadUsers) 
 
   const handleDateRangeChange = (name, value) => {
     setDateRange(value.split("-").join("/"))
@@ -86,7 +87,12 @@ const NewProject = (props) => {
               </Header.Content>
             </span>
           </Header>
-          <AddUserList userType={"newProject"} button={true}/>
+          {
+            loadUsers ?
+            <Loader active inline='centered' />
+            :
+            <AddUserList userType={"newProject"} button={true}/>
+          }
         </Form.Field>
       </Form>
     </div>

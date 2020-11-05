@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Icon, Table, Header, Button, Divider } from 'semantic-ui-react';
+import { Icon, Table, Header, Button, Divider, Loader } from 'semantic-ui-react';
 import { deleteUser } from '../api';
 import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
-import Loading from './Loading';
 import '../resources/UserList.css';
 
 
@@ -57,9 +56,6 @@ const UserList = () => {
     })
   }
   return (
-    loadUsers ? 
-    <Loading />
-    :
     <div id="UserList-Container">
       <Header as='h2' className="UserList-Header-Align-Items">
         <span>
@@ -79,24 +75,29 @@ const UserList = () => {
         }
       </Header>
       <Divider/>
-      <Table celled structured>
-        <Table.Header>
-        <Table.Row textAlign='center'>
-          <Table.HeaderCell rowSpan='2'>First Name</Table.HeaderCell>
-          <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
-          <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
-          <Table.HeaderCell rowSpan='2'>Job Title</Table.HeaderCell>
-          {
-            keyHolder.admin &&
-            <>
-              <Table.HeaderCell rowSpan='1'>History</Table.HeaderCell>
-              <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell> 
-            </>
-          }
-        </Table.Row>
-        </Table.Header>
+      {
+        loadUsers ? 
+        <Loader active inline='centered' />
+        :
+        <Table celled structured>
+          <Table.Header>
+          <Table.Row textAlign='center'>
+            <Table.HeaderCell rowSpan='2'>First Name</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Job Title</Table.HeaderCell>
+            {
+              keyHolder.admin &&
+              <>
+                <Table.HeaderCell rowSpan='1'>History</Table.HeaderCell>
+                <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell> 
+              </>
+            }
+          </Table.Row>
+          </Table.Header>
           {users && renderRows()}
-      </Table>
+        </Table>
+      }
     </div>
   )
 }

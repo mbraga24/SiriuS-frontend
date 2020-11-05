@@ -33,8 +33,6 @@ const MenuBar = (props) => {
     body.classList.add("bg-color-signed-in");
   }
 
-  console.log("KEYHOLDER -->", keyHolder)
-
   return(
     <React.Fragment>
       <Menu id="MenuBar-Container">
