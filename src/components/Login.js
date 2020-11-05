@@ -52,23 +52,15 @@ const Login = (props) => {
         handleMessages(data)
       } else {
         const { user } = data
-        console.log("LOGIN --->", user)
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
         // update localStorage
         localStorage.token = user.id
         localStorage.admin = user.admin
-
         // send loggedin user to their account
-        if (user.admin) {
-          changeBackground()
-          props.history.push(`/admin/${user.id}`)
-        } else {
-          changeBackground()
-          props.history.push(`/users/${user.id}`)
-        }    
+        props.history.push(`/users/${user.id}`)
+        changeBackground()
       }
-    
     })
   }
 

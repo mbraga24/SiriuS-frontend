@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { List, Button } from 'semantic-ui-react';
+import { List, Button, Modal, Header, Icon } from 'semantic-ui-react';
 import { completeProject, deleteProject } from '../api';
 import { ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_COMPLETE_PROJECT } from '../store/type';
 
 const ProjectOption = props => {
 
+  const dispatch = useDispatch()
   const { id, name, start_date, due_date } = props.project
   const keyHolder = useSelector(state => state.app.keyHolder) 
-  const dispatch = useDispatch()
+  const [ open, setOpen ] = useState(false)
 
   // add project to the complete project list
   const handleComplete = () => {
@@ -30,6 +31,7 @@ const ProjectOption = props => {
       for (let user of data.users) {
         dispatch({ type: UPDATE_USER, payload: user })
       }
+      setOpen(false)
     })
   }
 
@@ -39,7 +41,36 @@ const ProjectOption = props => {
       <List.Content>
         { keyHolder.admin ?
           <List.Content floated='right'>
-            <Button className={`${props.btnClass}`} onClick={props.active ? handleComplete : handleDelete}>{props.btnName}</Button>
+               <Modal
+                closeIcon
+                size="tiny"
+                open={open}
+                trigger={<Button className={`${props.btnClass}`}>{props.btnName}</Button>}
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+              >
+                <Header icon={props.active ? "calendar check" : "trash"} content='Please confirm' />
+                <Modal.Content>
+                  {
+                    props.active ?
+                    <p>
+                      You're about to close all activities for this project. Collaborators will no longer be able to share new documents.
+                    </p>
+                    :
+                    <p>
+                      Are you sure you want to delete this project? You will no longer have access to this project's details. 
+                    </p>
+                  }
+                </Modal.Content>
+                <Modal.Actions>
+                  <Button color='red' onClick={() => setOpen(false)}>
+                    <Icon name='remove' /> No
+                  </Button>
+                  <Button color='green' onClick={props.active ? handleComplete : handleDelete}>
+                    <Icon name='checkmark' /> Yes
+                  </Button>
+                </Modal.Actions>
+              </Modal>
           </List.Content>
           : null
         } 

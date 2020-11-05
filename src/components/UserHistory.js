@@ -85,7 +85,7 @@ const UserHistory = (props) => {
           <List divided relaxed>
           { renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign this user their first project"} icon={"puzzle piece"} /> }
           </List>
-          <DocumentList message={"No documents are listed for this user"} icon={"pdf file outline"} />
+          <DocumentList message={"No documents"} icon={"pdf file outline"} />
         </React.Fragment>
       }
     </div>

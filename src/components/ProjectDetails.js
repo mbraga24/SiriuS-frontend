@@ -126,8 +126,9 @@ const ProjectDetails = props => {
       resetButtonStatus()
       resetLoading()
     }, 2000)
-    // reset loading to false again
   };
+
+  console.log("currentProject -->", currentProject)
 
   return (
       <React.Fragment>
@@ -301,7 +302,7 @@ const ProjectDetails = props => {
                   }
                   <Grid.Column width={12}>
                     <div className="Project-Items-Style Items-Spacing">
-                      <DocumentList message={"No documents are listed for this project"} icon={"pdf file outline"} />
+                      <DocumentList message={"No documents"} icon={"pdf file outline"} />
                     </div>
                   </Grid.Column>
                   </Grid.Row>

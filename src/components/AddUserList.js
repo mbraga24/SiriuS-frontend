@@ -18,15 +18,20 @@ const AddUsersTable = props => {
     return `${firstName} ${lastName}`
   }
 
-  // return the users based on the page selected
-  const currentlyAvailable = () => {
-    return props.userType === "newProject" ? availableUsers(users) : notOnCurrentProject(users)
-  }
-
   const availableUsers = data => {
     return data.filter(user => user.available)
   }
-  
+
+  // return the users based on the page selected
+  const currentlyAvailable = () => {
+    if (props.userType === "newProject") {
+      return availableUsers(users)
+    } 
+    if (props.userType === "currentProject") {
+      return notOnCurrentProject(users)
+    }
+  }
+
   // filter out all the users that are working at the selected project
   const notOnCurrentProject = data => {
     const available = []
@@ -39,6 +44,7 @@ const AddUsersTable = props => {
         available.push(user)  
       }
     }
+    console.log("AVAILABLE --->", available)
     return available
   }
 
@@ -111,12 +117,13 @@ const AddUsersTable = props => {
      ))
   }
 
+  console.log("PROPS -->", props)
+
   return (
     <React.Fragment>
       <div id="AddUsersTable-Container">
         {
           currentlyAvailable().length !== 0 ?
-            (
               <React.Fragment>
                 <Table columns={3}>
                   <Table.Header>
@@ -141,11 +148,9 @@ const AddUsersTable = props => {
                     </>
                   )
                 }
-              </React.Fragment>
-            ) : 
-            (
-              <MissingAsset message={"All users seem to be currently unavailable"} icon={"user times"} />
-            )
+              </React.Fragment> 
+              : 
+              <MissingAsset message={props.userType === "newProject" ? "All users seem to be currently unavailable" : "There no users available to work this project"} icon={"user times"} />
         }
       </div>
     </React.Fragment>

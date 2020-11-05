@@ -17,7 +17,7 @@ const DocumentList = props => {
   }
 
   const renderDocuments = () => {
-    return projectDocuments().map(document => (
+    return documents && projectDocuments().map(document => (
       <Table.Row key={document.id}>
         <Table.Cell>
           <Icon name='folder' />
@@ -30,7 +30,7 @@ const DocumentList = props => {
           {document.created_at}
         </Table.Cell>
         <Table.Cell>
-          <Button size='small' compact className="DocumentList-Button-Color" href={`${document.url}`}>Open</Button>
+          <Button size='small' compact className="DocumentList-Button-Color" onClick={() => window.open(document.url)}>Open</Button>
         </Table.Cell>
       </Table.Row>
     ))
@@ -47,7 +47,7 @@ const DocumentList = props => {
             </span>
           </Header> 
           { 
-            projectDocuments().length !== 0 ?
+            documents && projectDocuments().length !== 0 ?
             <Table basic className="DocumentList-Table">
               <Table.Header>
                 <Table.Row>
