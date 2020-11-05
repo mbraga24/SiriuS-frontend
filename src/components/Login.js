@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { loginUser } from '../api';
 import useFormFields from '../hooks/useFormFields';
 import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react';
-import { SET_KEY_HOLDER } from '../store/type';
+import { SET_KEY_HOLDER, LOAD_KEYHOLDER } from '../store/type';
 import '../resources/Login.css';
 import '../resources/index.css'
 
@@ -54,6 +54,7 @@ const Login = (props) => {
         const { user } = data
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
+        dispatch({ type: LOAD_KEYHOLDER, payload: false })
         // update localStorage
         localStorage.token = user.id
         localStorage.admin = user.admin

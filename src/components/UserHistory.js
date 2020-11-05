@@ -6,6 +6,7 @@ import { removeProjectFromUser } from '../api';
 import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
 import DocumentList from './DocumentList';
 import MissingAsset from './MissingAsset';
+import Loading from './Loading';
 import '../resources/UserHistory.css';
 
 const UserHistory = (props) => {
@@ -13,6 +14,7 @@ const UserHistory = (props) => {
   let currentUser;
   const keyHolder = useSelector(state => state.app.keyHolder)
   const projects = useSelector(state => state.project.projects)
+  const loadProjects = useSelector(state => state.load.loadProjects) 
   const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
 
@@ -68,7 +70,6 @@ const UserHistory = (props) => {
   }
   
   return (
-    <React.Fragment>
     <div id="UserHistory-Container">
       {
         currentUser && 
@@ -83,13 +84,12 @@ const UserHistory = (props) => {
           </Header>
           <Divider/>
           <List divided relaxed>
-          { renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign this user their first project"} icon={"puzzle piece"} /> }
+          { loadProjects ? <Loading /> : renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign First Project"} icon={"puzzle piece"} /> }
           </List>
           <DocumentList message={"No documents"} icon={"pdf file outline"} />
         </React.Fragment>
       }
     </div>
-    </React.Fragment>
   )
 }
 

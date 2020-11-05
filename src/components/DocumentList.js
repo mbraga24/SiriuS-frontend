@@ -3,11 +3,13 @@ import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Table, Icon, Button, Header } from 'semantic-ui-react';
 import MissingAsset from './MissingAsset';
+import Loading from './Loading';
 import '../resources/DocumentList.css';
 
 const DocumentList = props => {
 
   const documents = useSelector(state => state.document.documents)
+  const loadDocuments = useSelector(state => state.load.loadDocuments) 
   const matchId = parseInt(props.match.params.id)
   const store = props.match.url.split("/")[1]
 
@@ -47,21 +49,25 @@ const DocumentList = props => {
             </span>
           </Header> 
           { 
-            documents && projectDocuments().length !== 0 ?
-            <Table basic className="DocumentList-Table">
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell>Collaborator</Table.HeaderCell>
-                  <Table.HeaderCell>Posted</Table.HeaderCell>
-                  <Table.HeaderCell></Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body className="DocumentList-Table-Body">
-                { renderDocuments() }
-              </Table.Body>
-            </Table> : 
-            <MissingAsset message={props.message} icon={props.icon} displayUrl={props.displayUrl} />
+            loadDocuments ?
+            <Loading /> :
+            (
+              documents && projectDocuments().length !== 0 ?
+              <Table basic className="DocumentList-Table">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Name</Table.HeaderCell>
+                    <Table.HeaderCell>Collaborator</Table.HeaderCell>
+                    <Table.HeaderCell>Posted</Table.HeaderCell>
+                    <Table.HeaderCell></Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body className="DocumentList-Table-Body">
+                  { renderDocuments() }
+                </Table.Body>
+              </Table> : 
+              <MissingAsset message={props.message} icon={props.icon} displayUrl={props.displayUrl} />
+            )
           } 
         </div>
   )

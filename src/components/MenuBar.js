@@ -33,10 +33,12 @@ const MenuBar = (props) => {
     body.classList.add("bg-color-signed-in");
   }
 
+  console.log("KEYHOLDER -->", keyHolder)
+
   return(
     <React.Fragment>
       <Menu id="MenuBar-Container">
-        <Menu.Item as={Link} to={keyHolder.admin && `/users/${keyHolder.id}`} className="MenuBar-Font-Color">
+        <Menu.Item as={Link} to={`/users/${keyHolder.id}`} className="MenuBar-Font-Color">
           Account
         </Menu.Item>
           { keyHolder.admin ?

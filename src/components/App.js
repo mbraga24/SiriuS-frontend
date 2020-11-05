@@ -13,7 +13,7 @@ import ProjectList from './ProjectList';
 import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
-import { SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
+import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_USERS, LOAD_PROJECTS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
 const App = () => {
@@ -29,6 +29,7 @@ const App = () => {
       .then(user => {
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
+        dispatch({ type: LOAD_KEYHOLDER, payload: false })
       })
       // change body background color
       const body = document.querySelector('body')
@@ -44,6 +45,7 @@ const App = () => {
       dispatch({ type: SET_PROJECTS, payload: projectData })
       dispatch({ type: SET_ACTIVE_PROJECTS, payload: projectData })
       dispatch({ type: SET_COMPLETE_PROJECTS, payload: projectData })
+      dispatch({ type: LOAD_PROJECTS, payload: false })
     })
   }, [dispatch])
 
@@ -52,6 +54,7 @@ const App = () => {
     getDocuments()
     .then(docuData  => {
       dispatch({ type: SET_DOCUMENTS, payload: docuData })
+      dispatch({ type: LOAD_DOCUMENTS, payload: false })
     })
   }, [dispatch])
 
@@ -60,6 +63,8 @@ const App = () => {
     getUsers()
     .then(usersData => {
       dispatch({ type: SET_USERS, payload: usersData })
+      dispatch({ type: LOAD_USERS, payload: false })
+      console.log("LOAD USERS ->", usersData)
     })
   }, [dispatch])
 
@@ -69,22 +74,20 @@ const App = () => {
       <Switch>
         <Container>
         { 
-          keyHolder && (
+          keyHolder &&
             <React.Fragment>
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
-              {/* <Route path="/admin/:id" render={ () => <Account />} /> */}
               <Route exact path="/projects" render={ () => <ProjectList />} />
               <Route path="/project/:id" render={ () => <ProjectDetails/>} />
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
             </React.Fragment>
-          ) 
         }
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
-          { !keyHolder ? <Redirect to="/" /> : <Redirect to={`/users/${keyHolder.id}`} />}
+          { !keyHolder && <Redirect to="/"/> }
         </Container>
       </Switch>
     </div>

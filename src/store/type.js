@@ -30,3 +30,9 @@ export const REMOVE_USER = "REMOVE_USER"
 export const SET_DOCUMENTS = "SET_DOCUMENTS"
 export const ADD_DOCUMENT = "ADD_DOCUMENT"
 export const REMOVE_DOCUMENT = "REMOVE_DOCUMENT"
+
+// Load Reducer
+export const LOAD_KEYHOLDER = "LOAD_KEYHOLDER"
+export const LOAD_PROJECTS = "LOAD_PROJECTS"
+export const LOAD_USERS = "LOAD_USERS"
+export const LOAD_DOCUMENTS = "LOAD_DOCUMENTS"

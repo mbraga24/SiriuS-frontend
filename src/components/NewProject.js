@@ -19,7 +19,7 @@ const NewProject = (props) => {
   const dispatch = useDispatch()
 
   const handleDateRangeChange = (name, value) => {
-    setDateRange(value)
+    setDateRange(value.split("-").join("/"))
   }
 
   const handleSubmit = e => {

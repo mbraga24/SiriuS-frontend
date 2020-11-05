@@ -5,6 +5,7 @@ import activeProject from './ActiveProject';
 import completeProject from './CompleteProject';
 import document from './Document';
 import user from './User';
+import load from './Load';
 
 const rootReducer = combineReducers({
   app,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   project,
   activeProject,
   completeProject,
+  load
 })
 
 const store = createStore(rootReducer)

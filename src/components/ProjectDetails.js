@@ -8,12 +8,14 @@ import html2canvas from 'html2canvas'; // => install html2canvas
 import jsPDF from 'jspdf'; // => install jspdf
 import DocumentList from './DocumentList';
 import AddUserList from './AddUserList';
+import Loading from './Loading';
 import '../resources/Project.css';
 
 const ProjectDetails = props => {
 
   const dispatch = useDispatch()
   const keyHolder = useSelector(state => state.app.keyHolder)
+  const loadProjects = useSelector(state => state.load.loadProjects) 
   const currentUser = useSelector(state => state.app.keyHolder)
   const projectData = useSelector(state => state.project.projects)
   const matchId = parseInt(props.match.params.id)
@@ -95,7 +97,6 @@ const ProjectDetails = props => {
     html2canvas(input)
     .then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-      // input.offsetWidth
       // let pdf = new jsPDF("p", "mm", "a4"); // tablet
       // let pdf = new jsPDF("p", "mm", "a5"); // phone
 
@@ -128,13 +129,15 @@ const ProjectDetails = props => {
     }, 2000)
   };
 
-  console.log("currentProject -->", currentProject)
-
   return (
+      loadProjects ? 
+      <Loading /> 
+      :
       <React.Fragment>
         <div id="myMm" style={{height: "1mm"}} />
         <div id="Project-Container">
-          { (projects.message && currentProject) && 
+          { 
+            (projects.message && currentProject) && 
             <Segment inverted color='red' tertiary size="big" textAlign="center">
               <Icon name='warning' />
               {projects.message(currentProject.finish_date)}
@@ -161,23 +164,24 @@ const ProjectDetails = props => {
                           <Button className={`Project-Download-Button-Style ${loading && "loading"}`} onClick={resetButton}><Icon name="download"/><a href={downloadLink}>{ !loading && `${"Download Project"}`}</a></Button>
                         }                        
                       </React.Fragment>
-                      : keyHolder.admin &&
-                      <Modal
-                        onClose={() => setOpen(false)}
-                        onOpen={() => setOpen(true)}
-                        open={open}
-                        trigger={
-                            <Button className="Project-Button-Style"><Icon name="add"/> Add Collaborator </Button>
-                          }>
-                          <Modal.Header>
-                            <span className="AddUsersTable-Title">Collaborators</span>
-                          </Modal.Header>
-                          <Modal.Content>
-                            <Modal.Description>
-                              <AddUserList userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
-                            </Modal.Description>
-                          </Modal.Content>
-                      </Modal>
+                      : 
+                      keyHolder.admin &&
+                        <Modal
+                          onClose={() => setOpen(false)}
+                          onOpen={() => setOpen(true)}
+                          open={open}
+                          trigger={
+                              <Button className="Project-Button-Style"><Icon name="add"/> Add Collaborator </Button>
+                            }>
+                            <Modal.Header>
+                              <span className="AddUsersTable-Title">Collaborators</span>
+                            </Modal.Header>
+                            <Modal.Content>
+                              <Modal.Description>
+                                <AddUserList userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
+                              </Modal.Description>
+                            </Modal.Content>
+                        </Modal>
                     }
                   </span>
                 </Header>
@@ -235,14 +239,15 @@ const ProjectDetails = props => {
                     <Grid.Column width={3}>
                       <List divided verticalAlign='middle'>
                         <Header as='h5'>Collaborators</Header>
-                        { currentProject.users.map(user => (
-                          <List.Item className="Project-Items-Style User-Items">
-                            <List.Content floated='left'>
-                              <Icon name="user"/>
-                            </List.Content>
-                            <List.Content>{user.first_name} {user.last_name}</List.Content>
-                          </List.Item>
-                        ))
+                        { 
+                          currentProject.users.map(user => (
+                            <List.Item className="Project-Items-Style User-Items">
+                              <List.Content floated='left'>
+                                <Icon name="user"/>
+                              </List.Content>
+                              <List.Content>{user.first_name} {user.last_name}</List.Content>
+                            </List.Item>
+                          ))
                         }
                       </List>
                     </Grid.Column>
@@ -306,7 +311,7 @@ const ProjectDetails = props => {
                     </div>
                   </Grid.Column>
                   </Grid.Row>
-              </Grid>
+                </Grid>
               </React.Fragment>
           }
         </div>

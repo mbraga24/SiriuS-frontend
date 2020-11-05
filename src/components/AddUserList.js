@@ -95,7 +95,6 @@ const AddUsersTable = props => {
   const renderCollaborators = () => {
      return currentlyAvailable().map(user => (
       user.available &&
-        (
           <Table.Row key={user.id}>
             <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
             <Table.Cell>{user.job_title}</Table.Cell>
@@ -113,14 +112,16 @@ const AddUsersTable = props => {
               </Button>
             </Table.Cell>
           </Table.Row>
-        )
      ))
   }
 
   console.log("PROPS -->", props)
-
+  // ========================================================================
+  // ========================================================================
+  // // LOADUSER
+  // ========================================================================
+  // ========================================================================
   return (
-    <React.Fragment>
       <div id="AddUsersTable-Container">
         {
           currentlyAvailable().length !== 0 ?
@@ -153,7 +154,6 @@ const AddUsersTable = props => {
               <MissingAsset message={props.userType === "newProject" ? "All users seem to be currently unavailable" : "There no users available to work this project"} icon={"user times"} />
         }
       </div>
-    </React.Fragment>
   );
 };
 

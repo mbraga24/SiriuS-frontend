@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Table, Header, Button, Divider } from 'semantic-ui-react';
 import { deleteUser } from '../api';
 import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
+import Loading from './Loading';
 import '../resources/UserList.css';
 
 
@@ -11,6 +12,7 @@ const UserList = () => {
 
   const users = useSelector(state => state.user.users)
   const keyHolder = useSelector(state => state.app.keyHolder)
+  const loadUsers = useSelector(state => state.load.loadUsers) 
   const dispatch = useDispatch()
 
   const removeUser = userId => {
@@ -23,9 +25,7 @@ const UserList = () => {
         dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: project })
         dispatch({ type: UPDATE_PROJECT, payload: project })
       }
-
       for (let document of data.documents) {
-        console.log("UPDATE DOCUMENT FETCH --> ", document)
         dispatch({ type: REMOVE_DOCUMENT, payload: document })
       }
     })
@@ -33,29 +33,33 @@ const UserList = () => {
 
   const renderRows = () => {
     return users.map(user => {
-      return (user.id !== keyHolder.id) ? (
-                <Table.Row key={user.id}>
-                  <Table.Cell>{user.first_name}</Table.Cell>
-                  <Table.Cell>{user.last_name}</Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.job_title}</Table.Cell>
-                  { keyHolder.admin && 
-                    <>
-                      <Table.Cell textAlign='center'>
-                        <Link to={`/user/projects/${user.id}`}> 
-                          <Icon name='user' size="large" className="UserList-Icon-Color"/>
-                        </Link>
-                      </Table.Cell>
-                      <Table.Cell textAlign='center'>
-                        <Icon name='delete' size="large" className="UserList-Icon-Color" onClick={() => removeUser(user.id)} />
-                      </Table.Cell>
-                    </>
-                  }
-                </Table.Row>
-              ) : null
+      return (user.id !== keyHolder.id) ? 
+      (
+        <Table.Row key={user.id}>
+          <Table.Cell>{user.first_name}</Table.Cell>
+          <Table.Cell>{user.last_name}</Table.Cell>
+          <Table.Cell>{user.email}</Table.Cell>
+          <Table.Cell>{user.job_title}</Table.Cell>
+          { keyHolder.admin && 
+            <>
+              <Table.Cell textAlign='center'>
+                <Link to={`/user/projects/${user.id}`}> 
+                  <Icon name='user' size="large" className="UserList-Icon-Color"/>
+                </Link>
+              </Table.Cell>
+              <Table.Cell textAlign='center'>
+                <Icon name='delete' size="large" className="UserList-Icon-Color" onClick={() => removeUser(user.id)} />
+              </Table.Cell>
+            </>
+          }
+        </Table.Row>
+      ) : null
     })
   }
   return (
+    loadUsers ? 
+    <Loading />
+    :
     <div id="UserList-Container">
       <Header as='h2' className="UserList-Header-Align-Items">
         <span>

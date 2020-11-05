@@ -2,19 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Header, Icon, Divider, Grid } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
+import Loading from './Loading';
 import '../resources/Account.css';
 
 const Account = () => {
 
   const users = useSelector(state => state.user.users)
   const keyHolder = useSelector(state => state.app.keyHolder) 
+  const loadKeyholder = useSelector(state => state.load.loadKeyholder) 
   const adminProjectsCount = useSelector(state => state.project.projects.length)
   const { email, first_name, last_name, company, job_title, projects } = keyHolder
+  
+  console.log("keyHolder --->", keyHolder)
 
   return (
-    !keyHolder.email ? (
-      <h1>Loading...</h1>
-    ) : (
+    loadKeyholder ? 
+    <Loading />
+    :
     <React.Fragment>
       <div id="Account-Container">
         <Header as='h2' className="Account-Header">
@@ -72,8 +76,7 @@ const Account = () => {
         </Grid>
       </div>
     </React.Fragment>
-    ) 
-  )
+    )
 }
 
 export default Account;
