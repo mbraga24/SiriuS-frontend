@@ -186,7 +186,7 @@ const ProjectDetails = props => {
                           onOpen={() => setOpen(true)}
                           open={open}
                           trigger={
-                              <Button className="Project-Button-Style"><Icon name="add"/> Add Collaborator </Button>
+                              <Button className="Project-Button-Style Button-Change"><Icon name="add"/> Add Collaborator </Button>
                             }>
                             <Modal.Header>
                               <span className="AddUsersTable-Title">Collaborators</span>

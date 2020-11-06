@@ -93,3 +93,11 @@
 #Project-Container .Project-Feature-Ribbon {
   margin: 0;
 }
+
+#Project-Container .Button-Change:hover {
+  background-color: #483396;
+}
+
+#Project-Container .Button-Change:active {
+  background-color: #3c2b79;
+}
