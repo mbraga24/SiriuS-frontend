@@ -98,16 +98,8 @@ const ProjectDetails = props => {
 
     // create PDF of the project page with html2canvas and jsPDF
     const input = document.getElementById("Project-Details")
-    const myMm = document.getElementById("myMm")
-
-    console.log("myMm --->", myMm)
-    console.dir(myMm)
-
     html2canvas(input)
     .then((canvas) => {
-      // const imgData = canvas.toDataURL('image/png');
-      // let pdf = new jsPDF("p", "mm", "a4"); // tablet
-      // let pdf = new jsPDF("p", "mm", "a5"); // phone
 
       let imgData = canvas.toDataURL('image/jpeg', 1.0);
       //Get the original size of canvas/image
@@ -118,30 +110,24 @@ const ProjectDetails = props => {
       let doc_w = pxToMm(img_w);
       let doc_h = pxToMm(img_h);
 
-      console.log("doc_w ->", doc_w)
-      console.log("doc_h ->", doc_h)
       //Set doc size
       let doc = new jsPDF('l', 'mm', [doc_w, doc_h]);  // this works
 
       //set image height similar to doc size
       doc.addImage(imgData, 'JPG', 0, 0, doc_w, doc_h);
       let currentTime = new Date();
-      doc.save('Dashboard_' + currentTime + '.pdf');
+      doc.save(`${currentProject.name}-${currentTime}.pdf`);
 
     });
-  
-    // let pdf = new jsPDF("l", "mm", "a4"); // full screen
-    // pdf.addImage(imgData, 'JPEG', 2, 2);
-    // pdf.save(`${currentProject.name}.pdf`);
 
     // download zip file of a .json file with all the projects attributes
-    // fetch(`http://localhost:3000/download/${currentProject.id}`, {
-    //   headers: { 
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    // .then(response => response)
-    // .then(data => setDownloadLink(data.url))
+    fetch(`http://localhost:3000/download/${currentProject.id}`, {
+      headers: { 
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response)
+    .then(data => setDownloadLink(data.url))
   }
 
   const onFormSubmit = e => {
