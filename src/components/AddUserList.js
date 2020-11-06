@@ -44,7 +44,6 @@ const AddUsersTable = props => {
         available.push(user)  
       }
     }
-    console.log("AVAILABLE --->", available)
     return available
   }
 

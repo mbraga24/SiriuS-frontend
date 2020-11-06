@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Header, Icon, Divider, Grid, Loader } from 'semantic-ui-react';
+import { Header, Icon, Divider, Grid } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
+import Loading from './Loading';
 import '../resources/Account.css';
 
 const Account = () => {
@@ -25,7 +26,7 @@ const Account = () => {
         <Divider/>
         {
           loadKeyholder ? 
-          <Loader active inline='centered' /> 
+          <Loading loadingClass={true} /> 
           :
           <Grid columns='2'>
             <Grid.Row>

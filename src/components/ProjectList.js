@@ -1,9 +1,10 @@
 import React from 'react';
-import { List, Divider, Loader } from 'semantic-ui-react';
+import { List, Divider } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import ProjectOption from './ProjectOption';
 import ProjectHeader from './ProjectHeader';
 import MissingAsset from './MissingAsset';
+import Loading from './Loading';
 import '../resources/ProjectList.css';
 
 const ProjectList = () => {
@@ -47,7 +48,7 @@ const ProjectList = () => {
     <div id="ProjectList-Container">
       <ProjectHeader admin={keyHolder.admin} title={"Projects"} buttonName={"New Project"} action={"new"} newProject={"/projects/new"} iconButton={"add"} iconHeader={"clipboard list"} />
       <List divided relaxed size="large">
-        { loadProjects ? <Loader active inline='centered' /> : (activeProjects.length !== 0 ? renderActive() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} />)  }
+        { loadProjects ? <Loading loadingClass={false} />  : (activeProjects.length !== 0 ? renderActive() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} />)  }
       </List>
       <Divider/>
       { 
@@ -55,7 +56,7 @@ const ProjectList = () => {
         <React.Fragment>
           <ProjectHeader title={"Arquive"} action={"none"} iconHeader={"archive"} />
           <List divided relaxed size="large">
-            { loadProjects ? <Loader active inline='centered' /> : (completeProjects.length !== 0 ? renderComplete() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} />) }
+            { loadProjects ? <Loading loadingClass={false} />  : (completeProjects.length !== 0 ? renderComplete() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} />) }
           </List>
         </React.Fragment>
       }

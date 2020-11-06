@@ -6,7 +6,6 @@ import useFormFields from '../hooks/useFormFields';
 import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react';
 import { SET_KEY_HOLDER, LOAD_KEYHOLDER } from '../store/type';
 import '../resources/Login.css';
-import '../resources/index.css'
 
 const Login = (props) => {
 

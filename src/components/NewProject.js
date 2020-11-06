@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
-import { Form, Header, Icon, Divider, Loader } from 'semantic-ui-react';
+import { Form, Header, Icon, Divider } from 'semantic-ui-react';
 import { createProject } from '../api';
 import { ADD_PROJECT, ADD_ACTIVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
 import AddUserList from './AddUserList';
-import "../resources/NewProject.css";
+import Loading from './Loading';
+import '../resources/NewProject.css';
 
 const NewProject = (props) => {
   const [fields, handleFieldChange] = useFormFields({
@@ -89,7 +90,7 @@ const NewProject = (props) => {
           </Header>
           {
             loadUsers ?
-            <Loader active inline='centered' />
+            <Loading loadingClass={false} />
             :
             <AddUserList userType={"newProject"} button={true}/>
           }

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Icon, Table, Header, Button, Divider, Loader } from 'semantic-ui-react';
+import { Icon, Table, Header, Button, Divider } from 'semantic-ui-react';
 import { deleteUser } from '../api';
 import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
+import Loading from './Loading';
 import '../resources/UserList.css';
 
 
@@ -77,7 +78,7 @@ const UserList = () => {
       <Divider/>
       {
         loadUsers ? 
-        <Loader active inline='centered' />
+        <Loading loadingClass={true} />
         :
         <Table celled structured>
           <Table.Header>

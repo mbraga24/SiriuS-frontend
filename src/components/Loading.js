@@ -1,13 +1,11 @@
 import React from 'react';
-import { Dimmer, Loader } from "semantic-ui-react";
+import { Loader } from "semantic-ui-react";
 import '../resources/Loading.css';
 
-const Loading = () => {
+const Loading = props => {
   return (
-    <div className="Loading">
-      <Dimmer active inverted>
-        <Loader size='large'>Loading</Loader>
-      </Dimmer>
+    <div className={props.loadingClass ? "Loading" : null }>
+      <Loader active inline='centered' size='large'>Loading</Loader>
     </div>
   )
 }

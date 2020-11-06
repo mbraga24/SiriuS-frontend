@@ -83,6 +83,10 @@ const ProjectDetails = props => {
     return keyHolder.admin ? true : keyHolder.projects.find(project => project.id === currentProject.id ? true : false ) 
   }
 
+  const pxToMm = (px) => {
+    return Math.floor(px/document.getElementById('myMm').offsetHeight);
+  };
+
   const handleDownload = () => {
     setButtonStatus(true)
     setLoading(true)
@@ -94,25 +98,50 @@ const ProjectDetails = props => {
 
     // create PDF of the project page with html2canvas and jsPDF
     const input = document.getElementById("Project-Details")
+    const myMm = document.getElementById("myMm")
+
+    console.log("myMm --->", myMm)
+    console.dir(myMm)
+
     html2canvas(input)
     .then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
+      // const imgData = canvas.toDataURL('image/png');
       // let pdf = new jsPDF("p", "mm", "a4"); // tablet
       // let pdf = new jsPDF("p", "mm", "a5"); // phone
 
-      let pdf = new jsPDF("l", "mm", "a4"); // full screen
-      pdf.addImage(imgData, 'JPEG', 2, 2);
-      pdf.save(`${currentProject.name}.pdf`);
+      let imgData = canvas.toDataURL('image/jpeg', 1.0);
+      //Get the original size of canvas/image
+      let img_w = canvas.width;
+      let img_h = canvas.height;
+
+      //Convert to mm
+      let doc_w = pxToMm(img_w);
+      let doc_h = pxToMm(img_h);
+
+      console.log("doc_w ->", doc_w)
+      console.log("doc_h ->", doc_h)
+      //Set doc size
+      let doc = new jsPDF('l', 'mm', [doc_w, doc_h]);  // this works
+
+      //set image height similar to doc size
+      doc.addImage(imgData, 'JPG', 0, 0, doc_w, doc_h);
+      let currentTime = new Date();
+      doc.save('Dashboard_' + currentTime + '.pdf');
+
     });
+  
+    // let pdf = new jsPDF("l", "mm", "a4"); // full screen
+    // pdf.addImage(imgData, 'JPEG', 2, 2);
+    // pdf.save(`${currentProject.name}.pdf`);
 
     // download zip file of a .json file with all the projects attributes
-    fetch(`http://localhost:3000/download/${currentProject.id}`, {
-      headers: { 
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response)
-    .then(data => setDownloadLink(data.url))
+    // fetch(`http://localhost:3000/download/${currentProject.id}`, {
+    //   headers: { 
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    // .then(response => response)
+    // .then(data => setDownloadLink(data.url))
   }
 
   const onFormSubmit = e => {
@@ -131,7 +160,7 @@ const ProjectDetails = props => {
 
   return (
       loadProjects ? 
-      <Loading /> 
+      <Loading loadingClass={true} /> 
       :
       <React.Fragment>
         <div id="myMm" style={{height: "1mm"}} />
@@ -186,7 +215,8 @@ const ProjectDetails = props => {
                   </span>
                 </Header>
                 <Divider/>
-                <Grid columns={2} className="Project-List" id="Project-Details">
+                <div id="Project-Details">
+                <Grid columns={2} className="Project-List">
                     <Grid.Column width={13}>
                       <Grid.Row>
                         <Grid.Column width={16}>
@@ -312,6 +342,7 @@ const ProjectDetails = props => {
                   </Grid.Column>
                   </Grid.Row>
                 </Grid>
+                </div>
               </React.Fragment>
           }
         </div>
