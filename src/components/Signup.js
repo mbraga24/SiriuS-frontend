@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { createUser } from '../api';
 import useFormFields from "../hooks/useFormFields";
 import '../resources/Signup.css';
-import { SET_KEY_HOLDER, UPDATE_USER } from '../store/type';
+import { SET_KEY_HOLDER, UPDATE_USER, LOAD_KEYHOLDER } from '../store/type';
 import { Button, Form, Grid, Header, Message, Segment, Icon, Input, List } from 'semantic-ui-react';
 
 const Signup = (props) => {
@@ -46,10 +46,10 @@ const Signup = (props) => {
   const handleSubmit = e => {
     e.preventDefault()
     
-    if (fields.password === "") {
-      setEmptyPassword(!emptyPassword)
-      fields.password = "0"
-    }
+    // if (fields.password === "") {
+    //   setEmptyPassword(!emptyPassword)
+    //   fields.password = "0"
+    // }
 
     const userInfo = {
       email: fields.email,
@@ -63,13 +63,14 @@ const Signup = (props) => {
     .then(data => {
       if (data.error) {
         const { error, header } = data
-        !emptyPassword && error.push("Password can't be blank")
+        // !emptyPassword && error.push("Password can't be blank")
         runAlert(header, error)
       } else {
         const { user } = data
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
         dispatch({ type: UPDATE_USER, payload: user })
+        dispatch({ type: LOAD_KEYHOLDER, payload: false })
 
         // update localStorage
         localStorage.token = user.id
@@ -79,12 +80,7 @@ const Signup = (props) => {
         const body = document.querySelector('body')
         body.classList.remove("bg-color-signed-in")
 
-        // send new user to their account page
-        if (user.admin) {
-          props.history.push(`/admins/${user.id}`)
-        } else {
-          props.history.push(`/users/${user.id}`)
-        }
+        props.history.push(`/users/${user.id}`)
       }
     })
   }
