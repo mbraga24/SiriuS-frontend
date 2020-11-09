@@ -41,14 +41,7 @@ const MenuBar = (props) => {
     const body = document.querySelector('body')
     body.classList.add("bg-color-signed-in");
   }
-
-  const handleInvitation = () => {
-    console.log("send invitation")
-  }
-
-  // console.log("firstOpen ->", firstOpen)
-  // console.log("secondOpen ->", secondOpen)
-
+  
   return(
     <React.Fragment>
       <Menu id="MenuBar-Container">
@@ -69,13 +62,13 @@ const MenuBar = (props) => {
                       >
                         <Modal.Header>Invite New Collaborator</Modal.Header>
                         <Modal.Content>
-                          <InvitationForm />
+                          <InvitationForm setSecondOpen={setSecondOpen} />
                         </Modal.Content>
-                        <Modal.Actions>
+                        {/* <Modal.Actions>
                           <Button type="submit" onClick={() => setSecondOpen(true)} primary>
                             Send Invitation <Icon name='right chevron' />
                           </Button>
-                        </Modal.Actions>
+                        </Modal.Actions> */}
 
                         <Modal
                           onClose={() => setSecondOpen(false)}

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Form } from 'semantic-ui-react'
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Form } from 'semantic-ui-react';
+import '../resources/InvitationForm.css';
 
-const InvitationForm = () => {
+const InvitationForm = props => {
   
   const keyHolder = useSelector(state => state.app.keyHolder)
   const [ radioCheck, setRadioCheck ] = useState(null)
@@ -17,6 +18,7 @@ const InvitationForm = () => {
 
   const handleInvitation = () => {
     console.log("send invitation")
+    props.setSecondOpen(true)
   }
 
   // /send-invitation
@@ -59,7 +61,9 @@ const InvitationForm = () => {
       </Form.Group>
       <Form.TextArea label='Write a custom invitation ' placeholder='Come join us!' />
       <Form.Checkbox label='Alert me when this user finishes signing up' />
-      {/* <Form.Button>Submit</Form.Button> */}
+      <Form.Group className="Invitation-Form-Submit-Btn-Wrapper">
+        <Form.Button>Send Invitation</Form.Button>
+      </Form.Group>
       {/* Hello, Time to get SiriuS! You have an invitation to be a collaborator */}
     </Form>
   )
