@@ -11,7 +11,7 @@ import Loading from './Loading';
 import '../resources/NewProject.css';
 
 const NewProject = (props) => {
-  const [fields, handleFieldChange] = useFormFields({
+  const [ fields, handleFieldChange ] = useFormFields({
     title: "",
     description: ""
   })

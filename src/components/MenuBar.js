@@ -64,23 +64,17 @@ const MenuBar = (props) => {
                         <Modal.Content>
                           <InvitationForm setSecondOpen={setSecondOpen} />
                         </Modal.Content>
-                        {/* <Modal.Actions>
-                          <Button type="submit" onClick={() => setSecondOpen(true)} primary>
-                            Send Invitation <Icon name='right chevron' />
-                          </Button>
-                        </Modal.Actions> */}
-
                         <Modal
                           onClose={() => setSecondOpen(false)}
                           open={secondOpen}
-                          size='small'
+                          size='mini'
                         >
-                          <Modal.Header>Modal #2</Modal.Header>
-                          <Modal.Content>
-                            <p>That's everything!</p>
-                          </Modal.Content>
+                          <Modal.Header>Invitation sent!</Modal.Header>
+                          {/* <Modal.Content>
+                            <p>Your invitation has been sent</p>
+                          </Modal.Content> */}
                           <Modal.Actions>
-                            <Button icon='check' content='All Done' onClick={closeWindows} />
+                            <Button icon='check' color="green" content='All set' onClick={closeWindows} />
                           </Modal.Actions>
                         </Modal>
                       </Modal>
