@@ -13,6 +13,7 @@ import ProjectList from './ProjectList';
 import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
+import InvitationForm from './InvitationForm';
 import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_USERS, LOAD_PROJECTS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
@@ -82,6 +83,7 @@ const App = () => {
               <Route path="/project/:id" render={ () => <ProjectDetails/>} />
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
+              <Route path="/invite-user" render={ () => <InvitationForm />} />
             </React.Fragment>
         }
           <Route exact path="/" render={ () => <Home/>} />

@@ -19,3 +19,7 @@
 #MenuBar-Container .Button-Change:active {
   background-color: #3c2b79;
 }
+
+#MenuBar-Container .Invite-Btn {
+  padding: 5% 75% 5% 0;
+}
