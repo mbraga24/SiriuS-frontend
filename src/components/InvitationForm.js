@@ -21,7 +21,6 @@ const InvitationForm = props => {
   const companyFielLabel = `If user does not work at ${keyHolder.company} and is not self-employed please provide the name of the company: `
 
   const handleChange = (e, { value }) => {
-    // console.log(typeof value)
     value === "yes" || value === "self" ? setDisableField(true) : setDisableField(false)
     setRadioCheck(value)
   }
@@ -29,25 +28,26 @@ const InvitationForm = props => {
   const handleInvitation = () => {
     console.log("send invitation")
 
-    const data = {
-      email: fields.email,
-      first_name: fields.firstName,
-      last_name: fields.lastName,
-      company: disableField ? radioCheck : fields.companyName,
-      custom_invitation: fields.customInvitation,
-    }
+    // const data = {
+    //   email: fields.email,
+    //   first_name: fields.firstName,
+    //   last_name: fields.lastName,
+    //   company: disableField ? radioCheck : fields.companyName,
+    //   custom_invitation: fields.customInvitation,
+    // }
     
-    fetch(`http://localhost:3000/send-invitation/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(r => r.json())
-    .then(invitation => {
-      console.log(invitation)
-    })
+    // fetch(`http://localhost:3000/send-invitation/`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(data)
+    // })
+    // .then(r => r.json())
+    // .then(invitation => {
+    //   console.log(invitation)
+    // })
+
     props.setSecondOpen(true)
   }
 
