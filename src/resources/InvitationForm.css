@@ -2,3 +2,19 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.TextArea-Field {
+  display: block;
+}
+
+.Hide-Field {
+  display: none;
+}
+
+.Checkbox-Label {
+  margin-left: 5px; 
+}
+
+.Checkbox-Item {
+  margin-left: 15px;
+}
