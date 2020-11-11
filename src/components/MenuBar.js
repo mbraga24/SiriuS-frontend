@@ -35,7 +35,7 @@ const MenuBar = (props) => {
     dispatch({ type: SET_KEY_HOLDER, payload: null })
 
     // send user to the home page when logged out
-    props.history.push('/home')
+    props.history.push('/')
 
     // change body background color
     const body = document.querySelector('body')

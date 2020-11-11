@@ -84,12 +84,12 @@ const App = () => {
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/invite-user" render={ () => <InvitationForm />} />
+              <Redirect to="/users/:id"/>
             </React.Fragment>
         }
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
-          { !keyHolder && <Redirect to="/"/> }
         </Container>
       </Switch>
     </div>

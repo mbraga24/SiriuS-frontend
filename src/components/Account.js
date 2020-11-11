@@ -28,7 +28,7 @@ const Account = () => {
           loadKeyholder ? 
           <Loading loadingClass={true} /> 
           :
-          <Grid columns='2'>
+          <Grid columns='3'>
             <Grid.Row>
               { 
                 <Grid.Column>  
