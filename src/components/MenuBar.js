@@ -60,7 +60,10 @@ const MenuBar = (props) => {
                         onOpen={() => setFirstOpen(true)}
                         open={firstOpen}
                       >
-                        <Modal.Header>Invite New Collaborator</Modal.Header>
+                        <Modal.Header>
+                          <Icon name='user plus' /> 
+                          Invite Collaborator
+                        </Modal.Header>
                         <Modal.Content>
                           <InvitationForm setSecondOpen={setSecondOpen} />
                         </Modal.Content>
@@ -70,9 +73,6 @@ const MenuBar = (props) => {
                           size='mini'
                         >
                           <Modal.Header>Invitation sent!</Modal.Header>
-                          {/* <Modal.Content>
-                            <p>Your invitation has been sent</p>
-                          </Modal.Content> */}
                           <Modal.Actions>
                             <Button icon='check' color="green" content='All set' onClick={closeWindows} />
                           </Modal.Actions>

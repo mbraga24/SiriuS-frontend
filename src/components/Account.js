@@ -41,10 +41,10 @@ const Account = () => {
                           Account History
                         </div>
                       </Link> : 
-                        <div className="Account-Items">
-                          <Icon name='users' size="large"/>
-                          Collaborators: {users.length}
-                        </div>
+                          <div className="Account-Items">
+                            <Icon name='users' size="large"/>
+                            Collaborators: {users.length}
+                          </div>
                     }
                     <div className="Account-Items">
                       <Icon name='tasks' size="large"/>

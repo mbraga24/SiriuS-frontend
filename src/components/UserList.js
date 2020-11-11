@@ -69,7 +69,7 @@ const UserList = () => {
           keyHolder.admin && 
           <span>
             <Button className="UserList-Button-Invite-User" disabled>
-              <Icon name='add' /> 
+              <Icon name='user plus' /> 
               Invite Collaborator
             </Button>
           </span>
