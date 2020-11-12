@@ -39,7 +39,7 @@ const Signup = (props) => {
 
   const displayAlert = errors => {
     return errors.map(e => (
-      <List.Item key={e.id} as='li'>{e}</List.Item>
+      <List.Item key={e.id}>{e}</List.Item>
     ))
   }
 
@@ -155,7 +155,7 @@ const Signup = (props) => {
                 <Header as='h5' dividing>
                   {header}
                 </Header>
-                <List as='ol' style={{ textAlign: "left" }}>
+                <List bulleted style={{ textAlign: "left" }}>
                   { displayAlert(errorMsg) }
                 </List>
               </React.Fragment>

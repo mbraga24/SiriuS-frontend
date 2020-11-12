@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Form, Checkbox, Divider, Transition } from 'semantic-ui-react';
+import { Form, Checkbox, Icon, Divider, Transition, List, Message, Header } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields'
 import '../resources/InvitationForm.css';
 
@@ -9,13 +9,35 @@ const InvitationForm = props => {
   const keyHolder = useSelector(state => state.app.keyHolder)
   const [ toggleCheck, setToggleCheck ] = useState(false)
   const [ checkbox, setCheckbox ] = useState(false)
+  const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ header, setHeader ] = useState("")
+  const [ errorMsg, setErrorMsg ] = useState([])
   const [ fields, handleFieldChange ] = useFormFields({
     email: "",
     firstName: "",
     lastName: "",
     companyName: "",
-    customInvitation: "",
+    customInvitation: ""
   })
+
+  const runAlert = (header, error = []) => {
+    setHeader(header)
+    setErrorMsg(error)
+    setAlertStatus(true)
+    resetAlert()
+  }
+
+  const resetAlert = () => {
+    setTimeout(() => {
+      setAlertStatus(false)
+    }, 5000)
+  }
+
+  const displayAlert = errors => {
+    return errors.map(e => (
+      <List.Item key={e.id}>{e}</List.Item>
+    ))
+  }
 
   const handleToggle = (e, { value }) => {
     setToggleCheck(!toggleCheck)
@@ -42,12 +64,20 @@ const InvitationForm = props => {
       },
       body: JSON.stringify(data)
     })
-    .then(r => r.json()).then(console.log)
-
-    props.setSecondOpen(true)
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        const { error, header } = data
+        console.log("DATA ERROR->", data)
+        runAlert(header, error)
+      } else {
+        console.log(data)
+        props.setSecondOpen(true)
+      }
+    })
   }
 
-  console.log("TOGGLECHECK -->", toggleCheck)
+  console.log("errorMsg -->", errorMsg)
 
   return (
     <Form id="Invitation-Form" onSubmit={handleInvitation}>
@@ -75,6 +105,23 @@ const InvitationForm = props => {
       <Form.Group className="Invitation-Form-Submit-Btn-Wrapper">
         <Form.Button>Send Invitation</Form.Button>
       </Form.Group>
+      { 
+        alertStatus &&
+        <Message style={{display: "block"}} warning attached='bottom'>
+          { 
+            alertStatus && 
+            <React.Fragment>
+              <Header as='h5' dividing>
+                <Icon name="dont"/>
+                {header}
+              </Header>
+              <List bulleted style={{ textAlign: "left" }}>
+                { displayAlert(errorMsg) }
+              </List>
+            </React.Fragment>
+          }
+        </Message>
+      }
     </Form>
   )
 }

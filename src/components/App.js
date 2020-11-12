@@ -17,10 +17,11 @@ import InvitationForm from './InvitationForm';
 import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_USERS, LOAD_PROJECTS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
-const App = () => {
+const App = props => {
   
   const dispatch = useDispatch()
   const keyHolder = useSelector(state => state.app.keyHolder)
+  const pathname = props.location.pathname
 
   // Fetch user to keep user logged in
   useEffect(() => {
@@ -69,6 +70,8 @@ const App = () => {
     })
   }, [dispatch])
 
+  console.log("APP PATH -->", pathname)
+
   return (
     <div>
       { keyHolder ? <MenuBar /> : null}
@@ -84,12 +87,13 @@ const App = () => {
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/invite-user" render={ () => <InvitationForm />} />
-              <Redirect to="/users/:id"/>
+              <Redirect render={ () => <Account /> } />
             </React.Fragment>
         }
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
+          { !keyHolder && pathname !== "/signup" && <Redirect to="/"/>  }
         </Container>
       </Switch>
     </div>

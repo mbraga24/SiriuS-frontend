@@ -48,7 +48,7 @@ const UserList = () => {
                 </Link>
               </Table.Cell>
               <Table.Cell textAlign='center'>
-                <Icon name='delete' size="large" className="UserList-Icon-Color" onClick={() => removeUser(user.id)} />
+                <Icon name='user times' size="large" className="UserList-Icon-Color" onClick={() => removeUser(user.id)} />
               </Table.Cell>
             </>
           }
