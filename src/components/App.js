@@ -70,8 +70,6 @@ const App = props => {
     })
   }, [dispatch])
 
-  console.log("APP PATH -->", pathname)
-
   return (
     <div>
       { keyHolder ? <MenuBar /> : null}
@@ -87,13 +85,13 @@ const App = props => {
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/invite-user" render={ () => <InvitationForm />} />
-              <Redirect render={ () => <Account /> } />
+              <Redirect to={`/users/${keyHolder.id}`} />
             </React.Fragment>
         }
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
-          { !keyHolder && pathname !== "/signup" && <Redirect to="/"/>  }
+          { (!keyHolder && pathname !== "/signup" && pathname !== "/login") && <Redirect to="/"/>  }
         </Container>
       </Switch>
     </div>

@@ -28,55 +28,51 @@ const Account = () => {
           loadKeyholder ? 
           <Loading loadingClass={true} /> 
           :
-          <Grid columns='3'>
+          <Grid doubling padded columns='2'>
             <Grid.Row>
               { 
-                <Grid.Column>  
                   <React.Fragment>
                     { 
-                      !keyHolder.admin ?
+                    !keyHolder.admin ?
+                    <Grid.Column className="Account-Items">
                       <Link to={`/user/projects/${keyHolder.id}`}>
-                        <div className="Account-Items" >
-                          <Icon name='history' size="large" className="Account-Items-Icon"/>
-                          Account History
-                        </div>
-                      </Link> : 
+                        <Icon name='history' size="large" className="Account-Items-Icon"/>
+                        Account History
+                      </Link> 
+                    </Grid.Column>: 
                       <>
-                        <div className="Account-Items">
+                        <Grid.Column className="Account-Items">
                           <Icon name='users' size="large"/>
                           Collaborators: {users.length}
-                        </div>
-                        <div className="Account-Items">
-                          <Icon name='users' size="large"/>
-                          Collaborators: {users.length}
-                        </div>
+                        </Grid.Column>
+                        <Grid.Column className="Account-Items">
+                          <Icon name='hourglass two' size="large"/>
+                          Pending Invitations: {keyHolder.sent_invites.length}
+                        </Grid.Column>
                       </>
                     }
-                    <div className="Account-Items">
+                    <Grid.Column className="Account-Items">
                       <Icon name='tasks' size="large"/>
                       Projects: { keyHolder.admin ? adminProjectsCount : projects.length }
-                    </div>
-                    <div className="Account-Items">
+                    </Grid.Column>
+                    <Grid.Column className="Account-Items">
                       <Icon name='id badge' size="large"/>
                       Job Title: {job_title}
-                    </div>
+                    </Grid.Column>
                   </React.Fragment>
-                </Grid.Column>
                 }
-              <Grid.Column>
-                <div className="Account-Items">
+                <Grid.Column className="Account-Items">
                   <Icon name='travel' size="large"/>
                   Company Name: {company}
-                </div>
-                <div className="Account-Items">
+                </Grid.Column>
+                <Grid.Column className="Account-Items">
                   <Icon name='mail' size="large"/>
                   <a href={`${email}`}>{email}</a>
-                </div>
-                <div className="Account-Items">
+                </Grid.Column>
+                <Grid.Column className="Account-Items">
                   <Icon name='linkify' size="large"/>
                   <a href='http://www.semantic-ui.com'>company-site.com</a>
-                </div>
-              </Grid.Column>
+                </Grid.Column>
             </Grid.Row>
           </Grid>
         }
