@@ -31,6 +31,11 @@ export const SET_DOCUMENTS = "SET_DOCUMENTS"
 export const ADD_DOCUMENT = "ADD_DOCUMENT"
 export const REMOVE_DOCUMENT = "REMOVE_DOCUMENT"
 
+// Invitation Reducer
+export const SET_INVITATIONS = "SET_INVITATIONS"
+export const ADD_INVITATION = "ADD_INVITATION"
+export const REMOVE_INVITATION = "REMOVE_INVITATION"
+
 // Load Reducer
 export const LOAD_KEYHOLDER = "LOAD_KEYHOLDER"
 export const LOAD_PROJECTS = "LOAD_PROJECTS"
