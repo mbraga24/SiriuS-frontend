@@ -1,7 +1,7 @@
 import { SET_INVITATIONS, ADD_INVITATION, REMOVE_INVITATION } from './type';
 
 const defaultState = {
-  invitations = []
+  invitations: []
 }
 
 const reducer = (state = defaultState, action) => {
@@ -9,12 +9,12 @@ const reducer = (state = defaultState, action) => {
     case SET_INVITATIONS:
       return {
         ...state,
-        invitations: action.payload
+        invitations: [...action.payload]
       }
     case ADD_INVITATION:
       return {
         ...state,
-        invitations: [action.payload, state.invitations]
+        invitations: [action.payload, ...state.invitations]
       }
     case REMOVE_INVITATION:
       const filteredInvitations = state.invitations.filter(invite => invite.id !== action.payload.id)

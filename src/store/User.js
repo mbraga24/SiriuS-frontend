@@ -11,7 +11,6 @@ const onlyUsers = payload => {
 const reducer = (state = defaultState, action) => {
   switch(action.type) {
     case SET_USERS:
-      // filter out the first user (admin)
       const filteredUsers = onlyUsers(action.payload)
       return {  
         ...state,

@@ -36,3 +36,11 @@
   padding: 10px 0;
 }
 
+#UserList-Container .Display-Column {
+  display: block;
+}
+
+#UserList-Container .Hide-Column {
+  display: none;
+}
+

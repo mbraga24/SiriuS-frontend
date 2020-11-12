@@ -22,7 +22,6 @@ export const loginUser = data => {
   .then(r => r.json())
 }
 
-
 // user autologin 
 export const autoLogin = adminId => {
   return fetch(`http://localhost:3000/autologin/${adminId}`)
@@ -93,7 +92,7 @@ export const completeProject = projectId => {
 }
 
 // delete complete projects
-export const deleteProject = (projectId) => {
+export const deleteProject = projectId => {
   return fetch(`http://localhost:3000/projects/${projectId}`, {
     method: "DELETE"
   })
@@ -112,4 +111,18 @@ export const newDocument = formData => {
     method: 'POST',
     body: formData
   })
+}
+
+// set invitations
+export const getInvites = () => {
+  return fetch(`http://localhost:3000/invites`)
+  .then(r => r.json())
+}
+
+// detele invitations
+export const deleteInvites = inviteId => {
+  return fetch(`http://localhost:3000/invites/${inviteId}`, {
+    method: 'DELETE'
+  })
+  .then(r => r.json())
 }

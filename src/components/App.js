@@ -2,10 +2,11 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { autoLogin, getProjects, getUsers, getDocuments } from '../api';
+import { autoLogin, getProjects, getUsers, getDocuments, getInvites } from '../api';
 import MenuBar from './MenuBar';
 import Home from './Home';
 import UserList from './UserList';
+import InviteList from './InviteList';
 import Login from './Login';
 import Signup from './Signup';
 import Account from './Account';
@@ -14,7 +15,7 @@ import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
 import InvitationForm from './InvitationForm';
-import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_USERS, LOAD_PROJECTS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
+import { SET_INVITATIONS, LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_USERS, LOAD_PROJECTS, LOAD_INVITATIONS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
 const App = props => {
@@ -63,12 +64,23 @@ const App = props => {
   // Fetch users
   useEffect(() => {
     getUsers()
-    .then(usersData => {
-      dispatch({ type: SET_USERS, payload: usersData })
+    .then(userData => {
+      dispatch({ type: SET_USERS, payload: userData })
       dispatch({ type: LOAD_USERS, payload: false })
-      console.log("LOAD USERS ->", usersData)
+      console.log("LOAD USERS ->", userData)
     })
   }, [dispatch])
+
+    // Fetch users
+    useEffect(() => {
+      getInvites()
+      .then(inviteData => {
+        console.log("LOAD INVITES --->", inviteData)
+        dispatch({ type: SET_INVITATIONS, payload: inviteData })
+        dispatch({ type: LOAD_INVITATIONS, payload: false })
+        console.log("LOAD INVITATIONS ->", inviteData)
+      })
+    }, [dispatch])
 
   return (
     <div>
@@ -85,6 +97,7 @@ const App = props => {
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/invite-user" render={ () => <InvitationForm />} />
+              <Route path="/invitations" render={ () => <InviteList />} />
               <Redirect to={`/users/${keyHolder.id}`} />
             </React.Fragment>
         }

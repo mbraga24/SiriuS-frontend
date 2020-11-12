@@ -1,6 +1,5 @@
 // App Reducer
 export const SET_KEY_HOLDER = "SET_KEY_HOLDER"
-export const SET_LOAD = "SET_LOAD"
 
 // Complete Project Reducer
 export const SET_COMPLETE_PROJECTS = "SET_COMPLETE_PROJECT"
@@ -41,3 +40,4 @@ export const LOAD_KEYHOLDER = "LOAD_KEYHOLDER"
 export const LOAD_PROJECTS = "LOAD_PROJECTS"
 export const LOAD_USERS = "LOAD_USERS"
 export const LOAD_DOCUMENTS = "LOAD_DOCUMENTS"
+export const LOAD_INVITATIONS = "LOAD_INVITATIONS"

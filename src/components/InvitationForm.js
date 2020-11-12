@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Form, Checkbox, Icon, Divider, Transition, List, Message, Header } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields'
 import '../resources/InvitationForm.css';
+import { ADD_INVITATION } from '../store/type';
 
 const InvitationForm = props => {
   
+  const dispatch = useDispatch()
   const keyHolder = useSelector(state => state.app.keyHolder)
   const [ toggleCheck, setToggleCheck ] = useState(false)
   const [ checkbox, setCheckbox ] = useState(false)
@@ -59,7 +61,7 @@ const InvitationForm = props => {
       mode: "cors",
       method: "POST",
       headers: {
-        'Access-Control-Allow-Origin':'*',
+        "Access-Control-Allow-Origin":"*",
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
@@ -72,6 +74,7 @@ const InvitationForm = props => {
         runAlert(header, error)
       } else {
         console.log(data)
+        dispatch({ type: ADD_INVITATION, payload: data.invite })
         props.setSecondOpen(true)
       }
     })

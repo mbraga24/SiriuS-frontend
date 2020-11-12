@@ -29,3 +29,20 @@
 #Account-Container .Account-Feature-Ribbon {
   margin: 0;
 }
+
+#Account-Container .Account-Btn {
+  width: 70%;
+}
+
+#Account-Container .Account-Button-Color {
+  background-color: #534292;
+  color: #fff;
+}
+
+#Account-Container .Button-Change:hover {
+  background-color: #483396;
+}
+
+#Account-Container .Button-Change:active {
+  background-color: #3c2b79;
+}

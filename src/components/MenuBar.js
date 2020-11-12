@@ -54,7 +54,7 @@ const MenuBar = (props) => {
                 { keyHolder.admin && 
                   <Dropdown.Item>
                     <>
-                      <span className="MenuBar-Font-Color Invite-Btn" onClick={() => setFirstOpen(true)}>Invite</span>
+                      <span className="MenuBar-Font-Color Invite-Btn" onClick={() => setFirstOpen(true)}>New Invitation</span>
                       <Modal
                         onClose={() => setFirstOpen(false)}
                         onOpen={() => setFirstOpen(true)}
@@ -81,8 +81,11 @@ const MenuBar = (props) => {
                     </>
                   </Dropdown.Item>
                 }
+                <Dropdown.Item as={Link} to='/invitations'>
+                  <span className="MenuBar-Font-Color">Pending Invites</span>
+                </Dropdown.Item>
                 <Dropdown.Item as={Link} to='/users'>
-                  <span className="MenuBar-Font-Color">List</span>
+                  <span className="MenuBar-Font-Color">Collaborators List</span>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
