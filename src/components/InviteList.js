@@ -15,13 +15,9 @@ const InviteList = () => {
   const removeInvite = inviteId => {
     deleteInvites(inviteId)
     .then(data => {
-      console.log("DELETE INVITATION -->", data)
       dispatch({ type: REMOVE_INVITATION, payload: data })
-      // SHOULD I UPDATE KEYHOLDER sent_invites LIST ?
     })
   }
-
-  console.log("INVITELIST - KEYHOLDER -->", keyHolder)
 
   return (
     <TableList 

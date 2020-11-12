@@ -34,30 +34,32 @@ const Account = () => {
               <Grid padded columns='1'>
                 <Grid.Row>
                   {
-                    !keyHolder.admin &&
+                    !keyHolder.admin ?
                     <Grid.Column className="Account-Items">
-                      <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
-                        <Icon name='history' size="large"/>
-                        Account History
+                      <Button floated='right' as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                      <Icon name='history' size="large"/>
+                      Account History
                       </Button>
-                    </Grid.Column> 
-                  }
+                    </Grid.Column> :
+                    <React.Fragment>
+                      <Grid.Column className="Account-Items">
+                        <Button floated='right' as={Link} to={`/users`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                        <Icon name='users' size="large"/>
+                        Collaborators: {users.length}
+                        </Button>
+                      </Grid.Column>
+                      <Grid.Column className="Account-Items">
+                        <Button floated='right' as={Link} to={`/invitations`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                        <Icon name='hourglass two' size="large"/>
+                        Pending Invitations: {adminInvitationCount}
+                        </Button>
+                      </Grid.Column>
+                    </React.Fragment>
+                  } 
                   <Grid.Column className="Account-Items">
-                    <Button as={Link} to={`/users`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
-                      <Icon name='users' size="large"/>
-                      Collaborators: {users.length}
-                    </Button>
-                  </Grid.Column>
-                  <Grid.Column className="Account-Items">
-                    <Button as={Link} to={`/invitations`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
-                      <Icon name='hourglass two' size="large"/>
-                      Pending Invitations: {adminInvitationCount}
-                    </Button>
-                  </Grid.Column>
-                  <Grid.Column className="Account-Items">
-                    <Button as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
-                      <Icon name='tasks' size="large" />
-                      Projects: { keyHolder.admin ? adminProjectsCount : projects.length }
+                    <Button floated='right' as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                    <Icon name='tasks' size="large" />
+                    Projects: { keyHolder.admin ? adminProjectsCount : projects.length }
                     </Button>
                   </Grid.Column>
                 </Grid.Row>
@@ -65,20 +67,28 @@ const Account = () => {
               <Grid padded columns='1'>
                 <Grid.Row>    
                   <Grid.Column className="Account-Items">
+                    <Button color="grey" floated='left' active className="Account-Btn">
                     <Icon name='id badge' size="large"/>
-                    Job Title: {job_title}
+                    {job_title}
+                    </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
+                    <Button color="grey" floated='left' active className="Account-Btn">
                     <Icon name='travel' size="large"/>
-                    Company Name: {company}
+                    {company}
+                    </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
+                    <Button color="grey" floated='left' active className="Account-Btn Link">
                     <Icon name='mail' size="large"/>
                     <a href={`${email}`}>{email}</a>
+                    </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
+                    <Button color="grey" floated='left' active className="Account-Btn Link">
                     <Icon name='linkify' size="large"/>
                     <a href='http://www.semantic-ui.com'>company-site.com</a>
+                    </Button>
                   </Grid.Column>
               </Grid.Row>
             </Grid>

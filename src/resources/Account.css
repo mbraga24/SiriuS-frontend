@@ -34,6 +34,19 @@
   width: 70%;
 }
 
+#Account-Container .Link a:link {
+  color: white;
+}
+
+#Account-Container .Link a:visited {
+  color: white;
+}
+
+#Account-Container .Link a:hover {
+  color: #534292;
+}
+
+
 #Account-Container .Account-Button-Color {
   background-color: #534292;
   color: #fff;
