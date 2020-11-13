@@ -15,7 +15,7 @@ const InviteList = () => {
   const removeInvite = inviteId => {
     deleteInvites(inviteId)
     .then(data => {
-      dispatch({ type: REMOVE_INVITATION, payload: data })
+      dispatch({ type: REMOVE_INVITATION, payload: data.invite })
     })
   }
 

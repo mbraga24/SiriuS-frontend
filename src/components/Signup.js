@@ -4,23 +4,26 @@ import { useDispatch } from 'react-redux';
 import { createUser } from '../api';
 import useFormFields from "../hooks/useFormFields";
 import '../resources/Signup.css';
-import { SET_KEY_HOLDER, UPDATE_USER, LOAD_KEYHOLDER } from '../store/type';
+import { SET_KEY_HOLDER, ADD_USER, LOAD_KEYHOLDER, REMOVE_INVITATION } from '../store/type';
 import { Button, Form, Grid, Header, Message, Segment, Icon, Input, List } from 'semantic-ui-react';
 
-const Signup = (props) => {
+const Signup = props => {
 
   const dispatch = useDispatch()
   const [ alertStatus, setAlertStatus ] = useState(false)
   const [ emptyPassword, setEmptyPassword ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
+  const searchToken = props.location.search
+  const doesTokenExist = searchToken.match(/invite_token/g) ? true : false
 
   const [fields, handleFieldChange] = useFormFields({
     email: "",
     firstName: "",
     lastName: "",
     jobTitle: "",
-    password: ""
+    password: "",
+    company: ""
   })
 
   const runAlert = (header, error) => {
@@ -52,24 +55,30 @@ const Signup = (props) => {
     // }
 
     const userInfo = {
-      email: fields.email,
-      first_name: fields.firstName,
-      last_name: fields.lastName,
-      company: fields.company,
-      job_title: fields.jobTitle,
-      password: fields.password
+      user: {
+        email: fields.email,
+        first_name: fields.firstName,
+        last_name: fields.lastName,
+        job_title: fields.jobTitle,
+        password: fields.password,
+        invite_token: doesTokenExist ? searchToken.split("=")[1] : null
+      }
     }
+
     createUser(userInfo)
     .then(data => {
       if (data.error) {
         const { error, header } = data
+        console.log("AN ERROR OCCURRED", data)
         // !emptyPassword && error.push("Password can't be blank")
         runAlert(header, error)
       } else {
-        const { user } = data
+        console.log("EVERYTHING SEEM FINE", data)
+        const { user, invite } = data
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
-        dispatch({ type: UPDATE_USER, payload: user })
+        dispatch({ type: ADD_USER, payload: user })
+        dispatch({ type: REMOVE_INVITATION, payload: invite })
         dispatch({ type: LOAD_KEYHOLDER, payload: false })
 
         // update localStorage
@@ -117,19 +126,9 @@ const Signup = (props) => {
             />
             <Form.Input
               fluid
-              icon='hand point right'
-              iconPosition='left'
-              placeholder='Company Name'
-              type='company'
-              name='company'
-              // onChange={handleFieldChange}
-            />
-            <Form.Input
-              fluid
               icon='address card'
               iconPosition='left'
               placeholder='Job Title'
-              type='jobTitle'
               name='jobTitle'
               onChange={handleFieldChange}
             />

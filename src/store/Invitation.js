@@ -18,6 +18,7 @@ const reducer = (state = defaultState, action) => {
       }
     case REMOVE_INVITATION:
       const filteredInvitations = state.invitations.filter(invite => invite.id !== action.payload.id)
+      console.log("filteredInvitations ->", filteredInvitations)
       return {
         ...state,
         invitations: [...filteredInvitations]

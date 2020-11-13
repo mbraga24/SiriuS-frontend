@@ -74,19 +74,19 @@ const UserHistory = (props) => {
       {
         currentUser && 
         <React.Fragment>
+          <List divided relaxed>
           <Header as='h2' className="UserHistory-Header-Align-Items">
             <span>
-              <Icon name='user' size="large" className="UserHistory-Icon-Color"/>
+              <Icon name='puzzle' size="large" className="UserHistory-Icon-Color"/>
               <Header.Content>
-                <span className="UserHistory-Title">{currentUser.first_name} {currentUser.last_name}</span>
+                <span className="UserHistory-Title">Your Projects</span>
               </Header.Content>
             </span>
-          </Header>
-          <Divider/>
-          <List divided relaxed>
-          { loadProjects ? <Loading loadingClass={false} /> : renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"Assign First Project"} icon={"puzzle piece"} /> }
+          </Header> 
+          { loadProjects ? <Loading loadingClass={false} /> : renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"No projects assigned"} icon={"puzzle piece"} /> }
           </List>
-          <DocumentList message={"No documents"} icon={"pdf file outline"} />
+          <Divider/>
+          <DocumentList message={"No documents published"} icon={"pdf file outline"} />
         </React.Fragment>
       }
     </div>

@@ -67,7 +67,6 @@ const App = props => {
     .then(userData => {
       dispatch({ type: SET_USERS, payload: userData })
       dispatch({ type: LOAD_USERS, payload: false })
-      console.log("LOAD USERS ->", userData)
     })
   }, [dispatch])
 
@@ -75,10 +74,8 @@ const App = props => {
     useEffect(() => {
       getInvites()
       .then(inviteData => {
-        console.log("LOAD INVITES --->", inviteData)
         dispatch({ type: SET_INVITATIONS, payload: inviteData })
         dispatch({ type: LOAD_INVITATIONS, payload: false })
-        console.log("LOAD INVITATIONS ->", inviteData)
       })
     }, [dispatch])
 

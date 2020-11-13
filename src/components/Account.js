@@ -29,27 +29,27 @@ const Account = () => {
           loadKeyholder ? 
           <Loading loadingClass={true} /> 
           :
-          <Grid doubling columns='2'>
+          <Grid doubling columns='2' textAlign="center">
             <Grid.Row>
               <Grid padded columns='1'>
                 <Grid.Row>
                   {
                     !keyHolder.admin ?
                     <Grid.Column className="Account-Items">
-                      <Button floated='right' as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                      <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
                       <Icon name='history' size="large"/>
                       Account History
                       </Button>
                     </Grid.Column> :
                     <React.Fragment>
                       <Grid.Column className="Account-Items">
-                        <Button floated='right' as={Link} to={`/users`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                        <Button as={Link} to={`/users`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
                         <Icon name='users' size="large"/>
                         Collaborators: {users.length}
                         </Button>
                       </Grid.Column>
                       <Grid.Column className="Account-Items">
-                        <Button floated='right' as={Link} to={`/invitations`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                        <Button as={Link} to={`/invitations`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
                         <Icon name='hourglass two' size="large"/>
                         Pending Invitations: {adminInvitationCount}
                         </Button>
@@ -57,7 +57,7 @@ const Account = () => {
                     </React.Fragment>
                   } 
                   <Grid.Column className="Account-Items">
-                    <Button floated='right' as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                    <Button as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
                     <Icon name='tasks' size="large" />
                     Projects: { keyHolder.admin ? adminProjectsCount : projects.length }
                     </Button>
@@ -67,25 +67,25 @@ const Account = () => {
               <Grid padded columns='1'>
                 <Grid.Row>    
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" floated='left' active className="Account-Btn">
+                    <Button color="grey" active className="Account-Btn">
                     <Icon name='id badge' size="large"/>
                     {job_title}
                     </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" floated='left' active className="Account-Btn">
+                    <Button color="grey" active className="Account-Btn">
                     <Icon name='travel' size="large"/>
                     {company}
                     </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" floated='left' active className="Account-Btn Link">
+                    <Button color="grey" active className="Account-Btn Link">
                     <Icon name='mail' size="large"/>
                     <a href={`${email}`}>{email}</a>
                     </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" floated='left' active className="Account-Btn Link">
+                    <Button color="grey" active className="Account-Btn Link">
                     <Icon name='linkify' size="large"/>
                     <a href='http://www.semantic-ui.com'>company-site.com</a>
                     </Button>

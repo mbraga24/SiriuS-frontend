@@ -36,7 +36,7 @@ export const getUsers = () => {
 
 // delete user
 export const deleteUser = userId => {
-  return fetch(`http://localhost:3000//users/${userId}`, {
+  return fetch(`http://localhost:3000/users/${userId}`, {
     method: "DELETE"
   })
   .then(r => r.json())
@@ -56,6 +56,7 @@ export const getProjects = () => {
   .then(r => r.json())
 
 }
+
 // add user to project
 export const addUserProject = updateProject => {
   return fetch(`http://localhost:3000/add_user/project/`, {
@@ -121,6 +122,7 @@ export const getInvites = () => {
 
 // detele invitations
 export const deleteInvites = inviteId => {
+  console.log("inviteId =>", inviteId)
   return fetch(`http://localhost:3000/invites/${inviteId}`, {
     method: 'DELETE'
   })
