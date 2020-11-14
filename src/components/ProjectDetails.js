@@ -37,13 +37,6 @@ const ProjectDetails = props => {
   const [ open, setOpen ] = useState(false)
   const [ downloadLink, setDownloadLink ] = useState("")
 
-  // ====================================================
-  // TypeError: Cannot read property 'find' of undefined
-  // ====================================================
-  // const isKeyHolderAssigned = () => {
-  //   return keyHolder.admin ? true : keyHolder.projects.find(project => project.id === currentProject.id ? true : false ) 
-  // }
-
   const pxToMm = (px) => {
     return Math.floor(px/document.getElementById('myMm').offsetHeight);
   };
