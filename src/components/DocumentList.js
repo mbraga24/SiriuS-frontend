@@ -67,7 +67,7 @@ const DocumentList = props => {
                   { renderDocuments() }
                 </Table.Body>
               </Table> : 
-              <MissingAsset message={props.message} icon={props.icon} displayUrl={props.displayUrl} />
+              <MissingAsset message={"No documents"} icon={"pdf file outline"} />
             )
           } 
         </div>

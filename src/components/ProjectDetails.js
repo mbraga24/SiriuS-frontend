@@ -9,6 +9,7 @@ import jsPDF from 'jspdf'; // => install jspdf
 import DocumentList from './DocumentList';
 import AddUserList from './AddUserList';
 import Loading from './Loading';
+import { downloadZip } from '../api';
 import '../resources/Project.css';
 
 const ProjectDetails = props => {
@@ -19,7 +20,7 @@ const ProjectDetails = props => {
   const currentUser = useSelector(state => state.app.keyHolder)
   const projectData = useSelector(state => state.project.projects)
   const matchId = parseInt(props.match.params.id)
-  const currentProject = projectData.find(pro => pro.id === matchId)
+  const currentProject = projectData.find(p => p.id === matchId)
   const isComplete = currentProject && currentProject.done ? true : false;
   const projects = isComplete ? {
     message: function(date) {
@@ -36,14 +37,51 @@ const ProjectDetails = props => {
   const [ open, setOpen ] = useState(false)
   const [ downloadLink, setDownloadLink ] = useState("")
 
-  // wait 2 seconds and reset loading
-  const resetLoading = () => {
-    setTimeout(function(){ setLoading(false) }, 1000)
-  }
+  // ====================================================
+  // TypeError: Cannot read property 'find' of undefined
+  // ====================================================
+  // const isKeyHolderAssigned = () => {
+  //   return keyHolder.admin ? true : keyHolder.projects.find(project => project.id === currentProject.id ? true : false ) 
+  // }
 
-  // wait 3 seconds and reset buttonStatus
-  const resetButtonStatus = () => {
-    setTimeout(function(){ setButtonStatus(false) }, 1500)
+  const pxToMm = (px) => {
+    return Math.floor(px/document.getElementById('myMm').offsetHeight);
+  };
+
+  const handleDownload = () => {
+    setButtonStatus(true)
+    setLoading(true)
+
+    // create PDF of the project page with html2canvas and jsPDF
+    const input = document.getElementById("Project-Details")
+    html2canvas(input)
+    .then((canvas) => {
+
+      let imgData = canvas.toDataURL('image/jpeg', 1.0);
+      //Get the original size of canvas/image
+      let img_w = canvas.width;
+      let img_h = canvas.height;
+    
+      //Convert to mm
+      let doc_w = pxToMm(img_w);
+      let doc_h = pxToMm(img_h)
+
+      //Set doc size
+      let doc = new jsPDF('l', 'mm', [doc_h, doc_w]);  // this works
+
+      //set image height similar to doc size
+      doc.addImage(imgData, 'JPG', 0, 0, doc_w, doc_h);
+      let currentTime = new Date();
+      doc.save(`${currentProject.name}-${currentTime}.pdf`);
+
+    });
+
+    // download zip file of a .json file with all the projects attributes
+    downloadZip(currentProject.id)
+    .then(data => {
+      setLoading(false)
+      setDownloadLink(data.url)
+    })
   }
 
   // set file and set fileName
@@ -52,8 +90,7 @@ const ProjectDetails = props => {
     setFileName(e.target.files[0].name)
   };
 
-  const fileUpload = (file, fileName, projectId, userId) => {
-    
+  const fileUpload = (file, fileName, projectId, userId) => {    
     const formData = new FormData();
     // FormData attributes 
     formData.append("file", file);
@@ -66,93 +103,29 @@ const ProjectDetails = props => {
       if (r.ok) {
         // set statusCode 
         setStatusCode(r.status)
-        // set buttonStatus to true
-        setButtonStatus(true) 
         return r.json()
       }
     })
     .then(newDoc => {
+      // set loading back to false
       setLoading(false)
-      setButtonStatus(false) 
-      console.log("DOCUMENT RETURNED")
+      // wait 3 seconds and reset buttonStatus
+      setTimeout(function(){ setButtonStatus(false) }, 3000)
+      // update store 
       dispatch({ type: ADD_DOCUMENT, payload: newDoc })
       setFileName("")
     })
   };
 
-  const resetButton = () => {
-    setButtonStatus(false)
-  }
-  // ====================================================
-  // TypeError: Cannot read property 'find' of undefined
-  // ====================================================
-  const isKeyHolderAssigned = () => {
-    return keyHolder.admin ? true : keyHolder.projects.find(project => project.id === currentProject.id ? true : false ) 
-  }
-
-  const pxToMm = (px) => {
-    return Math.floor(px/document.getElementById('myMm').offsetHeight);
-  };
-
-  const handleDownload = () => {
-    setButtonStatus(true)
-    setLoading(true)
-
-    setTimeout(function() { 
-      setButtonStatus(true) 
-      resetLoading()
-    }, 1000)
-
-    // create PDF of the project page with html2canvas and jsPDF
-    const input = document.getElementById("Project-Details")
-    html2canvas(input)
-    .then((canvas) => {
-
-      let imgData = canvas.toDataURL('image/jpeg', 1.0);
-      //Get the original size of canvas/image
-      let img_w = canvas.width;
-      let img_h = canvas.height;
-
-      //Convert to mm
-      let doc_w = pxToMm(img_w);
-      let doc_h = pxToMm(img_h);
-
-      //Set doc size
-      let doc = new jsPDF('l', 'mm', [doc_w, doc_h]);  // this works
-
-      //set image height similar to doc size
-      doc.addImage(imgData, 'JPG', 0, 0, doc_w, doc_h);
-      let currentTime = new Date();
-      doc.save(`${currentProject.name}-${currentTime}.pdf`);
-
-    });
-
-    // download zip file of a .json file with all the projects attributes
-    fetch(`http://localhost:3000/download/${currentProject.id}`, {
-      headers: { 
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response)
-    .then(data => setDownloadLink(data.url))
-  }
-
   const onFormSubmit = e => {
     e.preventDefault(); 
     // set loading to true
     setLoading(true)
+    // set buttonStatus to true to display upload success or failed
+    setButtonStatus(true) 
     // upload file to database
     fileUpload(file, fileName, currentProject.id, currentUser.id);
-    // wait 2 seconds to set buttonStatus to true and reset buttonStatus to false again
-    // setTimeout(function() { 
-    //   setButtonStatus(true) 
-    //   resetButtonStatus()
-      // resetLoading()
-    // }, 2000)
   };
-
-  console.log("buttonStatus -->", buttonStatus)
-  console.log("StatusCode -->", statusCode)
 
   return (
       loadProjects ? 
@@ -186,7 +159,7 @@ const ProjectDetails = props => {
                           !buttonStatus ? 
                           <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Back Up Project</Button>
                           :
-                          <Button className={`Project-Download-Button-Style ${loading && "loading"}`} onClick={resetButton}><Icon name="download"/><a href={downloadLink}>{ !loading && `${"Download Project"}`}</a></Button>
+                          <Button className={`Project-Download-Button-Style ${loading && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loading && `${"Download Project"}`}</a></Button>
                         }                        
                       </React.Fragment>
                       : 
@@ -212,153 +185,136 @@ const ProjectDetails = props => {
                 </Header>
                 <Divider/>
                 <div id="Project-Details">
-                <Grid columns={2} className="Project-List">
-                    <Grid.Column width={13}>
-                      <Grid.Row>
-                        <Grid.Column width={16}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='clipboard list' size="large"/>
-                            Title:
-                            <p className="Project-Title Next-Line">{currentProject.name}</p>
-                          </div>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column width={16}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='file alternate' size="large" />
-                            Description:
-                            <List.Content><span className="Project-Description-Text">{currentProject.description}</span></List.Content>
-                          </div>
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid>
+                  <Grid doubling columns={2} className="Project-List">
+                      <Grid.Column width={13}>
                         <Grid.Row>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='calendar alternate' size="large"/>
-                            Start Date: {currentProject.start_date}
-                          </div>
-                          </Grid.Column>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='calendar check' size="large"/>
-                              Due Date: {currentProject.due_date}
-                          </div>
-                          </Grid.Column>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name="users" size="large"/>
-                              Collaborators: {currentProject.users.length}
-                          </div>
-                          </Grid.Column>
-                          <Grid.Column width={4}>
-                          <div className="Project-Items-Style Items-Spacing">
-                            <Icon name='linkify' size="large"/>
-                            <a href='http://www.semantic-ui.com'>company-site.com</a>
-                          </div>
+                          <Grid.Column width={16}>
+                            <div className="Project-Items-Style Items-Spacing">
+                              <Icon name='clipboard list' size="large"/>
+                              Title:
+                              <p className="Project-Title Next-Line">{currentProject.name}</p>
+                            </div>
                           </Grid.Column>
                         </Grid.Row>
-                      </Grid>
-                    </Grid.Column>
+                        <Grid.Row>
+                          <Grid.Column width={16}>
+                            <div className="Project-Items-Style Items-Spacing">
+                              <Icon name='file alternate' size="large" />
+                              Description:
+                              <List.Content><span className="Project-Description-Text">{currentProject.description}</span></List.Content>
+                            </div>
+                          </Grid.Column>
+                        </Grid.Row>
+                        <Grid>
+                          <Grid.Row>
+                            <Grid.Column width={4}>
+                            <div className="Project-Items-Style Items-Spacing">
+                              <Icon name='calendar alternate' size="large"/>
+                              Start Date: {currentProject.start_date}
+                            </div>
+                            </Grid.Column>
+                            <Grid.Column width={4}>
+                            <div className="Project-Items-Style Items-Spacing">
+                              <Icon name='calendar check' size="large"/>
+                                Due Date: {currentProject.due_date}
+                            </div>
+                            </Grid.Column>
+                            <Grid.Column width={4}>
+                            <div className="Project-Items-Style Items-Spacing">
+                              <Icon name="users" size="large"/>
+                                Collaborators: {currentProject.users.length}
+                            </div>
+                            </Grid.Column>
+                            <Grid.Column width={4}>
+                            <div className="Project-Items-Style Items-Spacing">
+                              <Icon name='linkify' size="large"/>
+                              <a href='http://www.semantic-ui.com'>company-site.com</a>
+                            </div>
+                            </Grid.Column>
+                          </Grid.Row>
+                        </Grid>
+                      </Grid.Column>
 
-                    <Grid.Column width={3}>
-                      <List divided verticalAlign='middle'>
-                        <Header as='h5'>Collaborators</Header>
-                        { 
-                          currentProject.users.map(user => (
-                            <List.Item className="Project-Items-Style User-Items">
-                              <List.Content floated='left'>
-                                <Icon name="user"/>
-                              </List.Content>
-                              <List.Content>{user.first_name} {user.last_name}</List.Content>
-                            </List.Item>
-                          ))
-                        }
-                      </List>
-                    </Grid.Column>
-                </Grid> 
-                <Grid>
-                  <Grid.Row>
-                  { 
-                    (!projects.disabled && isKeyHolderAssigned()) &&
-                      <Grid.Column width={6}>
-                        <div className="Project-Items-Style Items-Spacing Project-File-Upload-Wrapper">
-                          <Form onSubmit={onFormSubmit}>
-                            <Form.Field>
-                              <label>File input & upload </label>
-                              <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
-                                <Button.Content visible>
-                                  <Icon name="file" />
-                                </Button.Content>
-                                <Button.Content hidden>Share New Document</Button.Content>
-                              </Button>
-                              <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                hidden
-                                onChange={fileChange}
-                              />
-                              <Form.Input
-                                fluid
-                                label="File Chosen: "
-                                placeholder="Use the above bar to browse your file system"
-                                readOnly
-                                value={fileName}
-                              />
-                                { 
-                                  // !buttonStatus ?
-                                  // <Button type="submit" className={`Project-Button-Style Button-Spacing ${loading && "loading"} ${!fileName && "disabled"}`}>
-                                  //   { !loading ? `${"Upload File"}` : `${"Loading"}` }
-                                  // </Button>
-                                  loading && fileName ?
-                                  <Button className="Button-Spacing" loading>
-                                    Loading
-                                  </Button> : 
-                                    statusCode === 200 && buttonStatus ?
+                      <Grid.Column width={3}>
+                        <List divided verticalAlign='middle'>
+                          <Header as='h5'>Collaborators</Header>
+                          { 
+                            currentProject.users.map(user => (
+                              <List.Item className="Project-Items-Style User-Items">
+                                <List.Content floated='left'>
+                                  <Icon name="user"/>
+                                </List.Content>
+                                <List.Content>{user.first_name} {user.last_name}</List.Content>
+                              </List.Item>
+                            ))
+                          }
+                        </List>
+                      </Grid.Column>
+                  </Grid> 
+                  <Grid>
+                    <Grid.Row>
+                    { 
+                        !projects.disabled &&
+                        <Grid.Column width={6}>
+                          <div className="Project-Items-Style Items-Spacing Project-File-Upload-Wrapper">
+                            <Form onSubmit={onFormSubmit}>
+                              <Form.Field>
+                                <label>File input & upload </label>
+                                <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
+                                  <Button.Content visible>
+                                    <Icon name="file" />
+                                  </Button.Content>
+                                  <Button.Content hidden>Share New Document</Button.Content>
+                                </Button>
+                                <input
+                                  type="file"
+                                  id="file"
+                                  name="file"
+                                  hidden
+                                  onChange={fileChange}
+                                />
+                                <Form.Input
+                                  fluid
+                                  label="File Chosen: "
+                                  placeholder="Use the above bar to browse your file system"
+                                  readOnly
+                                  value={fileName}
+                                />
+                                  { 
+                                    loading && fileName ?
+                                    <Button className="Project-Button-Style Button-Spacing" loading>
+                                      Loading
+                                    </Button> : 
+                                      statusCode === 200 && buttonStatus ?
+                                      (
+                                        <Button className="Button-Spacing" color='green'>
+                                          File Upload Success
+                                        </Button>
+                                      ) : 
+                                      statusCode === 500 && buttonStatus ? 
+                                      (
+                                        <Button className="Button-Spacing" color='red'>
+                                          File Upload Failed
+                                        </Button>
+                                      ) : 
                                     (
-                                      <Button className="Button-Spacing" color='green'>
-                                        File Upload Success
-                                      </Button>
-                                    ) : statusCode === 500 && buttonStatus ? 
-                                    (
-                                      <Button className="Button-Spacing" color='red'>
-                                        File Upload Failed
-                                      </Button>
-                                    ) : 
-                                  (
-                                    <Button type="submit" className={`Project-Button-Style Button-Spacing ${!fileName && "disabled"}`}>
-                                      Upload File
-                                    </Button>      
-                                  )
-
-                                  // :
-                                  // statusCode && statusCode === 200 && buttonStatus ?
-                                    // (
-                                    //   <Button className="Button-Spacing" color='green'>
-                                    //     File Upload Success
-                                    //   </Button>
-                                    // )
-                                  // : statusCode && statusCode === 500 && buttonStatus ?
-                                    // (
-                                    //   <Button className="Button-Spacing" color='red'>
-                                    //     File Upload Failed
-                                    //   </Button>
-                                    // ) 
-                                }
-                            </Form.Field>
-                          </Form>
+                                      <Button type="submit" className={`Project-Button-Style Button-Spacing ${!fileName && "disabled"}`}>
+                                        Upload File
+                                      </Button>      
+                                    )
+                                  }
+                              </Form.Field>
+                            </Form>
+                          </div>
+                        </Grid.Column>
+                    }
+                      <Grid.Column width={12} id="Grid-Document-List-Wrapper">
+                        <div className="Project-Items-Style Items-Spacing">
+                          <DocumentList />
                         </div>
                       </Grid.Column>
-                  }
-                  <Grid.Column width={12}>
-                    <div className="Project-Items-Style Items-Spacing">
-                      <DocumentList message={"No documents"} icon={"pdf file outline"} />
-                    </div>
-                  </Grid.Column>
-                  </Grid.Row>
-                </Grid>
+                    </Grid.Row>
+                  </Grid>
                 </div>
               </React.Fragment>
           }

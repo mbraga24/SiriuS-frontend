@@ -128,3 +128,12 @@ export const deleteInvites = inviteId => {
   })
   .then(r => r.json())
 }
+
+export const downloadZip = projectId => {
+  fetch(`http://localhost:3000/download/${projectId}`, {
+    headers: { 
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response)
+}
