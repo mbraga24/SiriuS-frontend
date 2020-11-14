@@ -5,7 +5,6 @@ const defaultState = {
 }
 
 const reducer = (state = defaultState, action) => {
-  // console.log("APP REDUCER: ", state.keyholder)
   switch(action.type) {
     case SET_KEY_HOLDER:
       return {

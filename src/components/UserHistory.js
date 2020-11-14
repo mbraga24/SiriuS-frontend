@@ -9,12 +9,13 @@ import MissingAsset from './MissingAsset';
 import Loading from './Loading';
 import '../resources/UserHistory.css';
 
-const UserHistory = (props) => {
+const UserHistory = props => {
   
   let currentUser;
   const keyHolder = useSelector(state => state.app.keyHolder)
   const projects = useSelector(state => state.project.projects)
   const loadProjects = useSelector(state => state.load.loadProjects) 
+  const loadUsers = useSelector(state => state.load.loadUsers) 
   const users = useSelector(state => state.user.users)
   const dispatch = useDispatch()
 
@@ -36,14 +37,13 @@ const UserHistory = (props) => {
   const removeProject = (userId, projectId) => {
     removeProjectFromUser(userId, projectId)
     .then(data => {
-      console.log(data)
       dispatch({ type: UPDATE_USER, payload: data.user }) 
       dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: data.project }) 
       dispatch({ type: UPDATE_PROJECT, payload: data.project }) 
     })
   }
 
-  // filter current active user's projects
+  // filter current active user's projects                     
   const filteredProjects = () => {
     const userProjects = []
     projects.map(project => currentUser.projects.map(pro => (project.id === pro.id) && userProjects.push(project)))
@@ -68,7 +68,7 @@ const UserHistory = (props) => {
       </List.Item>
     ))
   }
-  
+
   return (
     <div id="UserHistory-Container">
       {
@@ -79,14 +79,18 @@ const UserHistory = (props) => {
             <span>
               <Icon name='puzzle' size="large" className="UserHistory-Icon-Color"/>
               <Header.Content>
-                <span className="UserHistory-Title">Your Projects</span>
+                {
+                  loadUsers ?
+                  "" :
+                  <span className="UserHistory-Title">{ keyHolder.admin && currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : "Your Projects"}</span>
+                }
               </Header.Content>
             </span>
           </Header> 
           { loadProjects ? <Loading loadingClass={false} /> : renderProjects().length !== 0 ? renderProjects() : <MissingAsset message={"No projects assigned"} icon={"puzzle piece"} /> }
           </List>
           <Divider/>
-          <DocumentList message={"No documents published"} icon={"pdf file outline"} />
+          <DocumentList message={"No shared documents"} icon={"pdf file outline"} />
         </React.Fragment>
       }
     </div>

@@ -53,14 +53,14 @@ const ProjectDetails = props => {
   };
 
   const fileUpload = (file, fileName, projectId, userId) => {
+    
     const formData = new FormData();
     // FormData attributes 
     formData.append("file", file);
     formData.append("fileName", fileName);
     formData.append("projectId", projectId);
     formData.append("userId", userId);
-    
-    console.log("FORM DATA --->", formData)
+  
     newDocument(formData)
     .then(r => {
       if (r.ok) {
