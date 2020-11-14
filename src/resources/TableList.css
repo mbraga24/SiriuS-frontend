@@ -1,0 +1,55 @@
+#TableList-Container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#TableList-Container .TableList-Button-Invite-User {
+  background-color: #534292;
+  color: #ffffff;
+}
+
+#TableList-Container .TableList-Button-Invite-User:hover  {
+  background-color: #483396;
+  color: #fff;
+}
+
+#TableList-Container .TableList-Button-Invite-User:active  {
+  background-color: #3c2b79;
+  color: #fff;
+}
+
+#TableList-Container .TableList-Hide-Button {
+  display: none;
+}
+
+#TableList-Container .TableList-Button-Color {
+  color: #60467e;  
+}
+
+#TableList-Container .TableList-Title {
+  font-size: 30px;
+  padding-left: 8px;
+}
+
+#TableList-Container .TableList-Icon-Color {
+  color: #79589f;
+  cursor: pointer;
+  width: 50px;
+  height: 25px;
+}
+
+#TableList-Container .TableList-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
+
+#TableList-Container .Display-Column {
+  display: block;
+}
+
+#TableList-Container .Hide-Column {
+  display: none;
+}
+

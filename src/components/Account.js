@@ -10,6 +10,9 @@ const Account = () => {
   const users = useSelector(state => state.user.users)
   const keyHolder = useSelector(state => state.app.keyHolder) 
   const loadKeyholder = useSelector(state => state.load.loadKeyholder) 
+  // const loadUsers = useSelector(state => state.load.loadUsers) 
+  // const loadInvites = useSelector(state => state.load.loadInvites) 
+  // const loadProjects = useSelector(state => state.load.loadProjects) 
   const adminProjectsCount = useSelector(state => state.project.projects.length)
   const adminInvitationCount = useSelector(state => state.invitation.invitations.length)
   const { email, first_name, last_name, company, job_title, projects } = keyHolder
@@ -21,7 +24,7 @@ const Account = () => {
           <Icon name='address card' className="Account-Items"/>
           <Header.Content>
             <span className="Account-Title">Account Summary</span>
-            <Header.Subheader>{ first_name } { last_name } { keyHolder.admin ? "- Administrator" : "- Collaborator" } </Header.Subheader>
+            { !loadKeyholder && <Header.Subheader>{ first_name } { last_name } { keyHolder.admin ? "- Administrator" : "- Collaborator" } </Header.Subheader> }
           </Header.Content>
         </Header>
         <Divider/>

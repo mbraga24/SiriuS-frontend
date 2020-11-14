@@ -34,10 +34,10 @@ const App = props => {
         dispatch({ type: SET_KEY_HOLDER, payload: user })
         dispatch({ type: LOAD_KEYHOLDER, payload: false })
 
-         // change body background color
-        const body = document.querySelector('body')
-        body.classList.remove("bg-color-home")
       })
+      // change body background color
+     const body = document.querySelector('body')
+     body.classList.remove("bg-color-home")
     }
 
   }, [dispatch]) 
@@ -99,7 +99,6 @@ const App = props => {
               {/* <Redirect to={`/users/${keyHolder.id}`} /> */}
             </React.Fragment>
         }
-          {/* <Route exact path="/" render={ () => <Home/>} /> */}
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />

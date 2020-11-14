@@ -15,7 +15,6 @@ const MenuBar = (props) => {
   }
   const chatFeatureMessage = "'Siri-me that list later today!' You'll be saying that soon! We're excited about our new chat feature. Our engineers are working around the clock so users can chat in real-time."
 
-  // retrieve keyHolder from store
   const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
 
@@ -28,16 +27,10 @@ const MenuBar = (props) => {
   }
 
   const handleLogout = () => {
-    // clear localStorage
     localStorage.clear()
-
-    // update state
     dispatch({ type: SET_KEY_HOLDER, payload: null })
-
-    // send user to the home page when logged out
     props.history.push('/')
-
-    // change body background color
+    
     const body = document.querySelector('body')
     body.classList.add("bg-color-home")
   }

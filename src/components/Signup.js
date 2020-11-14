@@ -61,6 +61,7 @@ const Signup = props => {
         last_name: fields.lastName,
         job_title: fields.jobTitle,
         password: fields.password,
+        company: fields.company,
         invite_token: doesTokenExist ? searchToken.split("=")[1] : null
       }
     }
@@ -125,14 +126,17 @@ const Signup = props => {
               name='email'
               onChange={handleFieldChange}
             />
-            <Form.Input 
-              fluid 
-              icon='hand point right' 
-              iconPosition='left' 
-              placeholder='Company' 
-              name='company'
-              onChange={handleFieldChange}
-            />
+            {
+              !doesTokenExist && 
+              <Form.Input 
+                fluid 
+                icon='hand point right' 
+                iconPosition='left' 
+                placeholder='Company' 
+                name='company'
+                onChange={handleFieldChange}
+              />
+            }
             <Form.Input
               fluid
               icon='address card'

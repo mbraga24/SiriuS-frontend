@@ -1,6 +1,27 @@
-.Invitation-Form-Submit-Btn-Wrapper {
+#Invitation-Form .Invitation-Form-Submit-Btn-Wrapper {
   display: flex;
   justify-content: flex-end;
+}
+
+#Invitation-Form .Sending-Btn {
+  width: 137px;
+  background: #3c2b79;
+  color: #ffffff;
+}
+
+#Invitation-Form .Invitation-Form-Send-Btn {
+  background: #60467e;
+  color: #ffffff;
+}
+
+#Invitation-Form .Invitation-Form-Send-Btn:hover {
+  background-color: #3c2b79;
+  color: #ffffff;
+}
+
+#Invitation-Form .Invitation-Form-Send-Btn:active {
+  background-color: #483396;
+  color: #ffffff;
 }
 
 .TextArea-Field {

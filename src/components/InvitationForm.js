@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Checkbox, Icon, Divider, Transition, List, Message, Header } from 'semantic-ui-react';
+import { Form, Checkbox, Icon, Divider, Transition, List, Message, Header, Button } from 'semantic-ui-react';
 import useFormFields from '../hooks/useFormFields'
 import '../resources/InvitationForm.css';
 import { ADD_INVITATION } from '../store/type';
@@ -14,6 +14,7 @@ const InvitationForm = props => {
   const [ alertStatus, setAlertStatus ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
+  const [ sending, setSending ] = useState(false)
   const [ fields, handleFieldChange ] = useFormFields({
     email: "",
     firstName: "",
@@ -46,8 +47,7 @@ const InvitationForm = props => {
   }
 
   const handleInvitation = () => {
-    console.log("send invitation")
-
+    setSending(true)
     const data = {
       email: fields.email,
       current_user_id: keyHolder.id,
@@ -58,11 +58,11 @@ const InvitationForm = props => {
     }
     
     fetch('http://localhost:3000/invites/', {
-      mode: "cors",
+      // mode: "cors",  
       method: "POST",
       headers: {
-        "Access-Control-Allow-Origin":"*",
         "Content-Type": "application/json"
+        // "Access-Control-Allow-Origin":"*"
       },
       body: JSON.stringify(data)
     })
@@ -70,17 +70,16 @@ const InvitationForm = props => {
     .then(data => {
       if (data.error) {
         const { error, header } = data
-        console.log("DATA ERROR->", data)
         runAlert(header, error)
+        setSending(false)
       } else {
         console.log(data)
         dispatch({ type: ADD_INVITATION, payload: data.invite })
         props.setSecondOpen(true)
+        setSending(false)
       }
     })
   }
-
-  console.log("errorMsg -->", errorMsg)
 
   return (
     <Form id="Invitation-Form" onSubmit={handleInvitation}>
@@ -106,7 +105,11 @@ const InvitationForm = props => {
       <Divider hidden />
       <Form.Checkbox onClick={() => setCheckbox(!checkbox)} label='Alert me when this user finishes signing up' />
       <Form.Group className="Invitation-Form-Submit-Btn-Wrapper">
-        <Form.Button>Send Invitation</Form.Button>
+        {
+          sending ? 
+          <Button className="Sending-Btn" loading>Sending</Button> :
+          <Button className="Invitation-Form-Send-Btn">Send Invitation</Button>
+        }
       </Form.Group>
       { 
         alertStatus &&
