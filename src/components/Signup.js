@@ -103,25 +103,34 @@ const Signup = props => {
         </Header>
         <Form size='large' onSubmit={handleSubmit}>
           <Segment>
-            <Form.Group widths='equal'>
-              <Form.Field
-                placeholder='First Name'
-                control={Input}
-                name='firstName'
-                onChange={handleFieldChange}
-              />
-              <Form.Field
-                placeholder='Last Name'
-                control={Input}
-                name='lastName'
-                onChange={handleFieldChange}
-              />
-            </Form.Group>
+            <Form.Field
+              fluid 
+              placeholder='First Name'
+              control={Input}
+              name='firstName'
+              onChange={handleFieldChange}
+            />
+            <Form.Field
+              fluid 
+              placeholder='Last Name'
+              control={Input}
+              name='lastName'
+              onChange={handleFieldChange}
+            />
             <Form.Input 
-              fluid icon='user' 
+              fluid 
+              icon='user' 
               iconPosition='left' 
               placeholder='E-mail address' 
               name='email'
+              onChange={handleFieldChange}
+            />
+            <Form.Input 
+              fluid 
+              icon='hand point right' 
+              iconPosition='left' 
+              placeholder='Company' 
+              name='company'
               onChange={handleFieldChange}
             />
             <Form.Input

@@ -12,6 +12,10 @@
   color: #534292;
 } */
 
+#Home-Container .Home-Call-Action-Wrapper {
+  margin: auto 0;
+}
+
 #Home-Container .Logo-Action-Wrapper {
   margin: auto 0;
 }
