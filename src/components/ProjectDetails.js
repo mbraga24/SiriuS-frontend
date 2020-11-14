@@ -66,10 +66,15 @@ const ProjectDetails = props => {
       if (r.ok) {
         // set statusCode 
         setStatusCode(r.status)
+        // set buttonStatus to true
+        setButtonStatus(true) 
         return r.json()
       }
     })
     .then(newDoc => {
+      setLoading(false)
+      setButtonStatus(false) 
+      console.log("DOCUMENT RETURNED")
       dispatch({ type: ADD_DOCUMENT, payload: newDoc })
       setFileName("")
     })
@@ -78,7 +83,9 @@ const ProjectDetails = props => {
   const resetButton = () => {
     setButtonStatus(false)
   }
-
+  // ====================================================
+  // TypeError: Cannot read property 'find' of undefined
+  // ====================================================
   const isKeyHolderAssigned = () => {
     return keyHolder.admin ? true : keyHolder.projects.find(project => project.id === currentProject.id ? true : false ) 
   }
@@ -132,17 +139,20 @@ const ProjectDetails = props => {
 
   const onFormSubmit = e => {
     e.preventDefault(); 
-    // upload file to database
-    fileUpload(file, fileName, currentProject.id, currentUser.id);
     // set loading to true
     setLoading(true)
+    // upload file to database
+    fileUpload(file, fileName, currentProject.id, currentUser.id);
     // wait 2 seconds to set buttonStatus to true and reset buttonStatus to false again
-    setTimeout(function() { 
-      setButtonStatus(true) 
-      resetButtonStatus()
-      resetLoading()
-    }, 2000)
+    // setTimeout(function() { 
+    //   setButtonStatus(true) 
+    //   resetButtonStatus()
+      // resetLoading()
+    // }, 2000)
   };
+
+  console.log("buttonStatus -->", buttonStatus)
+  console.log("StatusCode -->", statusCode)
 
   return (
       loadProjects ? 
@@ -298,23 +308,44 @@ const ProjectDetails = props => {
                                 value={fileName}
                               />
                                 { 
-                                  !buttonStatus ?
-                                  <Button type="submit" className={`Project-Button-Style Button-Spacing ${loading && "loading"} ${!fileName && "disabled"}`}>
-                                    { !loading ? `${"Upload File"}` : `${"Loading"}` }
-                                  </Button>
-                                  :
-                                  statusCode && statusCode === 200 && buttonStatus ?
+                                  // !buttonStatus ?
+                                  // <Button type="submit" className={`Project-Button-Style Button-Spacing ${loading && "loading"} ${!fileName && "disabled"}`}>
+                                  //   { !loading ? `${"Upload File"}` : `${"Loading"}` }
+                                  // </Button>
+                                  loading && fileName ?
+                                  <Button className="Button-Spacing" loading>
+                                    Loading
+                                  </Button> : 
+                                    statusCode === 200 && buttonStatus ?
                                     (
                                       <Button className="Button-Spacing" color='green'>
                                         File Upload Success
                                       </Button>
-                                    )
-                                  : statusCode && statusCode === 500 && buttonStatus ?
+                                    ) : statusCode === 500 && buttonStatus ? 
                                     (
                                       <Button className="Button-Spacing" color='red'>
                                         File Upload Failed
                                       </Button>
-                                    ) : null
+                                    ) : 
+                                  (
+                                    <Button type="submit" className={`Project-Button-Style Button-Spacing ${!fileName && "disabled"}`}>
+                                      Upload File
+                                    </Button>      
+                                  )
+
+                                  // :
+                                  // statusCode && statusCode === 200 && buttonStatus ?
+                                    // (
+                                    //   <Button className="Button-Spacing" color='green'>
+                                    //     File Upload Success
+                                    //   </Button>
+                                    // )
+                                  // : statusCode && statusCode === 500 && buttonStatus ?
+                                    // (
+                                    //   <Button className="Button-Spacing" color='red'>
+                                    //     File Upload Failed
+                                    //   </Button>
+                                    // ) 
                                 }
                             </Form.Field>
                           </Form>
