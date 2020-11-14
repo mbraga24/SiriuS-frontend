@@ -1,13 +1,33 @@
-#Home-Container .Home-Segment {
+/* #Home-Container .Home-Segment {
   margin: 25vh auto;
   height: 50vh;
-}
+} */
 
-#Home-Container .Home-Button-Color {
+/* #Home-Container .Home-Button-Color {
   background-color: #534292;
   color: #fff;
+} */
+
+/* #Home-Container .Home-Header {
+  color: #534292;
+} */
+
+#Home-Container .Logo-Action-Wrapper {
+  margin: auto 0;
 }
 
-#Home-Container .Home-Header {
-  color: #534292;
+#Home-Container .Home-Call-Action-1 {
+  color: #f4f2f7; 
+  font-size: 38px;
+  font-weight: 300;
+}
+
+#Home-Container .Home-Call-Action-2 {
+  color: #f4f2f7; 
+  font-size: 32px;
+  font-weight: 400;
+}
+
+#Home-Container span {
+  font-weight: 700;
 }

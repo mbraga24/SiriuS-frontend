@@ -33,10 +33,11 @@ const App = props => {
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
         dispatch({ type: LOAD_KEYHOLDER, payload: false })
+
+         // change body background color
+        const body = document.querySelector('body')
+        body.classList.remove("bg-color-home")
       })
-      // change body background color
-      const body = document.querySelector('body')
-      body.classList.remove("bg-color-signed-in")
     }
 
   }, [dispatch]) 
@@ -95,9 +96,10 @@ const App = props => {
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/invite-user" render={ () => <InvitationForm />} />
               <Route path="/invitations" render={ () => <InviteList />} />
-              <Redirect to={`/users/${keyHolder.id}`} />
+              {/* <Redirect to={`/users/${keyHolder.id}`} /> */}
             </React.Fragment>
         }
+          {/* <Route exact path="/" render={ () => <Home/>} /> */}
           <Route exact path="/" render={ () => <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />

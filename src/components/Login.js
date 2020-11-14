@@ -29,10 +29,9 @@ const Login = (props) => {
     resetAlert()
   }
 
-  const changeBackground = () => {
-    // change body background color
+  const changeAppColors = user => {
     const body = document.querySelector('body')
-    body.classList.remove("bg-color-signed-in")
+    body.classList.remove("bg-color-home")
   }
 
   const handleSubmit = e => {
@@ -59,7 +58,7 @@ const Login = (props) => {
         localStorage.admin = user.admin
         // send loggedin user to their account
         props.history.push(`/users/${user.id}`)
-        changeBackground()
+        changeAppColors(user)
       }
     })
   }

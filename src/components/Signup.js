@@ -87,7 +87,7 @@ const Signup = props => {
 
         // change body background color
         const body = document.querySelector('body')
-        body.classList.remove("bg-color-signed-in")
+        body.classList.remove("bg-color-home")
 
         props.history.push(`/users/${user.id}`)
       }

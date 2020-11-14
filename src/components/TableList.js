@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Icon, Table, Header, Button, Divider } from 'semantic-ui-react';
 import '../resources/UserList.css';
 import Loading from './Loading';
+import MissingAsset from './MissingAsset';
+
 const TableList = props => {
 
   const renderRows = () => {
@@ -57,6 +59,7 @@ const TableList = props => {
         props.loadItems ? 
         <Loading loadingClass={true} />
         :
+        props.items.length !== 0 ?
         <Table celled structured>
           <Table.Header>
           <Table.Row textAlign='center'>
@@ -74,7 +77,7 @@ const TableList = props => {
           </Table.Row>
           </Table.Header>
           {props.items && renderRows()}
-        </Table>
+        </Table> : <MissingAsset message={"No pending invites"} icon={"sticky note outline"} />
       }
     </div>
   )

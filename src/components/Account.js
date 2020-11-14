@@ -50,7 +50,7 @@ const Account = () => {
                       </Grid.Column>
                       <Grid.Column className="Account-Items">
                         <Button as={Link} to={`/invitations`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
-                        <Icon name='hourglass two' size="large"/>
+                        <Icon name='sticky note' size="large"/>
                         Pending Invitations: {adminInvitationCount}
                         </Button>
                       </Grid.Column>
