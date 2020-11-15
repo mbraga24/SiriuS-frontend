@@ -1,10 +1,10 @@
-import { SET_DOCUMENTS, ADD_DOCUMENT, REMOVE_DOCUMENT } from '../store/type';
+import { SET_DOCUMENTS, ADD_DOCUMENT, REMOVE_DOCUMENT } from './type';
 
 const defaultState = {
   documents: []
 }
 
-const store = (state = defaultState, action) => {
+const reducer = (state = defaultState, action) => {
   switch(action.type) {
     case SET_DOCUMENTS:
       return {
@@ -27,4 +27,4 @@ const store = (state = defaultState, action) => {
   }
 }
 
-export default store;
+export default reducer;

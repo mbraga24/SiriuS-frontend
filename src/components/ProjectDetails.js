@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Header, Icon, Divider, Button, List, Segment, Form, Modal, Grid } from 'semantic-ui-react';
 import { newDocument } from '../api';
@@ -14,28 +14,49 @@ import '../resources/Project.css';
 
 const ProjectDetails = props => {
 
-  const dispatch = useDispatch()
-  const keyHolder = useSelector(state => state.app.keyHolder)
-  const loadProjects = useSelector(state => state.load.loadProjects) 
-  const currentUser = useSelector(state => state.app.keyHolder)
-  const projectData = useSelector(state => state.project.projects)
   const matchId = parseInt(props.match.params.id)
-  const currentProject = projectData.find(p => p.id === matchId)
-  const isComplete = currentProject && currentProject.done ? true : false;
-  const projects = isComplete ? {
-    message: function(date) {
-      return `All activities for this project were closed on ${date}`
-    },
-    disabled: currentProject.done ? true : false
-  } : projectData
+  const dispatch = useDispatch()
 
+  // redux store
+  const currentUser = useSelector(state => state.app.keyHolder)
+  const projectActive = useSelector(state => state.project.projects)
+  const projectArquive = useSelector(state => state.arquiveProject.arquive)
+
+  // overall variables
   const [ file, setFile ] = useState(null)
   const [ fileName, setFileName ] = useState("")
   const [ statusCode, setStatusCode ] = useState("")
-  const [ loading, setLoading ] = useState(false)
+  const [ allProjects, setAllProjects ] = useState("")
+  const [ arquive, setArquive ] = useState(false)
+  const [ disable, setDisable ] = useState(false)
+  // loaders 
+  const [ loader, setLoader ] = useState(false)
+  const [ pageLoader, setPageLoader ] = useState(true)
+  // upload and download file feature 
   const [ buttonStatus, setButtonStatus ] = useState(false)
   const [ open, setOpen ] = useState(false)
   const [ downloadLink, setDownloadLink ] = useState("")
+
+  useEffect(() => {
+    if (props.match.path.split("/").includes("arquive")) {
+      setAllProjects(projectArquive)
+      setArquive(true)
+      setDisable(true)
+      setPageLoader(!projectArquive)
+    } 
+    if (props.match.path.split("/").includes("project")) {
+      setAllProjects(projectActive)
+      setArquive(false)
+      setDisable(false)
+      setPageLoader(!projectActive)
+    }
+  }, [ projectActive, projectArquive, props.match.path ])
+
+  const currentProject = allProjects && allProjects.find(p => p.id === matchId)
+
+  const arquiveMessage = arquivedDate => {
+    return `All activities for this project were closed on ${arquivedDate}`
+  }
 
   const pxToMm = (px) => {
     return Math.floor(px/document.getElementById('myMm').offsetHeight);
@@ -43,7 +64,7 @@ const ProjectDetails = props => {
 
   const handleDownload = () => {
     setButtonStatus(true)
-    setLoading(true)
+    setLoader(true)
 
     // create PDF of the project page with html2canvas and jsPDF
     const input = document.getElementById("Project-Details")
@@ -72,7 +93,7 @@ const ProjectDetails = props => {
     // download zip file of a .json file with all the projects attributes
     downloadZip(currentProject.id)
     .then(data => {
-      setLoading(false)
+      setLoader(false)
       setDownloadLink(data.url)
     })
   }
@@ -101,7 +122,7 @@ const ProjectDetails = props => {
     })
     .then(newDoc => {
       // set loading back to false
-      setLoading(false)
+      setLoader(false)
       // wait 3 seconds and reset buttonStatus
       setTimeout(function(){ setButtonStatus(false) }, 3000)
       // update store 
@@ -113,7 +134,7 @@ const ProjectDetails = props => {
   const onFormSubmit = e => {
     e.preventDefault(); 
     // set loading to true
-    setLoading(true)
+    setLoader(true)
     // set buttonStatus to true to display upload success or failed
     setButtonStatus(true) 
     // upload file to database
@@ -121,17 +142,17 @@ const ProjectDetails = props => {
   };
 
   return (
-      loadProjects ? 
+      pageLoader ? 
       <Loading loadingClass={true} /> 
       :
       <React.Fragment>
         <div id="myMm" style={{height: "1mm"}} />
         <div id="Project-Container">
           { 
-            (projects.message && currentProject) && 
+            arquive && currentProject &&
             <Segment inverted color='red' tertiary size="big" textAlign="center">
               <Icon name='warning' />
-              {projects.message(currentProject.finish_date)}
+              {arquiveMessage(currentProject.finish_date)}
             </Segment>
           }
           {
@@ -146,17 +167,17 @@ const ProjectDetails = props => {
                   </span>
                   <span>
                     { 
-                      projects.disabled ?
+                      disable ?
                       <React.Fragment>
                         {
                           !buttonStatus ? 
                           <Button className="Project-Download-Button-Style" onClick={handleDownload}><Icon name="download"/>Back Up Project</Button>
                           :
-                          <Button className={`Project-Download-Button-Style ${loading && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loading && `${"Download Project"}`}</a></Button>
+                          <Button className={`Project-Download-Button-Style ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
                         }                        
                       </React.Fragment>
                       : 
-                      keyHolder.admin &&
+                      currentUser.admin &&
                         <Modal
                           onClose={() => setOpen(false)}
                           onOpen={() => setOpen(true)}
@@ -247,7 +268,7 @@ const ProjectDetails = props => {
                   <Grid>
                     <Grid.Row>
                     { 
-                        !projects.disabled &&
+                        !disable &&
                         <Grid.Column width={6}>
                           <div className="Project-Items-Style Items-Spacing Project-File-Upload-Wrapper">
                             <Form onSubmit={onFormSubmit}>
@@ -274,7 +295,7 @@ const ProjectDetails = props => {
                                   value={fileName}
                                 />
                                   { 
-                                    loading && fileName ?
+                                    loader && fileName ?
                                     <Button className="Project-Button-Style Button-Spacing" loading>
                                       Loading
                                     </Button> : 

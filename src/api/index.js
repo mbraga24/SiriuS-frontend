@@ -83,22 +83,47 @@ export const createProject = data => {
 
 // complete project
 export const completeProject = projectId => {
-  return fetch(`http://localhost:3000//project/complete/${projectId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    }
+  return fetch(`http://localhost:3000/projects/${projectId}`, {
+    method: "DELETE"
   })
   .then(r => r.json())
 }
 
 // delete complete projects
 export const deleteProject = projectId => {
-  return fetch(`http://localhost:3000/projects/${projectId}`, {
-    method: "DELETE"
-  })
+  return fetch(`http://localhost:3000//project/complete/${projectId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(r => r.json())
+}
+
+// create new project
+export const getArquivedProjects = () => {
+  return fetch(`http://localhost:3000/arquive_projects`)
   .then(r => r.json())
 }
+
+// create - arquive project
+export const arquiveProject = arqProject => {
+  return fetch(`http://localhost:3000/arquive_projects`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ ...arqProject })
+  }).then(r => r.json())
+}
+
+// delete - delete from arquive
+export const deleteFromArquive = projectId => {
+  return fetch(`http://localhost:3000/arquive_projects/${projectId}`, {
+    method: "DELETE",
+  }).then(r => r.json())
+}
+
+
 
 // set documents
 export const getDocuments = () => {

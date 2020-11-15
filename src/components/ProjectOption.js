@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button, Modal, Header, Icon } from 'semantic-ui-react';
-import { completeProject, deleteProject } from '../api';
-import { ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_COMPLETE_PROJECT } from '../store/type';
+import { completeProject, arquiveProject, deleteFromArquive } from '../api';
+import { ADD_TO_ARQUIVE, REMOVE_FROM_ARQUIVE, ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT, UPDATE_USER } from '../store/type';
 
 const ProjectOption = props => {
 
@@ -16,27 +16,39 @@ const ProjectOption = props => {
   const handleComplete = () => {
     completeProject(id)
     .then(data => {
-      dispatch({ type: UPDATE_PROJECT, payload: data.project })
-      dispatch({ type: ADD_COMPLETE_PROJECT, payload: data.project })
-      dispatch({ type: REMOVE_ACTIVE_PROJECT, payload: data.project })
+        console.log("COMPLETED PROJECT RETURNED", data);
+        const { users, project } = data
+        dispatch({ type: UPDATE_PROJECT, payload: project })
+        dispatch({ type: ADD_COMPLETE_PROJECT, payload: project })
+        dispatch({ type: REMOVE_ACTIVE_PROJECT, payload: project })
+        // update each user in the redux store
+        for (let user of users) {
+          dispatch({ type: UPDATE_USER, payload: user })
+        }
+        return project;
     })
+    .then(async arqProject => {
+      return arquiveProject(arqProject)
+        .then(data => {
+          const { arquived_project } = data
+          console.log("ARQUIVED PROJECT DATA", data)
+          dispatch({ type: ADD_TO_ARQUIVE, payload: arquived_project})
+        })
+    });
   }
 
   const handleDelete = () => {
-    deleteProject(id)
+    deleteFromArquive(id)
     .then(data => {
+      console.log("PROJECT DELETED -->", data)
       // update projects from the redux store
-      dispatch({ type: REMOVE_COMPLETE_PROJECT, payload: data.projectId })
-      // update each user in the redux store
-      for (let user of data.users) {
-        dispatch({ type: UPDATE_USER, payload: user })
-      }
+      dispatch({ type: REMOVE_FROM_ARQUIVE, payload: data.projectId })
       setOpen(false)
     })
   }
 
   return (
-    <List.Item className={props.listClass} id="TEST">
+    <List.Item className={props.listClass}>
       <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ProjectList-Icon-Color" />
       <List.Content>
         { keyHolder.admin ?
@@ -75,13 +87,9 @@ const ProjectOption = props => {
           : null
         } 
         <List.Content floated='right'>
-          <Link to={`/project/${id}`}>
-            <Button className="ProjectList-Button-Color Change-Invert">Details</Button>
-          </Link>
+          <Button as={Link} to={`${props.linkToDetails}${id}`} className="ProjectList-Button-Color Change-Invert">Details</Button>
         </List.Content>
-          <Link to={`/project/${id}`}>
-            <List.Header as='a' className="ProjectList-Project-Name">{name}</List.Header>
-          </Link>
+          <List.Header as={Link} to={`${props.linkToDetails}${id}`} className="ProjectList-Project-Name">{name}</List.Header>
         <List.Description as='a'className="ProjectList-Project-Date">Start date: {start_date} | Due date: {due_date}</List.Description>
       </List.Content>
     </List.Item>

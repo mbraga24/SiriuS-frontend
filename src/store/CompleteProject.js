@@ -8,7 +8,7 @@ const crescOrder = (projects) => {
   return projects.sort((a, b) => b - a)
 }
 
-const store = (state = defaultState, action) => {
+const reducer = (state = defaultState, action) => {
   switch(action.type) {
     case SET_COMPLETE_PROJECTS:
       // all true values
@@ -35,4 +35,4 @@ const store = (state = defaultState, action) => {
   }
 }
 
-export default store;
+export default reducer;

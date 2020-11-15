@@ -25,10 +25,10 @@ const TableList = props => {
           <Table.Cell>{item.first_name}</Table.Cell>
           <Table.Cell>{item.last_name}</Table.Cell>
           <Table.Cell>{item.email}</Table.Cell>
-          <Table.Cell className={props.hideColumn && "Hide-Column"}>{item.job_title}</Table.Cell>
+          <Table.Cell className={props.hideColumn ? "Hide-Column" : ""}>{item.job_title}</Table.Cell>
           { keyHolder.admin && 
             <>
-              <Table.Cell className={props.hideColumn && "Hide-Column"} textAlign='center'>
+              <Table.Cell className={props.hideColumn ? "Hide-Column" : ""} textAlign='center'>
                 <Link to={`/user/projects/${item.id}`}> 
                   <Icon name='user' size="large" className="TableList-Icon-Color"/>
                 </Link>
@@ -100,17 +100,22 @@ const TableList = props => {
             <Table.HeaderCell rowSpan='2'>First Name</Table.HeaderCell>
             <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
             <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
-            <Table.HeaderCell className={props.hideColumn && "Hide-Column"} rowSpan='2'>Job Title</Table.HeaderCell>
+            <Table.HeaderCell className={props.hideColumn ? "Hide-Column" : ""} rowSpan='2'>Job Title</Table.HeaderCell>
             {
               keyHolder.admin &&
               <>
-                <Table.HeaderCell className={props.hideColumn && "Hide-Column"} rowSpan='1'>History</Table.HeaderCell>
+                <Table.HeaderCell className={props.hideColumn ? "Hide-Column" : ""} rowSpan='1'>History</Table.HeaderCell>
                 <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell> 
               </>
             }
           </Table.Row>
           </Table.Header>
-          {props.items && renderRows()}
+          {
+            props.items && 
+            <Table.Body>
+              {renderRows()}
+            </Table.Body>
+          }
         </Table> : <MissingAsset message={"No pending invites"} icon={"sticky note outline"} />
       }
     </div>

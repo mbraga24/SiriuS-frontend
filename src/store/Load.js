@@ -1,11 +1,12 @@
-import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_PROJECTS, LOAD_USERS, LOAD_INVITATIONS } from './type';
+import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_PROJECTS, LOAD_USERS, LOAD_INVITATIONS, LOAD_ARQUIVES } from './type';
 
 const defaultState = {
   loadKeyholder: true,
   loadProjects: true,
   loadUsers: true,
   loadDocuments: true,
-  loadInvites: true
+  loadInvites: true,
+  loadArquive: true
 }
 
 const reducer = (state = defaultState, action) => {
@@ -34,6 +35,11 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         loadInvites: action.payload
+      }
+    case LOAD_ARQUIVES:
+      return {
+        ...state,
+        loadArquive: action.payload
       }
     default:
       return state
