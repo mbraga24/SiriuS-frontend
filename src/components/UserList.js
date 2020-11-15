@@ -29,7 +29,7 @@ const UserList = () => {
     <TableList 
       hideColumn={false}
       iconName="users"
-      header="Pending Invitations"
+      header="Collaborators"
       loadItems={loadUsers} 
       items={users}
       func={removeUser}

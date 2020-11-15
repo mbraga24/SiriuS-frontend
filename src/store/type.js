@@ -12,10 +12,10 @@ export const ADD_PROJECT = "ADD_PROJECT"
 export const UPDATE_PROJECT = "UPDATE_PROJECT"
 export const REMOVE_PROJECT = "REMOVE_PROJECT"
 
-// Arquive Reducer
-export const SET_ARQUIVE = "SET_ARQUIVE"
-export const ADD_TO_ARQUIVE = "ADD_TO_ARQUIVE"
-export const REMOVE_FROM_ARQUIVE = "REMOVE_FROM_ARQUIVE"
+// Archive Reducer
+export const SET_ARCHIVE = "SET_ARCHIVE"
+export const ADD_TO_ARCHIVE = "ADD_TO_ARCHIVE"
+export const REMOVE_FROM_ARCHIVE = "REMOVE_FROM_ARCHIVE"
 
 // Active Project Reducer
 export const SET_ACTIVE_PROJECTS = "SET_ACTIVE_PROJECTS"
@@ -47,4 +47,4 @@ export const LOAD_PROJECTS = "LOAD_PROJECTS"
 export const LOAD_USERS = "LOAD_USERS"
 export const LOAD_DOCUMENTS = "LOAD_DOCUMENTS"
 export const LOAD_INVITATIONS = "LOAD_INVITATIONS"
-export const LOAD_ARQUIVES = "LOAD_ARQUIVES"
+export const LOAD_ARCHIVES = "LOAD_ARCHIVES"

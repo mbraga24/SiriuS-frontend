@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button, Modal, Header, Icon } from 'semantic-ui-react';
-import { completeProject, arquiveProject, deleteFromArquive } from '../api';
-import { ADD_TO_ARQUIVE, REMOVE_FROM_ARQUIVE, ADD_COMPLETE_PROJECT, REMOVE_ACTIVE_PROJECT, UPDATE_PROJECT, UPDATE_USER } from '../store/type';
+import { completeProject, archiveProject, deleteFromArchive } from '../api';
+import { ADD_TO_ARCHIVE, REMOVE_FROM_ARCHIVE, REMOVE_PROJECT, UPDATE_USER } from '../store/type';
 
 const ProjectOption = props => {
 
@@ -18,9 +18,9 @@ const ProjectOption = props => {
     .then(data => {
         console.log("COMPLETED PROJECT RETURNED", data);
         const { users, project } = data
-        dispatch({ type: UPDATE_PROJECT, payload: project })
-        dispatch({ type: ADD_COMPLETE_PROJECT, payload: project })
-        dispatch({ type: REMOVE_ACTIVE_PROJECT, payload: project })
+        dispatch({ type: REMOVE_PROJECT, payload: project })
+        // dispatch({ type: ADD_COMPLETE_PROJECT, payload: project })
+        // dispatch({ type: REMOVE_ACTIVE_PROJECT, payload: project })
         // update each user in the redux store
         for (let user of users) {
           dispatch({ type: UPDATE_USER, payload: user })
@@ -28,21 +28,21 @@ const ProjectOption = props => {
         return project;
     })
     .then(async arqProject => {
-      return arquiveProject(arqProject)
+      return archiveProject(arqProject)
         .then(data => {
-          const { arquived_project } = data
-          console.log("ARQUIVED PROJECT DATA", data)
-          dispatch({ type: ADD_TO_ARQUIVE, payload: arquived_project})
+          const { archived_project } = data
+          console.log("ARCHIVED PROJECT DATA", data)
+          dispatch({ type: ADD_TO_ARCHIVE, payload: archived_project})
         })
     });
   }
 
   const handleDelete = () => {
-    deleteFromArquive(id)
+    deleteFromArchive(id)
     .then(data => {
       console.log("PROJECT DELETED -->", data)
       // update projects from the redux store
-      dispatch({ type: REMOVE_FROM_ARQUIVE, payload: data.projectId })
+      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: data.projectId })
       setOpen(false)
     })
   }

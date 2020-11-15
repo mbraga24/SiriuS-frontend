@@ -20,14 +20,14 @@ const ProjectDetails = props => {
   // redux store
   const currentUser = useSelector(state => state.app.keyHolder)
   const projectActive = useSelector(state => state.project.projects)
-  const projectArquive = useSelector(state => state.arquiveProject.arquive)
+  const projectArchive = useSelector(state => state.archiveProject.archive)
 
   // overall variables
   const [ file, setFile ] = useState(null)
   const [ fileName, setFileName ] = useState("")
   const [ statusCode, setStatusCode ] = useState("")
   const [ allProjects, setAllProjects ] = useState("")
-  const [ arquive, setArquive ] = useState(false)
+  const [ archive, setArchive ] = useState(false)
   const [ disable, setDisable ] = useState(false)
   // loaders 
   const [ loader, setLoader ] = useState(false)
@@ -38,24 +38,24 @@ const ProjectDetails = props => {
   const [ downloadLink, setDownloadLink ] = useState("")
 
   useEffect(() => {
-    if (props.match.path.split("/").includes("arquive")) {
-      setAllProjects(projectArquive)
-      setArquive(true)
+    if (props.match.path.split("/").includes("archive")) {
+      setAllProjects(projectArchive)
+      setArchive(true)
       setDisable(true)
-      setPageLoader(!projectArquive)
+      setPageLoader(!projectArchive)
     } 
     if (props.match.path.split("/").includes("project")) {
       setAllProjects(projectActive)
-      setArquive(false)
+      setArchive(false)
       setDisable(false)
       setPageLoader(!projectActive)
     }
-  }, [ projectActive, projectArquive, props.match.path ])
+  }, [ projectActive, projectArchive, props.match.path ])
 
   const currentProject = allProjects && allProjects.find(p => p.id === matchId)
 
-  const arquiveMessage = arquivedDate => {
-    return `All activities for this project were closed on ${arquivedDate}`
+  const archiveMessage = archivedDate => {
+    return `All activities for this project were closed on ${archivedDate}`
   }
 
   const pxToMm = (px) => {
@@ -149,10 +149,10 @@ const ProjectDetails = props => {
         <div id="myMm" style={{height: "1mm"}} />
         <div id="Project-Container">
           { 
-            arquive && currentProject &&
+            archive && currentProject &&
             <Segment inverted color='red' tertiary size="big" textAlign="center">
               <Icon name='warning' />
-              {arquiveMessage(currentProject.finish_date)}
+              {archiveMessage(currentProject.finish_date)}
             </Segment>
           }
           {

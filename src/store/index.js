@@ -6,7 +6,7 @@ import completeProject from './CompleteProject';
 import document from './Document';
 import user from './User';
 import invitation from './Invitation';
-import arquiveProject from './ArquiveProject';
+import archiveProject from './ArchiveProject';
 import load from './Load';
 
 const rootReducer = combineReducers({
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   activeProject,
   completeProject,
   invitation,
-  arquiveProject,
+  archiveProject,
   load
 })
 
