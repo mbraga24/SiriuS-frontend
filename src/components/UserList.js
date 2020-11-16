@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteUser } from '../api';
-import { UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
+import { UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
 import TableList from './TableList';
 
 

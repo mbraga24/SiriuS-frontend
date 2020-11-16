@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
 import { Form, Header, Icon, Divider } from 'semantic-ui-react';
 import { createProject } from '../api';
-import { ADD_PROJECT, ADD_ACTIVE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
+import { ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
 import AddUserList from './AddUserList';
 import Loading from './Loading';

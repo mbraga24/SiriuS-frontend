@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button, Modal, Header, Icon } from 'semantic-ui-react';
-import { completeProject, archiveProject, deleteFromArchive, archiveDocuments } from '../api';
+import { completeProject, archiveProject, deleteFromArchive } from '../api';
 import { ADD_TO_ARCHIVE, REMOVE_FROM_ARCHIVE, REMOVE_PROJECT, UPDATE_USER, ADD_ARCH_DOC } from '../store/type';
 
 const ProjectOptions = props => {
@@ -31,6 +31,9 @@ const ProjectOptions = props => {
           const { archived_project } = data
           console.log("ARCHIVED PROJECT DATA", data)
           dispatch({ type: ADD_TO_ARCHIVE, payload: archived_project})
+          for (let doc of archived_project.archive_documents) {
+            dispatch({ type: ADD_ARCH_DOC, payload: doc })
+          }
         })
     });
   }

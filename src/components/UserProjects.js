@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Header, Icon, List, Button } from 'semantic-ui-react';
 import { removeProjectFromUser } from '../api';
-import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
+import { UPDATE_USER, UPDATE_PROJECT } from '../store/type';
 import Loading from './Loading';
 import MissingAsset from './MissingAsset';
 import '../resources/UserHistory.css';
@@ -46,7 +46,7 @@ const UserProjects = props => {
         <List.Content>
           { keyHolder.admin && 
             <List.Content floated='right'>
-              <Button className="UserHistory-Button-Color" onClick={() => removeProject(props.userViewing.id, project.id)}>Remove Project</Button>
+              <Button className="UserHistory-Button-Color" onClick={() => removeProject(viewer.id, project.id)}>Remove Project</Button>
             </List.Content>
           }
           <List.Header as={Link} to={`/project/${project.id}`} className="UserHistory-Project-Name">{project.name}</List.Header>
@@ -56,11 +56,6 @@ const UserProjects = props => {
     ))
   }
 
-  console.log("USERPROJECTS = VIEWER--->", viewer)
-  console.log("USERPROJECTS = KEYHOLDER --->", keyHolder)
-  // console.log("USERPROJECTS = PROJECTS--->", projects)
-
-  console.log("USERPROJECTS = userProjects--->", userProjects())
   return (
       <React.Fragment>
         <List divided relaxed>

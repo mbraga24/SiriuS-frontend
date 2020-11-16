@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Table, Icon, Button, Header } from 'semantic-ui-react';
@@ -9,18 +9,29 @@ import '../resources/DocumentList.css';
 const DocumentList = props => {
 
   const documents = useSelector(state => state.document.documents)
+  const archiveDocuments = useSelector(state => state.archDocument.archDocuments)
+
+  const [ allDocuments, setAllDocuments ] = useState("")
+  const [ pathKey, setPathKey ] = useState("")
   const loadDocuments = useSelector(state => state.load.loadDocuments) 
   const matchId = parseInt(props.match.params.id)
-  // const store = props.match.url.split("/")[1]
+  const path = props.match.path.split("/")
 
-  // collect all the documents that belong to this project 
-  const projectDocuments = () => {
-    // return documents.filter(document => document[`${store}`].id === matchId)
-    return documents.filter(document => document.project.id === matchId)
-  }
+  useEffect(() => {
+    if (path.includes("archive")) {
+      setAllDocuments(archiveDocuments)
+      setPathKey("archive_project")
+    }
+    if (props.match.path.split("/").includes("project")) {
+      setAllDocuments(documents)
+      setPathKey("project")
+    }
+  }, [path, allDocuments, archiveDocuments, documents, props.match.path])
+
+  const allArchDocuments = allDocuments && allDocuments.filter(document => document[`${pathKey}`].id === matchId)
 
   const renderDocuments = () => {
-    return documents && projectDocuments().map(document => (
+    return documents && allArchDocuments.map(document => (
       <Table.Row key={document.id}>
         <Table.Cell>
           <Icon name='folder' />
@@ -54,7 +65,7 @@ const DocumentList = props => {
             <Loading loadingClass={false} /> 
             :
             (
-              documents && projectDocuments().length !== 0 ?
+              documents && allArchDocuments.length !== 0 ?
               <Table basic className="DocumentList-Table">
                 <Table.Header>
                   <Table.Row>
