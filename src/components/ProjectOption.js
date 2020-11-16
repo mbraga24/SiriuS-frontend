@@ -19,8 +19,6 @@ const ProjectOption = props => {
         console.log("COMPLETED PROJECT RETURNED", data);
         const { users, project } = data
         dispatch({ type: REMOVE_PROJECT, payload: project })
-        // dispatch({ type: ADD_COMPLETE_PROJECT, payload: project })
-        // dispatch({ type: REMOVE_ACTIVE_PROJECT, payload: project })
         // update each user in the redux store
         for (let user of users) {
           dispatch({ type: UPDATE_USER, payload: user })
@@ -42,7 +40,7 @@ const ProjectOption = props => {
     .then(data => {
       console.log("PROJECT DELETED -->", data)
       // update projects from the redux store
-      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: data.projectId })
+      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: data.archiveId })
       setOpen(false)
     })
   }

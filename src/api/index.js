@@ -101,13 +101,13 @@ export const deleteProject = projectId => {
 
 // get archived projects
 export const getArchivedProjects = () => {
-  return fetch(`http://localhost:3000/arquive_projects`)
+  return fetch(`http://localhost:3000/archive_projects`)
   .then(r => r.json())
 }
 
 // create - arquive project
 export const archiveProject = arqProject => {
-  return fetch(`http://localhost:3000/arquive_projects`, {
+  return fetch(`http://localhost:3000/archive_projects`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -118,7 +118,7 @@ export const archiveProject = arqProject => {
 
 // delete - delete from arquive
 export const deleteFromArchive = projectId => {
-  return fetch(`http://localhost:3000/arquive_projects/${projectId}`, {
+  return fetch(`http://localhost:3000/archive_projects/${projectId}`, {
     method: "DELETE",
   }).then(r => r.json())
 }

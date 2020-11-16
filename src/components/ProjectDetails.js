@@ -152,7 +152,7 @@ const ProjectDetails = props => {
             archive && currentProject &&
             <Segment inverted color='red' tertiary size="big" textAlign="center">
               <Icon name='warning' />
-              {archiveMessage(currentProject.finish_date)}
+              {archiveMessage(currentProject.archived_date)}
             </Segment>
           }
           {
