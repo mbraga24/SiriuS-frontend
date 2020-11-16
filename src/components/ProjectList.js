@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { List, Divider } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
-import ProjectOption from './ProjectOption';
+import ProjectOptions from './ProjectOptions';
 import ProjectHeader from './ProjectHeader';
 import MissingAsset from './MissingAsset';
 import Loading from './Loading';
@@ -23,7 +23,7 @@ const ProjectList = () => {
 
   const renderProjects = () => {
     return projects.map(project => (
-      <ProjectOption 
+      <ProjectOptions 
       key={project.id} 
       active={true}
       btnClass={"ProjectList-Button-Color Change-Invert"} 
@@ -38,7 +38,7 @@ const ProjectList = () => {
 
   const renderArchive = () => {
     return archiveProjects.map(project => (
-      <ProjectOption 
+      <ProjectOptions 
         key={project.id}
         active={false}
         btnClass={"ProjectList-Button-Color-Delete Change-Invert-Delete"} 

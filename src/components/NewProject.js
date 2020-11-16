@@ -47,8 +47,6 @@ const NewProject = (props) => {
       }
       // add new project to redux store
       dispatch({ type: ADD_PROJECT, payload: data.project })
-      // add new active project to redux store
-      dispatch({ type: ADD_ACTIVE_PROJECT, payload: data.project })
       // remove users from temporary array in the redux store 
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
       props.history.push('/projects')

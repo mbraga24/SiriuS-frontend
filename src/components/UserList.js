@@ -16,7 +16,6 @@ const UserList = () => {
     .then(data => {
       dispatch({ type: REMOVE_USER, payload: data.user })
       for (let project of data.projects) {
-        dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: project })
         dispatch({ type: UPDATE_PROJECT, payload: project })
       }
       for (let document of data.documents) {

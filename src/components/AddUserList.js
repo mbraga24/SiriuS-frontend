@@ -80,10 +80,8 @@ const AddUsersTable = props => {
     .then(data => {
       // set selected user ids back to an empty array 
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-      // pass in updated active project with new users to the redux store
-      dispatch({ type: UPDATE_PROJECT, payload: data.project })
       // pass in updated project with new users to the redux store
-      dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: data.project })
+      dispatch({ type: UPDATE_PROJECT, payload: data.project })
       // pass each updated user to the redux store
       for (let user of data.users) {
         dispatch({ type: UPDATE_USER, payload: user })

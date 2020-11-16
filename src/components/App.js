@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { autoLogin, getProjects, getUsers, getDocuments, getInvites, getArchivedProjects } from '../api';
+import { autoLogin, getProjects, getUsers, getDocuments, getInvites, getArchivedProjects, getArchiveDocuments } from '../api';
 import MenuBar from './MenuBar';
 import Home from './Home';
 import UserList from './UserList';
@@ -15,7 +15,7 @@ import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
 import InvitationForm from './InvitationForm';
-import { LOAD_ARCHIVES, LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_USERS, LOAD_PROJECTS, LOAD_INVITATIONS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_COMPLETE_PROJECTS, SET_DOCUMENTS, SET_ACTIVE_PROJECTS, SET_INVITATIONS, SET_ARCHIVE } from '../store/type';
+import { SET_ARCH_DOCS, LOAD_ARCHIVES, LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_USERS, LOAD_PROJECTS, LOAD_INVITATIONS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_DOCUMENTS, SET_INVITATIONS, SET_ARCHIVE } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
 const App = props => {
@@ -41,18 +41,16 @@ const App = props => {
 
   }, [dispatch]) 
 
-  // Fetch projects
+  // Fetch Projects
   useEffect(() => {
     getProjects()
     .then(projectData  => {
       dispatch({ type: SET_PROJECTS, payload: projectData })
-      dispatch({ type: SET_ACTIVE_PROJECTS, payload: projectData })
-      dispatch({ type: SET_COMPLETE_PROJECTS, payload: projectData })
       dispatch({ type: LOAD_PROJECTS, payload: false })
     })
   }, [dispatch])
 
-  // Fetch documents
+  // Fetch Documents
   useEffect(() => {
     getDocuments()
     .then(docuData  => {
@@ -61,7 +59,7 @@ const App = props => {
     })
   }, [dispatch])
 
-  // Fetch users
+  // Fetch Users
   useEffect(() => {
     getUsers()
     .then(userData => {
@@ -70,7 +68,7 @@ const App = props => {
     })
   }, [dispatch])
 
-    // Fetch users
+    // Fetch Invites
     useEffect(() => {
       getInvites()
       .then(inviteData => {
@@ -79,13 +77,22 @@ const App = props => {
       })
     }, [dispatch])
 
-    // Fetch users
+    // Fetch Archive
     useEffect(() => {
       getArchivedProjects()
       .then(archiveData => {
         // console.log("archiveData -->", archiveData)
         dispatch({ type: SET_ARCHIVE, payload: archiveData })
         dispatch({ type: LOAD_ARCHIVES, payload: false })
+      })
+    }, [dispatch])
+    
+    // Fetch Archive
+    useEffect(() => {
+      getArchiveDocuments()
+      .then(archiveDocData => {
+        // console.log("archiveData -->", archiveDocData)
+        dispatch({ type: SET_ARCH_DOCS, payload: archiveDocData })
       })
     }, [dispatch])
 

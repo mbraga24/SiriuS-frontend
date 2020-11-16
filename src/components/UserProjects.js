@@ -35,7 +35,6 @@ const UserProjects = props => {
     removeProjectFromUser(userId, projectId)
     .then(data => {
       dispatch({ type: UPDATE_USER, payload: data.user }) 
-      dispatch({ type: UPDATE_ACTIVE_PROJECT, payload: data.project }) 
       dispatch({ type: UPDATE_PROJECT, payload: data.project }) 
     })
   }

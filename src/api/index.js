@@ -1,3 +1,7 @@
+// ==============================================================================
+//                                    USER
+// ==============================================================================
+
 // create new user
 export const createUser = data => {
   return fetch(`http://localhost:3000/signup`, {
@@ -42,6 +46,10 @@ export const deleteUser = userId => {
   .then(r => r.json())
 }
 
+// ==============================================================================
+//                                    PROJECTS
+// ==============================================================================
+
 // remove project from user
 export const removeProjectFromUser = (userId, projectId) => {
   return fetch(`http://localhost:3000/users/${userId}/remove-project/${projectId}`, {
@@ -81,7 +89,7 @@ export const createProject = data => {
   .then(r => r.json())
 }
 
-// complete project
+// destroy - complete project
 export const completeProject = projectId => {
   return fetch(`http://localhost:3000/projects/${projectId}`, {
     method: "DELETE"
@@ -90,14 +98,18 @@ export const completeProject = projectId => {
 }
 
 // delete complete projects
-export const deleteProject = projectId => {
-  return fetch(`http://localhost:3000//project/complete/${projectId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(r => r.json())
-}
+// export const deleteProject = projectId => {
+//   return fetch(`http://localhost:3000/project/complete/${projectId}`, {
+//     method: "PATCH",
+//     headers: {
+//       "Content-Type": "application/json"
+//     }
+//   }).then(r => r.json())
+// }
+
+// ==============================================================================
+//                               ARCHIVE PROJECTS
+// ==============================================================================
 
 // get archived projects
 export const getArchivedProjects = () => {
@@ -112,17 +124,41 @@ export const archiveProject = arqProject => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ ...arqProject })
+    body: JSON.stringify(arqProject)
   }).then(r => r.json())
 }
 
-// delete - delete from arquive
+// delete from arquive
 export const deleteFromArchive = projectId => {
   return fetch(`http://localhost:3000/archive_projects/${projectId}`, {
     method: "DELETE",
   }).then(r => r.json())
 }
 
+// ==============================================================================
+//                               ARCHIVE DOCUMENTS
+// ==============================================================================
+
+// get archived documents
+export const getArchiveDocuments = () => {
+  return fetch(`http://localhost:3000/archive_documents`)
+  .then(r => r.json())
+}
+
+// create - arquive document
+export const archiveDocuments = arqDocs => {
+  return fetch(`http://localhost:3000/archive_documents`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ ...arqDocs })
+  }).then(r => r.json())
+}
+
+// ==============================================================================
+//                                  DOCUMENTS
+// ==============================================================================
 
 // set documents
 export const getDocuments = () => {
@@ -137,6 +173,11 @@ export const newDocument = formData => {
     body: formData
   })
 }
+
+
+// ==============================================================================
+//                                    INVITES
+// ==============================================================================
 
 // set invitations
 export const getInvites = () => {

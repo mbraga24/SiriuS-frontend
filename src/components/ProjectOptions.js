@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button, Modal, Header, Icon } from 'semantic-ui-react';
-import { completeProject, archiveProject, deleteFromArchive } from '../api';
-import { ADD_TO_ARCHIVE, REMOVE_FROM_ARCHIVE, REMOVE_PROJECT, UPDATE_USER } from '../store/type';
+import { completeProject, archiveProject, deleteFromArchive, archiveDocuments } from '../api';
+import { ADD_TO_ARCHIVE, REMOVE_FROM_ARCHIVE, REMOVE_PROJECT, UPDATE_USER, ADD_ARCH_DOC } from '../store/type';
 
-const ProjectOption = props => {
+const ProjectOptions = props => {
 
   const dispatch = useDispatch()
   const { id, name, start_date, due_date } = props.project
@@ -17,16 +17,16 @@ const ProjectOption = props => {
     completeProject(id)
     .then(data => {
         console.log("COMPLETED PROJECT RETURNED", data);
-        const { users, project } = data
+        const { users, project, documents } = data
         dispatch({ type: REMOVE_PROJECT, payload: project })
         // update each user in the redux store
         for (let user of users) {
           dispatch({ type: UPDATE_USER, payload: user })
         }
-        return project;
+        return { project, documents };
     })
-    .then(async arqProject => {
-      return archiveProject(arqProject)
+    .then(async archProject => {
+      return archiveProject(archProject)
         .then(data => {
           const { archived_project } = data
           console.log("ARCHIVED PROJECT DATA", data)
@@ -94,4 +94,4 @@ const ProjectOption = props => {
   )
 }
 
-export default ProjectOption;
+export default ProjectOptions;

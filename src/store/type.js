@@ -1,27 +1,23 @@
 // App Reducer
 export const SET_KEY_HOLDER = "SET_KEY_HOLDER"
 
-// Complete Project Reducer
-export const SET_COMPLETE_PROJECTS = "SET_COMPLETE_PROJECT"
-export const ADD_COMPLETE_PROJECT = "ADD_COMPLETE_PROJECT"
-export const REMOVE_COMPLETE_PROJECT = "REMOVE_COMPLETE_PROJECT"
-
 // Project Reducer
 export const SET_PROJECTS = "SET_PROJECTS"
 export const ADD_PROJECT = "ADD_PROJECT"
 export const UPDATE_PROJECT = "UPDATE_PROJECT"
 export const REMOVE_PROJECT = "REMOVE_PROJECT"
 
-// Archive Reducer
+// ArchiveProject Reducer
 export const SET_ARCHIVE = "SET_ARCHIVE"
 export const ADD_TO_ARCHIVE = "ADD_TO_ARCHIVE"
 export const REMOVE_FROM_ARCHIVE = "REMOVE_FROM_ARCHIVE"
 
+// ArchiveDocuments Reducer
+export const SET_ARCH_DOCS = "SET_ARCH_DOCS"
+export const ADD_ARCH_DOC = "ADD_ARCH_DOC"
+export const REMOVE_ARCH_DOC = "REMOVE_ARCH_DOC"
+
 // Active Project Reducer
-export const SET_ACTIVE_PROJECTS = "SET_ACTIVE_PROJECTS"
-export const ADD_ACTIVE_PROJECT = "ADD_ACTIVE_PROJECT"
-export const UPDATE_ACTIVE_PROJECT = "UPDATE_ACTIVE_PROJECT"
-export const REMOVE_ACTIVE_PROJECT = "REMOVE_ACTIVE_PROJECT"
 export const ADD_USER_TO_TEMP_PROJECT = "ADD_USER_TO_TEMP_PROJECT"
 export const REMOVE_USER_FROM_TEMP_PROJECT = "REMOVE_USER_FROM_TEMP_PROJECT"
 

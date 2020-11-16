@@ -2,11 +2,11 @@ import { createStore, combineReducers } from 'redux';
 import app from './App';
 import project from './Project';
 import activeProject from './ActiveProject';
-import completeProject from './CompleteProject';
 import document from './Document';
 import user from './User';
 import invitation from './Invitation';
 import archiveProject from './ArchiveProject';
+import archDocument from './ArchiveDocuments';
 import load from './Load';
 
 const rootReducer = combineReducers({
@@ -15,9 +15,9 @@ const rootReducer = combineReducers({
   user,
   project,
   activeProject,
-  completeProject,
   invitation,
   archiveProject,
+  archDocument,
   load
 })
 
