@@ -25,3 +25,13 @@
   border: 1px solid #60467e;
   color: #60467e;
 }
+
+#DocumentList-Container .DocumentList-Button-Color:hover {
+  background-color: #534292;
+  color: #fff;
+}
+
+#DocumentList-Container .DocumentList-Button-Color:active {
+  background-color: #3c2b79;
+  color: #fff;
+}

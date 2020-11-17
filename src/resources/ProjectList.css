@@ -10,20 +10,21 @@
   color: #60467e;
 }
 
-#ProjectList-Container .ProjectList-Button-Color-Delete {
-  background: none;
-  border: 1px solid #ac4444;
-  color: #ac4444;
-}
-
-#ProjectList-Container .Change-Invert:hover {
+#ProjectList-Container .ProjectList-Button-Color:hover {
   background-color: #534292;
   color: #fff;
 }
 
-#ProjectList-Container .Change-Invert:active {
+#ProjectList-Container .ProjectList-Button-Color:active {
   background-color: #3c2b79;
   color: #fff;
+}
+
+
+#ProjectList-Container .ProjectList-Button-Color-Delete {
+  background: none;
+  border: 1px solid #ac4444;
+  color: #ac4444;
 }
 
 #ProjectList-Container .Change-Invert-Delete:hover {

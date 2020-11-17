@@ -10,17 +10,17 @@
 }
 
 #Invitation-Form .Invitation-Form-Send-Btn {
-  background: #60467e;
+  background: #534292;
   color: #ffffff;
 }
 
 #Invitation-Form .Invitation-Form-Send-Btn:hover {
-  background-color: #3c2b79;
+  background-color: #483396;
   color: #ffffff;
 }
 
 #Invitation-Form .Invitation-Form-Send-Btn:active {
-  background-color: #483396;
+  background-color: #3c2b79;
   color: #ffffff;
 }
 

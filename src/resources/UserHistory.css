@@ -4,6 +4,16 @@
   color: #60467e;
 }
 
+#UserHistory-Container .UserHistory-Button-Color:hover {
+  background-color: #534292;
+  color: #fff;
+}
+
+#UserHistory-Container .UserHistory-Button-Color:active {
+  background-color: #3c2b79;
+  color: #fff;
+}
+
 #UserHistory-Container .UserHistory-Icon-Color {
   color: #79589f;
 }

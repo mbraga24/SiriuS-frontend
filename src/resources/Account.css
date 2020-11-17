@@ -46,6 +46,9 @@
   color: #534292;
 }
 
+#Account-Container .No-Active {
+  cursor: default;
+}
 
 #Account-Container .Account-Button-Color {
   background-color: #534292;

@@ -50,7 +50,7 @@ const ProjectOptions = props => {
 
   return (
     <List.Item className={props.listClass}>
-      <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ProjectList-Icon-Color" />
+      <List.Icon name={props.icon} size='large' verticalAlign='middle' className="ProjectList-Icon-Color"/>
       <List.Content>
         { keyHolder.admin ?
           <List.Content floated='right'>
@@ -88,7 +88,7 @@ const ProjectOptions = props => {
           : null
         } 
         <List.Content floated='right'>
-          <Button as={Link} to={`${props.linkToDetails}${id}`} className="ProjectList-Button-Color Change-Invert">Details</Button>
+          <Button as={Link} to={`${props.linkToDetails}${id}`} className="ProjectList-Button-Color">Details</Button>
         </List.Content>
           <List.Header as={Link} to={`${props.linkToDetails}${id}`} className="ProjectList-Project-Name">{name}</List.Header>
         <List.Description as='a'className="ProjectList-Project-Date">Start date: {start_date} | Due date: {due_date}</List.Description>
