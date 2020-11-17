@@ -97,16 +97,6 @@ export const completeProject = projectId => {
   .then(r => r.json())
 }
 
-// delete complete projects
-// export const deleteProject = projectId => {
-//   return fetch(`http://localhost:3000/project/complete/${projectId}`, {
-//     method: "PATCH",
-//     headers: {
-//       "Content-Type": "application/json"
-//     }
-//   }).then(r => r.json())
-// }
-
 // ==============================================================================
 //                               ARCHIVE PROJECTS
 // ==============================================================================
@@ -174,7 +164,6 @@ export const newDocument = formData => {
   })
 }
 
-
 // ==============================================================================
 //                                    INVITES
 // ==============================================================================
@@ -194,8 +183,10 @@ export const deleteInvites = inviteId => {
   .then(r => r.json())
 }
 
+// download archived project zip file
 export const downloadZip = projectId => {
-  fetch(`http://localhost:3000/download/${projectId}`, {
+  console.log("projectId -->", projectId)
+  return fetch(`http://localhost:3000/download/${projectId}`, {
     headers: { 
       'Content-Type': 'application/json'
     }
