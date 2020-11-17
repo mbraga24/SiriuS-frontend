@@ -1,13 +1,13 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Button, Icon, Divider } from 'semantic-ui-react';
+import { Table, Button, Icon, Divider, Form } from 'semantic-ui-react';
 import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
-import '../resources/AddUsersList.css';
+import '../resources/AddUserList.css';
 
-const AddUsersTable = props => {
+const AddUserList = props => {
 
   const users = useSelector(state => state.user.users)
   const projectId = parseInt(props.match.url.split("/")[2])
@@ -102,7 +102,7 @@ const AddUsersTable = props => {
                 size='small'
                 icon
                 id={`Assign-User-${user.id}`}
-                className="AddUsersTable-Button-Color Button-Change"
+                className="AddUserList-Button-Color Button-Color"
                 onClick={() => handleClick(user.id)} >
                 <Icon name="user" id={`Assign-Button-${user.id}`}/> 
                   Assign
@@ -113,39 +113,42 @@ const AddUsersTable = props => {
   }
 
   return (
-      <div id="AddUsersTable-Container">
+      <div id="AddUserList-Container">
         {
           currentlyAvailable().length !== 0 ?
-              <React.Fragment>
-                <Table columns={3}>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>Name</Table.HeaderCell>
-                      <Table.HeaderCell>Job Title</Table.HeaderCell>
-                      <Table.HeaderCell>Add collaborator</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                    <Table.Body> 
-                      {renderCollaborators()}
-                    </Table.Body>
-                </Table>
-                <Divider/>
-                { props.button ?
-                  <Button type="submit" className="NewProject-Submit-Button-Color Button-Change">Create</Button>
-                  :
-                  (
-                    <>
-                      <Button className="NewProject-Submit-Button-Color Button-Change" onClick={addCollaborators}>Add</Button>
-                      <Button onClick={() => props.setOpen(false)}>Cancel</Button>
-                    </>
-                  )
-                }
-              </React.Fragment> 
-              : 
-              <MissingAsset message={props.userType === "newProject" ? "All users seem to be currently unavailable" : "There no users available to work this project"} icon={"user times"} />
+          <React.Fragment>
+            <Form.Field className="NewProject-User-Choice-Wrapper">
+              <Table columns={3}>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Name</Table.HeaderCell>
+                    <Table.HeaderCell>Job Title</Table.HeaderCell>
+                    <Table.HeaderCell>Add collaborator</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                  <Table.Body> 
+                    {renderCollaborators()}
+                  </Table.Body>
+              </Table>
+              <Divider/>
+            </Form.Field>
+              {  
+                props.button ?
+                <Form.Field className="Button-Form-Action">
+                  <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
+                </Form.Field>
+                :
+                <Form.Field className="Button-Form-Action">
+                  <Button floated="right" onClick={addCollaborators} className="Button-Color">Add</Button>
+                  <Button floated="right" onClick={() => props.setOpen(false)} className="Button-Color">Cancel</Button>
+                </Form.Field>
+              }
+          </React.Fragment>
+           :
+            <MissingAsset message={props.userType === "newProject" ? "All users seem to be currently unavailable" : "There no users available to work this project"} icon={"user times"} />
         }
       </div>
   );
 };
 
-export default withRouter(AddUsersTable);
+export default withRouter(AddUserList);

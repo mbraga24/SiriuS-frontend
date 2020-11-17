@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
-import { Form, Header, Icon, Divider } from 'semantic-ui-react';
+import { Form, Header, Icon, Divider, Button } from 'semantic-ui-react';
 import { createProject } from '../api';
 import { ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
-import AddUserList from './AddUserList';
 import Loading from './Loading';
+import AddUserList from './AddUserList';
 import '../resources/NewProject.css';
 
 const NewProject = (props) => {
@@ -56,43 +56,54 @@ const NewProject = (props) => {
   return (
     <div id="NewProject-Container">
       <Form onSubmit={handleSubmit}>
-        <Header as='h2' className="NewProject-Header-Align-Items">
-          <span>
-            <Icon name='puzzle' size="large" className="NewProject-Icon-Color"/>
-            <Header.Content>
-              <span className="NewProject-Title">Create Project</span>
-            </Header.Content>
-          </span>
-        </Header>
-        <Divider className="NewProject-Divider" />
-        <DatesRangeInput
-          name="datesRange"
-          placeholder="From - To"
-          dateFormat="MM-DD-YYYY"
-          value={dateRange}
-          iconPosition="left"
-          animation={false}
-          className="NewProject-Form-Data"
-          onChange={(a, {name, value}) => handleDateRangeChange(name, value)}
-        />
-        <Form.Input fluid name="title" placeholder='Project Title' className="NewProject-Form" onChange={handleFieldChange}/>
-        <Form.TextArea  name="description" placeholder='Project Description' className="NewProject-Form" style={{height: "200px"}} onChange={handleFieldChange}/>
-        <Form.Field className="NewProject-User-Choice-Wrapper">
-          <Header as='h2' className="NewProject-Header">
+        <Form.Group grouped>
+          <Header as='h2' className="NewProject-Header-Align-Items">
             <span>
-              <Icon name='users' size="large" className="NewProject-Icon-Color"/>
+              <Icon name='puzzle' size="large" className="NewProject-Icon-Color"/>
               <Header.Content>
-                <span className="NewProject-Title">Collaborators</span>
+                <span className="NewProject-Title">Create Project</span>
               </Header.Content>
             </span>
+            <span>
+              <Button type="button"><Icon name="desktop"/>Search my computer</Button>
+            </span>
           </Header>
-          {
-            loadUsers ?
-            <Loading loadingClass={false} />
-            :
-            <AddUserList userType={"newProject"} button={true}/>
-          }
-        </Form.Field>
+        </Form.Group>
+        <Divider className="NewProject-Divider" />
+        <Form.Group grouped>
+          <DatesRangeInput
+            name="datesRange"
+            placeholder="From - To"
+            dateFormat="MM-DD-YYYY"
+            value={dateRange}
+            iconPosition="left"
+            animation={false}
+            className="NewProject-Form-Data"
+            onChange={(a, {name, value}) => handleDateRangeChange(name, value)}
+          />
+          <Form.Input fluid name="title" placeholder='Project Title' className="NewProject-Form" onChange={handleFieldChange}/>
+          <Form.TextArea  name="description" placeholder='Project Description' className="NewProject-Form" style={{height: "200px"}} onChange={handleFieldChange}/>
+        </Form.Group>
+        <Form.Group grouped>
+          <Form.Field className="NewProject-User-Choice-Wrapper">
+            <Header as='h2' className="NewProject-Header">
+              <span>
+                <Icon name='users' size="large" className="NewProject-Icon-Color"/>
+                <Header.Content>
+                  <span className="NewProject-Title">Collaborators</span>
+                </Header.Content>
+              </span>
+            </Header>
+          </Form.Field>
+        </Form.Group>
+        <Form.Group grouped>
+        {
+          loadUsers ?
+          <Loading loadingClass={false} />
+          :
+          <AddUserList userType={"newProject"} button={true}/>
+        }
+        </Form.Group>
       </Form>
     </div>
   );

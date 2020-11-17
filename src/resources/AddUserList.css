@@ -1,0 +1,27 @@
+#AddUserList-Container .Button-Form-Action {
+  height: 40px;
+}
+
+#AddUserList-Container .Button-Color {
+  background: #60467e;
+  color: #ffffff;
+}
+
+#AddUserList-Container .Button-Color:hover {
+  background-color: #3c2b79;
+  color: #ffffff;
+}
+
+#AddUserList-Container .Button-Color:active {
+  background-color: #483396;
+  color: #ffffff;
+}
+
+#AddUserList-Container .Selected {
+  background: #e0e1e2;
+  color: #5e5d5d;
+}
+
+#AddUserList-Container .Selected-Change:hover {
+  background: #c7c8c9;
+} 
