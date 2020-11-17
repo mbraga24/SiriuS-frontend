@@ -29,13 +29,28 @@
 #TableList-Container .TableList-Title {
   font-size: 30px;
   padding-left: 8px;
+} 
+
+#TableList-Container .TableList-Cell {
+  background: none;
+}
+
+#TableList-Container .TableList-Cell:hover {
+  background-color: #534292;
+}
+
+#TableList-Container .TableList-Cell:active {
+  background-color: #3c2b79;
 }
 
 #TableList-Container .TableList-Icon-Color {
   color: #79589f;
+}
+
+#TableList-Container .TableList-Icon-Actions-Color {
   cursor: pointer;
-  width: 50px;
-  height: 25px;
+  color: #79589f;
+  padding: 0 50px 30px 30px;
 }
 
 #TableList-Container .TableList-Header-Align-Items {

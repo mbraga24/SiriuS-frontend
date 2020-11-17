@@ -18,6 +18,16 @@ const TableList = props => {
     setFirstOpen(false)
   }
 
+  const iconUserAction = (buttonId, colorId) => {
+    const icon = document.querySelector(`.Icon-User-Action-${buttonId}`)
+    icon.style.color = colorId
+  }
+
+  const iconRemoveAction = (buttonId, colorId) => {
+    const icon = document.querySelector(`.Icon-Remove-Action-${buttonId}`)
+    icon.style.color = colorId
+  }
+
   const renderRows = () => {
     return props.items.map(item => {
       return (
@@ -28,13 +38,23 @@ const TableList = props => {
           <Table.Cell className={props.hideColumn ? "Hide-Column" : ""}>{item.job_title}</Table.Cell>
           { keyHolder.admin && 
             <>
-              <Table.Cell className={props.hideColumn ? "Hide-Column" : ""} textAlign='center'>
+              <Table.Cell 
+                textAlign="center" 
+                onMouseOver={() => iconUserAction(item.id, "#ffffff")} 
+                onMouseLeave={() => iconUserAction(item.id, "#79589f")} 
+                className={`TableList-Cell ${props.hideColumn ? "Hide-Column" : ""}`}
+                >
                 <Link to={`/user/projects/${item.id}`}> 
-                  <Icon name='user' size="large" className="TableList-Icon-Color"/>
+                  <Icon name='user' size="large" className={`TableList-Icon-Actions-Color Icon-User-Action-${item.id}`}/>
                 </Link>
               </Table.Cell>
-              <Table.Cell textAlign='center'>
-                <Icon name='user times' size="large" className="TableList-Icon-Color" onClick={() => props.func(item.id)} />
+              <Table.Cell 
+                textAlign='center'
+                onMouseOver={() => iconRemoveAction(item.id, "#ffffff")} 
+                onMouseLeave={() => iconRemoveAction(item.id, "#79589f")} 
+                className="TableList-Cell"
+                >
+                <Icon name='user times' size="large" className={`TableList-Icon-Actions-Color Icon-Remove-Action-${item.id}`} onClick={() => props.func(item.id)} />
               </Table.Cell>
             </>
           }
@@ -55,8 +75,7 @@ const TableList = props => {
         {
           keyHolder.admin && 
           <Dropdown.Item>
-          <>
-            {/* <span className="MenuBar-Font-Color Invite-Btn" >New Invitation</span> */}
+          <React.Fragment>
             <Button className="TableList-Button-Invite-User" onClick={() => setFirstOpen(true)}>
               <Icon name='user plus' /> 
               Invite Collaborator
@@ -84,7 +103,7 @@ const TableList = props => {
                 </Modal.Actions>
               </Modal>
             </Modal>
-          </>
+          </React.Fragment>
           </Dropdown.Item>
         }
       </Header>
