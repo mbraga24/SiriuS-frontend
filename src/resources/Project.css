@@ -23,13 +23,21 @@
   color: #ffffff;
 }
 
-#Project-Container .Project-Download-Button-Style {
+#Project-Container .Project-Download-Button {
   background-color: #e7ff86;
   width: 180px;
-  color: #000000;
+  color: #2e2929;
 }
 
-#Project-Container .Project-Download-Button-Style a {
+#Project-Container .Project-Download-Button:hover {
+  background-color: #d9f07c;
+}
+
+#Project-Container .Project-Download-Button:active {
+  background-color: #cee475;
+}
+
+#Project-Container .Project-Download-Button a {
   color: #000000;
   text-decoration: none;
 }
@@ -38,7 +46,7 @@
   margin-top: 20px;
 }
 
-#Project-Container .Project-Items-Style {
+#Project-Container .Project-Items {
   color: #79589f;
 }
 
@@ -47,8 +55,22 @@
   padding: 2px 5px;
 }
 
-#Project-Container .User-Items {
-  padding: 10px 0;
+#Project-Container .Project-User-Content {
+  background: none;
+}
+
+#Project-Container .Project-User-Items {
+  padding: 10px 10px;
+}
+
+#Project-Container .Project-User-Items:hover {
+  background: #534292;
+  color: #ffffff;
+}
+
+#Project-Container .Project-User-Items:active {
+  background: #3c2b79;
+  color: #ffffff;
 }
 
 .Hidden {

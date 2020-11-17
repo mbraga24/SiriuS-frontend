@@ -70,25 +70,25 @@ const Account = () => {
               <Grid padded columns='1'>
                 <Grid.Row>    
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" active className="Account-Btn No-Active">
+                    <Button secondary active className="Account-Btn No-Active">
                     <Icon name='id badge' size="large"/>
                     {job_title}
                     </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" active className="Account-Btn No-Active">
+                    <Button secondary active className="Account-Btn No-Active">
                     <Icon name='travel' size="large"/>
                     {company}
                     </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" active className="Account-Btn No-Active">
+                    <Button secondary active className="Account-Btn No-Active">
                     <Icon name='mail' size="large"/>
                     {email}
                     </Button>
                   </Grid.Column>
                   <Grid.Column className="Account-Items">
-                    <Button color="grey" active className="Account-Btn Link No-Active">
+                    <Button secondary active className="Account-Btn Link No-Active">
                     <Icon name='linkify' size="large"/>
                     <a href='http://www.semantic-ui.com'>company-site.com</a>
                     </Button>

@@ -36,11 +36,11 @@
 }
 
 #TableList-Container .TableList-Cell:hover {
-  background-color: #534292;
+  background: #534292;
 }
 
 #TableList-Container .TableList-Cell:active {
-  background-color: #3c2b79;
+  background: #3c2b79;
 }
 
 #TableList-Container .TableList-Icon-Color {
