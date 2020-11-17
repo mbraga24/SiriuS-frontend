@@ -5,7 +5,7 @@
   padding: 10px 0;
 }
 
-#Project-Container .Project-Icon-Color {
+#Project-Container .Project-Item-Color {
   color: #79589f;
 }
 
@@ -44,10 +44,6 @@
 
 #Project-Container .Button-Spacing {
   margin-top: 20px;
-}
-
-#Project-Container .Project-Items {
-  color: #79589f;
 }
 
 #Project-Container .Items-Spacing {

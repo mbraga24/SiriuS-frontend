@@ -22,9 +22,13 @@ const DocumentList = props => {
       setAllDocuments(archiveDocuments)
       setPathKey("archive_project")
     }
-    if (props.match.path.split("/").includes("project")) {
+    if (path.includes("project")) {
       setAllDocuments(documents)
       setPathKey("project")
+    }
+    if (path.includes("projects")) {
+      setAllDocuments(documents)
+      setPathKey("user")
     }
   }, [path, allDocuments, archiveDocuments, documents, props.match.path])
 

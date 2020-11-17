@@ -93,12 +93,13 @@ const ProjectDetails = props => {
       doc.addImage(imgData, 'JPG', 0, 0, doc_w, doc_h);
       let currentTime = new Date();
       doc.save(`${currentProject.name}-${currentTime}.pdf`);
-
     });
 
+
+    console.log("CURRENT PROJECT -->", currentProject.id)
+
     // download zip file of a .json file with all the projects attributes
-    downloadZip(currentProject.id)
-    .then(data => {
+    downloadZip(currentProject.id).then(data => {
       setLoader(false)
       setDownloadLink(data.url)
     })
@@ -166,7 +167,7 @@ const ProjectDetails = props => {
               <React.Fragment>
                 <Header as='h2' className="Project-Header-Align-Items">
                   <span>
-                    <Icon name='clipboard list' size="large" className="Project-Icon-Color"/>
+                    <Icon name='clipboard list' size="large" className="Project-Item-Color"/>
                     <Header.Content>
                       <span className="Project-Title">Project</span>
                     </Header.Content>
@@ -206,10 +207,10 @@ const ProjectDetails = props => {
                 <Divider/>
                 <div id="Project-Details">
                   <Grid doubling columns={2} className="Project-List">
-                      <Grid.Column width={13}>
+                      <Grid.Column width={12}>
                         <Grid.Row>
                           <Grid.Column width={16}>
-                            <div className="Project-Items Items-Spacing">
+                            <div className="Project-Item-Color Items-Spacing">
                               <Icon name='clipboard list' size="large"/>
                               Title:
                               <p className="Project-Title Next-Line">{currentProject.name}</p>
@@ -218,7 +219,7 @@ const ProjectDetails = props => {
                         </Grid.Row>
                         <Grid.Row>
                           <Grid.Column width={16}>
-                            <div className="Project-Items Items-Spacing">
+                            <div className="Project-Item-Color Items-Spacing">
                               <Icon name='file alternate' size="large" />
                               Description:
                               <List.Content><span className="Project-Description-Text">{currentProject.description}</span></List.Content>
@@ -227,49 +228,44 @@ const ProjectDetails = props => {
                         </Grid.Row>
                         <Grid>
                           <Grid.Row>
-                            <Grid.Column width={4}>
-                            <div className="Project-Items Items-Spacing">
+                            <Grid.Column width={5}>
+                            <div className="Project-Item-Color Items-Spacing">
                               <Icon name='calendar alternate' size="large"/>
                               Start Date: {currentProject.start_date}
                             </div>
                             </Grid.Column>
-                            <Grid.Column width={4}>
-                            <div className="Project-Items Items-Spacing">
+                            <Grid.Column width={5}>
+                            <div className="Project-Item-Color Items-Spacing">
                               <Icon name='calendar check' size="large"/>
                                 Due Date: {currentProject.due_date}
                             </div>
                             </Grid.Column>
-                            <Grid.Column width={4}>
-                            <div className="Project-Items Items-Spacing">
+                            <Grid.Column width={6}>
+                            <div className="Project-Item-Color Items-Spacing">
                               <Icon name="users" size="large"/>
                                 Collaborators: {currentProject.users.length}
-                            </div>
-                            </Grid.Column>
-                            <Grid.Column width={4}>
-                            <div className="Project-Items Items-Spacing">
-                              <Icon name='linkify' size="large"/>
-                              <a href='http://www.semantic-ui.com'>company-site.com</a>
                             </div>
                             </Grid.Column>
                           </Grid.Row>
                         </Grid>
                       </Grid.Column>
 
-                      <Grid.Column width={3}>
+                      <Grid.Column width={4}>
                         <List divided verticalAlign='middle'>
                           <Header as='h5'>Collaborators</Header>
                           { 
                             currentProject.users.map(user => (
                               <List.Item 
+                                key={user.id}
                                 as={Link} 
                                 to={`/user/projects/${user.id}`}
                                 onMouseOver={() => iconUserAction(user.id, "#ffffff")}
                                 onMouseLeave={() => iconUserAction(user.id, "#79589f")}
                                 className="Project-User-Items Items-Wrapper">
                                 <List.Content floated='left' className="Project-User-Content">
-                                  <Icon name="user" className={`Project-Icon Icon-User-Action-${user.id}`} />
+                                  <Icon name="user" className={`Project-Item-Color Icon-User-Action-${user.id}`} />
                                 </List.Content>
-                                <List.Content>{user.first_name} {user.last_name}</List.Content>
+                                <List.Content>{user.first_name} {user.last_name.length > 8 ? `${user.last_name[0]}.` : user.last_name }</List.Content>
                               </List.Item>
                             ))
                           }
@@ -281,7 +277,7 @@ const ProjectDetails = props => {
                     { 
                         !disable &&
                         <Grid.Column width={6}>
-                          <div className="Project-Items Items-Spacing Project-File-Upload-Wrapper">
+                          <div className="Project-Item-Color Items-Spacing Project-File-Upload-Wrapper">
                             <Form onSubmit={onFormSubmit}>
                               <Form.Field>
                                 <label>File input & upload </label>
@@ -334,7 +330,7 @@ const ProjectDetails = props => {
                         </Grid.Column>
                     }
                       <Grid.Column width={12} id="Grid-Document-List-Wrapper">
-                        <div className="Project-Items Items-Spacing">
+                        <div className="Project-Item-Color Items-Spacing">
                           <DocumentList />
                         </div>
                       </Grid.Column>
