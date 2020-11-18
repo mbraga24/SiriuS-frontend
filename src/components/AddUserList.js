@@ -7,7 +7,7 @@ import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUserList.css';
 
-const AddUserList = props => {
+const AddUserList = ( { relaunchProject = false, ...props } ) => {
 
   const users = useSelector(state => state.user.users)
   const projectId = parseInt(props.match.url.split("/")[2])
@@ -24,7 +24,7 @@ const AddUserList = props => {
 
   // return the users based on the page selected
   const currentlyAvailable = () => {
-    if (props.userType === "newProject") {
+    if (props.userType === "newProject" || props.userType === "relaunchProject") {
       return availableUsers(users)
     } 
     if (props.userType === "currentProject") {
@@ -132,20 +132,25 @@ const AddUserList = props => {
               </Table>
               <Divider/>
             </Form.Field>
-              {  
-                props.button ?
-                <Form.Field className="Button-Form-Action">
-                  <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
-                </Form.Field>
-                :
-                <Form.Field className="Button-Form-Action">
-                  <Button floated="right" onClick={addCollaborators} className="Button-Color">Add</Button>
-                  <Button floated="right" onClick={() => props.setOpen(false)} className="Button-Color">Cancel</Button>
-                </Form.Field>
+              { 
+                relaunchProject && 
+                <>
+                  {
+                    props.button ?
+                    <Form.Field className="Button-Form-Action">
+                      <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
+                    </Form.Field>
+                    :
+                    <Form.Field className="Button-Form-Action">
+                      <Button floated="right" onClick={addCollaborators} className="Button-Color">Add</Button>
+                      <Button floated="right" onClick={() => props.setOpen(false)} className="Button-Color">Cancel</Button>
+                    </Form.Field>
+                  }
+                </>
               }
           </React.Fragment>
            :
-            <MissingAsset message={props.userType === "newProject" ? "All users seem to be currently unavailable" : "There no users available to work this project"} icon={"user times"} />
+          <MissingAsset message={props.userType === "newProject" ? "All users seem to be currently unavailable" : "There no users available to work this project"} icon={"user times"} />
         }
       </div>
   );

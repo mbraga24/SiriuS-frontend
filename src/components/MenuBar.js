@@ -8,12 +8,7 @@ import { SET_KEY_HOLDER } from '../store/type';
 
 const MenuBar = (props) => { 
 
-  const style = {
-    borderRadius: 0,
-    opacity: 0.9,
-    padding: '1em',
-  }
-  const chatFeatureMessage = "'Siri-me that list later today!' You'll be saying that soon! We're excited about our new chat feature. Our engineers are working around the clock so users can chat in real-time."
+  const chatFeatureMessage = "'Siri-me that document later today!' We're excited with our new chat feature. Coming soon."
 
   const keyHolder = useSelector(state => state.app.keyHolder)
   const dispatch = useDispatch()
@@ -44,6 +39,9 @@ const MenuBar = (props) => {
           { keyHolder.admin ?
             <Dropdown item text='Collaborators' className="MenuBar-Font-Color">
               <Dropdown.Menu>
+                <Dropdown.Item as={Link} to='/users'>
+                  <span className="MenuBar-Font-Color">Collaborators List</span>
+                </Dropdown.Item>
                 { keyHolder.admin && 
                   <Dropdown.Item>
                     <>
@@ -76,9 +74,6 @@ const MenuBar = (props) => {
                 }
                 <Dropdown.Item as={Link} to='/invitations'>
                   <span className="MenuBar-Font-Color">Pending Invites</span>
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to='/users'>
-                  <span className="MenuBar-Font-Color">Collaborators List</span>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -113,7 +108,6 @@ const MenuBar = (props) => {
             trigger={<Icon name='discussions' className="MenuBar-Chat"/>}
             content={chatFeatureMessage}
             position='bottom center'
-            style={style}
             inverted
           />
             Chat

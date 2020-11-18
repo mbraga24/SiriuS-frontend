@@ -41,9 +41,10 @@ const ProjectOptions = props => {
   const handleDelete = () => {
     deleteFromArchive(id)
     .then(data => {
+      const { archiveId } = data
       console.log("PROJECT DELETED -->", data)
       // update projects from the redux store
-      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: data.archiveId })
+      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
       setOpen(false)
     })
   }

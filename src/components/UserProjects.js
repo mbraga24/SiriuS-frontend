@@ -61,7 +61,7 @@ const UserProjects = props => {
         <List divided relaxed>
         <Header as='h2' className="UserHistory-Header-Align-Items">
           <span>
-            <Icon name='puzzle' size="large" className="UserHistory-Icon-Color"/>
+            <Icon name='user' size="large" className="UserHistory-Icon-Color"/>
             <Header.Content>
               {
                 loadUsers ?

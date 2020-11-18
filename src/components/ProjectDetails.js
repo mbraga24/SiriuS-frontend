@@ -9,6 +9,7 @@ import html2canvas from 'html2canvas'; // => install html2canvas
 import jsPDF from 'jspdf'; // => install jspdf
 import DocumentList from './DocumentList';
 import AddUserList from './AddUserList';
+import RelaunchModals from './RelaunchModals';
 import Loading from './Loading';
 import { downloadZip } from '../api';
 import '../resources/Project.css';
@@ -95,9 +96,6 @@ const ProjectDetails = props => {
       doc.save(`${currentProject.name}-${currentTime}.pdf`);
     });
 
-
-    console.log("CURRENT PROJECT -->", currentProject.id)
-
     // download zip file of a .json file with all the projects attributes
     downloadZip(currentProject.id).then(data => {
       setLoader(false)
@@ -181,7 +179,8 @@ const ProjectDetails = props => {
                           <Button className="Project-Download-Button" onClick={handleDownload}><Icon name="download"/>Back Up Project</Button>
                           :
                           <Button className={`Project-Download-Button ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
-                        }                        
+                        }                      
+                        <RelaunchModals archProject={currentProject} />  
                       </React.Fragment>
                       : 
                       currentUser.admin &&
@@ -190,14 +189,19 @@ const ProjectDetails = props => {
                           onOpen={() => setOpen(true)}
                           open={open}
                           trigger={
-                              <Button className="Project-Button-Style Button-Change"><Icon name="add"/> Add Collaborator </Button>
+                              <Button className="Project-Button-Color Button-Change"><Icon name="add"/> Add Collaborator </Button>
                             }>
                             <Modal.Header>
                               <span className="AddUsersTable-Title">Collaborators</span>
                             </Modal.Header>
                             <Modal.Content>
                               <Modal.Description>
-                                <AddUserList userType={"currentProject"} setOpen={setOpen} currentProject={currentProject} button={false}/>
+                                <AddUserList 
+                                  userType={"currentProject"} 
+                                  setOpen={setOpen} 
+                                  currentProject={currentProject} 
+                                  button={false}
+                                />
                               </Modal.Description>
                             </Modal.Content>
                         </Modal>
@@ -211,9 +215,7 @@ const ProjectDetails = props => {
                         <Grid.Row>
                           <Grid.Column width={16}>
                             <div className="Project-Item-Color Items-Spacing">
-                              <Icon name='clipboard list' size="large"/>
-                              Title:
-                              <p className="Project-Title Next-Line">{currentProject.name}</p>
+                              <p className="Project-Title Next-Line"><b>{currentProject.name}</b></p>
                             </div>
                           </Grid.Column>
                         </Grid.Row>
@@ -221,7 +223,7 @@ const ProjectDetails = props => {
                           <Grid.Column width={16}>
                             <div className="Project-Item-Color Items-Spacing">
                               <Icon name='file alternate' size="large" />
-                              Description:
+                              <b>Description:</b>
                               <List.Content><span className="Project-Description-Text">{currentProject.description}</span></List.Content>
                             </div>
                           </Grid.Column>
@@ -231,19 +233,19 @@ const ProjectDetails = props => {
                             <Grid.Column width={5}>
                             <div className="Project-Item-Color Items-Spacing">
                               <Icon name='calendar alternate' size="large"/>
-                              Start Date: {currentProject.start_date}
+                              <b>Start Date:</b> {currentProject.start_date}
                             </div>
                             </Grid.Column>
                             <Grid.Column width={5}>
                             <div className="Project-Item-Color Items-Spacing">
                               <Icon name='calendar check' size="large"/>
-                                Due Date: {currentProject.due_date}
+                              <b>Due Date:</b> {currentProject.due_date}
                             </div>
                             </Grid.Column>
                             <Grid.Column width={6}>
                             <div className="Project-Item-Color Items-Spacing">
                               <Icon name="users" size="large"/>
-                                Collaborators: {currentProject.users.length}
+                              <b>Collaborators:</b> {currentProject.users.length}
                             </div>
                             </Grid.Column>
                           </Grid.Row>
@@ -281,7 +283,7 @@ const ProjectDetails = props => {
                             <Form onSubmit={onFormSubmit}>
                               <Form.Field>
                                 <label>File input & upload </label>
-                                <Button as="label" htmlFor="file" type="button" animated="fade" className="Project-Button-Style">
+                                <Button type="button" as="label" htmlFor="file" animated="fade" className="Project-Button-Color">
                                   <Button.Content visible>
                                     <Icon name="file" />
                                   </Button.Content>
@@ -303,7 +305,7 @@ const ProjectDetails = props => {
                                 />
                                   { 
                                     loader && fileName ?
-                                    <Button className="Project-Button-Style Button-Spacing" loading>
+                                    <Button className="Project-Button-Color Button-Spacing" loading>
                                       Loading
                                     </Button> : 
                                       statusCode === 200 && buttonStatus ?
@@ -319,7 +321,7 @@ const ProjectDetails = props => {
                                         </Button>
                                       ) : 
                                     (
-                                      <Button type="submit" className={`Project-Button-Style Button-Spacing ${!fileName && "disabled"}`}>
+                                      <Button type="submit" className={`Project-Button-Color Button-Spacing ${!fileName && "disabled"}`}>
                                         Upload File
                                       </Button>      
                                     )

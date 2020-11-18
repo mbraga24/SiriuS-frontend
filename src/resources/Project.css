@@ -18,29 +18,41 @@
   line-height: 25px;
 }
 
-#Project-Container .Project-Button-Style {
-  background-color: #534292;
-  color: #ffffff;
+#Project-Container .Project-Button-Color {
+  background: none;
+  border: 1px solid #60467e;
+  color: #60467e;
+}
+
+#Project-Container .Project-Button-Color:hover {
+  background: #534292;
+  color: #fff;
+}
+
+#Project-Container .Project-Button-Color:active {
+  background: #3c2b79;
+  color: #fff;
 }
 
 #Project-Container .Project-Download-Button {
-  background-color: #e7ff86;
+  background: none;
+  border: 1px solid #60467e;
+  color: #60467e;
   width: 180px;
-  color: #2e2929;
 }
 
 #Project-Container .Project-Download-Button:hover {
-  background-color: #d9f07c;
+  background: #d9f07c;
 }
 
 #Project-Container .Project-Download-Button:active {
-  background-color: #cee475;
+  background: #cee475;
 }
 
-#Project-Container .Project-Download-Button a {
+/* #Project-Container .Project-Download-Button a {
   color: #000000;
   text-decoration: none;
-}
+} */
 
 #Project-Container .Button-Spacing {
   margin-top: 20px;
@@ -113,9 +125,9 @@
 }
 
 #Project-Container .Button-Change:hover {
-  background-color: #483396;
+  background: #483396;
 }
 
 #Project-Container .Button-Change:active {
-  background-color: #3c2b79;
+  background: #3c2b79;
 }

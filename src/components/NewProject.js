@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
-import { Form, Header, Icon, Divider, Button } from 'semantic-ui-react';
+import { Form, Header, Icon, Divider, Button, Popup } from 'semantic-ui-react';
 import { createProject } from '../api';
 import { ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
 import Loading from './Loading';
 import AddUserList from './AddUserList';
 import '../resources/NewProject.css';
+// { theme = 'secondary', label = 'Button Text', ...restProps }
 
-const NewProject = (props) => {
+const NewProject = ( { displayUserList = true, dateField="Set a start and due date", titleField="Title", descriptionField="Description", ...props } ) => {
   const [ fields, handleFieldChange ] = useFormFields({
     title: "",
     description: ""
@@ -18,7 +19,7 @@ const NewProject = (props) => {
   const [dateRange, setDateRange] = useState("")
   const dispatch = useDispatch()
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
-  const loadUsers = useSelector(state => state.load.loadUsers) 
+  const loadUsers = useSelector(state => state.load.loadUsers)   
 
   const handleDateRangeChange = (name, value) => {
     setDateRange(value.split("-").join("/"))
@@ -56,21 +57,30 @@ const NewProject = (props) => {
   return (
     <div id="NewProject-Container">
       <Form onSubmit={handleSubmit}>
-        <Form.Group grouped>
-          <Header as='h2' className="NewProject-Header-Align-Items">
-            <span>
-              <Icon name='puzzle' size="large" className="NewProject-Icon-Color"/>
-              <Header.Content>
-                <span className="NewProject-Title">Create Project</span>
-              </Header.Content>
-            </span>
-            <span>
-              <Button type="button"><Icon name="desktop"/>Search my computer</Button>
-            </span>
-          </Header>
-        </Form.Group>
-        <Divider className="NewProject-Divider" />
-        <Form.Group grouped>
+        {
+displayUserList && 
+          <Form.Group grouped>
+            <Header as='h2' className="NewProject-Header-Align-Items">
+              <span>
+                <Icon name='puzzle' size="large" className="NewProject-Icon-Color"/>
+                <Header.Content>
+                  <span className="NewProject-Title">Create Project</span>
+                </Header.Content>
+              </span>
+                <span>
+                  <Popup 
+                    inverted 
+                    position='left center'
+                    content='Find an old project in your local machine and recreate it. Feature coming soon.' 
+                    trigger={<Button type="button"><Icon name="desktop"/>Search my computer</Button>} 
+                  />
+                </span>
+            </Header>
+            <Divider className="NewProject-Divider" />
+          </Form.Group>
+        }
+        <Form.Group grouped>   
+          <label>{dateField}</label>
           <DatesRangeInput
             name="datesRange"
             placeholder="From - To"
@@ -81,27 +91,32 @@ const NewProject = (props) => {
             className="NewProject-Form-Data"
             onChange={(a, {name, value}) => handleDateRangeChange(name, value)}
           />
-          <Form.Input fluid name="title" placeholder='Project Title' className="NewProject-Form" onChange={handleFieldChange}/>
-          <Form.TextArea  name="description" placeholder='Project Description' className="NewProject-Form" style={{height: "200px"}} onChange={handleFieldChange}/>
+          <label>{titleField}</label>
+          <Form.Input fluid name="title" placeholder='"The Joe Doe Company"' className="NewProject-Form" onChange={handleFieldChange}/>
+          <label>{descriptionField}</label>
+          <Form.TextArea  name="description" placeholder='"Give a detailed description of the project and share all information that will be useful for your collaborators."' className="NewProject-Form" style={{height: "200px"}} onChange={handleFieldChange}/>
         </Form.Group>
-        <Form.Group grouped>
-          <Form.Field className="NewProject-User-Choice-Wrapper">
-            <Header as='h2' className="NewProject-Header">
-              <span>
-                <Icon name='users' size="large" className="NewProject-Icon-Color"/>
-                <Header.Content>
-                  <span className="NewProject-Title">Collaborators</span>
-                </Header.Content>
-              </span>
-            </Header>
-          </Form.Field>
-        </Form.Group>
+        {
+          displayUserList &&
+          <Form.Group grouped>
+            <Form.Field className="NewProject-User-Choice-Wrapper">
+              <Header as='h2' className="NewProject-Header">
+                <span>
+                  <Icon name='users' size="large" className="NewProject-Icon-Color"/>
+                  <Header.Content>
+                    <span className="NewProject-Title">Collaborators</span>
+                  </Header.Content>
+                </span>
+              </Header>
+            </Form.Field>
+          </Form.Group>
+        }
         <Form.Group grouped>
         {
           loadUsers ?
           <Loading loadingClass={false} />
           :
-          <AddUserList userType={"newProject"} button={true}/>
+          displayUserList && <AddUserList userType={"newProject"} button={true}/>
         }
         </Form.Group>
       </Form>
