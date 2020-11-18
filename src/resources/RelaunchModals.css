@@ -1,0 +1,14 @@
+#RelaunchModals .Project-Button-Color {
+  background-color: #534292;
+  color: #ffffff;
+}
+
+#RelaunchModals .Project-Button-Color:hover  {
+  background-color: #483396;
+  color: #fff;
+}
+
+#RelaunchModals .Project-Button-Color:active  {
+  background-color: #3c2b79;
+  color: #fff;
+}

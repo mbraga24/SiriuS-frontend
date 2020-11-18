@@ -180,7 +180,7 @@ const ProjectDetails = props => {
                           :
                           <Button className={`Project-Download-Button ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
                         }                      
-                        <RelaunchModals archProject={currentProject} />  
+                        <RelaunchModals id="RelaunchModals" archProject={currentProject} />  
                       </React.Fragment>
                       : 
                       currentUser.admin &&
@@ -283,7 +283,7 @@ const ProjectDetails = props => {
                             <Form onSubmit={onFormSubmit}>
                               <Form.Field>
                                 <label>File input & upload </label>
-                                <Button type="button" as="label" htmlFor="file" animated="fade" className="Project-Button-Color">
+                                <Button type="button" as="label" htmlFor="file" animated="fade" className="Project-Archived-Button-Color">
                                   <Button.Content visible>
                                     <Icon name="file" />
                                   </Button.Content>

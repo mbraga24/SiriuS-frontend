@@ -19,17 +19,32 @@
 }
 
 #Project-Container .Project-Button-Color {
+  background-color: #534292;
+  color: #ffffff;
+}
+
+#Project-Container .Project-Button-Color:hover  {
+  background-color: #483396;
+  color: #fff;
+}
+
+#Project-Container .Project-Button-Color:active  {
+  background-color: #3c2b79;
+  color: #fff;
+}
+
+#Project-Container .Project-Archived-Button-Color {
   background: none;
   border: 1px solid #60467e;
   color: #60467e;
 }
 
-#Project-Container .Project-Button-Color:hover {
+#Project-Container .Project-Archived-Button-Color:hover {
   background: #534292;
   color: #fff;
 }
 
-#Project-Container .Project-Button-Color:active {
+#Project-Container .Project-Archived-Button-Color:active {
   background: #3c2b79;
   color: #fff;
 }

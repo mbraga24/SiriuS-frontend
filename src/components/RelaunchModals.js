@@ -5,6 +5,7 @@ import NewProject from './NewProject';
 import AddUserList from './AddUserList';
 import { createProject, deleteFromArchive } from '../api';
 import { REMOVE_FROM_ARCHIVE, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
 
@@ -12,6 +13,15 @@ const RelaunchModals = props => {
   const [firstOpen, setFirstOpen] = useState(false)
   const [secondOpen, setSecondOpen] = useState(false)
   const [thirdOpen, setThirdOpen] = useState(false)
+
+  const styleBtn = {
+    backgroundColor: "#534292",
+    color: "#ffffff"
+  }
+
+  const styleIcon = {
+    color: "#79589f"
+  }
 
   const handleRelaunch = () => {
     console.log("RESTART PROJECT")
@@ -71,7 +81,7 @@ const RelaunchModals = props => {
         open={firstOpen}
       >
         <Modal.Header>
-          <Icon name='edit' size="big"/>
+          <Icon name='edit' size="big" style={styleIcon}/>
           Confirm or Update Project Details
         </Modal.Header>
         <Modal.Content image>
@@ -82,7 +92,7 @@ const RelaunchModals = props => {
         <Modal.Actions>
           <Button 
             onClick={() => setSecondOpen(true)} 
-            primary
+            style={styleBtn}
           >
             Next <Icon name='right chevron' />
           </Button>
@@ -95,7 +105,7 @@ const RelaunchModals = props => {
           open={secondOpen}
         >
           <Modal.Header>
-            <Icon name='user plus' size="big" />
+            <Icon name='user plus' size="big" style={styleIcon}/>
             Assign New Collaborators
           </Modal.Header>
             <Modal.Content image>
@@ -105,10 +115,10 @@ const RelaunchModals = props => {
             </Modal.Content>
             <Modal.Actions>
               <Button 
-              onClick={() => setThirdOpen(true)} 
-              primary
+                onClick={() => setThirdOpen(true)} 
+                style={styleBtn}
               >
-                Proceed <Icon name='right chevron' />
+                Create <Icon name='right chevron' />
               </Button>
             </Modal.Actions>
         </Modal>
@@ -120,13 +130,14 @@ const RelaunchModals = props => {
           size='tiny'
         >
           <Modal.Header>
-            <Icon name='check' />
-            Project Relaunched
+            <Icon name='clipboard check' size="big" style={styleIcon}/>
+            Project Created
           </Modal.Header>
           <Modal.Actions>
             <Button
               content='All set!'
               onClick={() => handleRelaunch()}
+              style={styleBtn}
             />
           </Modal.Actions>
         </Modal>
