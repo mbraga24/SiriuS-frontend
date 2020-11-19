@@ -33,7 +33,7 @@ const RelaunchModals = props => {
   const handleRelaunch = () => {
     console.log("RESTART PROJECT")
     console.log(props.archProject)
-
+    
     setThirdOpen(true)
 
     // const newProject = {
