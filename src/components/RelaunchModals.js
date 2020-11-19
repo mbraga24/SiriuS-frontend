@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Icon, Button, Modal } from 'semantic-ui-react';
 import NewProject from './NewProject';
 import AddUserList from './AddUserList';
+import useFormFields from '../hooks/useFormFields';
 import { createProject, deleteFromArchive } from '../api';
 import { REMOVE_FROM_ARCHIVE, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import '../resources/RelaunchModals.css';
@@ -13,6 +14,12 @@ const RelaunchModals = props => {
   const [firstOpen, setFirstOpen] = useState(false)
   const [secondOpen, setSecondOpen] = useState(false)
   const [thirdOpen, setThirdOpen] = useState(false)
+  // const [ fields, handleFieldChange ] = useFormFields({
+  //   name: "",
+  //   description: "",
+  //   startDate: "",
+  //   dueDate: ""
+  // })
 
   const styleBtn = {
     backgroundColor: "#534292",
@@ -25,8 +32,9 @@ const RelaunchModals = props => {
 
   const handleRelaunch = () => {
     console.log("RESTART PROJECT")
-
     console.log(props.archProject)
+
+    setThirdOpen(true)
 
     // const newProject = {
     //   name: props.archProject.name,
@@ -49,21 +57,22 @@ const RelaunchModals = props => {
     //   // remove users from temporary array in the redux store 
     //   dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
     //   props.history.push('/projects')
-    // }).then(async () => { 
-        // deleteFromArchive(props.archProject.id)
-        // .then(data => {
-        //   console.log("DELETE ARCHIVED", data)
-        //   const { archiveId } = data
-        //   dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
-        // }).then(async () => {
-          // setFirstOpen(false)
-          // setSecondOpen(false)
-          // setThirdOpen(false)
-          // props.history.push("/projects")
-        // })
     // })
 
+    // deleteFromArchive(props.archProject.id)
+    // .then(data => {
+    //   console.log("DELETE ARCHIVED", data)
+    //   const { archiveId } = data
+    //   dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
+    // }).then(async () => {
+    //   setFirstOpen(false)
+    //   setSecondOpen(false)
+    //   setThirdOpen(false)
+    // })
 
+  }
+
+  const closeModals = () => {
     setFirstOpen(false)
     setSecondOpen(false)
     setThirdOpen(false)
@@ -81,12 +90,12 @@ const RelaunchModals = props => {
         open={firstOpen}
       >
         <Modal.Header>
-          <Icon name='edit' size="big" style={styleIcon}/>
-          Confirm or Update Project Details
+          <Icon name='user plus' size="big" style={styleIcon}/>
+          Assign New Collaborators
         </Modal.Header>
         <Modal.Content image>
           <Modal.Description>
-          <NewProject displayUserList={false} dateField={"Set a new start and due date"} titleField={"Confirm or update Title"} descriptionField={"Confirm or update Description"} />
+            <AddUserList userType={"newProject"} button={true} alternativeActions={false} />
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
@@ -105,21 +114,30 @@ const RelaunchModals = props => {
           open={secondOpen}
         >
           <Modal.Header>
-            <Icon name='user plus' size="big" style={styleIcon}/>
-            Assign New Collaborators
+            <Icon name='edit' size="big" style={styleIcon}/>
+            Confirm or Update Project Details
           </Modal.Header>
             <Modal.Content image>
               <Modal.Description>
-                <AddUserList userType={"newProject"} button={true}/>
+                <NewProject 
+                  alternativeActions={false} 
+                  name={props.archProject.name}
+                  description={props.archProject.description}
+                  handleRelaunch={handleRelaunch}
+                  dateField={"Set a new start and due date"} 
+                  titleField={"Confirm or update Title"} 
+                  descriptionField={"Confirm or update Description"} 
+                />
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions>
               <Button 
-                onClick={() => setThirdOpen(true)} 
+                type="Submit"
+                // onClick={() => setThirdOpen(true)} 
                 style={styleBtn}
               >
                 Create <Icon name='right chevron' />
-              </Button>
+              </Button> 
             </Modal.Actions>
         </Modal>
       
@@ -136,7 +154,7 @@ const RelaunchModals = props => {
           <Modal.Actions>
             <Button
               content='All set!'
-              onClick={() => handleRelaunch()}
+              onClick={() => closeModals()}
               style={styleBtn}
             />
           </Modal.Actions>

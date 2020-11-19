@@ -1,7 +1,16 @@
-import { SET_PROJECTS, ADD_PROJECT, REMOVE_PROJECT, UPDATE_PROJECT } from './type';
+import { SET_PROJECTS, ADD_PROJECT, REMOVE_PROJECT, UPDATE_PROJECT, FILL_NEW_PROJECT_CONTENT } from './type';
 
 const defaultState = {
-  projects: []
+  projects: [],
+  projectContent: null
+  // projectContent: {
+  //   name: "",
+  //   description: "",
+  //   startDate: "",
+  //   dueDate: "",
+  //   assigned: []
+  // }
+
 }
 
 const reducer = (state = defaultState, action) => {
@@ -33,6 +42,17 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         projects: [...filteredList]
+      }
+    case FILL_NEW_PROJECT_CONTENT:
+      return {
+        ...state,
+        projectContent: {
+          name: action.payload.name,
+          description: action.payload.description,
+          startDate: action.payload.startDate,
+          dueDate: action.payload.dueDate,
+          assigned: [...action.payload.assigned]
+        }
       }
     default:
       return state

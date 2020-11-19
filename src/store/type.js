@@ -6,6 +6,7 @@ export const SET_PROJECTS = "SET_PROJECTS"
 export const ADD_PROJECT = "ADD_PROJECT"
 export const UPDATE_PROJECT = "UPDATE_PROJECT"
 export const REMOVE_PROJECT = "REMOVE_PROJECT"
+export const FILL_NEW_PROJECT_CONTENT = "FILL_NEW_PROJECT_CONTENT"
 
 // ArchiveProject Reducer
 export const SET_ARCHIVE = "SET_ARCHIVE"

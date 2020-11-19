@@ -200,7 +200,7 @@ const ProjectDetails = props => {
                                   userType={"currentProject"} 
                                   setOpen={setOpen} 
                                   currentProject={currentProject} 
-                                  button={false}
+                                  button={true}
                                 />
                               </Modal.Description>
                             </Modal.Content>

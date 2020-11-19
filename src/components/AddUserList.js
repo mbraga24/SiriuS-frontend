@@ -7,7 +7,7 @@ import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUserList.css';
 
-const AddUserList = ( { relaunchProject = false, ...props } ) => {
+const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...props } ) => {
 
   const users = useSelector(state => state.user.users)
   const projectId = parseInt(props.match.url.split("/")[2])
@@ -130,23 +130,21 @@ const AddUserList = ( { relaunchProject = false, ...props } ) => {
                     {renderCollaborators()}
                   </Table.Body>
               </Table>
-              <Divider/>
             </Form.Field>
               { 
-                relaunchProject && 
-                <>
+                alternativeActions && 
+                <React.Fragment>
                   {
-                    props.button ?
-                    <Form.Field className="Button-Form-Action">
-                      <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
-                    </Form.Field>
-                    :
-                    <Form.Field className="Button-Form-Action">
-                      <Button floated="right" onClick={addCollaborators} className="Button-Color">Add</Button>
-                      <Button floated="right" onClick={() => props.setOpen(false)} className="Button-Color">Cancel</Button>
-                    </Form.Field>
+                    props.button && 
+                    <>
+                      <Divider />
+                      <Form.Field className="Button-Form-Action">
+                        <Button floated="right" onClick={addCollaborators} className="Button-Color">Add</Button>
+                        <Button floated="right" onClick={() => props.setOpen(false)} className="Button-Color">Cancel</Button>
+                      </Form.Field>
+                    </>
                   }
-                </>
+                </React.Fragment>
               }
           </React.Fragment>
            :
