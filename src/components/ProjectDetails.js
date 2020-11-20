@@ -180,7 +180,7 @@ const ProjectDetails = props => {
                           :
                           <Button className={`Project-Download-Button ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
                         }                      
-                        <RelaunchModals id="RelaunchModals" archProject={currentProject} />  
+                        <RelaunchModals id="RelaunchModals" archivedProject={currentProject} />  
                       </React.Fragment>
                       : 
                       currentUser.admin &&

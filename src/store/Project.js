@@ -1,16 +1,11 @@
-import { SET_PROJECTS, ADD_PROJECT, REMOVE_PROJECT, UPDATE_PROJECT, FILL_NEW_PROJECT_CONTENT } from './type';
+import { SET_PROJECTS, ADD_PROJECT, REMOVE_PROJECT, UPDATE_PROJECT, RELAUNCH_USERS_ID, RELAUNCH_DATERANGE, RELAUNCH_TITLE, RELAUNCH_DESCRIPTION } from './type';
 
 const defaultState = {
   projects: [],
-  projectContent: null
-  // projectContent: {
-  //   name: "",
-  //   description: "",
-  //   startDate: "",
-  //   dueDate: "",
-  //   assigned: []
-  // }
-
+  relaunchTitle: "",
+  relaunchDescription: "",
+  relaunchDateRange: "",
+  relaunchAddUsersId: []
 }
 
 const reducer = (state = defaultState, action) => {
@@ -43,16 +38,25 @@ const reducer = (state = defaultState, action) => {
         ...state,
         projects: [...filteredList]
       }
-    case FILL_NEW_PROJECT_CONTENT:
+    case RELAUNCH_TITLE:
       return {
         ...state,
-        projectContent: {
-          name: action.payload.name,
-          description: action.payload.description,
-          startDate: action.payload.startDate,
-          dueDate: action.payload.dueDate,
-          assigned: [...action.payload.assigned]
-        }
+        relaunchTitle: action.payload
+      }
+    case RELAUNCH_DESCRIPTION:
+      return {
+        ...state,
+        relaunchDescription: action.payload
+      }
+    case RELAUNCH_DATERANGE:
+      return {
+        ...state,
+        relaunchDateRange: action.payload
+      }
+    case RELAUNCH_USERS_ID:
+      return {
+        ...state,
+        relaunchAddUsersId: [...action.payload]
       }
     default:
       return state

@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
 import { Form, Header, Icon, Divider, Button, Popup } from 'semantic-ui-react';
-import { createProject } from '../api';
-import { ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, UPDATE_USER } from '../store/type';
+import { RELAUNCH_TITLE, RELAUNCH_DESCRIPTION, RELAUNCH_DATERANGE, RELAUNCH_USERS_ID  } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
+import submitForm from '../Helpers/onSubmit';
 import Loading from './Loading';
 import AddUserList from './AddUserList';
 import '../resources/NewProject.css';
@@ -16,48 +16,40 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
     description: ""
   })
 
-  const [dateRange, setDateRange] = useState("")
   const dispatch = useDispatch()
+  const [dateRange, setDateRange] = useState("")
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
   const loadUsers = useSelector(state => state.load.loadUsers) 
 
-
   const handleDateRangeChange = (name, value) => {
-    setDateRange(value.split("-").join("/"))
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    const dateArray = dateRange.match(/.{1,12}/g)
-    const startDate = dateArray[0].split(" ")[0]
-    const dueDate = dateArray[1].split(" ")[1]
-
-    const newProject = {
-      name: fields.title,
-      description: fields.description,
-      startDate: startDate,
-      dueDate: dueDate,
-      assigned: [...addUsersId]
+    if (props.match.path.split("/").includes("archive")) {
+      setDateRange(value.split("-").join("/"))
+      dispatch({ type: RELAUNCH_DATERANGE, payload: value.split("-").join("/") })
+    } else {
+      setDateRange(value.split("-").join("/"))
     }
-    console.log("NEWPROJECT --->", newProject)
-    createProject(newProject)
-    .then(data => {
-      if (data.error) {
-        console.log("ERROR -->", data)
-      } else {
-        // update each user in the redux store
-        for (let user of data.users) {
-          dispatch({ type: UPDATE_USER, payload: user })  
-        }
-        // add new project to redux store
-        dispatch({ type: ADD_PROJECT, payload: data.project })
-        // remove users from temporary array in the redux store 
-        dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-        props.history.push('/projects')
-      }
-    })
-    
   }
+
+  useEffect(() => {
+    if (props.match.path.split("/").includes("archive")) {
+      dispatch({ type: RELAUNCH_TITLE, payload: fields.title })
+      dispatch({ type: RELAUNCH_DESCRIPTION, payload: fields.description })
+      dispatch({ type: RELAUNCH_USERS_ID, payload: addUsersId })
+    } else {
+      setTitle(fields.title)
+      setDescription(fields.description)
+    }
+  }, [fields.title, title, fields.description, description, addUsersId, dispatch, props.match.path])
+
+  const handleSubmit = (e) => {
+    submitForm(e, { title, description, dateRange, addUsersId })
+  }
+
+  // console.log("dateRange - NewProject ->", dateRange)
+  // console.log("FIELD TITLE", title)
+  // console.log("FIELD DESCRIPTION", description)
 
   return (
     <div id="NewProject-Container">
@@ -136,12 +128,11 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
               : <AddUserList userType={"newProject"} button={false}/>
             }
             </Form.Group>
+            <Form.Field className="Button-Form-Action">
+              <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
+            </Form.Field>
           </React.Fragment>
         }
-        <Divider />
-        <Form.Field className="Button-Form-Action">
-          <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
-        </Form.Field>
       </Form>
     </div>
   );

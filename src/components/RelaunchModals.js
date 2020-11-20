@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Icon, Button, Modal } from 'semantic-ui-react';
+import { Icon, Button, Modal, Form } from 'semantic-ui-react';
 import NewProject from './NewProject';
 import AddUserList from './AddUserList';
-import useFormFields from '../hooks/useFormFields';
-import { createProject, deleteFromArchive } from '../api';
-import { REMOVE_FROM_ARCHIVE, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import submitForm from '../Helpers/onSubmit';
+// import { createProject, deleteFromArchive } from '../api';
+// import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, REMOVE_FROM_ARCHIVE } from '../store/type';
 import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
@@ -14,12 +15,9 @@ const RelaunchModals = props => {
   const [firstOpen, setFirstOpen] = useState(false)
   const [secondOpen, setSecondOpen] = useState(false)
   const [thirdOpen, setThirdOpen] = useState(false)
-  // const [ fields, handleFieldChange ] = useFormFields({
-  //   name: "",
-  //   description: "",
-  //   startDate: "",
-  //   dueDate: ""
-  // })
+  const [relaunchProject] = useState(true)
+  const [archivedProject] = useState(props.archivedProject)
+  const [archivedProjectId] = useState(props.archivedProject.id)
 
   const styleBtn = {
     backgroundColor: "#534292",
@@ -30,15 +28,38 @@ const RelaunchModals = props => {
     color: "#79589f"
   }
 
+  // const [ fields, handleFieldChange ] = useFormFields({
+  //   title: "",
+  //   description: ""
+  // })
+
+  // const [dateRange, setDateRange] = useState("")
+  // const [title, setTitle] = useState("")
+  // const [description, setDescription] = useState("")
+  const title = useSelector(state => state.project.relaunchTitle)
+  const description = useSelector(state => state.project.relaunchDescription)
+  const dateRange = useSelector(state => state.project.relaunchDateRange)
+  const addUsersId = useSelector(state => state.activeProject.addUsersId)
+
+  // const handleDateRangeChange = (name, value) => {
+  //   setDateRange(value.split("-").join("/"))
+  // }
+
+  // useEffect(() => { 
+  //   setTitle(fields.title)
+  //   setDescription(fields.description)
+  // }, [fields.title, title, fields.description, description])
+
+  // console.log("FIELD TITLE", title)
+  // console.log("FIELD DESCRIPTION", description)
+
   const handleRelaunch = () => {
     console.log("RESTART PROJECT")
-    console.log(props.archProject)
-    
-    setThirdOpen(true)
-
+    console.log(archivedProject)
+  
     // const newProject = {
-    //   name: props.archProject.name,
-    //   description: props.archProject.description,
+    //   name: archivedProject.name,
+    //   description: archivedProject.description,
     //   // startDate: ,
     //   // dueDate: 
     // }
@@ -59,7 +80,7 @@ const RelaunchModals = props => {
     //   props.history.push('/projects')
     // })
 
-    // deleteFromArchive(props.archProject.id)
+    // deleteFromArchive(archivedProject.id)
     // .then(data => {
     //   console.log("DELETE ARCHIVED", data)
     //   const { archiveId } = data
@@ -79,6 +100,11 @@ const RelaunchModals = props => {
     props.history.push("/projects")
   }
 
+  console.log("TITLE", title)
+  console.log("DESC", description)
+  console.log("DATE", dateRange)
+  console.log("USERSID", addUsersId)
+
   return (
     <>
        <Button className="Project-Button-Color" onClick={() => setFirstOpen(true)}><Icon name="redo"/>Relaunch Project</Button>
@@ -90,12 +116,20 @@ const RelaunchModals = props => {
         open={firstOpen}
       >
         <Modal.Header>
-          <Icon name='user plus' size="big" style={styleIcon}/>
-          Assign New Collaborators
+          <Icon name='edit' size="big" style={styleIcon}/>
+          Confirm or Update Project Details
         </Modal.Header>
         <Modal.Content image>
           <Modal.Description>
-            <AddUserList userType={"newProject"} button={true} alternativeActions={false} />
+            <NewProject 
+              alternativeActions={false} 
+              name={archivedProject.name}
+              description={archivedProject.description}
+              handleRelaunch={handleRelaunch}
+              dateField={"Set a new start and due date"} 
+              titleField={"Confirm or update Title"} 
+              descriptionField={"Confirm or update Description"} 
+            />
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
@@ -108,37 +142,31 @@ const RelaunchModals = props => {
         </Modal.Actions>
 
         <Modal
+          as={Form}
+          onSubmit={(e) => submitForm(e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId})}
           centered={true}
           onClose={() => setSecondOpen(false)}
           onOpen={() => setSecondOpen(true)}
           open={secondOpen}
         >
           <Modal.Header>
-            <Icon name='edit' size="big" style={styleIcon}/>
-            Confirm or Update Project Details
+            <Icon name='user plus' size="big" style={styleIcon}/>
+            Assign New Collaborators
           </Modal.Header>
-            <Modal.Content image>
-              <Modal.Description>
-                <NewProject 
-                  alternativeActions={false} 
-                  name={props.archProject.name}
-                  description={props.archProject.description}
-                  handleRelaunch={handleRelaunch}
-                  dateField={"Set a new start and due date"} 
-                  titleField={"Confirm or update Title"} 
-                  descriptionField={"Confirm or update Description"} 
-                />
-              </Modal.Description>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button 
-                type="Submit"
-                // onClick={() => setThirdOpen(true)} 
-                style={styleBtn}
-              >
-                Create <Icon name='right chevron' />
-              </Button> 
-            </Modal.Actions>
+          <Modal.Content image>
+            <Modal.Description>
+              <AddUserList userType={"newProject"} button={true} alternativeActions={false} />
+            </Modal.Description>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button 
+              type="submit"
+              // onClick={() => setThirdOpen(true)} 
+              style={styleBtn}
+            >
+              Create <Icon name='right chevron' />
+            </Button> 
+          </Modal.Actions>
         </Modal>
       
         <Modal

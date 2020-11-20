@@ -79,6 +79,7 @@ export const addUserProject = updateProject => {
 
 // create new project
 export const createProject = data => {
+  // console.log("CREATE PROJECT --->", data)
   return fetch(`http://localhost:3000/projects`, {
     method: "POST",
     headers: {
@@ -120,6 +121,7 @@ export const archiveProject = arqProject => {
 
 // delete from arquive
 export const deleteFromArchive = projectId => {
+  // console.log("DELETE FROM ARCHIVE -->", projectId)
   return fetch(`http://localhost:3000/archive_projects/${projectId}`, {
     method: "DELETE",
   }).then(r => r.json())
