@@ -5,19 +5,21 @@ import { Icon, Button, Modal, Form } from 'semantic-ui-react';
 import NewProject from './NewProject';
 import AddUserList from './AddUserList';
 import submitForm from '../Helpers/onSubmit';
-// import { createProject, deleteFromArchive } from '../api';
-// import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, REMOVE_FROM_ARCHIVE } from '../store/type';
 import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
 
-  // onClick={props.handleRelaunch}
+  const [propsHistory] = useState(props.history)
   const [firstOpen, setFirstOpen] = useState(false)
   const [secondOpen, setSecondOpen] = useState(false)
   const [thirdOpen, setThirdOpen] = useState(false)
   const [relaunchProject] = useState(true)
   const [archivedProject] = useState(props.archivedProject)
   const [archivedProjectId] = useState(props.archivedProject.id)
+  const title = useSelector(state => state.project.relaunchTitle)
+  const description = useSelector(state => state.project.relaunchDescription)
+  const dateRange = useSelector(state => state.project.relaunchDateRange)
+  const addUsersId = useSelector(state => state.activeProject.addUsersId)
 
   const styleBtn = {
     backgroundColor: "#534292",
@@ -28,72 +30,8 @@ const RelaunchModals = props => {
     color: "#79589f"
   }
 
-  // const [ fields, handleFieldChange ] = useFormFields({
-  //   title: "",
-  //   description: ""
-  // })
-
-  // const [dateRange, setDateRange] = useState("")
-  // const [title, setTitle] = useState("")
-  // const [description, setDescription] = useState("")
-  const title = useSelector(state => state.project.relaunchTitle)
-  const description = useSelector(state => state.project.relaunchDescription)
-  const dateRange = useSelector(state => state.project.relaunchDateRange)
-  const addUsersId = useSelector(state => state.activeProject.addUsersId)
-
-  // const handleDateRangeChange = (name, value) => {
-  //   setDateRange(value.split("-").join("/"))
-  // }
-
-  // useEffect(() => { 
-  //   setTitle(fields.title)
-  //   setDescription(fields.description)
-  // }, [fields.title, title, fields.description, description])
-
-  // console.log("FIELD TITLE", title)
-  // console.log("FIELD DESCRIPTION", description)
-
-  const handleRelaunch = () => {
-    console.log("RESTART PROJECT")
-    console.log(archivedProject)
-  
-    // const newProject = {
-    //   name: archivedProject.name,
-    //   description: archivedProject.description,
-    //   // startDate: ,
-    //   // dueDate: 
-    // }
-
-    // console.log("NEW PROJECT -->", newProject)
-
-    // createProject(newProject)
-    // .then(data => {
-    //   // update each user in the redux store
-    //   console.log("PROJECT REACTIVATED", data);
-    //   for (let user of data.users) {
-    //     dispatch({ type: UPDATE_USER, payload: user })  
-    //   }
-    //   // add new project to redux store
-    //   dispatch({ type: ADD_PROJECT, payload: data.project })
-    //   // remove users from temporary array in the redux store 
-    //   dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-    //   props.history.push('/projects')
-    // })
-
-    // deleteFromArchive(archivedProject.id)
-    // .then(data => {
-    //   console.log("DELETE ARCHIVED", data)
-    //   const { archiveId } = data
-    //   dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
-    // }).then(async () => {
-    //   setFirstOpen(false)
-    //   setSecondOpen(false)
-    //   setThirdOpen(false)
-    // })
-
-  }
-
-  const closeModals = () => {
+  const closeAndSubmit = e => {
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId, propsHistory})
     setFirstOpen(false)
     setSecondOpen(false)
     setThirdOpen(false)
@@ -125,7 +63,6 @@ const RelaunchModals = props => {
               alternativeActions={false} 
               name={archivedProject.name}
               description={archivedProject.description}
-              handleRelaunch={handleRelaunch}
               dateField={"Set a new start and due date"} 
               titleField={"Confirm or update Title"} 
               descriptionField={"Confirm or update Description"} 
@@ -137,13 +74,11 @@ const RelaunchModals = props => {
             onClick={() => setSecondOpen(true)} 
             style={styleBtn}
           >
-            Next <Icon name='right chevron' />
+            Collaborators<Icon name='right chevron' />
           </Button>
         </Modal.Actions>
 
         <Modal
-          as={Form}
-          onSubmit={(e) => submitForm(e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId})}
           centered={true}
           onClose={() => setSecondOpen(false)}
           onOpen={() => setSecondOpen(true)}
@@ -160,16 +95,17 @@ const RelaunchModals = props => {
           </Modal.Content>
           <Modal.Actions>
             <Button 
-              type="submit"
-              // onClick={() => setThirdOpen(true)} 
+              onClick={() => setThirdOpen(true)} 
               style={styleBtn}
             >
-              Create <Icon name='right chevron' />
+              Confirm Project<Icon name='right chevron' />
             </Button> 
           </Modal.Actions>
         </Modal>
       
         <Modal
+          as={Form}
+          onSubmit={(e) => closeAndSubmit(e)}
           centered={true}
           onClose={() => setThirdOpen(false)}
           open={thirdOpen}
@@ -181,8 +117,8 @@ const RelaunchModals = props => {
           </Modal.Header>
           <Modal.Actions>
             <Button
-              content='All set!'
-              onClick={() => closeModals()}
+              type="submit"
+              content='Create Project'
               style={styleBtn}
             />
           </Modal.Actions>
