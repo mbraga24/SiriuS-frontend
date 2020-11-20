@@ -9,7 +9,6 @@ import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
 
-  const [propsHistory] = useState(props.history)
   const [firstOpen, setFirstOpen] = useState(false)
   const [secondOpen, setSecondOpen] = useState(false)
   const [thirdOpen, setThirdOpen] = useState(false)
@@ -25,16 +24,25 @@ const RelaunchModals = props => {
     backgroundColor: "#534292",
     color: "#ffffff"
   }
+  
+  const styleDeleteBtn = {
+    backgroundColor: "#ac4444",
+    color: "#ffffff"
+  }
 
   const styleIcon = {
     color: "#79589f"
   }
 
-  const closeAndSubmit = e => {
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId, propsHistory})
+  const closeModals = () => {
     setFirstOpen(false)
     setSecondOpen(false)
     setThirdOpen(false)
+  }
+
+  const closeAndSubmit = e => {
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId})
+    closeModals()
     props.history.push("/projects")
   }
 
@@ -95,10 +103,22 @@ const RelaunchModals = props => {
           </Modal.Content>
           <Modal.Actions>
             <Button 
+              onClick={() => setSecondOpen(false)} 
+              style={styleBtn}
+            >
+              <Icon name='chevron left' /> Go back
+            </Button> 
+            <Button 
+              onClick={closeModals} 
+              style={styleDeleteBtn}
+            >
+              Cancel <Icon name='remove' /> 
+            </Button> 
+            <Button 
               onClick={() => setThirdOpen(true)} 
               style={styleBtn}
             >
-              Confirm Project<Icon name='right chevron' />
+              Confirm Project <Icon name='right chevron' />
             </Button> 
           </Modal.Actions>
         </Modal>
@@ -118,7 +138,7 @@ const RelaunchModals = props => {
           <Modal.Actions>
             <Button
               type="submit"
-              content='Create Project'
+              content='All set!'
               style={styleBtn}
             />
           </Modal.Actions>

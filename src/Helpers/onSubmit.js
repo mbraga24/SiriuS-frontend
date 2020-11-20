@@ -2,7 +2,7 @@ import store  from '../store/index.js';
 import { createProject, deleteFromArchive } from '../api';
 import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, REMOVE_FROM_ARCHIVE } from '../store/type';
 
-const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId, propsHistory }) => {
+const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId }) => {
   e.preventDefault()
 
   const dateArray = dateRange.match(/.{1,12}/g)
@@ -20,6 +20,7 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
   createProject(newProject)
   .then(data => {
     if (data.error) {
+      console.log("ERROR -->", data)
     } else {
       // update each user in the redux store
       for (let user of data.users) {
@@ -31,8 +32,6 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
     // remove users from temporary array in the redux store 
     store.dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
   })
-
-  console.log("PROJECT CREATED AND NOW ARCHIVE WILL BE DELETED")
 
   relaunchProject && 
     deleteFromArchive(archivedProjectId)

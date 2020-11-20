@@ -20,7 +20,6 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
   const [dateRange, setDateRange] = useState("")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [propsHistory] = useState(props.history)
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
   const loadUsers = useSelector(state => state.load.loadUsers) 
 
@@ -45,7 +44,7 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
   }, [fields.title, title, fields.description, description, addUsersId, dispatch, props.match.path])
 
   const handleSubmit = (e) => {
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false, archivedProjectId: null, propsHistory })
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false, archivedProjectId: null })
     props.history.push('/projects')
   }
 
