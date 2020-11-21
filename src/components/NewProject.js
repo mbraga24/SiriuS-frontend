@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { DatesRangeInput } from 'semantic-ui-calendar-react';
-import { Form, Header, Icon, Divider, Button, Popup } from 'semantic-ui-react';
+import { Form, Header, Icon, Divider, Button, Popup, Message, List } from 'semantic-ui-react';
 import { RELAUNCH_TITLE, RELAUNCH_DESCRIPTION, RELAUNCH_DATERANGE, RELAUNCH_USERS_ID  } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
 import submitForm from '../Helpers/onSubmit';
@@ -22,6 +22,30 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
   const [description, setDescription] = useState("")
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
   const loadUsers = useSelector(state => state.load.loadUsers) 
+  const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ header, setHeader ] = useState("")
+  const [ errorMsg, setErrorMsg ] = useState([])
+
+  const runAlert = (header, error) => {
+    console.log("HEADER", header)
+    console.log("ERROR", error)
+    setHeader(header)
+    setErrorMsg(error)
+    setAlertStatus(true)
+    resetAlert()
+  }
+
+  const resetAlert = () => {
+    setTimeout(() => {
+      setAlertStatus(false)
+    }, 5000)
+  }
+
+  const displayAlert = errors => {
+    return errors.map(e => (
+      <List.Item key={e}>{e}</List.Item>
+    ))
+  }
 
   const handleDateRangeChange = (name, value) => {
     if (props.match.path.split("/").includes("archive")) {
@@ -47,8 +71,8 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
     // ====================================================================================================
     // pass a function to the submitForm function to run when there is an error on creating a new project
     // ====================================================================================================
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false })
-    props.history.push('/projects')
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false, loaderStatus: null, runAlert})
+    // props.history.push('/projects')
   }
 
   return (
@@ -124,12 +148,34 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
             {
               loadUsers ?
               <Loading loadingClass={false} />
-              : <AddUserList userType={"newProject"} button={false}/>
+              : 
+                <AddUserList userType={"newProject"} button={false}/>
             }
             </Form.Group>
-            <Form.Field className="Button-Form-Field">
-              <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
+            <Form.Group floated="right" grouped>
+            <Form.Field className="Submit-Button-Wrapper">
+              <Button type="submit" className="NewProject-Button-Color">Create Project</Button>
             </Form.Field>
+            <Form.Field>
+            {
+              alertStatus &&
+              <Message style={{display: "block"}} warning attached='bottom'>
+                { 
+                  alertStatus && 
+                  <React.Fragment>
+                    <Header as='h5' dividing>
+                      <Icon name="dont"/>
+                      {header}
+                    </Header>
+                    <List bulleted style={{ textAlign: "left" }}>
+                      { displayAlert(errorMsg) }
+                    </List>
+                  </React.Fragment>
+                }
+              </Message>
+              }
+            </Form.Field>
+          </Form.Group>
           </React.Fragment>
         }
       </Form>

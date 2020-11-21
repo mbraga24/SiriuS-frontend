@@ -69,7 +69,7 @@ const RelaunchModals = props => {
     // ====================================================================================================
     // pass a function to the submitForm function to run when there is an error on creating a new project
     // ====================================================================================================
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, loaderStatus})
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, loaderStatus, runAlert: null})
   }
 
   return (

@@ -2,12 +2,31 @@ import store  from '../store/index.js';
 import { createProject } from '../api';
 import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 
-const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, loaderStatus }) => {
+const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, loaderStatus, runAlert }) => {
   e.preventDefault()
 
-  const dateArray = dateRange.match(/.{1,12}/g)
-  const startDate = dateArray[0].split(" ")[0].split("-").join("/")
-  const dueDate = dateArray[1].split(" ")[1].split("-").join("/")
+  let startDate;
+  let dueDate;
+  let dateArray;
+
+  if (dateRange !== "") {
+    dateArray = dateRange.match(/.{1,12}/g)
+    if (dateArray[1] !== " ") {
+      startDate = dateArray[0].split(" ")[0].split("-").join("/")
+      dueDate = dateArray[1].split(" ")[1].split("-").join("/")
+    } else {
+      startDate = ""
+      dueDate = ""  
+    }
+  } else {
+    startDate = ""
+    dueDate = ""
+  }
+
+  console.log("START DATE ->", startDate)
+  console.log("DUE STATE ->", dueDate)
+  console.log("DATE RANGE -->", dateRange)
+  console.log("DATE ARRAY -->", dateArray)
 
   const newProject = {
     name: title,
@@ -21,8 +40,9 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
   .then(data => {
     if (data.error) {
       console.log("ERROR -->", data)
-      // receive a function to pass the error back up to the RelaunchModals and NewProject component
-      // here
+      const { error, header } = data
+      console.log("AN ERROR OCCURRED", data)
+      runAlert(header, error)
     } else {
       // update each user in the redux store
       for (let user of data.users) {

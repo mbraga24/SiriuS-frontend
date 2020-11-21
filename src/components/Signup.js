@@ -10,8 +10,8 @@ import { Button, Form, Grid, Header, Message, Segment, Icon, Input, List } from 
 const Signup = props => {
 
   const dispatch = useDispatch()
-  const [ alertStatus, setAlertStatus ] = useState(false)
   const [ emptyPassword, setEmptyPassword ] = useState(false)
+  const [ alertStatus, setAlertStatus ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
   const searchToken = props.location.search
