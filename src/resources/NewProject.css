@@ -1,13 +1,8 @@
 #NewProject-Container {
-  /* border: 2px solid blue; */
   margin: 0 auto;
   width: 80%;
+  margin-bottom: 100px;
 }
-
-/* #NewProject-Container .NewProject-Submit-Button-Color {
-  background-color: #534292;
-  color: #fff;
-} */
 
 #NewProject-Container .NewProject-Form {
   width: 75%;
@@ -17,7 +12,7 @@
   width: 40%;
 }
 
-/* #NewProject-Container .Button-Color {
+#NewProject-Container .Button-Color {
   background-color: #534292;
   color: #fff;
 }
@@ -28,7 +23,7 @@
 
 #NewProject-Container .Button-Color:active {
   background-color: #3c2b79;
-} */
+}
 
 #NewProject-Container .NewProject-Header-Align-Items {
   display: flex;

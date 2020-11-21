@@ -127,7 +127,7 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
               : <AddUserList userType={"newProject"} button={false}/>
             }
             </Form.Group>
-            <Form.Field className="Button-Form-Action">
+            <Form.Field className="Button-Form-Field">
               <Button floated="right" type="submit" className="Button-Color">Create Project</Button>
             </Form.Field>
           </React.Fragment>
