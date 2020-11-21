@@ -28,6 +28,12 @@ const RelaunchModals = props => {
     color: "#ffffff"
   }
 
+  const styleBtnLoad = {
+    backgroundColor: "#534292",
+    width: "165px",
+    color: "#ffffff"
+  }
+
   const styleIcon = {
     color: "#79589f"
   }
@@ -130,7 +136,7 @@ const RelaunchModals = props => {
           <Modal.Actions>
               {
               loadRelaunch ?
-                <Button loading primary>
+                <Button loading style={styleBtnLoad}>
                   Loading
                 </Button>
                 :
@@ -162,7 +168,7 @@ const RelaunchModals = props => {
                     </Button>
                     <Button 
                       type="submit"
-                      style={styleBtn}
+                      style={styleBtnLoad}
                     >
                       Confirm Project <Icon name='right chevron' />
                     </Button> 
