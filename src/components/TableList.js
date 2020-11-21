@@ -12,10 +12,23 @@ const TableList = props => {
   const keyHolder = useSelector(state => state.app.keyHolder)
   const [ firstOpen, setFirstOpen ] = useState(false)
   const [ secondOpen, setSecondOpen ] = useState(false)
+  const [ open, setOpen ] = useState(false)
+  const [ userId, setUserId ] = useState(null)
 
   const closeWindows = () => {
     setSecondOpen(false)
     setFirstOpen(false)
+  }
+
+  // save user id in state
+  const saveUserId = userId => {
+    setUserId(userId)
+  }
+
+  // send user Id to the custom function to remove user and close modal
+  const handleDelete = id => {
+    props.func(id)
+    setOpen(false)
   }
 
   const iconUserAction = (buttonId, colorId) => {
@@ -29,33 +42,62 @@ const TableList = props => {
   }
 
   const renderRows = () => {
-    return props.items.map(item => {
+    return props.users.map(user => {
       return (
-        <Table.Row key={item.id}>
-          <Table.Cell>{item.first_name}</Table.Cell>
-          <Table.Cell>{item.last_name}</Table.Cell>
-          <Table.Cell>{item.email}</Table.Cell>
-          <Table.Cell className={props.hideColumn ? "Hide-Column" : ""}>{item.job_title}</Table.Cell>
+        // className={`Icon-Remove-Action-${user.id}`}
+        <Table.Row key={user.id} >
+          <Table.Cell>{user.first_name}</Table.Cell>
+          <Table.Cell>{user.last_name}</Table.Cell>
+          <Table.Cell>{user.email}</Table.Cell>
+          <Table.Cell>{user.job_title}</Table.Cell>
           { keyHolder.admin && 
             <>
               <Table.Cell 
                 textAlign="center" 
-                onMouseOver={() => iconUserAction(item.id, "#ffffff")} 
-                onMouseLeave={() => iconUserAction(item.id, "#79589f")} 
+                onMouseOver={() => iconUserAction(user.id, "#ffffff")} 
+                onMouseLeave={() => iconUserAction(user.id, "#79589f")} 
                 className={`TableList-Cell ${props.hideColumn ? "Hide-Column" : ""}`}
-                >
-                <Link to={`/user/projects/${item.id}`}> 
-                  <Icon name='user' size="large" className={`TableList-Icon-Actions-Color Icon-User-Action-${item.id}`}/>
+              >
+                <Link to={`/user/projects/${user.id}`}> 
+                  <Icon 
+                    name='user' 
+                    size="large" 
+                    className={`TableList-Icon-Actions-Color Icon-User-Action-${user.id}`}
+                  />
                 </Link>
               </Table.Cell>
-              <Table.Cell 
-                textAlign='center'
-                onMouseOver={() => iconRemoveAction(item.id, "#ffffff")} 
-                onMouseLeave={() => iconRemoveAction(item.id, "#79589f")} 
-                className="TableList-Cell"
+                <Modal
+                  closeIcon
+                  size="tiny"
+                  open={open}
+                  trigger={ 
+                    <Table.Cell 
+                      textAlign='center'
+                      onMouseOver={() => iconRemoveAction(user.id, "#ffffff")} 
+                      onMouseLeave={() => iconRemoveAction(user.id, "#79589f")} 
+                      className="TableList-Cell"
+                      >
+                      <Icon name='user times' size="large" className={`TableList-Icon-Actions-Color Icon-Remove-Action-${user.id}`} onClick={() => saveUserId(user.id)}/>
+                    </Table.Cell>
+                  }
+                  onClose={() => setOpen(false)}
+                  onOpen={() => setOpen(true)}
                 >
-                <Icon name='user times' size="large" className={`TableList-Icon-Actions-Color Icon-Remove-Action-${item.id}`} onClick={() => props.func(item.id)} />
-              </Table.Cell>
+                  <Header icon="trash" content='Please confirm:' />
+                  <Modal.Content>
+                    <p>
+                      Are you sure you want to remove this collaborator from your list? All documents shared by this collaborator will also be deleted.
+                    </p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button color='red' onClick={() => setOpen(false)}>
+                      <Icon name='remove' /> No
+                    </Button>
+                    <Button color='green' onClick={() => handleDelete(userId)}>
+                      <Icon name='checkmark' /> Yes
+                    </Button>
+                  </Modal.Actions>
+                </Modal>
             </>
           }
         </Table.Row>
@@ -112,14 +154,14 @@ const TableList = props => {
         props.loadItems ? 
         <Loading loadingClass={true} />
         :
-        props.items.length !== 0 ?
+        props.users.length !== 0 ?
         <Table celled structured>
           <Table.Header>
           <Table.Row textAlign='center'>
             <Table.HeaderCell rowSpan='2'>First Name</Table.HeaderCell>
             <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
             <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
-            <Table.HeaderCell className={props.hideColumn ? "Hide-Column" : ""} rowSpan='2'>Job Title</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Job Title</Table.HeaderCell>
             {
               keyHolder.admin &&
               <>
@@ -130,11 +172,12 @@ const TableList = props => {
           </Table.Row>
           </Table.Header>
           {
-            props.items && 
+            props.users && 
             <Table.Body>
               {renderRows()}
             </Table.Body>
           }
+        {/* add another MissingAsset component for collaborators  */}
         </Table> : <MissingAsset message={"No pending invites"} icon={"sticky note outline"} />
       }
     </div>

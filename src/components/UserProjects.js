@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Header, Icon, List, Button } from 'semantic-ui-react';
+import { Header, Icon, List, Button, Modal } from 'semantic-ui-react';
 import { removeProjectFromUser } from '../api';
 import { UPDATE_USER, UPDATE_PROJECT } from '../store/type';
 import Loading from './Loading';
@@ -19,6 +19,7 @@ const UserProjects = props => {
   const [ loadUsers, setLoadUsers ] = useState(true)
   const [ loadProjecst, setLoadProjects ] = useState(true)
   const [ viewer, setViewer ] = useState(null)
+  const [ open, setOpen ] = useState(false)
 
   useEffect(() => {
     setLoadUsers(!users)
@@ -46,7 +47,31 @@ const UserProjects = props => {
         <List.Content>
           { keyHolder.admin && 
             <List.Content floated='right'>
-              <Button className="UserHistory-Button-Color" onClick={() => removeProject(viewer.id, project.id)}>Remove Project</Button>
+              <Modal
+                closeIcon
+                size="tiny"
+                open={open}
+                trigger={ 
+                  <Button className="UserHistory-Button-Color">Remove Project</Button>
+                }
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+              >
+                <Header icon="trash" content='Please confirm:' />
+                <Modal.Content>
+                  <p>
+                    Are you sure you want to cancel this collaborator's project?
+                  </p>
+                </Modal.Content>
+                <Modal.Actions>
+                  <Button color='red' onClick={() => setOpen(false)}>
+                    <Icon name='remove' /> No
+                  </Button>
+                  <Button color='green' onClick={() => removeProject(viewer.id, project.id)}>
+                    <Icon name='checkmark' /> Yes
+                  </Button>
+                </Modal.Actions>
+              </Modal>
             </List.Content>
           }
           <List.Header as={Link} to={`/project/${project.id}`} className="UserHistory-Project-Name">{project.name}</List.Header>
