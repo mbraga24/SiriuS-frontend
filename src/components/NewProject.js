@@ -12,8 +12,8 @@ import '../resources/NewProject.css';
 
 const NewProject = ( { alternativeActions = true, dateField = "Set a start and due date", titleField = "Title", descriptionField = "Description", ...props } ) => {
   const [ fields, handleFieldChange ] = useFormFields({
-    title: "",
-    description: ""
+    title: alternativeActions ? "" : props.name,
+    description: alternativeActions ? "" : props.description
   })
 
   const dispatch = useDispatch()
@@ -24,7 +24,6 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
   const loadUsers = useSelector(state => state.load.loadUsers) 
 
   const handleDateRangeChange = (name, value) => {
-    // console.log(value.split("-").join("/"))
     if (props.match.path.split("/").includes("archive")) {
       setDateRange(value)
       dispatch({ type: RELAUNCH_DATERANGE, payload: value })
@@ -91,7 +90,7 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
             fluid 
             name="title" 
             placeholder='"The Joe Doe Company"'
-            defaultValue={ alternativeActions ? null : props.name }
+            defaultValue={fields.title}
             className="NewProject-Form" 
             onChange={handleFieldChange}
           />
@@ -99,7 +98,7 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
           <Form.TextArea  
             name="description" 
             placeholder='"Give a detailed description of the project and share all information that will be useful for your collaborators."' 
-            defaultValue={ alternativeActions ? null : props.description }
+            defaultValue={fields.description}
             className="NewProject-Form" style={{height: "200px"}} 
             onChange={handleFieldChange}
           />

@@ -30,7 +30,7 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
       store.dispatch({ type: ADD_PROJECT, payload: data.project })
       relaunchProject && loaderStatus(false)
     }
-    // // remove users from temporary array in the redux store 
+    // remove users from temporary array in the redux store 
     store.dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
 
   })
