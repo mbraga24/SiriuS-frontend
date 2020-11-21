@@ -6,8 +6,8 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
   e.preventDefault()
 
   const dateArray = dateRange.match(/.{1,12}/g)
-  const startDate = dateArray[0].split(" ")[0]
-  const dueDate = dateArray[1].split(" ")[1]
+  const startDate = dateArray[0].split(" ")[0].split("-").join("/")
+  const dueDate = dateArray[1].split(" ")[1].split("-").join("/")
 
   const newProject = {
     name: title,
@@ -19,7 +19,6 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
 
   createProject(newProject)
   .then(data => {
-    console.log("CREATE PROJECT", data)
     if (data.error) {
       console.log("ERROR -->", data)
     } else {
@@ -35,7 +34,6 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
     store.dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
 
   })
-  console.log("PROJECT CREATED ========= NOW DELETE ARCHIVE ")
 }
 
 export default submitForm;

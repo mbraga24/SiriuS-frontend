@@ -24,11 +24,12 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
   const loadUsers = useSelector(state => state.load.loadUsers) 
 
   const handleDateRangeChange = (name, value) => {
+    // console.log(value.split("-").join("/"))
     if (props.match.path.split("/").includes("archive")) {
-      setDateRange(value.split("-").join("/"))
-      dispatch({ type: RELAUNCH_DATERANGE, payload: value.split("-").join("/") })
+      setDateRange(value)
+      dispatch({ type: RELAUNCH_DATERANGE, payload: value })
     } else {
-      setDateRange(value.split("-").join("/"))
+      setDateRange(value)
     }
   }
 
@@ -44,7 +45,6 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
   }, [fields.title, title, fields.description, description, addUsersId, dispatch, props.match.path])
 
   const handleSubmit = (e) => {
-    console.log("NEW PROJECT COMPONENT")
     submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false })
     props.history.push('/projects')
   }
@@ -82,7 +82,7 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
             dateFormat="MM-DD-YYYY"
             value={dateRange}
             iconPosition="left"
-            animation={false}
+            animation="false"
             className="NewProject-Form-Data"
             onChange={(a, {name, value}) => handleDateRangeChange(name, value)}
           />

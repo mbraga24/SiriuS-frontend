@@ -27,27 +27,18 @@ const RelaunchModals = props => {
     backgroundColor: "#534292",
     color: "#ffffff"
   }
+
+  const styleIcon = {
+    color: "#79589f"
+  }
   
   const styleDeleteBtn = {
     backgroundColor: "#ac4444",
     color: "#ffffff"
   }
 
-  const styleIcon = {
-    color: "#79589f"
-  }
-
-  // archive_documents: []
-  // archived_date: "11/20/2020"
-  // description: ""
-  // due_date: "18/09/2020"
-  // id: 21
-  // name: "Rivver SaaS Menu Button 6"
-  // start_date: "17/09/2020"
-  // users: [{…}]
 
   const loaderStatus = status => {
-    console.log("LOADER STATUS ->", status)
     setLoadRelaunch(status)
     setCreated(true)
   }
@@ -61,7 +52,6 @@ const RelaunchModals = props => {
   const deleteArchiveCloseModals = () => {
     deleteFromArchive(archivedProject.id)
     .then(data => {
-      console.log("DELETE ARCHIVED PROJECT", data)
       const { archiveId } = data
       dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
       props.history.push("/projects")
@@ -69,15 +59,9 @@ const RelaunchModals = props => {
   }
 
   const handleSubmit = e => {
-    console.log("HANDLESUBMIT")
     setLoadRelaunch(true)
     submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, loaderStatus})
   }
-
-  // console.log("TITLE", title)
-  // console.log("DESC", description)
-  // console.log("DATE", dateRange)
-  // console.log("USERSID", addUsersId)
 
   return (
     <>
@@ -147,7 +131,7 @@ const RelaunchModals = props => {
                   Loading
                 </Button>
                 :
-              <>
+                <>
                 {
                   created ?
                   <Button 
@@ -181,7 +165,7 @@ const RelaunchModals = props => {
                     </Button> 
                   </>
                 }
-              </>
+                </>
               }
       
           </Modal.Actions>
