@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Header, Icon, List } from 'semantic-ui-react';
-// import { removeProjectFromUser } from '../api';
-// import { UPDATE_USER, UPDATE_ACTIVE_PROJECT, UPDATE_PROJECT } from '../store/type';
 import Loading from './Loading';
 import MissingAsset from './MissingAsset';
 import '../resources/UserHistory.css';
 
-const UserArquive = props => { 
+const UserArchive = props => { 
 
   const matchId = parseInt(props.match.params.id)
   const [ loadArchive, setLoadArchive ] = useState(true)
@@ -26,7 +24,7 @@ const UserArquive = props => {
     return archiveProjects.filter(archv => archv.users.find(user => user.id === matchId) && archv)
   }
 
-  const renderArquiveProjects = () => {
+  const renderArchiveProjects = () => {
     return userArchive().map(project => (
       <List.Item key={project.id} className="UserHistory-List-Item Archived-Project">
         <List.Icon name="check circle" size='large' verticalAlign='middle' className="UserHistory-Icon-Color" />
@@ -49,10 +47,10 @@ const UserArquive = props => {
           </Header.Content>
         </span>
       </Header> 
-      { loadArchive ? <Loading loadingClass={false} /> : renderArquiveProjects().length !== 0 ? renderArquiveProjects() : <MissingAsset message={"Nothing in the arquive"} icon={"archive"} /> }
+      { loadArchive ? <Loading loadingClass={false} /> : renderArchiveProjects().length !== 0 ? renderArchiveProjects() : <MissingAsset message={"Nothing in the arquive"} icon={"folder open outline"} /> }
       </List>
     </React.Fragment>
   );
 }
 
-export default withRouter(UserArquive);
+export default withRouter(UserArchive);

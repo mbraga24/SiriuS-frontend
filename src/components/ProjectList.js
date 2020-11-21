@@ -59,11 +59,12 @@ const ProjectList = () => {
       </List>
       <Divider/>
       { 
-        keyHolder.admin && 
+        loadArchive ?
+        <Loading loadingClass={false} /> :
         <React.Fragment>
           <ProjectHeader title={"Archive"} action={"none"} iconHeader={"archive"} />
           <List divided relaxed size="large">
-            { loadArchive ? <Loading loadingClass={false} />  : (archiveProjects.length !== 0 ? renderArchive() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} />) }
+            { archiveProjects.length !== 0 ? renderArchive() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} /> }
           </List>
         </React.Fragment>
       }

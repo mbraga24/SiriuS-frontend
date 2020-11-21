@@ -10,10 +10,10 @@ import Loading from './Loading';
 import AddUserList from './AddUserList';
 import '../resources/NewProject.css';
 
-const NewProject = ( { alternativeActions = true, dateField = "Set a start and due date", titleField = "Title", descriptionField = "Description", ...props } ) => {
+const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start and due date", titleFieldLabel = "Title", descriptionFieldLabel = "Description", ...props } ) => {
   const [ fields, handleFieldChange ] = useFormFields({
-    title: alternativeActions ? "" : props.name,
-    description: alternativeActions ? "" : props.description
+    title: alternativeActions ? "" : props.fillOutTitle,
+    description: alternativeActions ? "" : props.fillOutDescription
   })
 
   const dispatch = useDispatch()
@@ -44,6 +44,9 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
   }, [fields.title, title, fields.description, description, addUsersId, dispatch, props.match.path])
 
   const handleSubmit = (e) => {
+    // ====================================================================================================
+    // pass a function to the submitForm function to run when there is an error on creating a new project
+    // ====================================================================================================
     submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false })
     props.history.push('/projects')
   }
@@ -74,7 +77,7 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
           </Form.Group>
         }
         <Form.Group grouped>   
-          <label>{dateField}</label>
+          <label>{dateFieldLabel}</label>
           <DatesRangeInput
             name="datesRange"
             placeholder="From - To"
@@ -85,16 +88,15 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
             className="NewProject-Form-Data"
             onChange={(a, {name, value}) => handleDateRangeChange(name, value)}
           />
-          <label>{titleField}</label>
+          <label>{titleFieldLabel}</label>
           <Form.Input 
-            fluid 
             name="title" 
             placeholder='"The Joe Doe Company"'
             defaultValue={fields.title}
             className="NewProject-Form" 
             onChange={handleFieldChange}
           />
-          <label>{descriptionField}</label>
+          <label>{descriptionFieldLabel}</label>
           <Form.TextArea  
             name="description" 
             placeholder='"Give a detailed description of the project and share all information that will be useful for your collaborators."' 

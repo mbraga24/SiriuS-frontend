@@ -60,6 +60,9 @@ const RelaunchModals = props => {
 
   const handleSubmit = e => {
     setLoadRelaunch(true)
+    // ====================================================================================================
+    // pass a function to the submitForm function to run when there is an error on creating a new project
+    // ====================================================================================================
     submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, loaderStatus})
   }
 
@@ -82,11 +85,11 @@ const RelaunchModals = props => {
           <Modal.Description>
             <NewProject 
               alternativeActions={false} 
-              name={archivedProject.name}
-              description={archivedProject.description}
-              dateField={"Set a new start and due date"} 
-              titleField={"Confirm or update Title"} 
-              descriptionField={"Confirm or update Description"} 
+              fillOutTitle={archivedProject.name}
+              fillOutDescription={archivedProject.description}
+              dateFieldLabel={"Set a new start and due date"} 
+              titleFieldLabel={"Confirm or update Title"} 
+              descriptionFieldLabel={"Confirm or update Description"} 
             />
           </Modal.Description>
         </Modal.Content>

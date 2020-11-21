@@ -52,6 +52,7 @@ const ProjectDetails = props => {
       setDisable(false)
       setPageLoader(!projectActive)
     }
+    // let validUser = currentProject && !!currentProject.users.find(u => u.id === currentUser.id)
   }, [ projectActive, projectArchive, props.match.path ])
 
   const currentProject = allProjects && allProjects.find(p => p.id === matchId)
@@ -145,6 +146,10 @@ const ProjectDetails = props => {
     // upload file to database
     fileUpload(file, fileName, currentProject.id, currentUser.id);
   };
+
+  console.log("currentProject.users.includes(currentUser.id)", currentProject && currentProject.users.includes(currentUser.id) === true)
+  console.log("currentProject.users", currentProject && currentProject.users)
+  console.log("currentUser.id", currentProject && currentUser.id)
 
   return (
       pageLoader ? 
@@ -276,8 +281,9 @@ const ProjectDetails = props => {
                   </Grid> 
                   <Grid>
                     <Grid.Row>
-                    { 
-                        !disable &&
+                    {  
+                      !!currentProject.users.find(u => u.id === currentUser.id) && 
+                        !disable && 
                         <Grid.Column width={6}>
                           <div className="Project-Item-Color Items-Spacing Project-File-Upload-Wrapper">
                             <Form onSubmit={onFormSubmit}>

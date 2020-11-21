@@ -21,6 +21,8 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
   .then(data => {
     if (data.error) {
       console.log("ERROR -->", data)
+      // receive a function to pass the error back up to the RelaunchModals and NewProject component
+      // here
     } else {
       // update each user in the redux store
       for (let user of data.users) {
@@ -32,7 +34,6 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
     }
     // remove users from temporary array in the redux store 
     store.dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-
   })
 }
 
