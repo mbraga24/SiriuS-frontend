@@ -57,10 +57,10 @@ const UserProjects = props => {
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
               >
-                <Header icon="trash" content='Please confirm:' />
+                <Header icon="trash" content='Confirm' />
                 <Modal.Content>
                   <p>
-                    Are you sure you want to cancel this collaborator's project?
+                    This collaborator will no longer be assigned to this project. Do you want to proceed?
                   </p>
                 </Modal.Content>
                 <Modal.Actions>

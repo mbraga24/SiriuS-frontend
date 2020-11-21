@@ -83,7 +83,7 @@ const TableList = props => {
                   onClose={() => setOpen(false)}
                   onOpen={() => setOpen(true)}
                 >
-                  <Header icon="trash" content='Please confirm:' />
+                  <Header icon="trash" content='Confirm' />
                   <Modal.Content>
                     <p>
                       Are you sure you want to remove this collaborator from your list? All documents shared by this collaborator will also be deleted.

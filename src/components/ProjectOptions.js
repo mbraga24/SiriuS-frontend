@@ -63,7 +63,7 @@ const ProjectOptions = props => {
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
               >
-                <Header icon={props.active ? "calendar check" : "trash"} content='Please confirm' />
+                <Header icon={props.active ? "calendar check" : "trash"} content='Confirm' />
                 <Modal.Content>
                   {
                     props.active ?
