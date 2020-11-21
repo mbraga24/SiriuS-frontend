@@ -44,7 +44,8 @@ const NewProject = ( { alternativeActions = true, dateField = "Set a start and d
   }, [fields.title, title, fields.description, description, addUsersId, dispatch, props.match.path])
 
   const handleSubmit = (e) => {
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false, archivedProjectId: null })
+    console.log("NEW PROJECT COMPONENT")
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false })
     props.history.push('/projects')
   }
 

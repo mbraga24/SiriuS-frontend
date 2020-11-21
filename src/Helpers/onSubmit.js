@@ -1,8 +1,8 @@
 import store  from '../store/index.js';
-import { createProject, deleteFromArchive } from '../api';
-import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, REMOVE_FROM_ARCHIVE } from '../store/type';
+import { createProject } from '../api';
+import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 
-const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId }) => {
+const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, loaderStatus }) => {
   e.preventDefault()
 
   const dateArray = dateRange.match(/.{1,12}/g)
@@ -19,6 +19,7 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
 
   createProject(newProject)
   .then(data => {
+    console.log("CREATE PROJECT", data)
     if (data.error) {
       console.log("ERROR -->", data)
     } else {
@@ -28,17 +29,13 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
       }
       // add new project to redux store
       store.dispatch({ type: ADD_PROJECT, payload: data.project })
+      relaunchProject && loaderStatus(false)
     }
-    // remove users from temporary array in the redux store 
+    // // remove users from temporary array in the redux store 
     store.dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-  })
 
-  relaunchProject && 
-    deleteFromArchive(archivedProjectId)
-    .then(data => {
-      const { archiveId } = data
-      store.dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
-    })
+  })
+  console.log("PROJECT CREATED ========= NOW DELETE ARCHIVE ")
 }
 
 export default submitForm;

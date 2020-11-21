@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Icon, Button, Modal, Form } from 'semantic-ui-react';
 import NewProject from './NewProject';
 import AddUserList from './AddUserList';
 import submitForm from '../Helpers/onSubmit';
+import { deleteFromArchive } from '../api';
+import { REMOVE_FROM_ARCHIVE } from '../store/type';
 import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
 
+  const dispatch = useDispatch()
   const [firstOpen, setFirstOpen] = useState(false)
   const [secondOpen, setSecondOpen] = useState(false)
   const [thirdOpen, setThirdOpen] = useState(false)
-  const [relaunchProject] = useState(true)
+  const [loadRelaunch, setLoadRelaunch] = useState(false)
+  const [created, setCreated] = useState(false)
   const [archivedProject] = useState(props.archivedProject)
-  const [archivedProjectId] = useState(props.archivedProject.id)
   const title = useSelector(state => state.project.relaunchTitle)
   const description = useSelector(state => state.project.relaunchDescription)
   const dateRange = useSelector(state => state.project.relaunchDateRange)
@@ -34,28 +37,54 @@ const RelaunchModals = props => {
     color: "#79589f"
   }
 
+  // archive_documents: []
+  // archived_date: "11/20/2020"
+  // description: ""
+  // due_date: "18/09/2020"
+  // id: 21
+  // name: "Rivver SaaS Menu Button 6"
+  // start_date: "17/09/2020"
+  // users: [{…}]
+
+  const loaderStatus = status => {
+    console.log("LOADER STATUS ->", status)
+    setLoadRelaunch(status)
+    setCreated(true)
+  }
+
   const closeModals = () => {
     setFirstOpen(false)
     setSecondOpen(false)
     setThirdOpen(false)
   }
 
-  const closeAndSubmit = e => {
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject, archivedProjectId})
-    closeModals()
-    props.history.push("/projects")
+  const deleteArchiveCloseModals = () => {
+    deleteFromArchive(archivedProject.id)
+    .then(data => {
+      console.log("DELETE ARCHIVED PROJECT", data)
+      const { archiveId } = data
+      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
+      props.history.push("/projects")
+    })
   }
 
-  console.log("TITLE", title)
-  console.log("DESC", description)
-  console.log("DATE", dateRange)
-  console.log("USERSID", addUsersId)
+  const handleSubmit = e => {
+    console.log("HANDLESUBMIT")
+    setLoadRelaunch(true)
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, loaderStatus})
+  }
+
+  // console.log("TITLE", title)
+  // console.log("DESC", description)
+  // console.log("DATE", dateRange)
+  // console.log("USERSID", addUsersId)
 
   return (
     <>
        <Button className="Project-Button-Color" onClick={() => setFirstOpen(true)}><Icon name="redo"/>Relaunch Project</Button>
 
       <Modal
+        closeOnDimmerClick={false}
         centered={true}
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
@@ -79,14 +108,24 @@ const RelaunchModals = props => {
         </Modal.Content>
         <Modal.Actions>
           <Button 
+            onClick={closeModals} 
+            style={styleDeleteBtn}
+          >
+            <Icon name='remove' /> Cancel
+          </Button>
+          <Button 
+            type="button"
             onClick={() => setSecondOpen(true)} 
             style={styleBtn}
           >
-            Collaborators<Icon name='right chevron' />
+            Collaborators <Icon name='right chevron' />
           </Button>
         </Modal.Actions>
 
         <Modal
+          closeOnDimmerClick={false}
+          as={Form}
+          onSubmit={(e) => handleSubmit(e)}
           centered={true}
           onClose={() => setSecondOpen(false)}
           onOpen={() => setSecondOpen(true)}
@@ -102,30 +141,54 @@ const RelaunchModals = props => {
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <Button 
-              onClick={() => setSecondOpen(false)} 
-              style={styleBtn}
-            >
-              <Icon name='chevron left' /> Go back
-            </Button> 
-            <Button 
-              onClick={closeModals} 
-              style={styleDeleteBtn}
-            >
-              Cancel <Icon name='remove' /> 
-            </Button> 
-            <Button 
-              onClick={() => setThirdOpen(true)} 
-              style={styleBtn}
-            >
-              Confirm Project <Icon name='right chevron' />
-            </Button> 
+              {
+              loadRelaunch ?
+                <Button loading primary>
+                  Loading
+                </Button>
+                :
+              <>
+                {
+                  created ?
+                  <Button 
+                    type="button"
+                    onClick={() => setThirdOpen(true)} 
+                    style={styleBtn}
+                  >
+                    <Icon name='check circle' /> Project Created
+                  </Button> 
+                  :
+                  <>
+                    <Button 
+                      type="button"
+                      onClick={() => setSecondOpen(false)} 
+                      style={styleBtn}
+                    >
+                      <Icon name='chevron left' /> Go back
+                    </Button> 
+                    <Button 
+                      type="button"
+                      onClick={closeModals} 
+                      style={styleDeleteBtn}
+                    >
+                      <Icon name='remove' /> Cancel 
+                    </Button>
+                    <Button 
+                      type="submit"
+                      style={styleBtn}
+                    >
+                      Confirm Project <Icon name='right chevron' />
+                    </Button> 
+                  </>
+                }
+              </>
+              }
+      
           </Modal.Actions>
         </Modal>
       
         <Modal
-          as={Form}
-          onSubmit={(e) => closeAndSubmit(e)}
+          closeOnDimmerClick={false}
           centered={true}
           onClose={() => setThirdOpen(false)}
           open={thirdOpen}
@@ -133,12 +196,16 @@ const RelaunchModals = props => {
         >
           <Modal.Header>
             <Icon name='clipboard check' size="big" style={styleIcon}/>
-            Project Created
+            All set!
           </Modal.Header>
+          <Modal.Content>
+            <p>The project was deleted from your archive and it's been reactivated.</p>
+          </Modal.Content>
           <Modal.Actions>
             <Button
-              type="submit"
-              content='All set!'
+              type="button"
+              onClick={deleteArchiveCloseModals}
+              content='Go to projects'
               style={styleBtn}
             />
           </Modal.Actions>
