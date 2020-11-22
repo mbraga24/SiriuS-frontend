@@ -11,11 +11,11 @@ import AddUserList from './AddUserList';
 import '../resources/NewProject.css';
 
 const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start and due date", titleFieldLabel = "Title", descriptionFieldLabel = "Description", ...props } ) => {
+  
   const [ fields, handleFieldChange ] = useFormFields({
     title: alternativeActions ? "" : props.fillOutTitle,
     description: alternativeActions ? "" : props.fillOutDescription
   })
-
   const dispatch = useDispatch()
   const [dateRange, setDateRange] = useState("")
   const [title, setTitle] = useState("")
@@ -28,8 +28,6 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
   const todayDate = new Date()
 
   const runAlert = (header, error) => {
-    console.log("HEADER", header)
-    console.log("ERROR", error)
     setHeader(header)
     setErrorMsg(error)
     setAlertStatus(true)
@@ -68,12 +66,12 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
     }
   }, [fields.title, title, fields.description, description, addUsersId, dispatch, props.match.path])
 
+  const pushUser = () => {
+    props.history.push('/projects')
+  }
+
   const handleSubmit = (e) => {
-    // ====================================================================================================
-    // pass a function to the submitForm function to run when there is an error on creating a new project
-    // ====================================================================================================
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false, loaderStatus: null, runAlert})
-    // props.history.push('/projects')
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false, projectStatus: null, runAlert, pushUser })
   }
 
   return (

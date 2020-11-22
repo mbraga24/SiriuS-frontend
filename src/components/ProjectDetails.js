@@ -147,10 +147,6 @@ const ProjectDetails = props => {
     fileUpload(file, fileName, currentProject.id, currentUser.id);
   };
 
-  console.log("currentProject.users.includes(currentUser.id)", currentProject && currentProject.users.includes(currentUser.id) === true)
-  console.log("currentProject.users", currentProject && currentProject.users)
-  console.log("currentUser.id", currentProject && currentUser.id)
-
   return (
       pageLoader ? 
       <Loading loadingClass={true} /> 

@@ -50,7 +50,6 @@ const Login = (props) => {
         handleMessages(data)
       } else {
         const { user } = data
-        console.log("USER LOGIN --->", user)
         // update state
         dispatch({ type: SET_KEY_HOLDER, payload: user })
         dispatch({ type: LOAD_KEYHOLDER, payload: false })

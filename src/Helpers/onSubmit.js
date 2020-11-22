@@ -2,7 +2,7 @@ import store  from '../store/index.js';
 import { createProject } from '../api';
 import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 
-const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, loaderStatus, runAlert }) => {
+const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, projectStatus, runAlert, pushUser }) => {
   e.preventDefault()
 
   let startDate;
@@ -23,11 +23,6 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
     dueDate = ""
   }
 
-  console.log("START DATE ->", startDate)
-  console.log("DUE STATE ->", dueDate)
-  console.log("DATE RANGE -->", dateRange)
-  console.log("DATE ARRAY -->", dateArray)
-
   const newProject = {
     name: title,
     description: description,
@@ -42,6 +37,7 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
       console.log("ERROR -->", data)
       const { error, header } = data
       console.log("AN ERROR OCCURRED", data)
+      projectStatus(false)
       runAlert(header, error)
     } else {
       // update each user in the redux store
@@ -50,7 +46,8 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
       }
       // add new project to redux store
       store.dispatch({ type: ADD_PROJECT, payload: data.project })
-      relaunchProject && loaderStatus(false)
+      relaunchProject && projectStatus(true)
+      !relaunchProject && pushUser()
     }
     // remove users from temporary array in the redux store 
     store.dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })

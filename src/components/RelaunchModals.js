@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Icon, Button, Modal, Form } from 'semantic-ui-react';
+import { Icon, Button, Modal, Form, List, Message, Header } from 'semantic-ui-react';
 import NewProject from './NewProject';
 import AddUserList from './AddUserList';
 import submitForm from '../Helpers/onSubmit';
@@ -18,10 +18,33 @@ const RelaunchModals = props => {
   const [loadRelaunch, setLoadRelaunch] = useState(false)
   const [created, setCreated] = useState(false)
   const [archivedProject] = useState(props.archivedProject)
+  const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ header, setHeader ] = useState("")
+  const [ errorMsg, setErrorMsg ] = useState([])
+
   const title = useSelector(state => state.project.relaunchTitle)
   const description = useSelector(state => state.project.relaunchDescription)
   const dateRange = useSelector(state => state.project.relaunchDateRange)
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
+
+  const runAlert = (header, error) => {
+    setHeader(header)
+    setErrorMsg(error)
+    setAlertStatus(true)
+    resetAlert()
+  }
+
+  const resetAlert = () => {
+    setTimeout(() => {
+      setAlertStatus(false)
+    }, 5000)
+  }
+
+  const displayAlert = errors => {
+    return errors.map(e => (
+      <List.Item key={e}>{e}</List.Item>
+    ))
+  }
 
   const styleBtn = {
     backgroundColor: "#534292",
@@ -44,9 +67,9 @@ const RelaunchModals = props => {
   }
 
 
-  const loaderStatus = status => {
-    setLoadRelaunch(status)
-    setCreated(true)
+  const projectStatus = status => {
+    setLoadRelaunch(false)
+    setCreated(status)
   }
 
   const closeModals = () => {
@@ -64,12 +87,13 @@ const RelaunchModals = props => {
     })
   }
 
+  const pushUser = () => {
+    props.history.push('/projects')
+  }
+
   const handleSubmit = e => {
     setLoadRelaunch(true)
-    // ====================================================================================================
-    // pass a function to the submitForm function to run when there is an error on creating a new project
-    // ====================================================================================================
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, loaderStatus, runAlert: null})
+    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
   }
 
   return (
@@ -131,6 +155,23 @@ const RelaunchModals = props => {
           <Modal.Content image>
             <Modal.Description>
               <AddUserList userType={"newProject"} button={true} alternativeActions={false} />
+              {
+              alertStatus &&
+              <Message style={{display: "block"}} warning attached='bottom'>
+                { 
+                  alertStatus && 
+                  <React.Fragment>
+                    <Header as='h5' dividing>
+                      <Icon name="dont"/>
+                      {header}
+                    </Header>
+                    <List bulleted style={{ textAlign: "left" }}>
+                      { displayAlert(errorMsg) }
+                    </List>
+                  </React.Fragment>
+                }
+              </Message>
+              }
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>

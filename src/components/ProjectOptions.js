@@ -16,7 +16,6 @@ const ProjectOptions = props => {
   const handleComplete = () => {
     completeProject(id)
     .then(data => {
-        console.log("COMPLETED PROJECT RETURNED", data);
         const { users, project, documents } = data
         dispatch({ type: REMOVE_PROJECT, payload: project })
         // update each user in the redux store
@@ -29,7 +28,6 @@ const ProjectOptions = props => {
       return archiveProject(archProject)
         .then(data => {
           const { archived_project } = data
-          console.log("ARCHIVED PROJECT DATA", data)
           dispatch({ type: ADD_TO_ARCHIVE, payload: archived_project})
           for (let doc of archived_project.archive_documents) {
             dispatch({ type: ADD_ARCH_DOC, payload: doc })
@@ -42,7 +40,6 @@ const ProjectOptions = props => {
     deleteFromArchive(id)
     .then(data => {
       const { archiveId } = data
-      console.log("PROJECT DELETED -->", data)
       // update projects from the redux store
       dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
       setOpen(false)

@@ -58,11 +58,9 @@ const InvitationForm = props => {
     }
     
     fetch('http://localhost:3000/invites/', {
-      // mode: "cors",  
       method: "POST",
       headers: {
         "Content-Type": "application/json"
-        // "Access-Control-Allow-Origin":"*"
       },
       body: JSON.stringify(data)
     })
@@ -73,7 +71,6 @@ const InvitationForm = props => {
         runAlert(header, error)
         setSending(false)
       } else {
-        console.log(data)
         dispatch({ type: ADD_INVITATION, payload: data.invite })
         props.setSecondOpen(true)
         setSending(false)

@@ -81,7 +81,6 @@ const App = props => {
     useEffect(() => {
       getArchivedProjects()
       .then(archiveData => {
-        // console.log("archiveData -->", archiveData)
         dispatch({ type: SET_ARCHIVE, payload: archiveData })
         dispatch({ type: LOAD_ARCHIVES, payload: false })
       })
@@ -91,7 +90,6 @@ const App = props => {
     useEffect(() => {
       getArchiveDocuments()
       .then(archiveDocData => {
-        // console.log("archiveData -->", archiveDocData)
         dispatch({ type: SET_ARCH_DOCS, payload: archiveDocData })
       })
     }, [dispatch])
