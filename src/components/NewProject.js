@@ -25,6 +25,7 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
   const [ alertStatus, setAlertStatus ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
+  const todayDate = new Date()
 
   const runAlert = (header, error) => {
     console.log("HEADER", header)
@@ -106,6 +107,10 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
             name="datesRange"
             placeholder="From - To"
             dateFormat="MM-DD-YYYY"
+            closeOnMouseLeave={true}
+            clearable
+            minDate={todayDate}
+            popupPosition="left center"
             value={dateRange}
             iconPosition="left"
             animation="false"
