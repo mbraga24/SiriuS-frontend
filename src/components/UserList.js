@@ -14,7 +14,6 @@ const UserList = () => {
   const removeUser = userId => {
     deleteUser(userId)
     .then(data => {
-      console.log("DELETEUSER FETCH, -->", data)
       dispatch({ type: REMOVE_USER, payload: data.user })
       for (let project of data.projects) {
         dispatch({ type: UPDATE_PROJECT, payload: project })
@@ -27,11 +26,12 @@ const UserList = () => {
 
   return (
     <TableList 
-      hideColumn={false}
-      iconName="users"
+      inviteActions={false}
+      headerIcon="users"
+      removeOptionIcon="user times"
       header="Collaborators"
       loadItems={loadUsers} 
-      users={users}
+      items={users}
       func={removeUser}
     />
   )

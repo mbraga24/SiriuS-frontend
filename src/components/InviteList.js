@@ -19,8 +19,9 @@ const InviteList = () => {
 
   return (
     <TableList 
-      hideColumn={true}
-      iconName="sticky note"
+      inviteActions={true}
+      headerIcon="envelope"
+      removeOptionIcon="envelope open"
       header="Pending Invitations"
       loadItems={loadInvitations} 
       items={invitations}

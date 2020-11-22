@@ -21,7 +21,7 @@ const TableList = props => {
   }
 
   // save user id in state
-  const saveUserId = userId => {
+  const saveItemId = userId => {
     setUserId(userId)
   }
 
@@ -36,33 +36,32 @@ const TableList = props => {
     icon.style.color = colorId
   }
 
-  const iconRemoveAction = (buttonId, colorId) => {
+  const iconRemoveUserAction = (buttonId, colorId) => {
     const icon = document.querySelector(`.Icon-Remove-Action-${buttonId}`)
     icon.style.color = colorId
   }
 
   const renderRows = () => {
-    return props.users.map(user => {
+    return props.items.map(item => {
       return (
-        // className={`Icon-Remove-Action-${user.id}`}
-        <Table.Row key={user.id} >
-          <Table.Cell>{user.first_name}</Table.Cell>
-          <Table.Cell>{user.last_name}</Table.Cell>
-          <Table.Cell>{user.email}</Table.Cell>
-          <Table.Cell>{user.job_title}</Table.Cell>
+        <Table.Row key={item.id} >
+          <Table.Cell>{item.first_name}</Table.Cell>
+          <Table.Cell>{item.last_name}</Table.Cell>
+          <Table.Cell>{item.email}</Table.Cell>
+          <Table.Cell  className={props.inviteActions ? "Hide-Column" : ""}>{item.job_title}</Table.Cell>
           { keyHolder.admin && 
             <>
               <Table.Cell 
                 textAlign="center" 
-                onMouseOver={() => iconUserAction(user.id, "#ffffff")} 
-                onMouseLeave={() => iconUserAction(user.id, "#79589f")} 
-                className={`TableList-Cell ${props.hideColumn ? "Hide-Column" : ""}`}
+                onMouseOver={() => iconUserAction(item.id, "#ffffff")} 
+                onMouseLeave={() => iconUserAction(item.id, "#79589f")} 
+                className={`TableList-Cell ${props.inviteActions ? "Hide-Column" : ""}`}
               >
-                <Link to={`/user/projects/${user.id}`}> 
+                <Link to={`/user/projects/${item.id}`}> 
                   <Icon 
                     name='user' 
                     size="large" 
-                    className={`TableList-Icon-Actions-Color Icon-User-Action-${user.id}`}
+                    className={`TableList-Icon-Actions-Color Icon-User-Action-${item.id}`}
                   />
                 </Link>
               </Table.Cell>
@@ -73,11 +72,11 @@ const TableList = props => {
                   trigger={ 
                     <Table.Cell 
                       textAlign='center'
-                      onMouseOver={() => iconRemoveAction(user.id, "#ffffff")} 
-                      onMouseLeave={() => iconRemoveAction(user.id, "#79589f")} 
+                      onMouseOver={() => iconRemoveUserAction(item.id, "#ffffff")} 
+                      onMouseLeave={() => iconRemoveUserAction(item.id, "#79589f")} 
                       className="TableList-Cell"
                       >
-                      <Icon name='user times' size="large" className={`TableList-Icon-Actions-Color Icon-Remove-Action-${user.id}`} onClick={() => saveUserId(user.id)}/>
+                      <Icon name={props.removeOptionIcon} size="large" className={`TableList-Icon-Actions-Color Icon-Remove-Action-${item.id}`} onClick={() => saveItemId(item.id)}/>
                     </Table.Cell>
                   }
                   onClose={() => setOpen(false)}
@@ -85,9 +84,15 @@ const TableList = props => {
                 >
                   <Header icon="trash" content='Confirm' />
                   <Modal.Content>
-                    <p>
-                      Are you sure you want to remove this collaborator from your list? All documents shared by this collaborator will also be deleted.
-                    </p>
+                    {
+                      props.inviteActions ?
+                      <p>
+                        This user won't be able to sign up to the application anymore. Cancel invitation?
+                      </p> :
+                      <p>
+                        Are you sure you want to remove this collaborator from your list? All documents shared by this collaborator will also be deleted.
+                      </p>
+                    }
                   </Modal.Content>
                   <Modal.Actions>
                     <Button color='red' onClick={() => setOpen(false)}>
@@ -109,7 +114,7 @@ const TableList = props => {
     <div id="TableList-Container">
       <Header as='h2' className="TableList-Header-Align-Items">
         <span>
-          <Icon name={props.iconName} size="large" className="TableList-Icon-Color"/>
+          <Icon name={props.headerIcon} size="large" className="TableList-Icon-Color"/>
           <Header.Content>
             <span className="TableList-Title">{props.header}</span>
           </Header.Content>
@@ -118,6 +123,7 @@ const TableList = props => {
           keyHolder.admin && 
           <Dropdown.Item>
           <React.Fragment>
+            { props.items.length === 0 && !props.inviteActions && <Icon name='pointing right' size="large" className="TableList-Icon-Actions-Color" /> }
             <Button className="TableList-Button-Invite-User" onClick={() => setFirstOpen(true)}>
               <Icon name='user plus' /> 
               Invite Collaborator
@@ -154,31 +160,30 @@ const TableList = props => {
         props.loadItems ? 
         <Loading loadingClass={true} />
         :
-        props.users.length !== 0 ?
+        props.items.length !== 0 ?
         <Table celled structured>
           <Table.Header>
           <Table.Row textAlign='center'>
             <Table.HeaderCell rowSpan='2'>First Name</Table.HeaderCell>
             <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
             <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
-            <Table.HeaderCell rowSpan='2'>Job Title</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2' className={props.inviteActions ? "Hide-Column" : ""}>Job Title</Table.HeaderCell>
             {
               keyHolder.admin &&
               <>
-                <Table.HeaderCell className={props.hideColumn ? "Hide-Column" : ""} rowSpan='1'>History</Table.HeaderCell>
+                <Table.HeaderCell className={props.inviteActions ? "Hide-Column" : ""} rowSpan='1'>History</Table.HeaderCell>
                 <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell> 
               </>
             }
           </Table.Row>
           </Table.Header>
           {
-            props.users && 
+            props.items && 
             <Table.Body>
               {renderRows()}
             </Table.Body>
           }
-        {/* add another MissingAsset component for collaborators  */}
-        </Table> : <MissingAsset message={"No pending invites"} icon={"sticky note outline"} />
+        </Table> : props.inviteActions ? <MissingAsset message={"No pending invites"} icon={"sticky note outline"} /> : <MissingAsset message={"This organization has no collaborators"} icon={"address book"} />
       }
     </div>
   )
