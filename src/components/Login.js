@@ -47,7 +47,7 @@ const Login = (props) => {
       if (data.type === "error") {
         handleMessages(data)
       } else {
-        console.log("LOGGED IN USER -->", data)
+        console.log("LOGGED IN USER -->", data.user)
         const { user } = data
         const requestId = "keyHolder";  
         // update state

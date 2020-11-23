@@ -17,15 +17,13 @@ const InviteList = () => {
     })
   }
 
-  console.log("!isLoading.includes(invites)", isLoading)
-
   return (
     <TableList 
       inviteActions={true}
       headerIcon="envelope"
       removeOptionIcon="envelope open"
       header="Pending Invitations"
-      loadItems={isLoading.includes("invites")} 
+      isLoaded={isLoading.includes("invites")} 
       items={invitations}
       func={removeInvite}
     />

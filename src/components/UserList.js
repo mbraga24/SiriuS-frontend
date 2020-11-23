@@ -24,14 +24,13 @@ const UserList = () => {
     })
   }
 
-  console.log("includes(users)", isLoading)
   return (
     <TableList 
       inviteActions={false}
       headerIcon="users"
       removeOptionIcon="user times"
       header="Collaborators"
-      loadItems={isLoading.includes("users")} 
+      isLoaded={isLoading.includes("users")} 
       items={users}
       func={removeUser}
     />

@@ -9,10 +9,6 @@ import '../resources/TableList.css';
 
 const TableList = props => {
 
-
-  console.log("PROPS LOADITEMS", props.loadItems)
-  console.log("PROPS HEADERICON", props.headerIcon)
-
   const keyHolder = useSelector(state => state.app.keyHolder)
   const [ firstOpen, setFirstOpen ] = useState(false)
   const [ secondOpen, setSecondOpen ] = useState(false)
@@ -161,7 +157,7 @@ const TableList = props => {
       </Header>
       <Divider/>
       {
-        props.loadItems ? 
+        props.isLoaded ? 
         <>
         { 
           props.items.length !== 0 ?

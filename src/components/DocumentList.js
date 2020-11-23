@@ -57,8 +57,7 @@ const DocumentList = props => {
       </Table.Row>
     ))
   }
-  console.log("isLoading -->", isLoading)
-  console.log("loadedData -->", loadedData)
+  
   return (
         <div id="DocumentList-Container">
           <Header as='h2' className="DocumentList-Header">
