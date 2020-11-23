@@ -34,12 +34,21 @@ const Account = () => {
                 <Grid.Row>
                   {
                     !keyHolder.admin ?
-                    <Grid.Column className="Account-Items">
-                      <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
-                      <Icon name='history' size="large"/>
-                      Account History
-                      </Button>
-                    </Grid.Column> :
+                    <>
+                      <Grid.Column className="Account-Items">
+                        <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                        <Icon name='history' size="large"/>
+                        Account History
+                        </Button>
+                      </Grid.Column>
+                      <Grid.Column className="Account-Items">
+                        <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                        <Icon name='calendar times outline' size="large"/>
+                        Request Time Off
+                        </Button>
+                      </Grid.Column> 
+                    </>
+                    :
                     <React.Fragment>
                       <Grid.Column className="Account-Items">
                         <Button as={Link} to={`/users`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
@@ -50,11 +59,17 @@ const Account = () => {
                       <Grid.Column className="Account-Items">
                         <Button as={Link} to={`/invitations`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
                         <Icon name='envelope' size="large"/>
-                        Pending Invitations: {adminInvitationCount}
+                          { adminInvitationCount.length === 0 ? "No pending invitations" : `Pending Invitations: ${adminInvitationCount.length}` }
                         </Button>
                       </Grid.Column>
                     </React.Fragment>
                   } 
+                  <Grid.Column className="Account-Items">
+                    <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                    <Icon name='settings' size="large"/>
+                    Update Account
+                    </Button>
+                  </Grid.Column> 
                   <Grid.Column className="Account-Items">
                     <Button as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
                       <Icon name='tasks' size="large" />

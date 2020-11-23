@@ -58,6 +58,9 @@ const ProjectDetails = props => {
 
   const currentProject = allProjects && allProjects.find(p => p.id === matchId)
 
+  const onlyCredentials = () => {
+    return currentProject.users.find(u => u.id === keyHolder.id) || keyHolder.admin
+  }
   const archiveMessage = archivedDate => {
     return `All activities for this project were closed on ${archivedDate}`
   }
@@ -180,7 +183,7 @@ const ProjectDetails = props => {
                           :
                           <Button className={`Project-Download-Button ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
                         }                      
-                        <RelaunchModals id="RelaunchModals" archivedProject={currentProject} />  
+                        { keyHolder.admin && <RelaunchModals id="RelaunchModals" archivedProject={currentProject} /> }
                       </React.Fragment>
                       : 
                       keyHolder.admin &&
@@ -277,7 +280,7 @@ const ProjectDetails = props => {
                   <Grid>
                     <Grid.Row>
                     {  
-                        (currentProject.users.find(u => u.id === keyHolder.id) || keyHolder.admin)  && 
+                        onlyCredentials() && 
                         !disable && 
                         <Grid.Column width={6}>
                           <div className="Project-Item-Color Items-Spacing Project-File-Upload-Wrapper">

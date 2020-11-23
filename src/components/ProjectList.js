@@ -52,19 +52,14 @@ const ProjectList = () => {
         { isLoading.includes("projects") ? (projects.length !== 0 ? renderProjects() : <MissingAsset message={"There are no projects pending at the moment"} icon={"coffee"} />) : <Loading loadingClass={true} />  }
       </List>
       <Divider/>
-      { 
-        keyHolder.admin && 
-        <>
-        {
-          isLoading.includes("archive") ?
-          <React.Fragment>
-            <ProjectHeader title={"Archive"} action={"none"} iconHeader={"archive"} />
-            <List divided relaxed size="large">
-              { archiveProjects.length !== 0 ? renderArchive() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} /> }
-            </List>
-          </React.Fragment> : <Loading loadingClass={true} />
-        }
-        </>
+      {
+        isLoading.includes("archive") ?
+        <React.Fragment>
+          <ProjectHeader title={"Archive"} action={"none"} iconHeader={"archive"} />
+          <List divided relaxed size="large">
+            { archiveProjects.length !== 0 ? renderArchive() : <MissingAsset message={"There are no projects archived"} icon={"folder open outline"} /> }
+          </List>
+        </React.Fragment> : <Loading loadingClass={true} />
       }
     </div>
   )
