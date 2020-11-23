@@ -20,7 +20,7 @@ const ProjectDetails = props => {
   const dispatch = useDispatch()
 
   // redux store
-  const currentUser = useSelector(state => state.app.keyHolder)
+  const keyHolder = useSelector(state => state.app.keyHolder)
   const projectActive = useSelector(state => state.project.projects)
   const projectArchive = useSelector(state => state.archiveProject.archive)
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
@@ -53,7 +53,7 @@ const ProjectDetails = props => {
       setDisable(false)
       setLoadedData("projects")
     }
-    // let validUser = currentProject && !!currentProject.users.find(u => u.id === currentUser.id)
+    // let validUser = currentProject && !!currentProject.users.find(u => u.id === keyHolder.id)
   }, [ projectActive, projectArchive, props.match.path ])
 
   const currentProject = allProjects && allProjects.find(p => p.id === matchId)
@@ -145,7 +145,7 @@ const ProjectDetails = props => {
     // set buttonStatus to true to display upload success or failed
     setButtonStatus(true) 
     // upload file to database
-    fileUpload(file, fileName, currentProject.id, currentUser.id);
+    fileUpload(file, fileName, currentProject.id, keyHolder.id);
   };
 
   return (
@@ -183,7 +183,7 @@ const ProjectDetails = props => {
                         <RelaunchModals id="RelaunchModals" archivedProject={currentProject} />  
                       </React.Fragment>
                       : 
-                      currentUser.admin &&
+                      keyHolder.admin &&
                         <Modal
                           onClose={() => setOpen(false)}
                           onOpen={() => setOpen(true)}
@@ -277,7 +277,7 @@ const ProjectDetails = props => {
                   <Grid>
                     <Grid.Row>
                     {  
-                        true && 
+                        (currentProject.users.find(u => u.id === keyHolder.id) || keyHolder.admin)  && 
                         !disable && 
                         <Grid.Column width={6}>
                           <div className="Project-Item-Color Items-Spacing Project-File-Upload-Wrapper">
