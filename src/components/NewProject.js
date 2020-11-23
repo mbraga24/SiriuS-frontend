@@ -21,7 +21,7 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
-  const loadUsers = useSelector(state => state.load.loadUsers) 
+  const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
   const [ alertStatus, setAlertStatus ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
@@ -149,7 +149,7 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
             </Form.Group>
             <Form.Group grouped>
             {
-              loadUsers ?
+              !isLoading.includes("users") ?
               <Loading loadingClass={false} />
               : 
                 <AddUserList userType={"newProject"} button={false}/>

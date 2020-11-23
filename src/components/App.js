@@ -15,7 +15,7 @@ import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
 import InvitationForm from './InvitationForm';
-import { SET_ARCH_DOCS, LOAD_ARCHIVES, LOAD_DOCUMENTS, LOAD_KEYHOLDER, API_REQUEST, API_SUCCESS, LOAD_USERS, LOAD_PROJECTS, LOAD_INVITATIONS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_DOCUMENTS, SET_INVITATIONS, SET_ARCHIVE } from '../store/type';
+import { SET_ARCH_DOCS, API_SUCCESS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_DOCUMENTS, SET_INVITATIONS, SET_ARCHIVE } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
 const App = props => {
@@ -29,13 +29,11 @@ const App = props => {
     if (localStorage.token) {
       const token = localStorage.token
       const requestId = "keyHolder";
-      dispatch({ requestId, type: API_REQUEST });
       autoLogin(token)
       .then(user => {
         // update state
         dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_KEY_HOLDER, payload: user })
-        // dispatch({ type: LOAD_KEYHOLDER, payload: false })
       })
       // change body background color
      const body = document.querySelector('body')
@@ -46,62 +44,60 @@ const App = props => {
 
   // Fetch Projects
   useEffect(() => {
+    const requestId = "projects";
     getProjects()
     .then(projectData  => {
+      dispatch({ requestId, type: API_SUCCESS });
       dispatch({ type: SET_PROJECTS, payload: projectData })
-      dispatch({ type: LOAD_PROJECTS, payload: false })
     })
   }, [dispatch])
 
   // Fetch Documents
   useEffect(() => {
     const requestId = "documents";
-    dispatch({ requestId, type: API_REQUEST });
     getDocuments()
     .then(docuData  => {
       dispatch({ requestId, type: API_SUCCESS });
       dispatch({ type: SET_DOCUMENTS, payload: docuData })
-      // dispatch({ type: LOAD_DOCUMENTS, payload: false })
     })
   }, [dispatch])
 
   // Fetch Users
   useEffect(() => {
     const requestId = "users";
-    dispatch({ requestId, type: API_REQUEST });
     getUsers()
     .then(userData => {
       dispatch({ requestId, type: API_SUCCESS });
       dispatch({ type: SET_USERS, payload: userData })
-      // dispatch({ type: LOAD_USERS, payload: false })
     })
   }, [dispatch])
 
     // Fetch Invites
     useEffect(() => {
       const requestId = "invites";
-      dispatch({ requestId, type: API_REQUEST });
       getInvites()
       .then(inviteData => {
         dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_INVITATIONS, payload: inviteData })
-        // dispatch({ type: LOAD_INVITATIONS, payload: false })
       })
     }, [dispatch])
 
     // Fetch Archive
     useEffect(() => {
+      const requestId = "archive";
       getArchivedProjects()
       .then(archiveData => {
+        dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_ARCHIVE, payload: archiveData })
-        dispatch({ type: LOAD_ARCHIVES, payload: false })
       })
     }, [dispatch])
     
-    // Fetch Archive
+    // Fetch Archive Document
     useEffect(() => {
+      const requestId = "archiveDocuments";
       getArchiveDocuments()
       .then(archiveDocData => {
+        dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_ARCH_DOCS, payload: archiveDocData })
       })
     }, [dispatch])

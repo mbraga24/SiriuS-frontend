@@ -23,6 +23,7 @@ const ProjectDetails = props => {
   const currentUser = useSelector(state => state.app.keyHolder)
   const projectActive = useSelector(state => state.project.projects)
   const projectArchive = useSelector(state => state.archiveProject.archive)
+  const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
 
   // overall variables
   const [ file, setFile ] = useState(null)
@@ -33,7 +34,7 @@ const ProjectDetails = props => {
   const [ disable, setDisable ] = useState(false)
   // loaders 
   const [ loader, setLoader ] = useState(false)
-  const [ pageLoader, setPageLoader ] = useState(true)
+  const [ loadedData, setLoadedData ] = useState("")
   // upload and download file feature 
   const [ buttonStatus, setButtonStatus ] = useState(false)
   const [ open, setOpen ] = useState(false)
@@ -44,13 +45,13 @@ const ProjectDetails = props => {
       setAllProjects(projectArchive)
       setArchive(true)
       setDisable(true)
-      setPageLoader(!projectArchive)
+      setLoadedData("archive")
     } 
     if (props.match.path.split("/").includes("project")) {
       setAllProjects(projectActive)
       setArchive(false)
       setDisable(false)
-      setPageLoader(!projectActive)
+      setLoadedData("projects")
     }
     // let validUser = currentProject && !!currentProject.users.find(u => u.id === currentUser.id)
   }, [ projectActive, projectArchive, props.match.path ])
@@ -148,9 +149,7 @@ const ProjectDetails = props => {
   };
 
   return (
-      pageLoader ? 
-      <Loading loadingClass={true} /> 
-      :
+      isLoading.includes(loadedData) ?
       <React.Fragment>
         <div id="myMm" style={{height: "1mm"}} />
         <div id="Project-Container">
@@ -278,7 +277,7 @@ const ProjectDetails = props => {
                   <Grid>
                     <Grid.Row>
                     {  
-                      !!currentProject.users.find(u => u.id === currentUser.id) && 
+                        true && 
                         !disable && 
                         <Grid.Column width={6}>
                           <div className="Project-Item-Color Items-Spacing Project-File-Upload-Wrapper">
@@ -344,7 +343,7 @@ const ProjectDetails = props => {
               </React.Fragment>
           }
         </div>
-      </React.Fragment>
+      </React.Fragment> : <Loading loadingClass={true} /> 
   )
 }
 

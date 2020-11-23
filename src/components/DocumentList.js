@@ -10,10 +10,11 @@ const DocumentList = props => {
 
   const documents = useSelector(state => state.document.documents)
   const archiveDocuments = useSelector(state => state.archDocument.archDocuments)
+  const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
 
   const [ allDocuments, setAllDocuments ] = useState("")
   const [ pathKey, setPathKey ] = useState("")
-  const loadDocuments = useSelector(state => state.load.loadDocuments) 
+  const [ loadedData, setLoadedData ] = useState("")
   const matchId = parseInt(props.match.params.id)
   const path = props.match.path.split("/")
 
@@ -21,12 +22,15 @@ const DocumentList = props => {
     if (path.includes("archive")) {
       setAllDocuments(archiveDocuments)
       setPathKey("archive_project")
+      setLoadedData("archiveDocuments")
     }
     if (path.includes("project")) {
       setAllDocuments(documents)
       setPathKey("project")
+      setLoadedData("documents")
     }
     if (path.includes("projects")) {
+      setLoadedData("documents")
       setAllDocuments(documents)
       setPathKey("user")
     }
@@ -53,7 +57,8 @@ const DocumentList = props => {
       </Table.Row>
     ))
   }
-
+  console.log("isLoading -->", isLoading)
+  console.log("loadedData -->", loadedData)
   return (
         <div id="DocumentList-Container">
           <Header as='h2' className="DocumentList-Header">
@@ -65,9 +70,7 @@ const DocumentList = props => {
             </span>
           </Header> 
           { 
-            loadDocuments ? 
-            <Loading loadingClass={false} /> 
-            :
+            isLoading.includes(loadedData) ? 
             (
               documents && allArchDocuments.length !== 0 ?
               <Table basic className="DocumentList-Table">
@@ -84,7 +87,7 @@ const DocumentList = props => {
                 </Table.Body>
               </Table> : 
               <MissingAsset message={"No documents"} icon={"pdf file outline"} />
-            )
+            ) : <Loading loadingClass={false} /> 
           } 
         </div>
   )

@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { loginUser } from '../api';
 import useFormFields from '../hooks/useFormFields';
 import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react';
-import { SET_KEY_HOLDER, LOAD_KEYHOLDER } from '../store/type';
+import { SET_KEY_HOLDER, API_SUCCESS } from '../store/type';
 import '../resources/Login.css';
 
 const Login = (props) => {
@@ -35,25 +35,24 @@ const Login = (props) => {
   }
 
   const handleSubmit = e => {
-    e.preventDefault()    
-    
+    e.preventDefault()  
     // create object to send in the fetch body
     const userLogin = {
       email: fields.email,
       password: fields.password,
     }
-
     // fetch user
     loginUser(userLogin)
     .then(data => {
       if (data.type === "error") {
         handleMessages(data)
       } else {
+        console.log("LOGGED IN USER -->", data)
         const { user } = data
-        console.log("LOGGED IN USER -->", user)
+        const requestId = "keyHolder";  
         // update state
+        dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_KEY_HOLDER, payload: user })
-        dispatch({ type: LOAD_KEYHOLDER, payload: false })
         // update localStorage
         localStorage.token = user.id
         localStorage.admin = user.admin
