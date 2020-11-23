@@ -1,6 +1,7 @@
-import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_PROJECTS, LOAD_USERS, LOAD_INVITATIONS, LOAD_ARCHIVES } from './type';
+import { LOAD_DOCUMENTS, LOAD_KEYHOLDER, LOAD_PROJECTS, LOAD_USERS, LOAD_INVITATIONS, LOAD_ARCHIVES, API_SUCCESS, API_REQUEST } from './type';
 
 const defaultState = {
+  isLoadingRequestIds: [],
   loadKeyholder: true,
   loadProjects: true,
   loadUsers: true,
@@ -41,9 +42,25 @@ const reducer = (state = defaultState, action) => {
         ...state,
         loadArchive: action.payload
       }
+    case API_REQUEST:
+      console.log("API_REQUEST --->", action.type)
+      return {
+        ...state,
+        isLoadingRequestIds: [...state.isLoadingRequestIds, action.requestId]
+      }
+    case API_SUCCESS:
+      console.log("API SUCCESS -->", action.type)
+      // const filterdIds = state.isLoadingRequestIds.filter(requestId => requestId !== action.requestId)
+      return {
+        ...state,
+        // isLoadingRequestIds: state.isLoadingRequestIds.splice(state.isLoadingRequestIds.indexOf(action.requestId)).slice()
+        // isLoadingRequestIds: [...filterdIds]
+    }
     default:
       return state
   }
 }
+
+console.log("API OUTSIDE REDUCER SUCCESS -->", defaultState.isLoadingRequestIds)
 
 export default reducer;

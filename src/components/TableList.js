@@ -9,6 +9,10 @@ import '../resources/TableList.css';
 
 const TableList = props => {
 
+
+  console.log("PROPS LOADITEMS", props.loadItems)
+  console.log("PROPS HEADERICON", props.headerIcon)
+
   const keyHolder = useSelector(state => state.app.keyHolder)
   const [ firstOpen, setFirstOpen ] = useState(false)
   const [ secondOpen, setSecondOpen ] = useState(false)
@@ -158,32 +162,34 @@ const TableList = props => {
       <Divider/>
       {
         props.loadItems ? 
-        <Loading loadingClass={true} />
-        :
-        props.items.length !== 0 ?
-        <Table celled structured>
-          <Table.Header>
-          <Table.Row textAlign='center'>
-            <Table.HeaderCell rowSpan='2'>First Name</Table.HeaderCell>
-            <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
-            <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
-            <Table.HeaderCell rowSpan='2' className={props.inviteActions ? "Hide-Column" : ""}>Job Title</Table.HeaderCell>
+        <>
+        { 
+          props.items.length !== 0 ?
+          <Table celled structured>
+            <Table.Header>
+            <Table.Row textAlign='center'>
+              <Table.HeaderCell rowSpan='2'>First Name</Table.HeaderCell>
+              <Table.HeaderCell rowSpan='2'>Last Name</Table.HeaderCell>
+              <Table.HeaderCell rowSpan='2'>Email</Table.HeaderCell>
+              <Table.HeaderCell rowSpan='2' className={props.inviteActions ? "Hide-Column" : ""}>Job Title</Table.HeaderCell>
+              {
+                keyHolder.admin &&
+                <>
+                  <Table.HeaderCell className={props.inviteActions ? "Hide-Column" : ""} rowSpan='1'>History</Table.HeaderCell>
+                  <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell> 
+                </>
+              }
+            </Table.Row>
+            </Table.Header>
             {
-              keyHolder.admin &&
-              <>
-                <Table.HeaderCell className={props.inviteActions ? "Hide-Column" : ""} rowSpan='1'>History</Table.HeaderCell>
-                <Table.HeaderCell rowSpan='1'>Remove</Table.HeaderCell> 
-              </>
+              props.items && 
+              <Table.Body>
+                {renderRows()}
+              </Table.Body>
             }
-          </Table.Row>
-          </Table.Header>
-          {
-            props.items && 
-            <Table.Body>
-              {renderRows()}
-            </Table.Body>
-          }
-        </Table> : props.inviteActions ? <MissingAsset message={"No pending invites"} icon={"sticky note outline"} /> : <MissingAsset message={"This organization has no collaborators"} icon={"address book"} />
+          </Table> : props.inviteActions ? <MissingAsset message={"No pending invites"} icon={"sticky note outline"} /> : <MissingAsset message={"This organization has no collaborators"} icon={"address book"} />
+        }
+        </> : <Loading loadingClass={true} />
       }
     </div>
   )

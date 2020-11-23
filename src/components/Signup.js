@@ -48,12 +48,7 @@ const Signup = props => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    
-    // if (fields.password === "") {
-    //   setEmptyPassword(!emptyPassword)
-    //   fields.password = "0"
-    // }
-
+  
     const userInfo = {
       user: {
         email: fields.email,
@@ -71,7 +66,6 @@ const Signup = props => {
       if (data.error) {
         const { error, header } = data
         console.log("AN ERROR OCCURRED", data)
-        // !emptyPassword && error.push("Password can't be blank")
         runAlert(header, error)
       } else {
         console.log("EVERYTHING SEEM FINE", data)

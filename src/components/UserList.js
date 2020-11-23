@@ -8,7 +8,7 @@ import TableList from './TableList';
 const UserList = () => {
 
   const users = useSelector(state => state.user.users)
-  const loadUsers = useSelector(state => state.load.loadUsers) 
+  const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
   const dispatch = useDispatch()
 
   const removeUser = userId => {
@@ -24,13 +24,14 @@ const UserList = () => {
     })
   }
 
+  console.log("includes(users)", isLoading)
   return (
     <TableList 
       inviteActions={false}
       headerIcon="users"
       removeOptionIcon="user times"
       header="Collaborators"
-      loadItems={loadUsers} 
+      loadItems={isLoading.includes("users")} 
       items={users}
       func={removeUser}
     />

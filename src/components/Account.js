@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header, Icon, Divider, Grid, Button } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
@@ -6,16 +6,25 @@ import Loading from './Loading';
 import '../resources/Account.css';
 
 const Account = () => {
-
+  const [userProjects, setUserProjects] = useState([])
   const users = useSelector(state => state.user.users)
   const keyHolder = useSelector(state => state.app.keyHolder) 
-  const loadKeyholder = useSelector(state => state.load.loadKeyholder) 
-  // const loadUsers = useSelector(state => state.load.loadUsers) 
-  // const loadInvites = useSelector(state => state.load.loadInvites) 
-  // const loadProjects = useSelector(state => state.load.loadProjects) 
+  const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
+  // const loadKeyholder = useSelector(state => state.load.loadKeyholder) 
   const adminProjectsCount = useSelector(state => state.project.projects.length)
   const adminInvitationCount = useSelector(state => state.invitation.invitations.length)
   const { email, first_name, last_name, company, job_title, projects } = keyHolder
+  
+  // useEffect(() => {
+  //   let projects = keyHolder.projects
+  //   setUserProjects(projects)
+
+  // }, [keyHolder, userProjects])
+
+  console.log("HEYHOLDER -->", keyHolder)
+  // console.log("IS LOADING -->", isLoading)
+  // console.log("IS LOADING -->", isLoading.includes("keyHolder"))
+
 
   return (
     <React.Fragment>
@@ -24,14 +33,12 @@ const Account = () => {
           <Icon name='address card' className="Account-Items"/>
           <Header.Content>
             <span className="Account-Title">Account Summary</span>
-            { !loadKeyholder && <Header.Subheader>{ first_name } { last_name } { keyHolder.admin ? "- Administrator" : "- Collaborator" } </Header.Subheader> }
+            { !isLoading.includes("keyHolder") && <Header.Subheader>{ first_name } { last_name } { keyHolder.admin ? "- Administrator" : "- Collaborator" } </Header.Subheader> }
           </Header.Content>
         </Header>
         <Divider/>
         {
-          loadKeyholder ? 
-          <Loading loadingClass={true} /> 
-          :
+          isLoading.includes("keyHolder") ? 
           <Grid doubling columns='2' textAlign="center">
             <Grid.Row>
               <Grid padded columns='1'>
@@ -61,8 +68,8 @@ const Account = () => {
                   } 
                   <Grid.Column className="Account-Items">
                     <Button as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
-                    <Icon name='tasks' size="large" />
-                    Projects: { keyHolder.admin ? adminProjectsCount : projects.length }
+                      <Icon name='tasks' size="large" />
+                      {/* Projects: { keyHolder.admin ? adminProjectsCount : userProjects.length } */}
                     </Button>
                   </Grid.Column>
                 </Grid.Row>
@@ -97,7 +104,7 @@ const Account = () => {
             </Grid>
 
           </Grid.Row>
-        </Grid>
+        </Grid> : <Loading loadingClass={true} /> 
         }
       </div>
     </React.Fragment>

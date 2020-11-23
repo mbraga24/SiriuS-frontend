@@ -48,3 +48,8 @@ export const LOAD_USERS = "LOAD_USERS"
 export const LOAD_DOCUMENTS = "LOAD_DOCUMENTS"
 export const LOAD_INVITATIONS = "LOAD_INVITATIONS"
 export const LOAD_ARCHIVES = "LOAD_ARCHIVES"
+
+
+
+export const API_REQUEST = "API_REQUEST"
+export const API_SUCCESS = "API_SUCCESS"
