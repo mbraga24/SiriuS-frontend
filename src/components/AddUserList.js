@@ -114,9 +114,9 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
                 size='small'
                 icon
                 id={`Assign-User-${user.id}`}
-                className={`AddUserList-Button-Color Button-Color ${alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
+                className={`AddUserList-Button-Color Button-Color ${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
                 onClick={() => handleClick(user.id)} >
-                <Icon name={`${alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
+                <Icon name={`${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
                   Assign
               </Button>
             </Table.Cell>
