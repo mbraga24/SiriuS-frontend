@@ -31,8 +31,6 @@ const App = props => {
       const requestId = "keyHolder";
       autoLogin(token)
       .then(user => {
-        // update state
-        console.log(" USER LOGGED IN -->", user)
         dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_KEY_HOLDER, payload: user })
       })

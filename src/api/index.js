@@ -90,6 +90,20 @@ export const createProject = data => {
   .then(r => r.json())
 }
 
+// edit project
+export const editProject = (projectId, data) => {
+  // console.log("EDIT PROJECT --->", data, projectId)
+  return fetch(`http://localhost:3000/projects/${projectId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+}
+
 // destroy - complete project
 export const completeProject = projectId => {
   return fetch(`http://localhost:3000/projects/${projectId}`, {

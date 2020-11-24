@@ -53,7 +53,6 @@ const ProjectDetails = props => {
       setDisable(false)
       setLoadedData("projects")
     }
-    // let validUser = currentProject && !!currentProject.users.find(u => u.id === keyHolder.id)
   }, [ projectActive, projectArchive, props.match.path ])
 
   const currentProject = allProjects && allProjects.find(p => p.id === matchId)
@@ -183,31 +182,34 @@ const ProjectDetails = props => {
                           :
                           <Button className={`Project-Download-Button ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
                         }                      
-                        { keyHolder.admin && <RelaunchModals id="RelaunchModals" archivedProject={currentProject} /> }
+                        { keyHolder.admin && <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="redo" relaunch={true} btnContent="Relaunch Project" /> }
                       </React.Fragment>
                       : 
                       keyHolder.admin &&
-                        <Modal
-                          onClose={() => setOpen(false)}
-                          onOpen={() => setOpen(true)}
-                          open={open}
-                          trigger={
-                              <Button className="Project-Button-Color Button-Change"><Icon name="add"/> Add Collaborator </Button>
-                            }>
-                            <Modal.Header>
-                              <span className="AddUsersTable-Title">Collaborators</span>
-                            </Modal.Header>
-                            <Modal.Content>
-                              <Modal.Description>
-                                <AddUserList 
-                                  userType={"currentProject"} 
-                                  setOpen={setOpen} 
-                                  currentProject={currentProject} 
-                                  button={true}
-                                />
-                              </Modal.Description>
-                            </Modal.Content>
-                        </Modal>
+                      <>
+                      <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="edit" relaunch={false} btnContent="Update" />
+                      <Modal
+                        onClose={() => setOpen(false)}
+                        onOpen={() => setOpen(true)}
+                        open={open}
+                        trigger={
+                            <Button className="Project-Button-Color Button-Change"><Icon name="add"/> Add Collaborator </Button>
+                          }>
+                          <Modal.Header>
+                            <span className="AddUsersTable-Title">Collaborators</span>
+                          </Modal.Header>
+                          <Modal.Content>
+                            <Modal.Description>
+                              <AddUserList 
+                                userType={"currentProject"} 
+                                setOpen={setOpen} 
+                                currentProject={currentProject} 
+                                button={true}
+                              />
+                            </Modal.Description>
+                          </Modal.Content>
+                      </Modal>
+                      </>
                     }
                   </span>
                 </Header>

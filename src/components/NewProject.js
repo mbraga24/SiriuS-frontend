@@ -5,23 +5,22 @@ import { DatesRangeInput } from 'semantic-ui-calendar-react';
 import { Form, Header, Icon, Divider, Button, Popup, Message, List } from 'semantic-ui-react';
 import { RELAUNCH_TITLE, RELAUNCH_DESCRIPTION, RELAUNCH_DATERANGE, RELAUNCH_USERS_ID  } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
-import submitForm from '../Helpers/onSubmit';
+import createOnSubmit from '../helpers/submitCreateForm';
 import Loading from './Loading';
 import AddUserList from './AddUserList';
 import '../resources/NewProject.css';
 
-const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start and due date", titleFieldLabel = "Title", descriptionFieldLabel = "Description", ...props } ) => {
+const NewProject = ( { allowUpdate = false, alternativeActions = true, dateFieldLabel = "Set a start and due date", titleFieldLabel = "Title", descriptionFieldLabel = "Description", ...props } ) => {
   
   const [ fields, handleFieldChange ] = useFormFields({
     title: alternativeActions ? "" : props.fillOutTitle,
     description: alternativeActions ? "" : props.fillOutDescription
   })
   const dispatch = useDispatch()
-  const [dateRange, setDateRange] = useState("")
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
+  const [ dateRange, setDateRange ] = useState("")
+
   const [ alertStatus, setAlertStatus ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
@@ -47,7 +46,7 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
   }
 
   const handleDateRangeChange = (name, value) => {
-    if (props.match.path.split("/").includes("archive")) {
+    if (allowUpdate) {
       setDateRange(value)
       dispatch({ type: RELAUNCH_DATERANGE, payload: value })
     } else {
@@ -56,22 +55,19 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
   }
 
   useEffect(() => {
-    if (props.match.path.split("/").includes("archive")) {
+    if (allowUpdate) {
       dispatch({ type: RELAUNCH_TITLE, payload: fields.title })
       dispatch({ type: RELAUNCH_DESCRIPTION, payload: fields.description })
       dispatch({ type: RELAUNCH_USERS_ID, payload: addUsersId })
-    } else {
-      setTitle(fields.title)
-      setDescription(fields.description)
     }
-  }, [fields.title, title, fields.description, description, addUsersId, dispatch, props.match.path])
+  }, [dispatch, addUsersId, props.match.path, allowUpdate, fields.description, fields.title])
 
   const pushUser = () => {
     props.history.push('/projects')
   }
 
   const handleSubmit = (e) => {
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: false, projectStatus: null, runAlert, pushUser })
+    createOnSubmit(e, { title: fields.title, description: fields.description, dateRange, addUsersId, relaunchProject: false, projectStatus: null, runAlert, pushUser })
   }
 
   return (
@@ -152,7 +148,7 @@ const NewProject = ( { alternativeActions = true, dateFieldLabel = "Set a start 
               !isLoading.includes("users") ?
               <Loading loadingClass={false} />
               : 
-                <AddUserList userType={"newProject"} button={false}/>
+                <AddUserList userType={"newProject"} button={false} />
             }
             </Form.Group>
             <Form.Group floated="right" grouped>

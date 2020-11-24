@@ -4,28 +4,30 @@ import { withRouter } from 'react-router-dom';
 import { Icon, Button, Modal, Form, List, Message, Header } from 'semantic-ui-react';
 import NewProject from './NewProject';
 import AddUserList from './AddUserList';
-import submitForm from '../Helpers/onSubmit';
+import createOnSubmit from '../helpers/submitCreateForm';
+import updateOnSubmit from '../helpers/submitUpdateForm';
 import { deleteFromArchive } from '../api';
-import { REMOVE_FROM_ARCHIVE } from '../store/type';
+import { REMOVE_FROM_ARCHIVE, PROJECT_UPDATE_EXISTING_USERS, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
 
   const dispatch = useDispatch()
-  const [firstOpen, setFirstOpen] = useState(false)
-  const [secondOpen, setSecondOpen] = useState(false)
-  const [thirdOpen, setThirdOpen] = useState(false)
-  const [loadRelaunch, setLoadRelaunch] = useState(false)
-  const [created, setCreated] = useState(false)
-  const [archivedProject] = useState(props.archivedProject)
+  const [ firstOpen, setFirstOpen ] = useState(false)
+  const [ secondOpen, setSecondOpen ] = useState(false)
+  const [ thirdOpen, setThirdOpen ] = useState(false)
+  const [ loadRelaunch, setLoadRelaunch ] = useState(false)
+  const [ created, setCreated ] = useState(false)
+  const [ projectDetails, setProjectDetails ] = useState(props.projectDetails)
   const [ alertStatus, setAlertStatus ] = useState(false)
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
+  const { users } = projectDetails
 
-  const title = useSelector(state => state.project.relaunchTitle)
-  const description = useSelector(state => state.project.relaunchDescription)
-  const dateRange = useSelector(state => state.project.relaunchDateRange)
-  const addUsersId = useSelector(state => state.activeProject.addUsersId)
+  const newTitle = useSelector(state => state.project.relaunchTitle)
+  const newDescription = useSelector(state => state.project.relaunchDescription)
+  const newDateRange = useSelector(state => state.project.relaunchDateRange)
+  const newAddedUsersId = useSelector(state => state.activeProject.addUsersId)
 
   const runAlert = (header, error) => {
     setHeader(header)
@@ -66,6 +68,19 @@ const RelaunchModals = props => {
     color: "#ffffff"
   }
 
+  const resetProjectDetails = updatedProject => {
+    setProjectDetails(updatedProject)
+  }
+
+  const openFirstModal = () => {
+    setFirstOpen(true)
+    !props.relaunch && dispatch({ type: PROJECT_UPDATE_EXISTING_USERS, payload: users })
+  }
+
+  const goBackToFirstModal = () => {
+    setSecondOpen(false)
+    !props.relaunch && dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
+  }
 
   const projectStatus = status => {
     setLoadRelaunch(false)
@@ -76,10 +91,12 @@ const RelaunchModals = props => {
     setFirstOpen(false)
     setSecondOpen(false)
     setThirdOpen(false)
+    setCreated(false)
+    !props.relaunch && dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
   }
 
-  const deleteArchiveCloseModals = () => {
-    deleteFromArchive(archivedProject.id)
+  const deleteArchive = () => {
+    deleteFromArchive(projectDetails.id)
     .then(data => {
       const { archiveId } = data
       dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
@@ -93,12 +110,13 @@ const RelaunchModals = props => {
 
   const handleSubmit = e => {
     setLoadRelaunch(true)
-    submitForm(e, { title, description, dateRange, addUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
+    props.relaunch ? createOnSubmit(e, { newTitle, newDescription, newDateRange, newAddedUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
+    : updateOnSubmit(e, { projectId: projectDetails.id, newTitle, newDescription, newDateRange, newAddedUsersId, projectStatus, runAlert, resetProjectDetails })
   }
 
   return (
     <>
-       <Button className="Project-Button-Color" onClick={() => setFirstOpen(true)}><Icon name="redo"/>Relaunch Project</Button>
+      <Button className="Project-Button-Color" onClick={openFirstModal}><Icon name={props.icon}/>{props.btnContent}</Button>
 
       <Modal
         closeOnDimmerClick={false}
@@ -115,8 +133,9 @@ const RelaunchModals = props => {
           <Modal.Description>
             <NewProject 
               alternativeActions={false} 
-              fillOutTitle={archivedProject.name}
-              fillOutDescription={archivedProject.description}
+              allowUpdate={true}
+              fillOutTitle={projectDetails.name}
+              fillOutDescription={projectDetails.description}
               dateFieldLabel={"Set a new start and due date"} 
               titleFieldLabel={"Confirm or update Title"} 
               descriptionFieldLabel={"Confirm or update Description"} 
@@ -150,11 +169,17 @@ const RelaunchModals = props => {
         >
           <Modal.Header>
             <Icon name='user plus' size="big" style={styleIcon}/>
-            Assign New Collaborators
+            Assign Collaborators
           </Modal.Header>
           <Modal.Content image>
             <Modal.Description>
-              <AddUserList userType={"newProject"} button={true} alternativeActions={false} />
+              <>  
+                {
+                  props.match.path.split("/").includes("project") ?
+                  <AddUserList userType={"updateProject"} button={true} alternativeActions={false} onlyAvailableUsers={false} /> :
+                  <AddUserList userType={"newProject"} button={true} alternativeActions={false} onlyAvailableUsers={true} /> 
+                }
+              </>
               {
               alertStatus &&
               <Message style={{display: "block"}} warning attached='bottom'>
@@ -189,13 +214,13 @@ const RelaunchModals = props => {
                     onClick={() => setThirdOpen(true)} 
                     style={styleBtn}
                   >
-                    <Icon name='check circle' /> Project Created
+                    <Icon name='check circle' /> {props.relaunch ? "Project Created" : "Project Updated" }
                   </Button> 
                   :
                   <>
                     <Button 
                       type="button"
-                      onClick={() => setSecondOpen(false)} 
+                      onClick={goBackToFirstModal} 
                       style={styleBtn}
                     >
                       <Icon name='chevron left' /> Go back
@@ -211,13 +236,12 @@ const RelaunchModals = props => {
                       type="submit"
                       style={styleBtnLoad}
                     >
-                      Confirm Project <Icon name='right chevron' />
+                      {props.relaunch ? "Confirm Project" : "Update Project" } <Icon name='right chevron' />
                     </Button> 
                   </>
                 }
                 </>
               }
-      
           </Modal.Actions>
         </Modal>
       
@@ -233,13 +257,18 @@ const RelaunchModals = props => {
             All set!
           </Modal.Header>
           <Modal.Content>
-            <p>The project was deleted from your archive and it's been reactivated.</p>
+            {
+              props.relaunch ?
+              <p>Your old project was deleted from your archive.</p>
+              :
+              <p>Your project was updated successfully!</p>
+            }
           </Modal.Content>
           <Modal.Actions>
             <Button
               type="button"
-              onClick={deleteArchiveCloseModals}
-              content='Go to projects'
+              onClick={props.relaunch ? deleteArchive : closeModals}
+              content="Close"
               style={styleBtn}
             />
           </Modal.Actions>

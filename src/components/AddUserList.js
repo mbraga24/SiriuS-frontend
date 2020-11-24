@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon, Divider, Form } from 'semantic-ui-react';
@@ -7,11 +7,13 @@ import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUserList.css';
 
-const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...props } ) => {
+const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyAvailableUsers = true, ...props } ) => {
 
   const users = useSelector(state => state.user.users)
   const projectId = parseInt(props.match.url.split("/")[2])
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
+  const existingUsers = useSelector(state => state.activeProject.existingUsers)
+  const [ collaboratorsToDisplay, setCollaboratorsToDisplay ] = useState([])
   const dispatch = useDispatch()
 
   const fullName = (firstName, lastName) => {
@@ -21,19 +23,9 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...pr
   const availableUsers = data => {
     return data.filter(user => user.available)
   }
-
-  // return the users based on the page selected
-  const currentlyAvailable = () => {
-    if (props.userType === "newProject" || props.userType === "relaunchProject") {
-      return availableUsers(users)
-    } 
-    if (props.userType === "currentProject") {
-      return notOnCurrentProject(users)
-    }
-  }
-
+  
   // filter out all the users that are working at the selected project
-  const notOnCurrentProject = data => {
+  const notOnCurrentProject = useCallback(data => {
     const available = []
     for (let user of data) {
       const projectIds = []
@@ -45,7 +37,7 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...pr
       }
     }
     return available
-  }
+  }, [projectId])
 
   const handleClick = userId => {
     // find elements
@@ -62,13 +54,33 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...pr
       const filteredIds = addUsersId.filter(id => id !== userId)
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: filteredIds })
       // change button and icon back
-      button.className += "Button-Change"
+      button.className += " Button-Change"
       button.classList.remove("Selected")
       button.classList.remove("Selected-Change")
       icon.classList.remove("check")
       icon.className += " user"
     }
   }
+
+  const alreadyOnThisProject = userId => {
+    return existingUsers.find(u => userId === u.id )
+  }
+
+  // return the users based on the page selected
+  useEffect(() => {
+    if (props.userType === "newProject" || props.userType === "relaunchProject") {
+      setCollaboratorsToDisplay(availableUsers(users))
+    } 
+    if (props.userType === "currentProject") {
+      setCollaboratorsToDisplay(notOnCurrentProject(users))
+    }
+    if (props.userType === "updateProject") {
+      setCollaboratorsToDisplay(users)
+      for (let user of existingUsers) {
+        dispatch({ type: ADD_USER_TO_TEMP_PROJECT, payload: user.id})
+      }
+    }
+  }, [dispatch, existingUsers, props.userType, users, notOnCurrentProject])
 
   const addCollaborators = () => {
     props.setOpen(false)
@@ -90,8 +102,8 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...pr
   }
 
   const renderCollaborators = () => {
-     return currentlyAvailable().map(user => (
-      user.available &&
+     return collaboratorsToDisplay.map(user => (
+      (onlyAvailableUsers ? user.available : true) &&
           <Table.Row key={user.id}>
             <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
             <Table.Cell>{user.job_title}</Table.Cell>
@@ -102,9 +114,9 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...pr
                 size='small'
                 icon
                 id={`Assign-User-${user.id}`}
-                className="AddUserList-Button-Color Button-Color"
+                className={`AddUserList-Button-Color Button-Color ${alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
                 onClick={() => handleClick(user.id)} >
-                <Icon name="user" id={`Assign-Button-${user.id}`}/> 
+                <Icon name={`${alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
                   Assign
               </Button>
             </Table.Cell>
@@ -115,7 +127,7 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, ...pr
   return (
       <div id="AddUserList-Container">
         {
-          currentlyAvailable().length !== 0 ?
+          collaboratorsToDisplay.length !== 0 ?
           <React.Fragment>
             <Form.Field className="NewProject-User-Choice-Wrapper">
               <Table columns={3}>

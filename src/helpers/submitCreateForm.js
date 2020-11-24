@@ -1,34 +1,19 @@
 import store  from '../store/index.js';
+import setRangeData from '../helpers/setRangeData';
 import { createProject } from '../api';
 import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 
-const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProject, projectStatus, runAlert, pushUser }) => {
+const createOnSubmit = (e, { newTitle, newDescription, newDateRange, newAddedUsersId, relaunchProject, projectStatus, runAlert, pushUser }) => {
   e.preventDefault()
 
-  let startDate;
-  let dueDate;
-  let dateArray;
-
-  if (dateRange !== "") {
-    dateArray = dateRange.match(/.{1,12}/g)
-    if (dateArray[1] !== " ") {
-      startDate = dateArray[0].split(" ")[0].split("-").join("/")
-      dueDate = dateArray[1].split(" ")[1].split("-").join("/")
-    } else {
-      startDate = ""
-      dueDate = ""  
-    }
-  } else {
-    startDate = ""
-    dueDate = ""
-  }
+  const range = setRangeData(newDateRange)
 
   const newProject = {
-    name: title,
-    description: description,
-    startDate: startDate,
-    dueDate: dueDate,
-    assigned: [...addUsersId]
+    name: newTitle,
+    description: newDescription,
+    startDate: range.startDate,
+    dueDate: range.dueDate,
+    assigned: [...newAddedUsersId]
   }
 
   createProject(newProject)
@@ -54,4 +39,4 @@ const submitForm = (e, { title, description, dateRange, addUsersId, relaunchProj
   })
 }
 
-export default submitForm;
+export default createOnSubmit;
