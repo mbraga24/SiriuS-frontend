@@ -88,7 +88,6 @@ const UpdateAccount = props => {
         runAlert(header, error)
       } else {
         console.log("ALL SEEM TO BE FINE ->", data)
-        // const { user } = data
         dispatch({ type: UPDATE_USER, payload: data })
       }
     })
