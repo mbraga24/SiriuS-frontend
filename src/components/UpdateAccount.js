@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form, Header, Icon, Divider, Button, Message, List } from 'semantic-ui-react';
-// import { RELAUNCH_TITLE, RELAUNCH_DESCRIPTION, RELAUNCH_DATERANGE, RELAUNCH_USERS_ID  } from '../store/type';
+import { UPDATE_USER  } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
 import { updateAccount } from '../api';
 // import createOnSubmit from '../helpers/submitCreateForm';
@@ -12,6 +12,7 @@ import '../resources/UpdateAccount.css';
 
 const UpdateAccount = props => {
 
+  const dispatch = useDispatch()
   const [ alertStatus, setAlertStatus ] = useState(false)
   const [ emailAlert, setEmailAlert ] = useState(false)
   const [ disableBtn, setDisableBtn ] = useState(true)
@@ -87,6 +88,8 @@ const UpdateAccount = props => {
         runAlert(header, error)
       } else {
         console.log("ALL SEEM TO BE FINE ->", data)
+        // const { user } = data
+        dispatch({ type: UPDATE_USER, payload: data })
       }
     })
   }
