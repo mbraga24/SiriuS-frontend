@@ -14,6 +14,18 @@ export const createUser = data => {
   .then(r => r.json())
 }
 
+// update user
+export const updateAccount = (userId, data) => {
+  return fetch(`http://localhost:3000/users/${userId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+}
+
 // login user
 export const loginUser = data => {
   return fetch(`http://localhost:3000/login`, {
@@ -96,8 +108,7 @@ export const editProject = (projectId, data) => {
   return fetch(`http://localhost:3000/projects/${projectId}`, {
     method: "PATCH",
     headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
   })

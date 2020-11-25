@@ -1,0 +1,50 @@
+#UpdateAccount-Container {
+  margin: 0 auto;
+}
+
+ #UpdateAccount-Container .UpdateAccount-FormWrapper {
+  width: 75%;
+  margin: 0 auto;
+}
+
+#UpdateAccount-Container .UpdateAccount-Button-Color {
+  background-color: #534292;
+  color: #fff;
+}
+
+#UpdateAccount-Container .UpdateAccount-Button-Color:hover {
+  background-color: #483396;
+}
+
+#UpdateAccount-Container .UpdateAccount-Button-Color:active {
+  background-color: #3c2b79;
+}
+
+#UpdateAccount-Container .UpdateAccount-Header-Align-Items {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+}
+
+#UpdateAccount-Container, .UpdateAccount-Icon-Color {
+  color: #79589f;
+}
+
+#UpdateAccount-Container .UpdateAccount-Title {
+  font-size: 30px;
+  padding-left: 8px;
+}
+
+#UpdateAccount-Container .UpdateAccount-Header {
+  padding: 15px 0;
+}
+
+#UpdateAccount-Container .UpdateAccount-Icon-Color {
+  color: #79589f;
+}
+
+#UpdateAccount-Container .Submit-Button-Wrapper {
+  display: flex;
+  justify-content: flex-end;
+}

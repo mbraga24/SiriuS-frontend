@@ -65,7 +65,7 @@ const Account = () => {
                     </React.Fragment>
                   } 
                   <Grid.Column className="Account-Items">
-                    <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                    <Button as={Link} to={`/update-account/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
                     <Icon name='settings' size="large"/>
                     Update Account
                     </Button>

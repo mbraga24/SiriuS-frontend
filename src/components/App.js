@@ -15,6 +15,7 @@ import NewProject from './NewProject';
 import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
 import InvitationForm from './InvitationForm';
+import UpdateAccount from './UpdateAccount';
 import { SET_ARCH_DOCS, API_SUCCESS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_DOCUMENTS, SET_INVITATIONS, SET_ARCHIVE } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
@@ -117,7 +118,7 @@ const App = props => {
               <Route path="/projects/new" render={ () => <NewProject />} />
               <Route path="/invite-user" render={ () => <InvitationForm />} />
               <Route path="/invitations" render={ () => <InviteList />} />
-              {/* <Redirect to={`/users/${keyHolder.id}`} /> */}
+              <Route path="/update-account/:id" render={ () => <UpdateAccount />} />
             </React.Fragment>
         }
           <Route exact path="/" render={ () => <Home/>} />
