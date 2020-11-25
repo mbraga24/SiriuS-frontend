@@ -29,8 +29,14 @@ const UpdateAccount = props => {
   })
 
   useEffect(() => {
-    fields.firstName || fields.lastName || fields.jobTitle || fields.company && (fields.email === fields.confirmEmail) ? setDisableBtn(false) : setDisableBtn(true)
-    fields.email === fields.confirmEmail && setEmailAlert(false) 
+    if (fields.email === fields.confirmEmail) { 
+      if (fields.firstName || fields.lastName || fields.jobTitle || fields.company) {
+        setDisableBtn(false)
+      } else {
+        setDisableBtn(true)
+      }
+      setEmailAlert(false) 
+    }
 
     if (fields.email !== fields.confirmEmail) {
       setSameEmail(false)
@@ -75,6 +81,13 @@ const UpdateAccount = props => {
     updateAccount(keyHolder.id ,updateUserAccount)
     .then(data => {
       console.log(data)
+      if (data.error) {
+        console.log("AN ERROR OCCURRED ->", data)
+        const { header, error } = data
+        runAlert(header, error)
+      } else {
+        console.log("ALL SEEM TO BE FINE ->", data)
+      }
     })
   }
 
