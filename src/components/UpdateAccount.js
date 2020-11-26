@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form, Header, Icon, Divider, Button, Message, List } from 'semantic-ui-react';
-import { UPDATE_USER  } from '../store/type';
+import { UPDATE_USER, SET_KEY_HOLDER  } from '../store/type';
 import useFormFields from '../hooks/useFormFields';
 import { updateAccount } from '../api';
-// import createOnSubmit from '../helpers/submitCreateForm';
-// import Loading from './Loading';
-// import AddUserList from './AddUserList';
 import '../resources/UpdateAccount.css';
 
 const UpdateAccount = props => {
 
   const dispatch = useDispatch()
-  const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ btnLoading, setBtnLoading ] = useState(false)
   const [ emailAlert, setEmailAlert ] = useState(false)
   const [ disableBtn, setDisableBtn ] = useState(true)
   const [ sameEmail, setSameEmail ] = useState(true)
+  const [ updatedSuccess, setUpdatedSuccess ] = useState(false)
+  const [ startCountDown, setStartCountDown ] = useState(false)
+  const [ count, setCount ] = useState(6)
+  const [ alertStatus, setAlertStatus ] = useState(false)
+  const [ iconName, setIconName ] = useState("")
   const [ header, setHeader ] = useState("")
   const [ errorMsg, setErrorMsg ] = useState([])
   const keyHolder = useSelector(state => state.app.keyHolder)
@@ -31,12 +33,12 @@ const UpdateAccount = props => {
 
   useEffect(() => {
     if (fields.email === fields.confirmEmail) { 
-      if (fields.firstName || fields.lastName || fields.jobTitle || fields.company) {
+      setEmailAlert(false) 
+      if (fields.firstName || fields.lastName || fields.jobTitle || fields.company || fields.email || fields.confirmEmail) {
         setDisableBtn(false)
       } else {
         setDisableBtn(true)
       }
-      setEmailAlert(false) 
     }
 
     if (fields.email !== fields.confirmEmail) {
@@ -44,10 +46,26 @@ const UpdateAccount = props => {
       setEmailAlert(true)
       setDisableBtn(true)
     }
-
   }, [fields.firstName, fields.lastName, fields.jobTitle, fields.company,fields.email, fields.confirmEmail]) 
 
-  const runAlert = (header, error) => {
+  let interval = useRef();
+  const startTimer = useCallback( () => {
+    interval.current = setTimeout(() => {
+      if (count < 0) {
+        clearInterval(interval.current)
+        setStartCountDown(false)
+      } else {
+        setCount(count - 1)
+      }
+    }, 1000)
+  }, [count])
+
+
+  useEffect(() => {
+    startCountDown && startTimer()
+  }, [startCountDown, count, startTimer])
+
+  const runAlert = (header, error, ) => {
     setHeader(header)
     setErrorMsg(error)
     setAlertStatus(true)
@@ -57,7 +75,8 @@ const UpdateAccount = props => {
   const resetAlert = () => {
     setTimeout(() => {
       setAlertStatus(false)
-    }, 5000)
+      setUpdatedSuccess(false)
+    }, 6000)
   }
 
   const displayAlert = errors => {
@@ -66,9 +85,18 @@ const UpdateAccount = props => {
     ))
   }
 
+  const handleLogout = () => {
+    localStorage.clear()
+    dispatch({ type: SET_KEY_HOLDER, payload: null })
+    props.history.push('/login')
+    
+    const body = document.querySelector('body')
+    body.classList.add("bg-color-home")
+  }
+
   const handleSubmit = () => {
     console.log("SUBMIT")
-
+    setBtnLoading(true)
     const updateUserAccount = {
       firstName: fields.firstName ? fields.firstName : keyHolder.first_name,
       lastName: fields.lastName ? fields.lastName : keyHolder.last_name,
@@ -76,24 +104,41 @@ const UpdateAccount = props => {
       company: fields.company ? fields.company : keyHolder.company,
       email: fields.email ? fields.email : keyHolder.email
     }
-
+    setAlertStatus(true)
     console.log("updateUserAccount -->", updateUserAccount)
 
     updateAccount(keyHolder.id ,updateUserAccount)
     .then(data => {
       console.log(data)
+      setDisableBtn(false)
+      setBtnLoading(false)
       if (data.error) {
         console.log("AN ERROR OCCURRED ->", data)
         const { header, error } = data
-        runAlert(header, error)
+        runAlert(header, error, 5000)
+        setIconName("dont")
       } else {
+        const { user, success, logOut } = data
         console.log("ALL SEEM TO BE FINE ->", data)
-        dispatch({ type: UPDATE_USER, payload: data })
+        setUpdatedSuccess(true)
+        dispatch({ type: UPDATE_USER, payload: user })
+
+        if (logOut) {
+          setStartCountDown(true)
+          setIconName("sign out")
+          runAlert(success, [])
+          setTimeout(() => {
+            handleLogout()
+          }, 6000)
+        } else {
+          setIconName("check circle")
+          runAlert(success, [])
+        }
       }
     })
   }
 
-  console.log("FIELDS", fields)
+  console.log("COUNT", count)
 
   return (
     <div id="UpdateAccount-Container">
@@ -180,19 +225,23 @@ const UpdateAccount = props => {
             />
           </Form.Group>
           <Form.Field className="Submit-Button-Wrapper">
-            <Button type="submit" className={`${disableBtn && "disabled"} UpdateAccount-Button-Color`}>Save changes</Button>
+            <Button type="submit" className={`${disableBtn && "disabled"}  ${btnLoading && !disableBtn ? "loading disabled" : ""} UpdateAccount-Button-Color`}>{btnLoading ? "Loading" : "Save changes"}</Button>
           </Form.Field>
           <Form.Group widths='equal'>
             <Form.Field>
             {
               alertStatus &&
-              <Message style={{display: "block"}} warning attached='bottom'>
+              <Message 
+                style={{display: "block"}} 
+                className={`${updatedSuccess ? "warning" : "success"}`} 
+                attached='bottom'
+                >
                 { 
                   alertStatus && 
                   <React.Fragment>
                     <Header as='h5' dividing>
-                      <Icon name="dont"/>
-                      {header}
+                      <Icon name={iconName}/>
+                      {`${header} ${startCountDown ? count : ""}`}
                     </Header>
                     <List bulleted style={{ textAlign: "left" }}>
                       { displayAlert(errorMsg) }
