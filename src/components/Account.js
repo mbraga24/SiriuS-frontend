@@ -42,7 +42,7 @@ const Account = () => {
                         </Button>
                       </Grid.Column>
                       <Grid.Column className="Account-Items">
-                        <Button as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
+                        <Button disabled as={Link} to={`/user/projects/${keyHolder.id}`} className="Account-Container Account-Btn Account-Button-Color Button-Change">
                         <Icon name='calendar times outline' size="large"/>
                         Request Time Off
                         </Button>

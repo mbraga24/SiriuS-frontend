@@ -102,6 +102,7 @@ const ProjectDetails = props => {
 
     // download zip file of a .json file with all the projects attributes
     downloadZip(currentProject.id).then(data => {
+      console.log(data.url)
       setLoader(false)
       setDownloadLink(data.url)
     })

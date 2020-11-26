@@ -95,8 +95,8 @@ const Login = (props) => {
         </Form>
         { alertStatus &&
           <Message warning attached='bottom'>
-            {alertMessage}
             <Icon name='warning' />
+            {alertMessage}
           </Message>
         }
         <Message className="Login-Message">
