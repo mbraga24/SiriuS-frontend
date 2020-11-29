@@ -110,7 +110,7 @@ const RelaunchModals = props => {
 
   const handleSubmit = e => {
     setLoadRelaunch(true)
-    props.relaunch ? createOnSubmit(e, { newTitle, newDescription, newDateRange, newAddedUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
+    props.relaunch ? createOnSubmit(e, { title: newTitle, description: newDescription, dateRange: newDateRange, addUsersId: newAddedUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
     : updateOnSubmit(e, { projectId: projectDetails.id, newTitle, newDescription, newDateRange, newAddedUsersId, projectStatus, runAlert, resetProjectDetails })
   }
 

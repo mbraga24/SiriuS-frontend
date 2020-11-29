@@ -7,7 +7,7 @@ const updateOnSubmit = (e, { projectId, newTitle, newDescription, newDateRange, 
   e.preventDefault()
   
   const range = setRangeData(newDateRange)
-  console.log("newDateRange", newDateRange)
+  // console.log("newDateRange", newDateRange)
 
   const updatedProject = {
     name: newTitle,

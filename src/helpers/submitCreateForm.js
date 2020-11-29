@@ -3,18 +3,20 @@ import setRangeData from '../helpers/setRangeData';
 import { createProject } from '../api';
 import { UPDATE_USER, ADD_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 
-const createOnSubmit = (e, { newTitle, newDescription, newDateRange, newAddedUsersId, relaunchProject, projectStatus, runAlert, pushUser }) => {
+const createOnSubmit = (e, { title, description, dateRange, addUsersId, relaunchProject, projectStatus, runAlert, pushUser }) => {
   e.preventDefault()
-
-  const range = setRangeData(newDateRange)
+  const range = setRangeData(dateRange)
+  // console.log("newDateRange CREATE -->", dateRange)
 
   const newProject = {
-    name: newTitle,
-    description: newDescription,
+    name: title,
+    description: description,
     startDate: range.startDate,
     dueDate: range.dueDate,
-    assigned: [...newAddedUsersId]
+    assigned: [...addUsersId]
   }
+
+  console.log("newProject -->", newProject)
 
   createProject(newProject)
   .then(data => {
