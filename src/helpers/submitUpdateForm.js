@@ -17,22 +17,23 @@ const updateOnSubmit = (e, { projectId, newTitle, newDescription, newDateRange, 
     assigned: [...newAddedUsersId]
   }
 
-  console.log("updatedProject -->", updatedProject)
+  // console.log("UPDATE ON SUBMIT - updatedProject -->", updatedProject)
 
   editProject(projectId, updatedProject)
   .then(data => {
     if (data.error) {
       const { error, header } = data
-      console.log("AN ERROR OCCURRED", data)
       projectStatus(false)
       runAlert(header, error)
     } else {
-      console.log("ALL SET -->", data)
+
+      console.log("SHOW ME ALL UPDATED PROJECT -->", data.project)
+      console.log("SHOW ME ALL UPDATED USERS -->", data.users)
       // update each user in the redux store
       for (let user of data.users) {
         store.dispatch({ type: UPDATE_USER, payload: user })  
       }
-      // add new project to redux store
+      // update project in the redux store
       store.dispatch({ type: UPDATE_PROJECT, payload: data.project })
       projectStatus(true)
       resetProjectDetails(data.project)

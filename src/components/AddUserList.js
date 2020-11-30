@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon, Divider, Form } from 'semantic-ui-react';
-import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT, PROJECT_UPDATE_EXISTING_USERS } from '../store/type';
 import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUserList.css';
@@ -13,31 +13,11 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
   const projectId = parseInt(props.match.url.split("/")[2])
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
   const existingUsers = useSelector(state => state.activeProject.existingUsers)
+  const addedUsersId = useSelector(state => state.activeProject.addUsersId)
+  const projects = useSelector(state => state.project.projects)
   const [ collaboratorsToDisplay, setCollaboratorsToDisplay ] = useState([])
   const dispatch = useDispatch()
-
-  const fullName = (firstName, lastName) => {
-    return `${firstName} ${lastName}`
-  }
-
-  const availableUsers = data => {
-    return data.filter(user => user.available)
-  }
-  
-  // filter out all the users that are working at the selected project
-  const notOnCurrentProject = useCallback(data => {
-    const available = []
-    for (let user of data) {
-      const projectIds = []
-      for (let pro of user.projects) { 
-        projectIds.push(pro.id)
-      } 
-      if (!projectIds.includes(projectId)) {
-        available.push(user)  
-      }
-    }
-    return available
-  }, [projectId])
+  // dispatch({ type: PROJECT_UPDATE_EXISTING_USERS, payload: addedUsersId })
 
   const handleClick = userId => {
     // find elements
@@ -62,9 +42,45 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
     }
   }
 
-  const alreadyOnThisProject = userId => {
-    return existingUsers.find(u => userId === u.id )
+  const fullName = (firstName, lastName) => {
+    return `${firstName} ${lastName}`
   }
+
+  const availableUsers = dataUsers => {
+    return dataUsers.filter(user => user.available)
+  }
+
+  const alreadyOnThisProject = userId => {
+    return addedUsersId.find(u => userId === u.id )
+  }
+
+  // filter out all the users that are working at the selected project
+  const notOnCurrentProject = useCallback(dataUsers => {
+    const availableForThisProject = []
+    for (let user of dataUsers) {
+      const projectIds = []
+      for (let pro of user.projects) { 
+        projectIds.push(pro.id)
+      } 
+      if (!projectIds.includes(projectId)) {
+        availableForThisProject.push(user)  
+      }
+    }
+    return availableForThisProject
+  }, [projectId])
+
+  const filterUserSelection = useCallback(() => {
+    let selectedUsers = []
+    for(let userId of addedUsersId) {
+      const found = users.find(u => u.id === userId)
+      found && selectedUsers.push(found)
+    }
+    return selectedUsers
+  }, [users])
+
+  // useEffect(() => { 
+  //   dispatch({ type: PROJECT_UPDATE_EXISTING_USERS, payload: addedUsersId })
+  // }, [])
 
   // return the users based on the page selected
   useEffect(() => {
@@ -72,21 +88,30 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
       setCollaboratorsToDisplay(availableUsers(users))
     } 
     if (props.userType === "currentProject") {
-      setCollaboratorsToDisplay(notOnCurrentProject(users))
+      let userList = notOnCurrentProject(users)
+      setCollaboratorsToDisplay(availableUsers(userList))
     }
-    if (props.userType === "updateProject") {
-      setCollaboratorsToDisplay(users)
-      for (let user of existingUsers) {
-        dispatch({ type: ADD_USER_TO_TEMP_PROJECT, payload: user.id})
-      }
+    if (props.userType === "updateProject") { 
+      
+      const selectedUsers = filterUserSelection()
+      let userList = availableUsers(users)
+      userList = notOnCurrentProject(userList)
+
+      console.log("selectedUsers", selectedUsers)
+      console.log("userList", userList)
+      console.log("existingUsers ->", existingUsers)
+
+      const arr = [...userList, ...selectedUsers]
+      console.log("to display ", arr)
+      setCollaboratorsToDisplay([...userList, ...selectedUsers])
     }
-  }, [dispatch, existingUsers, props.userType, users, notOnCurrentProject])
+  }, [dispatch, existingUsers, props.userType, users, notOnCurrentProject, filterUserSelection, projects, projectId])
 
   const addCollaborators = () => {
     props.setOpen(false)
     const updateProject = {
       users: addUsersId,
-      projectId: props.currentProject.id
+      projectId: projectId
     }
     addUserProject(updateProject)
     .then(data => {
@@ -101,28 +126,33 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
     })
   }
 
+  // console.log("collaboratorsToDisplay ->", collaboratorsToDisplay)
+  console.log("addedUsersId ->", addedUsersId)
+
   const renderCollaborators = () => {
+    let uniqueTimeKey = new Date().getTime()
      return collaboratorsToDisplay.map(user => (
-      (onlyAvailableUsers ? user.available : true) &&
-          <Table.Row key={user.id}>
-            <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
-            <Table.Cell>{user.job_title}</Table.Cell>
-            <Table.Cell>
-              <Button
-                type="button"
-                labelPosition='left'
-                size='small'
-                icon
-                id={`Assign-User-${user.id}`}
-                className={`AddUserList-Button-Color Button-Color ${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
-                onClick={() => handleClick(user.id)} >
-                <Icon name={`${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
-                  Assign
-              </Button>
-            </Table.Cell>
-          </Table.Row>
+        <Table.Row key={user.id}>
+          <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
+          <Table.Cell>{user.job_title}</Table.Cell>
+          <Table.Cell>
+            <Button
+              type="button"
+              labelPosition='left'
+              size='small'
+              icon
+              id={`Assign-User-${user.id}`}
+              className={`AddUserList-Button-Color Button-Color ${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
+              onClick={() => handleClick(user.id)} >
+              <Icon name={`${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
+                Assign
+            </Button>
+          </Table.Cell>
+        </Table.Row>
      ))
   }
+
+  // console.log("users AddUserList -->", users)
 
   return (
       <div id="AddUserList-Container">

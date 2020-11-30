@@ -7,7 +7,7 @@ import AddUserList from './AddUserList';
 import createOnSubmit from '../helpers/submitCreateForm';
 import updateOnSubmit from '../helpers/submitUpdateForm';
 import { deleteFromArchive } from '../api';
-import { REMOVE_FROM_ARCHIVE, PROJECT_UPDATE_EXISTING_USERS, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { REMOVE_FROM_ARCHIVE, ADD_USER_TO_TEMP_PROJECT, SET_USER_TO_TEMP_PROJECT, PROJECT_UPDATE_EXISTING_USERS, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
@@ -74,12 +74,22 @@ const RelaunchModals = props => {
 
   const openFirstModal = () => {
     setFirstOpen(true)
-    !props.relaunch && dispatch({ type: PROJECT_UPDATE_EXISTING_USERS, payload: users })
+    if (!props.relaunch) {
+      dispatch({ type: PROJECT_UPDATE_EXISTING_USERS, payload: users })
+      for(let user of users) {
+        dispatch({ type: ADD_USER_TO_TEMP_PROJECT, payload: user.id })
+      }
+    }
   }
 
   const goBackToFirstModal = () => {
     setSecondOpen(false)
-    !props.relaunch && dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
+    if (!props.relaunch) {
+      dispatch({ type: SET_USER_TO_TEMP_PROJECT, payload: [] })
+      for(let user of users) {
+        dispatch({ type: ADD_USER_TO_TEMP_PROJECT, payload: user.id })
+      }
+    }
   }
 
   const projectStatus = status => {
@@ -109,10 +119,14 @@ const RelaunchModals = props => {
   }
 
   const handleSubmit = e => {
-    setLoadRelaunch(true)
-    props.relaunch ? createOnSubmit(e, { title: newTitle, description: newDescription, dateRange: newDateRange, addUsersId: newAddedUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
-    : updateOnSubmit(e, { projectId: projectDetails.id, newTitle, newDescription, newDateRange, newAddedUsersId, projectStatus, runAlert, resetProjectDetails })
+    if (props.relaunch) {
+      createOnSubmit(e, { title: newTitle, description: newDescription, dateRange: newDateRange, addUsersId: newAddedUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
+    } else {
+      updateOnSubmit(e, { projectId: projectDetails.id, newTitle, newDescription, newDateRange, newAddedUsersId, projectStatus, runAlert, resetProjectDetails })
+    }
   }
+
+  // console.log("newAddedUsersId -->", newAddedUsersId)
 
   return (
     <>

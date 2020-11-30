@@ -60,6 +60,7 @@ const ProjectDetails = props => {
   const onlyCredentials = () => {
     return currentProject.users.find(u => u.id === keyHolder.id) || keyHolder.admin
   }
+  
   const archiveMessage = archivedDate => {
     return `All activities for this project were closed on ${archivedDate}`
   }
@@ -102,7 +103,6 @@ const ProjectDetails = props => {
 
     // download zip file of a .json file with all the projects attributes
     downloadZip(currentProject.id).then(data => {
-      console.log(data.url)
       setLoader(false)
       setDownloadLink(data.url)
     })

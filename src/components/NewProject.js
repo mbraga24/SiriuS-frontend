@@ -46,12 +46,10 @@ const NewProject = ( { allowUpdate = false, alternativeActions = true, dateField
   }
 
   const handleDateRangeChange = (name, value) => {
-    console.log("VALUE", value)
     if (allowUpdate) {
       setDateRange(value)
       dispatch({ type: RELAUNCH_DATERANGE, payload: value })
     } else {
-      console.log("SETDATERANGE ALLOW UPDATE IS FALSE -->", allowUpdate)
       setDateRange(value)
     }
   }
@@ -69,12 +67,9 @@ const NewProject = ( { allowUpdate = false, alternativeActions = true, dateField
   }
 
   const handleSubmit = (e) => {
-    // console.log("dateRange -->", dateRange)
-    console.log("dateRange from submit -->", dateRange)
     createOnSubmit(e, { title: fields.title, description: fields.description, dateRange, addUsersId, relaunchProject: false, projectStatus: null, runAlert, pushUser })
   }
 
-  // console.log("dateRange -->", dateRange)
   return (
     <div id="NewProject-Container">
       <Form onSubmit={handleSubmit}>

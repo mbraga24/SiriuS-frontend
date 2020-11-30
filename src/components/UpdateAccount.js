@@ -95,7 +95,6 @@ const UpdateAccount = props => {
   }
 
   const handleSubmit = () => {
-    console.log("SUBMIT")
     setBtnLoading(true)
     const updateUserAccount = {
       firstName: fields.firstName ? fields.firstName : keyHolder.first_name,
@@ -105,21 +104,17 @@ const UpdateAccount = props => {
       email: fields.email ? fields.email : keyHolder.email
     }
     setAlertStatus(true)
-    console.log("updateUserAccount -->", updateUserAccount)
 
     updateAccount(keyHolder.id ,updateUserAccount)
     .then(data => {
-      console.log(data)
       setDisableBtn(false)
       setBtnLoading(false)
       if (data.error) {
-        console.log("AN ERROR OCCURRED ->", data)
         const { header, error } = data
         runAlert(header, error, 5000)
         setIconName("dont")
       } else {
         const { user, success, logOut } = data
-        console.log("ALL SEEM TO BE FINE ->", data)
         setUpdatedSuccess(true)
         dispatch({ type: UPDATE_USER, payload: user })
 
@@ -137,8 +132,6 @@ const UpdateAccount = props => {
       }
     })
   }
-
-  console.log("COUNT", count)
 
   return (
     <div id="UpdateAccount-Container">

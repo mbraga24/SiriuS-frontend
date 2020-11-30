@@ -16,7 +16,7 @@ const createOnSubmit = (e, { title, description, dateRange, addUsersId, relaunch
     assigned: [...addUsersId]
   }
 
-  console.log("newProject -->", newProject)
+  // console.log("newProject -->", newProject)
 
   createProject(newProject)
   .then(data => {

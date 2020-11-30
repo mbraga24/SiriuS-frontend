@@ -1,4 +1,4 @@
-import { REMOVE_USER_FROM_TEMP_PROJECT, ADD_USER_TO_TEMP_PROJECT, PROJECT_UPDATE_EXISTING_USERS } from './type';
+import { REMOVE_USER_FROM_TEMP_PROJECT, ADD_USER_TO_TEMP_PROJECT, SET_USER_TO_TEMP_PROJECT, PROJECT_UPDATE_EXISTING_USERS } from './type';
 
 const defaultState = {
   active: [],
@@ -8,6 +8,11 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
   switch(action.type) {
+    case SET_USER_TO_TEMP_PROJECT:
+    return {
+      ...state,
+      addUsersId: action.payload
+    }
     case ADD_USER_TO_TEMP_PROJECT:
     return {
       ...state,
