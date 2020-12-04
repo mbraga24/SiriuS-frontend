@@ -1,9 +1,9 @@
 import store  from '../store/index.js';
 import setRangeData from '../helpers/setRangeData';
 import { editProject } from '../api';
-import { UPDATE_USER, UPDATE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, RELAUNCH_TITLE, RELAUNCH_DESCRIPTION } from '../store/type';
+import { UPDATE_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT, RELAUNCH_TITLE, RELAUNCH_DESCRIPTION } from '../store/type';
 
-const updateOnSubmit = (e, { projectId, newTitle, newDescription, newDateRange, newAddedUsersId, projectStatus, runAlert, resetProjectDetails }) => {
+const updateOnSubmit = (e, { projectId, newTitle, newDescription, newDateRange, projectStatus, runAlert, resetProjectDetails }) => {
   e.preventDefault()
   
   const range = setRangeData(newDateRange)
@@ -13,8 +13,7 @@ const updateOnSubmit = (e, { projectId, newTitle, newDescription, newDateRange, 
     name: newTitle,
     description: newDescription,
     startDate: range.startDate,
-    dueDate: range.dueDate,
-    assigned: [...newAddedUsersId]
+    dueDate: range.dueDate
   }
 
   // console.log("UPDATE ON SUBMIT - updatedProject -->", updatedProject)
@@ -26,17 +25,12 @@ const updateOnSubmit = (e, { projectId, newTitle, newDescription, newDateRange, 
       projectStatus(false)
       runAlert(header, error)
     } else {
-
-      console.log("SHOW ME ALL UPDATED PROJECT -->", data.project)
-      console.log("SHOW ME ALL UPDATED USERS -->", data.users)
-      // update each user in the redux store
-      for (let user of data.users) {
-        store.dispatch({ type: UPDATE_USER, payload: user })  
-      }
+      const { project } = data
+      console.log("SHOW ME ALL UPDATED PROJECT -->", project)
       // update project in the redux store
-      store.dispatch({ type: UPDATE_PROJECT, payload: data.project })
+      store.dispatch({ type: UPDATE_PROJECT, payload: project })
       projectStatus(true)
-      resetProjectDetails(data.project)
+      resetProjectDetails(project)
     }
     // remove users from temporary array in the redux store 
     store.dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })

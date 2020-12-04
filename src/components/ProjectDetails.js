@@ -25,13 +25,14 @@ const ProjectDetails = props => {
   const projectArchive = useSelector(state => state.archiveProject.archive)
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
 
-  // overall variables
+  // other variables
   const [ file, setFile ] = useState(null)
   const [ fileName, setFileName ] = useState("")
   const [ statusCode, setStatusCode ] = useState("")
   const [ allProjects, setAllProjects ] = useState("")
   const [ archive, setArchive ] = useState(false)
   const [ disable, setDisable ] = useState(false)
+
   // loaders 
   const [ loader, setLoader ] = useState(false)
   const [ loadedData, setLoadedData ] = useState("")
@@ -183,12 +184,12 @@ const ProjectDetails = props => {
                           :
                           <Button className={`Project-Download-Button ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
                         }                      
-                        { keyHolder.admin && <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="redo" relaunch={true} btnContent="Relaunch Project" /> }
+                        { keyHolder.admin && <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="redo" actionRequired="relaunch" relaunch={true} btnContent="Relaunch Project" /> }
                       </React.Fragment>
                       : 
                       keyHolder.admin &&
                       <>
-                      <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="edit" relaunch={false} btnContent="Update" />
+                      <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="edit" actionRequired="update" relaunch={false} btnContent="Update" />
                       <Modal
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}

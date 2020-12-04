@@ -10,11 +10,11 @@ import Loading from './Loading';
 import AddUserList from './AddUserList';
 import '../resources/NewProject.css';
 
-const NewProject = ( { allowUpdate = false, alternativeActions = true, dateFieldLabel = "Set a start and due date", titleFieldLabel = "Title", descriptionFieldLabel = "Description", ...props } ) => {
+const NewProject = ( { allowUpdate = false, defaultActions = true, dateFieldLabel = "Set a start and due date", titleFieldLabel = "Title", descriptionFieldLabel = "Description", ...props } ) => {
   
   const [ fields, handleFieldChange ] = useFormFields({
-    title: alternativeActions ? "" : props.fillOutTitle,
-    description: alternativeActions ? "" : props.fillOutDescription
+    title: defaultActions ? "" : props.fillOutTitle,
+    description: defaultActions ? "" : props.fillOutDescription
   })
   const dispatch = useDispatch()
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
@@ -74,7 +74,7 @@ const NewProject = ( { allowUpdate = false, alternativeActions = true, dateField
     <div id="NewProject-Container">
       <Form onSubmit={handleSubmit}>
         {
-          alternativeActions && 
+          defaultActions && 
           <Form.Group grouped>
             <Header as='h2' className="NewProject-Header-Align-Items">
               <span>
@@ -129,7 +129,7 @@ const NewProject = ( { allowUpdate = false, alternativeActions = true, dateField
           />
         </Form.Group>
         {
-          alternativeActions &&
+          defaultActions &&
           <React.Fragment>
             <Form.Group grouped>
               <Form.Field className="NewProject-User-Choice-Wrapper">
@@ -144,37 +144,37 @@ const NewProject = ( { allowUpdate = false, alternativeActions = true, dateField
               </Form.Field>
             </Form.Group>
             <Form.Group grouped>
-            {
-              !isLoading.includes("users") ?
-              <Loading loadingClass={false} />
-              : 
-                <AddUserList userType={"newProject"} button={false} />
-            }
+              {
+                !isLoading.includes("users") ?
+                <Loading loadingClass={false} />
+                : 
+                  <AddUserList userType={"newProject"} button={false} />
+              }
             </Form.Group>
             <Form.Group floated="right" grouped>
-            <Form.Field className="Submit-Button-Wrapper">
-              <Button type="submit" className="NewProject-Button-Color">Create Project</Button>
-            </Form.Field>
-            <Form.Field>
-            {
-              alertStatus &&
-              <Message style={{display: "block"}} warning attached='bottom'>
-                { 
-                  alertStatus && 
-                  <React.Fragment>
-                    <Header as='h5' dividing>
-                      <Icon name="dont"/>
-                      {header}
-                    </Header>
-                    <List bulleted style={{ textAlign: "left" }}>
-                      { displayAlert(errorMsg) }
-                    </List>
-                  </React.Fragment>
+              <Form.Field className="Submit-Button-Wrapper">
+                <Button type="submit" className="NewProject-Button-Color">Create Project</Button>
+              </Form.Field>
+              <Form.Field>
+              {
+                alertStatus &&
+                <Message style={{display: "block"}} warning attached='bottom'>
+                  { 
+                    alertStatus && 
+                    <React.Fragment>
+                      <Header as='h5' dividing>
+                        <Icon name="dont"/>
+                        {header}
+                      </Header>
+                      <List bulleted style={{ textAlign: "left" }}>
+                        { displayAlert(errorMsg) }
+                      </List>
+                    </React.Fragment>
+                  }
+                </Message>
                 }
-              </Message>
-              }
-            </Form.Field>
-          </Form.Group>
+              </Form.Field>
+            </Form.Group>
           </React.Fragment>
         }
       </Form>

@@ -2,22 +2,20 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon, Divider, Form } from 'semantic-ui-react';
-import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT, PROJECT_UPDATE_EXISTING_USERS } from '../store/type';
+import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
 import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUserList.css';
 
-const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyAvailableUsers = true, ...props } ) => {
+const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props } ) => {
 
   const users = useSelector(state => state.user.users)
   const projectId = parseInt(props.match.url.split("/")[2])
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
-  const existingUsers = useSelector(state => state.activeProject.existingUsers)
   const addedUsersId = useSelector(state => state.activeProject.addUsersId)
   const projects = useSelector(state => state.project.projects)
   const [ collaboratorsToDisplay, setCollaboratorsToDisplay ] = useState([])
   const dispatch = useDispatch()
-  // dispatch({ type: PROJECT_UPDATE_EXISTING_USERS, payload: addedUsersId })
 
   const handleClick = userId => {
     // find elements
@@ -69,19 +67,6 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
     return availableForThisProject
   }, [projectId])
 
-  const filterUserSelection = useCallback(() => {
-    let selectedUsers = []
-    for(let userId of addedUsersId) {
-      const found = users.find(u => u.id === userId)
-      found && selectedUsers.push(found)
-    }
-    return selectedUsers
-  }, [users])
-
-  // useEffect(() => { 
-  //   dispatch({ type: PROJECT_UPDATE_EXISTING_USERS, payload: addedUsersId })
-  // }, [])
-
   // return the users based on the page selected
   useEffect(() => {
     if (props.userType === "newProject" || props.userType === "relaunchProject") {
@@ -91,21 +76,7 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
       let userList = notOnCurrentProject(users)
       setCollaboratorsToDisplay(availableUsers(userList))
     }
-    if (props.userType === "updateProject") { 
-      
-      const selectedUsers = filterUserSelection()
-      let userList = availableUsers(users)
-      userList = notOnCurrentProject(userList)
-
-      console.log("selectedUsers", selectedUsers)
-      console.log("userList", userList)
-      console.log("existingUsers ->", existingUsers)
-
-      const arr = [...userList, ...selectedUsers]
-      console.log("to display ", arr)
-      setCollaboratorsToDisplay([...userList, ...selectedUsers])
-    }
-  }, [dispatch, existingUsers, props.userType, users, notOnCurrentProject, filterUserSelection, projects, projectId])
+  }, [dispatch, props.userType, users, notOnCurrentProject, projects, projectId])
 
   const addCollaborators = () => {
     props.setOpen(false)
@@ -115,22 +86,17 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
     }
     addUserProject(updateProject)
     .then(data => {
-      // set selected user ids back to an empty array 
-      dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
-      // pass in updated project with new users to the redux store
+      dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] }) // set selected user ids back to an empty array 
       dispatch({ type: UPDATE_PROJECT, payload: data.project })
-      // pass each updated user to the redux store
       for (let user of data.users) {
         dispatch({ type: UPDATE_USER, payload: user })
       }
     })
   }
 
-  // console.log("collaboratorsToDisplay ->", collaboratorsToDisplay)
   console.log("addedUsersId ->", addedUsersId)
 
   const renderCollaborators = () => {
-    let uniqueTimeKey = new Date().getTime()
      return collaboratorsToDisplay.map(user => (
         <Table.Row key={user.id}>
           <Table.Cell>{fullName(user.first_name, user.last_name)}</Table.Cell>
@@ -142,16 +108,15 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
               size='small'
               icon
               id={`Assign-User-${user.id}`}
-              className={`AddUserList-Button-Color Button-Color ${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
+              className={`AddUserList-Button-Color Button-Color ${alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
               onClick={() => handleClick(user.id)} >
-              <Icon name={`${!onlyAvailableUsers && alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
+              <Icon name={`${alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
                 Assign
             </Button>
           </Table.Cell>
         </Table.Row>
      ))
   }
-
   // console.log("users AddUserList -->", users)
 
   return (
@@ -174,7 +139,7 @@ const AddUserList = ( { alternativeActions = true, relaunchProject = true, onlyA
               </Table>
             </Form.Field>
               { 
-                alternativeActions && 
+                defaultActions && 
                 <React.Fragment>
                   {
                     props.button && 
