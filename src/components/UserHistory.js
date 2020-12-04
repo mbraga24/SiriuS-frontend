@@ -4,7 +4,6 @@ import { Divider, Grid } from 'semantic-ui-react';
 import DocumentList from './DocumentList';
 import UserArchive from './UserArchive';
 import UserProjects from './UserProjects';
-// import Loading from './Loading';
 import '../resources/UserHistory.css';
 
 const UserHistory = props => {
