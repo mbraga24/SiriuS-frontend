@@ -37,6 +37,7 @@ const UserProjects = props => {
     .then(data => {
       dispatch({ type: UPDATE_USER, payload: data.user }) 
       dispatch({ type: UPDATE_PROJECT, payload: data.project }) 
+      setOpen(false)
     })
   }
 
