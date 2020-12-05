@@ -69,12 +69,15 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
 
   // return the users based on the page selected
   useEffect(() => {
-    if (props.userType === "newProject" || props.userType === "relaunchProject") {
+    if (props.userType === "newProject") {
       setCollaboratorsToDisplay(availableUsers(users))
     } 
     if (props.userType === "currentProject") {
       let userList = notOnCurrentProject(users)
       setCollaboratorsToDisplay(availableUsers(userList))
+    }
+    if (props.userType === "relaunchProject") {
+      setCollaboratorsToDisplay(users)
     }
   }, [dispatch, props.userType, users, notOnCurrentProject, projects, projectId])
 
