@@ -70,7 +70,7 @@ const RelaunchModals = props => {
     setSecondOpen(false)
     setThirdOpen(false)
     setCreatedStatus(false)
-    !props.relaunch && dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
+    props.actionRequired === "relaunch" && dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
   }
 
   const deleteArchive = () => {
@@ -78,6 +78,7 @@ const RelaunchModals = props => {
     .then(data => {
       const { archiveId } = data
       dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
+      dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
       props.history.push("/projects")
     })
   }
@@ -87,9 +88,9 @@ const RelaunchModals = props => {
   }
 
   const handleSubmit = e => {
-    console.log("UPDATE PROJECT")
     if (props.actionRequired === "relaunch") {
       createOnSubmit(e, { title: newTitle, description: newDescription, dateRange: newDateRange, addUsersId: newAddedUsersId, relaunchProject: true, projectStatus, runAlert, pushUser})
+      setThirdOpen(true)
     } else {
       updateOnSubmit(e, { projectId: projectDetails.id, newTitle, newDescription, newDateRange, projectStatus, runAlert, resetProjectDetails })
       setFirstOpen(false)
@@ -167,7 +168,7 @@ const RelaunchModals = props => {
           </Modal.Header>
           <Modal.Content image>
             <Modal.Description>  
-              <AddUserList userType={"newProject"} button={true} defaultActions={false} onlyAvailableUsers={true} /> 
+              <AddUserList userType={props.actionRequired !== "relaunch" ? "newProject" : "relaunchProject"} button={true} defaultActions={false} /> 
               {
               alertStatus &&
               <Message style={styleMessageDisplay} warning attached='bottom'>
@@ -199,10 +200,9 @@ const RelaunchModals = props => {
                   createdStatus ?
                   <Button 
                     type="button"
-                    onClick={() => setThirdOpen(true)} 
                     style={styleBtn}
                   >
-                    <Icon name='check circle' /> Project CreatedStatus
+                    <Icon name='check circle' /> Project Created
                   </Button> 
                   :
                   <>
