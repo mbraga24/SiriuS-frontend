@@ -28,9 +28,9 @@ const App = props => {
   // Fetch user to keep user logged in
   useEffect(() => {
     if (localStorage.token) {
-      const token = localStorage.token
+      // const token = localStorage.token
       const requestId = "keyHolder";
-      autoLogin(token)
+      autoLogin()
       .then(user => {
         dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_KEY_HOLDER, payload: user })

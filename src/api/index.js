@@ -39,8 +39,12 @@ export const loginUser = data => {
 }
 
 // user autologin 
-export const autoLogin = adminId => {
-  return fetch(`http://localhost:3000/autologin/${adminId}`)
+export const autoLogin = () => {
+  return fetch(`http://localhost:3000/autologin`, {
+    headers: {
+      "Authorization": `Bearer ${localStorage.token}`
+    }
+  })
   .then(r => r.json())
 }
 

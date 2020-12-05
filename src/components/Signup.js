@@ -67,7 +67,7 @@ const Signup = props => {
         const { error, header } = data
         runAlert(header, error)
       } else {
-        const { user, invite } = data
+        const { user, token, invite } = data
         const requestId = "keyHolder";  
         // update state
         dispatch({ requestId, type: API_SUCCESS });
@@ -76,7 +76,7 @@ const Signup = props => {
         dispatch({ type: REMOVE_INVITATION, payload: invite })
 
         // update localStorage
-        localStorage.token = user.id
+        localStorage.token = token
         localStorage.credentials = user.admin
 
         // change body background color

@@ -47,13 +47,13 @@ const Login = (props) => {
       if (data.type === "error") {
         handleMessages(data)
       } else {
-        const { user } = data
+        const { user, token } = data
         const requestId = "keyHolder";  
         // update state
         dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_KEY_HOLDER, payload: user })
         // update localStorage
-        localStorage.token = user.id
+        localStorage.token = token
         localStorage.admin = user.admin
         // send loggedin user to their account
         props.history.push(`/users/${user.id}`)
