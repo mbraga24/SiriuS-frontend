@@ -3,7 +3,7 @@ import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { autoLogin, getProjects, getUsers, getDocuments, getInvites, getArchivedProjects, getArchiveDocuments } from '../api';
-import MenuBar from './MenuBar';
+import Navbar from './Navbar';
 import Home from './Home';
 import UserList from './UserList';
 import InviteList from './InviteList';
@@ -104,7 +104,7 @@ const App = props => {
 
   return (
     <div>
-      { keyHolder ? <MenuBar /> : null}
+      { keyHolder ? <Navbar /> : null}
       <Switch>
         <Container>
         { 
