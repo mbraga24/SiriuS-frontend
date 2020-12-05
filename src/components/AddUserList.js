@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon, Divider, Form } from 'semantic-ui-react';
 import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { availableUsers, fullName } from '../helpers/userHelpers';
 import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
 import '../resources/AddUserList.css';
@@ -12,8 +13,6 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
   const users = useSelector(state => state.user.users)
   const projectId = parseInt(props.match.url.split("/")[2])
   const addUsersId = useSelector(state => state.activeProject.addUsersId)
-  const addedUsersId = useSelector(state => state.activeProject.addUsersId)
-  const projects = useSelector(state => state.project.projects)
   const [ collaboratorsToDisplay, setCollaboratorsToDisplay ] = useState([])
   const dispatch = useDispatch()
 
@@ -39,21 +38,9 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
       icon.className += " user"
     }
   }
-
-  const fullName = (firstName, lastName) => {
-    return `${firstName} ${lastName}`
-  }
-
-  const availableUsers = dataUsers => {
-    return dataUsers.filter(user => user.available)
-  }
-
-  const alreadyOnThisProject = userId => {
-    return addedUsersId.find(u => userId === u.id )
-  }
-
+  
   // filter out all the users that are working at the selected project
-  const notOnCurrentProject = useCallback(dataUsers => {
+  const notOnCurrentProject = useCallback((dataUsers) => {
     const availableForThisProject = []
     for (let user of dataUsers) {
       const projectIds = []
@@ -77,9 +64,9 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
       setCollaboratorsToDisplay(availableUsers(userList))
     }
     if (props.userType === "relaunchProject") {
-      setCollaboratorsToDisplay(users)
+      setCollaboratorsToDisplay(availableUsers(users))
     }
-  }, [dispatch, props.userType, users, notOnCurrentProject, projects, projectId])
+  }, [dispatch, props.userType, users, notOnCurrentProject])
 
   const addCollaborators = () => {
     props.setOpen(false)
@@ -97,8 +84,6 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
     })
   }
 
-  console.log("addedUsersId ->", addedUsersId)
-
   const renderCollaborators = () => {
      return collaboratorsToDisplay.map(user => (
         <Table.Row key={user.id}>
@@ -111,16 +96,15 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
               size='small'
               icon
               id={`Assign-User-${user.id}`}
-              className={`AddUserList-Button-Color Button-Color ${alreadyOnThisProject(user.id) ? "Selected Selected-Change" : ""}`}
+              className="AddUserList-Button-Color Button-Color"
               onClick={() => handleClick(user.id)} >
-              <Icon name={`${alreadyOnThisProject(user.id) ? "check" : "user"}`} id={`Assign-Button-${user.id}`}/> 
+              <Icon name="user" id={`Assign-Button-${user.id}`}/> 
                 Assign
             </Button>
           </Table.Cell>
         </Table.Row>
      ))
   }
-  // console.log("users AddUserList -->", users)
 
   return (
       <div id="AddUserList-Container">
