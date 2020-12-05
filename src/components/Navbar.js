@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Dropdown, Menu, Button, Icon, Popup, Modal } from 'semantic-ui-react';
 import InvitationForm from './InvitationForm';
-import '../resources/MenuBar.css';
+import '../resources/Navbar.css';
 import { SET_KEY_HOLDER } from '../store/type';
 
-const MenuBar = (props) => { 
+const Navbar = (props) => { 
 
   const chatFeatureMessage = "'Siri-me that document later today!' We're excited with our new chat feature. Coming soon."
 
@@ -32,20 +32,20 @@ const MenuBar = (props) => {
   
   return(
     <React.Fragment>
-      <Menu id="MenuBar-Container">
-        <Menu.Item as={Link} to={`/users/${keyHolder.id}`} className="MenuBar-Font-Color">
+      <Menu id="Navbar-Container">
+        <Menu.Item as={Link} to={`/users/${keyHolder.id}`} className="Navbar-Font-Color">
           Account
         </Menu.Item>
           { keyHolder.admin ?
-            <Dropdown item text='Collaborators' className="MenuBar-Font-Color">
+            <Dropdown item text='Collaborators' className="Navbar-Font-Color">
               <Dropdown.Menu>
                 <Dropdown.Item as={Link} to='/users'>
-                  <span className="MenuBar-Font-Color">Collaborators List</span>
+                  <span className="Navbar-Font-Color">Collaborators List</span>
                 </Dropdown.Item>
                 { keyHolder.admin && 
                   <Dropdown.Item>
                     <>
-                      <span className="MenuBar-Font-Color Invite-Btn" onClick={() => setFirstOpen(true)}>New Invitation</span>
+                      <span className="Navbar-Font-Color Invite-Btn" onClick={() => setFirstOpen(true)}>New Invitation</span>
                       <Modal
                         onClose={() => setFirstOpen(false)}
                         onOpen={() => setFirstOpen(true)}
@@ -73,39 +73,39 @@ const MenuBar = (props) => {
                   </Dropdown.Item>
                 }
                 <Dropdown.Item as={Link} to='/invitations'>
-                  <span className="MenuBar-Font-Color">Pending Invites</span>
+                  <span className="Navbar-Font-Color">Pending Invites</span>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             :
-            <Menu.Item as={Link} to={`/user/projects/${keyHolder.id}`} className="MenuBar-Font-Color">
+            <Menu.Item as={Link} to={`/user/projects/${keyHolder.id}`} className="Navbar-Font-Color">
               History
             </Menu.Item>
           }
-          <Dropdown item text={keyHolder.admin ? "Projects" : "More"} className="MenuBar-Font-Color">
+          <Dropdown item text={keyHolder.admin ? "Projects" : "More"} className="Navbar-Font-Color">
           { keyHolder.admin ?
             <Dropdown.Menu>
               <Dropdown.Item as={Link} to='/projects' >
-                <span className="MenuBar-Font-Color">Projects List</span>
+                <span className="Navbar-Font-Color">Projects List</span>
               </Dropdown.Item>
               <Dropdown.Item as={Link} to='/projects/new' >
-                <span className="MenuBar-Font-Color">Create Project</span>
+                <span className="Navbar-Font-Color">Create Project</span>
               </Dropdown.Item>
             </Dropdown.Menu>
             :
             <Dropdown.Menu>
               <Dropdown.Item as={Link} to='/projects' >
-                <span className="MenuBar-Font-Color">Projects List</span>
+                <span className="Navbar-Font-Color">Projects List</span>
               </Dropdown.Item>
               <Dropdown.Item as={Link} to='/users' >
-                <span className="MenuBar-Font-Color">Collaborators</span>
+                <span className="Navbar-Font-Color">Collaborators</span>
               </Dropdown.Item>
             </Dropdown.Menu>
           }
           </Dropdown>
-        <Menu.Item className="MenuBar-Font-Color" disabled>
+        <Menu.Item className="Navbar-Font-Color" disabled>
           <Popup
-            trigger={<Icon name='discussions' className="MenuBar-Chat"/>}
+            trigger={<Icon name='discussions' className="Navbar-Chat"/>}
             content={chatFeatureMessage}
             position='bottom center'
             inverted
@@ -114,7 +114,7 @@ const MenuBar = (props) => {
           </Menu.Item>
         <Menu.Menu position='right'>
           <Menu.Item onClick={handleLogout}>
-            <Button className="MenuBar-Button-Color Button-Change">Logout</Button>
+            <Button className="Navbar-Button-Color Button-Change">Logout</Button>
           </Menu.Item>
         </Menu.Menu>
       </Menu>
@@ -122,7 +122,7 @@ const MenuBar = (props) => {
   )
 }
 
-export default withRouter(MenuBar);
+export default withRouter(Navbar);
 
 // ========================> LEARNED <============================
 // 1) component augmentation
