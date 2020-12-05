@@ -65,10 +65,8 @@ const Signup = props => {
     .then(data => {
       if (data.error) {
         const { error, header } = data
-        console.log("AN ERROR OCCURRED", data)
         runAlert(header, error)
       } else {
-        console.log("EVERYTHING SEEM FINE", data)
         const { user, invite } = data
         const requestId = "keyHolder";  
         // update state

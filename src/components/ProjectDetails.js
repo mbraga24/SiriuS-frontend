@@ -184,12 +184,12 @@ const ProjectDetails = props => {
                           :
                           <Button className={`Project-Download-Button ${loader && "loading"}`} onClick={() => setButtonStatus(false)}><Icon name="download"/><a href={downloadLink}>{ !loader && `${"Download Project"}`}</a></Button>
                         }                      
-                        { keyHolder.admin && <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="redo" actionRequired="relaunch" relaunch={true} btnContent="Relaunch Project" /> }
+                        { keyHolder.admin && <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="redo" actionRequired="relaunch" btnContent="Relaunch Project" /> }
                       </React.Fragment>
                       : 
                       keyHolder.admin &&
                       <>
-                      <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="edit" actionRequired="update" relaunch={false} btnContent="Update" />
+                      <RelaunchModals id="RelaunchModals" projectDetails={currentProject} icon="edit" actionRequired="update" btnContent="Update" />
                       <Modal
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}

@@ -43,9 +43,8 @@ const TableList = props => {
 
   const renderRows = () => {
     return props.items.map(item => {
-      let uniqueTimeKey = new Date().getTime()
       return (
-        <Table.Row key={uniqueTimeKey * item.id} >
+        <Table.Row key={item.id} >
           <Table.Cell>{item.first_name}</Table.Cell>
           <Table.Cell>{item.last_name}</Table.Cell>
           <Table.Cell>{item.email}</Table.Cell>
