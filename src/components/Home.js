@@ -24,7 +24,7 @@ const Home = props => {
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                  <Grid.Column textAlign="left">
+                  <Grid.Column textAlign="center">
                     <p className="Home-Call-Action-2">
                       Create your new team, set goals, keep track of your progress, share your ideas, archive your work and more. 
                     </p>

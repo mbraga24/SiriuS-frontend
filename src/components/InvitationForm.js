@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Checkbox, Icon, Divider, Transition, List, Message, Header, Button } from 'semantic-ui-react';
+import { inviteUser } from '../api';
 import useFormFields from '../hooks/useFormFields'
 import '../resources/InvitationForm.css';
 import { ADD_INVITATION } from '../store/type';
@@ -48,7 +49,7 @@ const InvitationForm = props => {
 
   const handleInvitation = () => {
     setSending(true)
-    const data = {
+    const userInvite = {
       email: fields.email,
       current_user_id: keyHolder.id,
       first_name: fields.firstName,
@@ -57,14 +58,7 @@ const InvitationForm = props => {
       custom_invitation: fields.customInvitation
     }
     
-    fetch('http://localhost:3000/invites/', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(r => r.json())
+    inviteUser(userInvite)
     .then(data => {
       if (data.error) {
         const { error, header } = data
