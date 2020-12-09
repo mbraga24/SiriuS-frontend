@@ -1,68 +1,116 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SiriuS
 
-## Available Scripts
+## Project Preview 
 
-In the project directory, you can run:
+Home page
+![Preview-1](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.001_y1fren.jpg)
 
-### `yarn start`
+Login page
+![Preview-2](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.002_kgx4vg.jpg)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Admin Account
+![Preview-3](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.003_qduipd.jpg)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Invitation form and pending invitation page
+![Preview-4](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.006_oe8q8x.jpg)
 
-### `yarn test`
+Collaborators list
+![Preview-5](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554431/IssueMeThis-Collages/SiriuS-Collage.007_tcsfph.jpg)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Collaborator history
+![Preview-6](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.004_jwgtgw.jpg)
 
-### `yarn build`
+Project page
+![Preview-7](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.005_ocoq4z.jpg)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br />
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Checkout the project [demo here](needs-to-work-ondemo)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br />
 
-### `yarn eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Table of Contents
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [Description](#description)
+- [Installation](#installation)
+- [References And Technologies](#references-and-technologies)
+- [License](#license)
+- [Author Info](#author-info)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Description
 
-## Learn More
+Inspired by advanced project management applications such as Smartsheet, ClickUp, Atlassian, ProjectFox and other similar cutting edge softwares I wanted to practice my skills this time by building my own project management application. I introduce to you: SiriuS. In this application you can send emails to invite collaborators, keep track of all your invitations, manage collaborators, create and archive projects, share documents and more. For this MVP I wanted to reproduce a minimum amount of features for a demonstration. Also, I kepts in mind all forementioned softwares and decided to keep the design simple and clean so users can focus the attention on what really matters. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+There was much much more I would love to add to this application such as graphs, charts, to-do lists, open ticket taks, and other great features but it's time to focus on other skills at the moment. I will definitely continue to work and clean up this project as I grow as I developer.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Watch the [Demo](needs-to-work-ondemo)
 
-### Code Splitting
+[Back To The Top](#sirius)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+---
 
-### Analyzing the Bundle Size
+## References and Technologies
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+#### Technologies
 
-### Making a Progressive Web App
+- Javascript
+- React
+- Rails API
+- Cloudinary
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+#### Rails Gems Used
 
-### Advanced Configuration
+- [rubyzip](https://github.com/rubyzip/rubyzip)
+- [active_model_serializers](https://github.com/rails-api/active_model_serializers)
+- [ruby-jwt](https://github.com/jwt/ruby-jwt)
+- [cloudinary_gem](https://github.com/cloudinary/cloudinary_gem)
+- [figaro](https://github.com/laserlemon/figaro)
+- [bcrypt-ruby](https://github.com/codahale/bcrypt-ruby)
+- [rack-cors](https://github.com/cyu/rack-cors)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+[Back To The Top](#sirius)
 
-### Deployment
+---
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Installation
 
-### `yarn build` fails to minify
+#### [SiriuS - Frontend](https://github.com/mrdbrg/SiriuS-frontend)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+1. Fork and clone the repo
+1. npm install
+
+#### [SiriuS - Backend](https://github.com/mrdbrg/SiriuS-backend)
+
+1. Fork and clone the repo
+1. bundle install
+
+[Back To The Top](#sirius)
+
+---
+
+## License
+
+MIT License
+
+Copyright [2020] [Marlon Braga]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
+
+[Back To The Top](#sirius)
+
+---
+
+## Author Info
+
+- LinkedIn - [Marlon Braga](https://www.linkedin.com/in/marlon-braga/)
+- Portfolio - [Currently unavailable and under construction](https://www.youtube.com/watch?v=oHg5SJYRHA0&ab_channel=cotter548)
+
+[Back To The Top](#sirius)
