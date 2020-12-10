@@ -43,7 +43,9 @@ Project view page
 
 ## Description
 
-Inspired by advanced project management applications such as Smartsheet, ClickUp, Atlassian, ProjectFox and other similar cutting edge softwares I wanted to practice my skills this time by building my own project management application. I introduce to you: SiriuS. In this application you can send emails to invite collaborators, keep track of all your invitations, manage collaborators, create and archive projects, share documents and more. For this MVP I wanted to reproduce a minimum amount of features for a demonstration. Also, I kepts in mind all forementioned softwares and decided to keep the design simple and clean so users can focus the attention on what really matters. 
+Inspired by sophisticated project management applications such as Smartsheet, ClickUp, Atlassian, ProjectFox and other similar cutting edge softwares I wanted to practice my skills this time by building my own project management application. I introduce to you: SiriuS. 
+
+In this application you can send emails to invite collaborators, keep track of all your invitations, manage collaborators, create and archive projects, share documents and more. For this MVP (Minimum Viable Product) I wanted to reproduce a minimum amount of features for the demonstration of the application. Also, I kept in mind all forementioned softwares and decided to keep the design simple and clean so users can focus the attention on what really matters. 
 
 There was _much_ more I would've loved to add to this application such as graphs, charts, to-do lists, open/close ticket tasks, and other great features but it's time to focus on honing other skills and expand on what this app taught me. I will definitely continue to work and clean up this project as I grow as I developer.
 
