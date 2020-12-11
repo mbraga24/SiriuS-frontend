@@ -43,11 +43,19 @@ Project view page
 
 ## Description
 
-Inspired by advanced project management applications such as Smartsheet, ClickUp, Atlassian, ProjectFox and other similar cutting edge softwares I wanted to practice my skills this time by building my own project management application. I introduce to you: SiriuS. In this application you can send emails to invite collaborators, keep track of all your invitations, manage collaborators, create and archive projects, share documents and more. For this MVP I wanted to reproduce a minimum amount of features for a demonstration. Also, I kepts in mind all forementioned softwares and decided to keep the design simple and clean so users can focus the attention on what really matters. 
+Inspired by sophisticated project management applications such as Smartsheet, ClickUp, Atlassian, ProjectFox and other similar cutting edge softwares I wanted to practice my skills this time by building my own project management application. I introduce to you: SiriuS. 
 
-There was _much_ more I would've loved to add to this application such as graphs, charts, to-do lists, open/close ticket tasks, and other great features but it's time to focus on honing other skills and expand on what this app taught me. I will definitely continue to work and clean up this project as I grow as I developer.
+In this application you can send emails to invite collaborators, keep track of all your invitations, manage collaborators, create and archive projects, share documents and more. For this MVP (Minimum Viable Product) I wanted to reproduce a minimum amount of features for the demonstration of the application. Also, I kept in mind all forementioned softwares and decided to keep the design simple and clean so users can focus the attention on what really matters. I used Semantic UI React as my frontend framework to focus less in CSS styling and more in the use of React functional components, Hooks, Redux, Rails, and developing the features I had in mind.
 
-This MVP was built with the intent to solidify foundational skills on React as well as Rails as an API. There is still a lot of work to be done and learning to do but I am a proud created of __SiriuS__.
+There was _much_ more I would've loved to add to this application such as graphs, charts, to-do lists, open/close ticket tasks, and other great features but it's time to focus on honing other skills and expand on what this app taught me. I will definitely continue to work and improve this project's code base and features as I grow as I developer.
+
+This MVP was built with the intent to solidify foundational skills on React as well as Rails as an API. There is still a lot of work to be done and learning to do but I am a proud creator of __SiriuS__.
+
+#### Inspiration
+
+In Portuguese we call a [crab](https://en.wikipedia.org/wiki/Crab) a [_"Siri"_](https://www.youtube.com/watch?v=K4PDorXSXEU&ab_channel=PronounceNames) (pl. _Siris_) and I used to love watch them walking in every direction, changing kickly to avoid obstables (mostly me and my cousins chasing them), then quickly running to the water, catching the waves and allowing the currents to lead them back to the ocean. So I decided to play with the idea of the serious nature of a  project management application and that ability of a crab _(Siri)_ to circumvent obstacles and play with the words __Serious + Siri__ = ___SIRIUS___. 
+
+Managers and supervisors have that incredible ability to juggle so many things at once, meet deadlines, change strategies to achieve previous or new goals, and at one point after all that struggle they understand they've given their best and got where they invisioned them and their team. They know there is nothing else left to do than just "surf the waters" and let the currents (Unpredictable variables) take them to another whelm of challenges but also possibilities. That's what getting __SiriuS__ means.
 
 Watch the [Demo](needs-to-work-ondemo)
 
@@ -63,6 +71,9 @@ Watch the [Demo](needs-to-work-ondemo)
 - React
 - Rails API
 - Cloudinary
+
+#### Libraries
+- [Semantic UI React](https://react.semantic-ui.com/)
 
 #### Rails Gems Used
 
