@@ -17,7 +17,7 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
   const dispatch = useDispatch()
 
   const handleClick = userId => {
-    // find elements
+    // find elements 
     const button = document.getElementById(`Assign-User-${userId}`)
     const icon = document.getElementById(`Assign-Button-${userId}`)
     if (!addUsersId.includes(userId)) {

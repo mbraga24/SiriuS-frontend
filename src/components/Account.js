@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header, Icon, Divider, Grid, Button } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
@@ -6,14 +6,22 @@ import Loading from './Loading';
 import '../resources/Account.css';
 
 const Account = () => {
+
+  const [ projectsCount, setProjectsCount] = useState([])
   const users = useSelector(state => state.user.users)
   const keyHolder = useSelector(state => state.app.keyHolder) 
-  const keyHolderProjectsCount = useSelector(state => state.app.kHProjects.length)
-  const adminProjectsCount = useSelector(state => state.project.projects.length)
+  const allProjects = useSelector(state => state.project.projects)
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
   const adminInvitationCount = useSelector(state => state.invitation.invitations)
-  const { email, first_name, last_name, company, job_title } = keyHolder
+  const { email, first_name, last_name, company, job_title, projects } = keyHolder
 
+  useEffect(() => {
+    if (keyHolder.admin) {
+      setProjectsCount(allProjects)
+    } else {
+      setProjectsCount(projects)
+    }
+  }, [projectsCount, allProjects, projects, keyHolder])
 
   return (
     <React.Fragment>
@@ -27,7 +35,7 @@ const Account = () => {
         </Header>
         <Divider/>
         {
-          isLoading.includes("keyHolder") ? 
+          isLoading.includes("keyHolder") && isLoading.includes("projects") ? 
           <Grid doubling columns='2' textAlign="center">
             <Grid.Row>
               <Grid padded columns='1'>
@@ -73,7 +81,7 @@ const Account = () => {
                   <Grid.Column className="Account-Items">
                     <Button as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
                       <Icon name='tasks' size="large" />
-                      Projects: { keyHolder.admin ? adminProjectsCount : keyHolderProjectsCount }
+                      Projects: {projectsCount.length}
                     </Button>
                   </Grid.Column>
                 </Grid.Row>
