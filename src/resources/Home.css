@@ -1,17 +1,3 @@
-/* #Home-Container .Home-Segment {
-  margin: 25vh auto;
-  height: 50vh;
-} */
-
-/* #Home-Container .Home-Button-Color {
-  background-color: #534292;
-  color: #fff;
-} */
-
-/* #Home-Container .Home-Header {
-  color: #534292;
-} */
-
 #Home-Container .Home-Call-Action-Wrapper {
   margin: auto 0;
 }
@@ -35,3 +21,4 @@
 #Home-Container span {
   font-weight: 700;
 }
+
