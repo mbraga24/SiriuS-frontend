@@ -1,24 +1,31 @@
-#Home-Container .Home-Call-Action-Wrapper {
-  margin: auto 0;
+#Home-Container {
+  padding-bottom: 0;
+  margin: 50px auto;
 }
 
 #Home-Container .Logo-Action-Wrapper {
   margin: auto 0;
 }
 
-#Home-Container .Home-Call-Action-1 {
+#Home-Container .Call-Action {
   color: #f4f2f7; 
-  font-size: 38px;
-  font-weight: 300;
-}
-
-#Home-Container .Home-Call-Action-2 {
-  color: #f4f2f7; 
+  line-height: 1.6;
   font-size: 32px;
   font-weight: 400;
 }
 
+#Home-Container .Bottom {
+  margin: 0 auto;
+  font-size: 34px;
+  width: 80%;
+}
+
 #Home-Container span {
   font-weight: 700;
+}
+
+#Home-Container .Image-Wrapper {
+  display: flex; 
+  justify-content: center;
 }
 

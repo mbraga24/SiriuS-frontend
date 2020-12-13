@@ -1,9 +1,8 @@
-#Signup-Grid {
-  height: 90vh;
-}
 
 #Signup-Grid .Signup-Column {
   max-width: 450px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 #Signup-Grid .Signup-Header {
