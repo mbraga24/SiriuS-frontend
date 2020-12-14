@@ -117,6 +117,7 @@ const UpdateAccount = props => {
         const { user, success, logOut } = data
         setUpdatedSuccess(true)
         dispatch({ type: UPDATE_USER, payload: user })
+        dispatch({ type: SET_KEY_HOLDER, payload: user })
 
         if (logOut) {
           setStartCountDown(true)
