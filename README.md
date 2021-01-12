@@ -6,26 +6,26 @@ Home page
 ![Preview-1](https://res.cloudinary.com/dloh9txdc/image/upload/v1607892624/SiriuS%20-%20Project%20Preview/SiriuS-Collage.001_s642qk.png)
 
 Login page
-![Preview-2](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.002_kgx4vg.jpg)
+![Preview-2](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/SiriuS%20-%20Project%20Preview/SiriuS-Collage.002_kgx4vg.jpg)
 
 Admin account
-![Preview-3](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.003_qduipd.jpg)
+![Preview-3](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/SiriuS%20-%20Project%20Preview/SiriuS-Collage.003_qduipd.jpg)
 
 Invitation form and pending invitation page
-![Preview-4](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.006_oe8q8x.jpg)
+![Preview-4](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/SiriuS%20-%20Project%20Preview/SiriuS-Collage.006_oe8q8x.jpg)
 
-Collaborators list
-![Preview-5](https://res.cloudinary.com/dloh9txdc/image/upload/v1607557280/IssueMeThis-Collages/collage.002_h8381n.jpg)
+List of collaborators
+![Preview-5](https://cloudinary.com/console/c-dd5fb29d42cfa41be8dc096fa79be4/media_library/folders/fa6003e772bae0328021312d80603a0b/asset/955be78ed0ccea1fe9c66188afbba91d/manage)
 
 Collaborator history
-![Preview-6](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/IssueMeThis-Collages/SiriuS-Collage.004_jwgtgw.jpg)
+![Preview-6](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/SiriuS%20-%20Project%20Preview/SiriuS-Collage.004_jwgtgw.jpg)
 
 Project view page
-![Preview-7](https://res.cloudinary.com/dloh9txdc/image/upload/v1607557280/IssueMeThis-Collages/collage.001_kgmhzs.jpg)
+![Preview-7](https://cloudinary.com/console/c-dd5fb29d42cfa41be8dc096fa79be4/media_library/folders/fa6003e772bae0328021312d80603a0b/asset/34e8ca60b9b06d9a5339aef5aecef417/manage)
 
 <br />
 
-### Checkout the project [demo here](needs-to-work-ondemo)
+### Checkout more other features of this project on the [demo](needs-to-work-ondemo)
 
 <br />
 
@@ -70,22 +70,10 @@ Watch the [Demo](needs-to-work-ondemo)
 - HTML
 - CSS
 - Javascript
-- React
-- Rails API
-- [Cloudinary](https://cloudinary.com/)
+- React 
 
 #### Libraries
 - [Semantic UI React](https://react.semantic-ui.com/)
-
-#### Rails Gems Used
-
-- [rubyzip](https://github.com/rubyzip/rubyzip)
-- [active_model_serializers](https://github.com/rails-api/active_model_serializers)
-- [ruby-jwt](https://github.com/jwt/ruby-jwt)
-- [cloudinary_gem](https://github.com/cloudinary/cloudinary_gem)
-- [figaro](https://github.com/laserlemon/figaro)
-- [bcrypt-ruby](https://github.com/codahale/bcrypt-ruby)
-- [rack-cors](https://github.com/cyu/rack-cors)
 
 [Back To The Top](#sirius)
 
