@@ -67,10 +67,12 @@ Watch the [Demo](needs-to-work-ondemo)
 
 #### Technologies
 
+- HTML
+- CSS
 - Javascript
 - React
 - Rails API
-- Cloudinary
+- [Cloudinary](https://cloudinary.com/)
 
 #### Libraries
 - [Semantic UI React](https://react.semantic-ui.com/)
@@ -98,11 +100,6 @@ Watch the [Demo](needs-to-work-ondemo)
 1. `cd` into this repository folder.
 1. Run `npm install` to install all packages and dependencies.
 1. Run `npm start` to run the application.
-
-#### [SiriuS - Backend](https://github.com/mrdbrg/SiriuS-backend)
-
-1. Fork and clone the repo
-1. bundle install
 
 [Back To The Top](#sirius)
 
