@@ -25,7 +25,7 @@ Project view page
 
 <br />
 
-### Checkout more features of this project here: [Demo](needs-to-work-ondemo)
+### Checkout more features of this project here: [Demo walkthrough](needs-to-work-ondemo)
 
 <br />
 
