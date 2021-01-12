@@ -93,8 +93,11 @@ Watch the [Demo](needs-to-work-ondemo)
 
 #### [SiriuS - Frontend](https://github.com/mrdbrg/SiriuS-frontend)
 
-1. Fork and clone the repo
-1. npm install
+1. Fork this pository.
+1. Clone this repository onto your local machine.
+1. `cd` into this repository folder.
+1. Run `npm install` to install all packages and dependencies.
+1. Run `npm start` to run the application.
 
 #### [SiriuS - Backend](https://github.com/mrdbrg/SiriuS-backend)
 
