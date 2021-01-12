@@ -57,7 +57,7 @@ In Portuguese we call a [crab](https://en.wikipedia.org/wiki/Crab) a [_"Siri"_](
 
 Managers and supervisors have that incredible ability to juggle so many things at once, meet deadlines, change strategies to achieve previous or new goals, and after all that struggle they ultimately understand that they've given their best and achieved the goal that they envisioned for themselves and for their teams. They know there is nothing else left to do other than just "surf the waters" and let the currents (unpredictable variables) take them to another realm of challenges, but also possibilities. That's what getting __SiriuS__ means.
 
-Watch the [Demo](needs-to-work-ondemo)
+Watch [Demo](https://www.youtube.com/watch?v=uvIL2b6WK18&ab_channel=MarlonBraga)
 
 [Back To The Top](#sirius)
 
