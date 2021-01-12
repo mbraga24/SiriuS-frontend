@@ -70,7 +70,7 @@ Watch [Demo](https://www.youtube.com/watch?v=uvIL2b6WK18&ab_channel=MarlonBraga)
 - HTML
 - CSS
 - Javascript
-- React 
+- [React](https://reactjs.org/)
 
 #### Libraries
 - [Semantic UI React](https://react.semantic-ui.com/)
