@@ -85,8 +85,9 @@ Watch [Demo](https://www.youtube.com/watch?v=uvIL2b6WK18&ab_channel=MarlonBraga)
 
 1. Fork this pository.
 1. Clone this repository onto your local machine.
-1. `cd` into this repository folder.
+1. From your terminal `cd` into the project's folder.
 1. Run `npm install` to install all packages and dependencies.
+1. Follow the instructions for the [backend-end portion](https://github.com/mrdbrg/SiriuS-backend) of this application. 
 1. Run `npm start` to run the application.
 
 [Back To The Top](#sirius)
