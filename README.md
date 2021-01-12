@@ -21,7 +21,7 @@ Collaborator history
 ![Preview-6](https://res.cloudinary.com/dloh9txdc/image/upload/v1607554430/SiriuS%20-%20Project%20Preview/SiriuS-Collage.004_jwgtgw.jpg)
 
 Project view page
-![Preview-7](https://cloudinary.com/console/c-dd5fb29d42cfa41be8dc096fa79be4/media_library/folders/fa6003e772bae0328021312d80603a0b/asset/34e8ca60b9b06d9a5339aef5aecef417/manage)
+![Preview-7](https://res.cloudinary.com/dloh9txdc/image/upload/v1607557280/SiriuS%20-%20Project%20Preview/collage.001_kgmhzs.jpg)
 
 <br />
 
