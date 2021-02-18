@@ -73,6 +73,7 @@ Watch [Demo](https://www.youtube.com/watch?v=uvIL2b6WK18&ab_channel=MarlonBraga)
 - [React](https://reactjs.org/)
 
 #### Libraries
+
 - [Semantic UI React](https://react.semantic-ui.com/)
 
 [Back To The Top](#sirius)
