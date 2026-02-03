@@ -98,6 +98,7 @@ const App = props => {
             <React.Fragment>
               <Route exact path="/users" render={ () => <UserList hide={false} />} />
               <Route path="/users/:id" render={ () => <Account />} />
+              <Route path="/my-account" render={ () => <Account />} />
               <Route exact path="/projects" render={ () => <ProjectList />} />
               <Route path={["/project/:id", "/archive/:id"]} render={ () => <ProjectDetails/>} />
               <Route path='/user/projects/:id' render={() => <UserHistory />} />
@@ -107,7 +108,7 @@ const App = props => {
               <Route path="/update-account/:id" render={ () => <UpdateAccount />} />
             </React.Fragment>
         }
-          <Route exact path="/" render={ () => <Home/>} />
+          <Route exact path="/" render={ () => keyHolder?.id ? <Redirect to="/my-account" /> : <Home/>} />
           <Route path="/signup" render={ () => <Signup/>} />
           <Route path="/login" render={ () => <Login/>} />
           { (!keyHolder && pathname !== "/signup" && pathname !== "/login") && <Redirect to="/"/>  }

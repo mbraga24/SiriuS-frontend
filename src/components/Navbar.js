@@ -33,7 +33,7 @@ const Navbar = (props) => {
   return(
     <React.Fragment>
       <Menu id="Navbar-Container">
-        <Menu.Item as={Link} to={`/users/${keyHolder.id}`} className="Navbar-Font-Color">
+        <Menu.Item as={Link} to="/my-account" className="Navbar-Font-Color">
           Account
         </Menu.Item>
           { keyHolder.admin ?
