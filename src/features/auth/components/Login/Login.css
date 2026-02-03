@@ -1,0 +1,21 @@
+#Login-Grid {
+  height: 75vh;
+}
+
+#Login-Grid .Login-Column {
+  max-width: 450px;
+}
+
+#Login-Grid .Login-Header {
+  /* color: #534292; */
+  color: #ffffff;
+}
+
+#Login-Grid .Login-Column .Login-Button-Color {
+  background: #534292;
+  color: #ffffff;
+}
+
+#Login-Grid .Login-Message {
+  color: #534292;
+}

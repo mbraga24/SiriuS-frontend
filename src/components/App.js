@@ -11,19 +11,11 @@ import {
   fetchArchivedDocuments
 } from '../store/thunks/asyncThunks';
 import { autoLogin } from '../api';
-import Navbar from './Navbar';
-import Home from './Home';
-import UserList from './UserList';
-import InviteList from './InviteList';
-import Login from './Login';
-import Signup from './Signup';
-import Account from './Account';
-import ProjectList from './ProjectList';
-import NewProject from './NewProject';
-import UserHistory from './UserHistory';
-import ProjectDetails from './ProjectDetails';
-import InvitationForm from './InvitationForm';
-import UpdateAccount from './UpdateAccount';
+import { Navbar } from '../shared';
+import { Home, Login, Signup } from '../features/auth';
+import { Account, UpdateAccount, UserList, UserHistory } from '../features/users';
+import { ProjectList, NewProject, ProjectDetails } from '../features/projects';
+import { InvitationForm, InviteList } from '../features/invitations';
 import { API_SUCCESS, SET_KEY_HOLDER } from '../store/type';
 import { Container } from 'semantic-ui-react';
 

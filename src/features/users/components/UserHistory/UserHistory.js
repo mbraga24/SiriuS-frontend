@@ -1,0 +1,28 @@
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { Divider, Grid } from 'semantic-ui-react';
+import DocumentList from '../../../documents/components/DocumentList/DocumentList';
+import UserArchive from '../UserArchive/UserArchive';
+import UserProjects from '../UserProjects/UserProjects';
+import './UserHistory.css';
+
+const UserHistory = props => {
+  return (
+    <div id="UserHistory-Container">
+      <UserProjects />
+      <Divider/>
+      <Grid stackable divided>
+        <Grid.Row columns={2}>
+          <Grid.Column>
+            <UserArchive />
+          </Grid.Column>
+          <Grid.Column>
+            <DocumentList />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </div>
+  )
+}
+
+export default withRouter(UserHistory);
