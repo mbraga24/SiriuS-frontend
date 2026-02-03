@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { List, Button, Modal, Header, Icon } from 'semantic-ui-react';
 import { completeProject, archiveProject, deleteFromArchive } from '../api';
-import { ADD_TO_ARCHIVE, REMOVE_FROM_ARCHIVE, REMOVE_PROJECT, UPDATE_USER, ADD_ARCH_DOC } from '../store/type';
+import { removeProject } from '../store/slices/projectSlice';
+import { updateUser } from '../store/slices/userSlice';
+import { addToProjectArchive, removeFromProjectArchive } from '../store/slices/archiveSlice';
+import { addToDocumentArchive } from '../store/slices/archiveSlice';
 
 const ProjectOptions = props => {
 
@@ -17,10 +20,10 @@ const ProjectOptions = props => {
     completeProject(id)
     .then(data => {
         const { users, project, documents } = data
-        dispatch({ type: REMOVE_PROJECT, payload: project })
+        dispatch(removeProject(project))
         // update each user in the redux store
         for (let user of users) {
-          dispatch({ type: UPDATE_USER, payload: user })
+          dispatch(updateUser(user))
         }
         return { project, documents };
     })
@@ -28,9 +31,9 @@ const ProjectOptions = props => {
       return archiveProject(archProject)
         .then(data => {
           const { archived_project } = data
-          dispatch({ type: ADD_TO_ARCHIVE, payload: archived_project})
+          dispatch(addToProjectArchive(archived_project))
           for (let doc of archived_project.archive_documents) {
-            dispatch({ type: ADD_ARCH_DOC, payload: doc })
+            dispatch(addToDocumentArchive(doc))
           }
         })
     });
@@ -41,7 +44,7 @@ const ProjectOptions = props => {
     .then(data => {
       const { archiveId } = data
       // update projects from the redux store
-      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
+      dispatch(removeFromProjectArchive(archiveId))
       setOpen(false)
     })
   }

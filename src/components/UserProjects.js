@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Header, Icon, List, Button, Modal } from 'semantic-ui-react';
 import { removeProjectFromUser } from '../api';
-import { UPDATE_USER, UPDATE_PROJECT } from '../store/type';
+import { updateUser } from '../store/slices/userSlice';
+import { updateProject } from '../store/slices/projectSlice';
 import Loading from './Loading';
 import MissingAsset from './MissingAsset';
 import '../resources/UserHistory.css';
@@ -35,8 +36,8 @@ const UserProjects = props => {
   const removeProject = (userId, projectId) => {
     removeProjectFromUser(userId, projectId)
     .then(data => {
-      dispatch({ type: UPDATE_USER, payload: data.user }) 
-      dispatch({ type: UPDATE_PROJECT, payload: data.project }) 
+      dispatch(updateUser(data.user)) 
+      dispatch(updateProject(data.project)) 
       setOpen(false)
     })
   }

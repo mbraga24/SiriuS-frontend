@@ -2,7 +2,15 @@ import React from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { autoLogin, getProjects, getUsers, getDocuments, getInvites, getArchivedProjects, getArchiveDocuments } from '../api';
+import { 
+  fetchUsers,
+  fetchProjects,
+  fetchDocuments,
+  fetchInvitations,
+  fetchArchivedProjects,
+  fetchArchivedDocuments
+} from '../store/thunks/asyncThunks';
+import { autoLogin } from '../api';
 import Navbar from './Navbar';
 import Home from './Home';
 import UserList from './UserList';
@@ -16,7 +24,7 @@ import UserHistory from './UserHistory';
 import ProjectDetails from './ProjectDetails';
 import InvitationForm from './InvitationForm';
 import UpdateAccount from './UpdateAccount';
-import { SET_ARCH_DOCS, API_SUCCESS, SET_KEY_HOLDER, SET_PROJECTS, SET_USERS, SET_DOCUMENTS, SET_INVITATIONS, SET_ARCHIVE } from '../store/type';
+import { API_SUCCESS, SET_KEY_HOLDER } from '../store/type';
 import { Container } from 'semantic-ui-react';
 
 const App = props => {
@@ -28,79 +36,57 @@ const App = props => {
   // Fetch user to keep user logged in
   useEffect(() => {
     if (localStorage.token) {
-      // const token = localStorage.token
       const requestId = "keyHolder";
       autoLogin()
       .then(user => {
         dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_KEY_HOLDER, payload: user })
       })
+      .catch(error => {
+        console.error('Auto login failed:', error);
+        localStorage.removeItem('token');
+      })
       // change body background color
      const body = document.querySelector('body')
      body.classList.remove("bg-color-home")
     }
-
   }, [dispatch]) 
 
-  // Fetch Projects
+  // Fetch data using async thunks
   useEffect(() => {
-    const requestId = "projects";
-    getProjects()
-    .then(projectData  => {
-      dispatch({ requestId, type: API_SUCCESS });
-      dispatch({ type: SET_PROJECTS, payload: projectData })
-    })
-  }, [dispatch])
-
-  // Fetch Documents
-  useEffect(() => {
-    const requestId = "documents";
-    getDocuments()
-    .then(docuData  => {
-      dispatch({ requestId, type: API_SUCCESS });
-      dispatch({ type: SET_DOCUMENTS, payload: docuData })
-    })
-  }, [dispatch])
-
-  // Fetch Users
-  useEffect(() => {
-    const requestId = "users";
-    getUsers()
-    .then(userData => {
-      dispatch({ requestId, type: API_SUCCESS });
-      dispatch({ type: SET_USERS, payload: userData })
-    })
-  }, [dispatch])
-
-    // Fetch Invites
-    useEffect(() => {
-      const requestId = "invites";
-      getInvites()
-      .then(inviteData => {
-        dispatch({ requestId, type: API_SUCCESS });
-        dispatch({ type: SET_INVITATIONS, payload: inviteData })
-      })
-    }, [dispatch])
-
-    // Fetch Archive
-    useEffect(() => {
-      const requestId = "archive";
-      getArchivedProjects()
-      .then(archiveData => {
-        dispatch({ requestId, type: API_SUCCESS });
-        dispatch({ type: SET_ARCHIVE, payload: archiveData })
-      })
-    }, [dispatch])
-    
-    // Fetch Archive Document
-    useEffect(() => {
-      const requestId = "archiveDocuments";
-      getArchiveDocuments()
-      .then(archiveDocData => {
-        dispatch({ requestId, type: API_SUCCESS });
-        dispatch({ type: SET_ARCH_DOCS, payload: archiveDocData })
-      })
-    }, [dispatch])
+    if (localStorage.token) {
+      // Dispatch async thunks with proper promise handling
+      dispatch(fetchUsers())
+        .unwrap()
+        .then(() => dispatch({ requestId: "users", type: API_SUCCESS }))
+        .catch(err => console.error('fetchUsers failed:', err));
+      
+      dispatch(fetchProjects())
+        .unwrap()
+        .then(() => dispatch({ requestId: "projects", type: API_SUCCESS }))
+        .catch(err => console.error('fetchProjects failed:', err));
+      
+      dispatch(fetchDocuments())
+        .unwrap()
+        .then(() => dispatch({ requestId: "documents", type: API_SUCCESS }))
+        .catch(err => console.error('fetchDocuments failed:', err));
+      
+      dispatch(fetchInvitations())
+        .unwrap()
+        .then(() => dispatch({ requestId: "invites", type: API_SUCCESS }))
+        .catch(err => console.error('fetchInvitations failed:', err));
+      
+      dispatch(fetchArchivedProjects())
+        .unwrap()
+        .then(() => dispatch({ requestId: "archive", type: API_SUCCESS }))
+        .catch(err => console.error('fetchArchivedProjects failed:', err));
+      
+      dispatch(fetchArchivedDocuments())
+        .unwrap()
+        .then(() => dispatch({ requestId: "archiveDocuments", type: API_SUCCESS }))
+        .catch(err => console.error('fetchArchivedDocuments failed:', err));
+    }
+  }, [dispatch]);
 
   return (
     <div>

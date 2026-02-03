@@ -1,7 +1,8 @@
 import store  from '../store/index.js';
 import setRangeData from '../helpers/setRangeData';
 import { createProject } from '../api';
-import { UPDATE_USER, ADD_PROJECT } from '../store/type';
+import { updateUser } from '../store/slices/userSlice';
+import { addProject } from '../store/slices/projectSlice';
 
 const createOnSubmit = (e, { title, description, dateRange, addUsersId, relaunchProject, projectStatus, runAlert, pushUser }) => {
   e.preventDefault()
@@ -25,10 +26,10 @@ const createOnSubmit = (e, { title, description, dateRange, addUsersId, relaunch
       const { users, project } = data
       // update each user in the redux store
       for (let user of users) {
-        store.dispatch({ type: UPDATE_USER, payload: user })  
+        store.dispatch(updateUser(user))  
       }
       // add new project to redux store
-      store.dispatch({ type: ADD_PROJECT, payload: project })
+      store.dispatch(addProject(project))
       relaunchProject && projectStatus(true)
       !relaunchProject && pushUser()
     }

@@ -1,66 +1,91 @@
+// API Configuration
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api/v1';
+
+// Environment helpers
+export const isProduction = process.env.REACT_APP_ENVIRONMENT === 'production';
+export const isDevelopment = process.env.REACT_APP_ENVIRONMENT === 'development';
+export const isDebugEnabled = process.env.REACT_APP_DEBUG === 'true';
+
+// Request interceptor
+const apiRequest = async (endpoint, options = {}) => {
+  const url = `${BASE_URL}${endpoint}`;
+  
+  // Don't set Content-Type for FormData (let browser set it with boundary)
+  const isFormData = options.body instanceof FormData;
+  
+  const config = {
+    headers: isFormData ? {} : {
+      'Content-Type': 'application/json',
+      ...options.headers
+    },
+    ...options
+  };
+
+  // Add auth token if available
+  if (localStorage.token && !config.headers.Authorization) {
+    config.headers.Authorization = `Bearer ${localStorage.token}`;
+  }
+
+  try {
+    const response = await fetch(url, config);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    return config.skipJson ? response : await response.json();
+  } catch (error) {
+    if (isDebugEnabled) {
+      console.error('API Request failed:', error);
+    }
+    throw error;
+  }
+};
+
 // ==============================================================================
 //                                    USER
 // ==============================================================================
 
 // create new user
 export const createUser = data => {
-  return fetch(`http://localhost:3000/api/v1/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest('/signup', {
+    method: 'POST',
     body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-}
+  });
+};
 
 // update user
 export const updateAccount = (userId, data) => {
-  return fetch(`http://localhost:3000/api/v1/users/${userId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest(`/users/${userId}`, {
+    method: 'PATCH',
     body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-}
+  });
+};
 
 // login user
 export const loginUser = data => {
-  return fetch(`http://localhost:3000/api/v1/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest('/login', {
+    method: 'POST',
     body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-}
+  });
+};
 
 // user autologin 
 export const autoLogin = () => {
-  return fetch(`http://localhost:3000/api/v1/autologin`, {
-    headers: {
-      "Authorization": `Bearer ${localStorage.token}`
-    }
-  })
-  .then(r => r.json())
-}
+  return apiRequest('/autologin');
+};
 
 // get all users
 export const getUsers = () => {
-  return fetch(`http://localhost:3000/api/v1/users/`)
-  .then(r => r.json())
-}
+  return apiRequest('/users');
+};
 
 // delete user
 export const deleteUser = userId => {
-  return fetch(`http://localhost:3000/api/v1/users/${userId}`, {
-    method: "DELETE"
-  })
-  .then(r => r.json())
-}
+  return apiRequest(`/users/${userId}`, {
+    method: 'DELETE'
+  });
+};
 
 // ==============================================================================
 //                                    PROJECTS
@@ -68,64 +93,46 @@ export const deleteUser = userId => {
 
 // remove project from user
 export const removeProjectFromUser = (userId, projectId) => {
-  return fetch(`http://localhost:3000/api/v1/users/${userId}/remove-project/${projectId}`, {
-    method: "DELETE"
-  })
-  .then(r => r.json())
-}
+  return apiRequest(`/users/${userId}/remove-project/${projectId}`, {
+    method: 'DELETE'
+  });
+};
 
 // get all projects
 export const getProjects = () => {
-  return fetch(`http://localhost:3000/api/v1/projects/`)
-  .then(r => r.json())
-
-}
+  return apiRequest('/projects');
+};
 
 // add user to project
 export const addUserProject = updateProject => {
-  return fetch(`http://localhost:3000/api/v1/add_user/project/`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest('/add_user/project/', {
+    method: 'PATCH',
     body: JSON.stringify(updateProject)
-  })
-  .then(r => r.json())
-}
+  });
+};
 
 // create new project
 export const createProject = data => {
-  // console.log("CREATE PROJECT --->", data)
-  return fetch(`http://localhost:3000/api/v1/projects`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest('/projects', {
+    method: 'POST',
     body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-}
+  });
+};
 
 // edit project
 export const editProject = (projectId, data) => {
-  // console.log("EDIT PROJECT --->", data, projectId)
-  return fetch(`http://localhost:3000/api/v1/projects/${projectId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest(`/projects/${projectId}`, {
+    method: 'PATCH',
     body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-}
+  });
+};
 
 // destroy - complete project
 export const completeProject = projectId => {
-  return fetch(`http://localhost:3000/api/v1/projects/${projectId}`, {
-    method: "DELETE"
-  })
-  .then(r => r.json())
-}
+  return apiRequest(`/projects/${projectId}`, {
+    method: 'DELETE'
+  });
+};
 
 // ==============================================================================
 //                               ARCHIVE PROJECTS
@@ -133,28 +140,23 @@ export const completeProject = projectId => {
 
 // get archived projects
 export const getArchivedProjects = () => {
-  return fetch(`http://localhost:3000/api/v1/archive_projects`)
-  .then(r => r.json())
-}
+  return apiRequest('/archive_projects');
+};
 
 // create - arquive project
 export const archiveProject = arqProject => {
-  return fetch(`http://localhost:3000/api/v1/archive_projects`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest('/archive_projects', {
+    method: 'POST',
     body: JSON.stringify(arqProject)
-  }).then(r => r.json())
-}
+  });
+};
 
 // delete from arquive
 export const deleteFromArchive = projectId => {
-  // console.log("DELETE FROM ARCHIVE -->", projectId)
-  return fetch(`http://localhost:3000/api/v1/archive_projects/${projectId}`, {
-    method: "DELETE",
-  }).then(r => r.json())
-}
+  return apiRequest(`/archive_projects/${projectId}`, {
+    method: 'DELETE'
+  });
+};
 
 // ==============================================================================
 //                               ARCHIVE DOCUMENTS
@@ -162,20 +164,16 @@ export const deleteFromArchive = projectId => {
 
 // get archived documents
 export const getArchiveDocuments = () => {
-  return fetch(`http://localhost:3000/api/v1/archive_documents`)
-  .then(r => r.json())
-}
+  return apiRequest('/archive_documents');
+};
 
 // create - arquive document
 export const archiveDocuments = arqDocs => {
-  return fetch(`http://localhost:3000/api/v1/archive_documents`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+  return apiRequest('/archive_documents', {
+    method: 'POST',
     body: JSON.stringify({ ...arqDocs })
-  }).then(r => r.json())
-}
+  });
+};
 
 // ==============================================================================
 //                                  DOCUMENTS
@@ -183,55 +181,43 @@ export const archiveDocuments = arqDocs => {
 
 // set documents
 export const getDocuments = () => {
-  return fetch(`http://localhost:3000/api/v1/documents`)
-  .then(r => r.json())
-}
+  return apiRequest('/documents');
+};
 
 // create documents
 export const newDocument = formData => {
-  return fetch(`http://localhost:3000/api/v1/documents`, {
+  return apiRequest('/documents', {
     method: 'POST',
     body: formData
-  })
-}
+  });
+};
 
 // ==============================================================================
 //                                    INVITES
 // ==============================================================================
 
 export const inviteUser = data => {
-  return fetch('http://localhost:3000/api/v1/invites/', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-    .then(r => r.json())
-}
+  return apiRequest('/invites', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
+};
 
 // set invitations
 export const getInvites = () => {
-  return fetch(`http://localhost:3000/api/v1/invites`)
-  .then(r => r.json())
-}
+  return apiRequest('/invites');
+};
 
 // detele invitations
 export const deleteInvites = inviteId => {
-  console.log("inviteId =>", inviteId)
-  return fetch(`http://localhost:3000/api/v1/invites/${inviteId}`, {
+  return apiRequest(`/invites/${inviteId}`, {
     method: 'DELETE'
-  })
-  .then(r => r.json())
-}
+  });
+};
 
 // download archived project zip file
 export const downloadZip = projectId => {
-  console.log("projectId -->", projectId)
-  return fetch(`http://localhost:3000/api/v1/download/${projectId}`, {
-    headers: { 
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response)
-}
+  return apiRequest(`/download/${projectId}`, {
+    skipJson: true
+  });
+};

@@ -8,7 +8,8 @@ import createOnSubmit from '../helpers/submitCreateForm';
 import updateOnSubmit from '../helpers/submitUpdateForm';
 import { deleteFromArchive } from '../api';
 import { styleIcon, styleBtn, styleBtnLoad, styleDeleteBtn, styleMessageDisplay } from '../helpers/RelaunchModalsStyles';
-import { REMOVE_FROM_ARCHIVE, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { removeFromProjectArchive } from '../store/slices/archiveSlice';
 import '../resources/RelaunchModals.css';
 
 const RelaunchModals = props => {
@@ -77,7 +78,7 @@ const RelaunchModals = props => {
     deleteFromArchive(projectDetails.id)
     .then(data => {
       const { archiveId } = data
-      dispatch({ type: REMOVE_FROM_ARCHIVE, payload: archiveId })
+      dispatch(removeFromProjectArchive(archiveId))
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] })
       props.history.push("/projects")
     })

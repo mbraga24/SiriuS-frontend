@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteInvites } from '../api';
-import { REMOVE_INVITATION } from '../store/type';
+import { removeInvitation } from '../store/slices/invitationSlice';
 import TableList from './TableList';
 
 const InviteList = () => {
@@ -13,7 +13,7 @@ const InviteList = () => {
   const removeInvite = inviteId => {
     deleteInvites(inviteId)
     .then(data => {
-      dispatch({ type: REMOVE_INVITATION, payload: data.invite })
+      dispatch(removeInvitation(data.invite))
     })
   }
 

@@ -2,7 +2,8 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form, Header, Icon, Divider, Button, Message, List } from 'semantic-ui-react';
-import { UPDATE_USER, SET_KEY_HOLDER  } from '../store/type';
+import { SET_KEY_HOLDER  } from '../store/type';
+import { updateUser } from '../store/slices/userSlice';
 import useFormFields from '../hooks/useFormFields';
 import { updateAccount } from '../api';
 import '../resources/UpdateAccount.css';
@@ -116,7 +117,7 @@ const UpdateAccount = props => {
       } else {
         const { user, success, logOut } = data
         setUpdatedSuccess(true)
-        dispatch({ type: UPDATE_USER, payload: user })
+        dispatch(updateUser(user))
         dispatch({ type: SET_KEY_HOLDER, payload: user })
 
         if (logOut) {

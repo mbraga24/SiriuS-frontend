@@ -10,7 +10,7 @@ const UserArchive = props => {
 
   const matchId = parseInt(props.match.params.id)
   const [ loadArchive, setLoadArchive ] = useState(true)
-  const archiveProjects = useSelector(state => state.archiveProject.archive)
+  const archiveProjects = useSelector(state => state.archive.projects)
   const users = useSelector(state => state.user.users)
   const [ viewer, setViewer ] = useState(null)
 

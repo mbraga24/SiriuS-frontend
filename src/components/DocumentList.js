@@ -9,7 +9,7 @@ import '../resources/DocumentList.css';
 const DocumentList = props => {
 
   const documents = useSelector(state => state.document.documents)
-  const archiveDocuments = useSelector(state => state.archDocument.archDocuments)
+  const archiveDocuments = useSelector(state => state.archive.documents)
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
 
   const [ allDocuments, setAllDocuments ] = useState("")

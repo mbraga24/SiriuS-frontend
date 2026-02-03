@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Header, Icon, Divider, Button, List, Segment, Form, Modal, Grid } from 'semantic-ui-react';
 import { newDocument } from '../api';
-import { ADD_DOCUMENT } from '../store/type';
+import { addDocument } from '../store/slices/documentSlice';
 import { withRouter } from 'react-router-dom';
 import html2canvas from 'html2canvas'; // => install html2canvas
 import jsPDF from 'jspdf'; // => install jspdf
@@ -22,7 +22,7 @@ const ProjectDetails = props => {
   // redux store
   const keyHolder = useSelector(state => state.app.keyHolder)
   const projectActive = useSelector(state => state.project.projects)
-  const projectArchive = useSelector(state => state.archiveProject.archive)
+  const projectArchive = useSelector(state => state.archive.projects)
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
 
   // other variables
@@ -124,21 +124,18 @@ const ProjectDetails = props => {
     formData.append("userId", userId);
   
     newDocument(formData)
-    .then(r => {
-      if (r.ok) {
-        // set statusCode 
-        setStatusCode(r.status)
-        return r.json()
-      }
-    })
     .then(newDoc => {
-      // set loading back to false
+      setStatusCode(200)
       setLoader(false)
-      // wait 3 seconds and reset buttonStatus
       setTimeout(function(){ setButtonStatus(false) }, 3000)
-      // update store 
-      dispatch({ type: ADD_DOCUMENT, payload: newDoc })
+      dispatch(addDocument(newDoc))
       setFileName("")
+      setFile(null)
+    })
+    .catch(error => {
+      setStatusCode(500)
+      setLoader(false)
+      setTimeout(function(){ setButtonStatus(false) }, 3000)
     })
   };
 

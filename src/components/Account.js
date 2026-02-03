@@ -7,7 +7,6 @@ import '../resources/Account.css';
 
 const Account = () => {
 
-  const [ projectsCount, setProjectsCount] = useState([])
   const users = useSelector(state => state.user.users)
   const keyHolder = useSelector(state => state.app.keyHolder) 
   const allProjects = useSelector(state => state.project.projects)
@@ -15,13 +14,7 @@ const Account = () => {
   const adminInvitationCount = useSelector(state => state.invitation.invitations)
   const { email, first_name, last_name, company, job_title, projects } = keyHolder
 
-  useEffect(() => {
-    if (keyHolder.admin) {
-      setProjectsCount(allProjects)
-    } else {
-      setProjectsCount(projects)
-    }
-  }, [projectsCount, allProjects, projects, keyHolder])
+  const projectsCount = keyHolder.admin ? allProjects : (projects || [])
 
   return (
     <React.Fragment>
@@ -81,7 +74,7 @@ const Account = () => {
                   <Grid.Column className="Account-Items">
                     <Button as={Link} to={`/projects`}  className="Account-Container Account-Btn Account-Button-Color Button-Change">
                       <Icon name='tasks' size="large" />
-                      Projects: {projectsCount.length}
+                      Projects: {projectsCount?.length || 0}
                     </Button>
                   </Grid.Column>
                 </Grid.Row>

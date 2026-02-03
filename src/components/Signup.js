@@ -4,7 +4,9 @@ import { useDispatch } from 'react-redux';
 import { createUser } from '../api';
 import useFormFields from "../hooks/useFormFields";
 import '../resources/Signup.css';
-import { SET_KEY_HOLDER, ADD_USER, API_SUCCESS, REMOVE_INVITATION } from '../store/type';
+import { SET_KEY_HOLDER, API_SUCCESS } from '../store/type';
+import { addUser } from '../store/slices/userSlice';
+import { removeInvitation } from '../store/slices/invitationSlice';
 import { Button, Form, Grid, Header, Message, Segment, Icon, Input, List } from 'semantic-ui-react';
 
 const Signup = props => {
@@ -72,8 +74,8 @@ const Signup = props => {
         // update state
         dispatch({ requestId, type: API_SUCCESS });
         dispatch({ type: SET_KEY_HOLDER, payload: user })
-        dispatch({ type: ADD_USER, payload: user })
-        dispatch({ type: REMOVE_INVITATION, payload: invite })
+        dispatch(addUser(user))
+        dispatch(removeInvitation(invite))
 
         // update localStorage
         localStorage.token = token

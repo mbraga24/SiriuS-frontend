@@ -1,7 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteUser } from '../api';
-import { UPDATE_PROJECT, REMOVE_USER, REMOVE_DOCUMENT } from '../store/type';
+import { removeUser } from '../store/slices/userSlice';
+import { updateProject } from '../store/slices/projectSlice';
+import { removeDocument } from '../store/slices/documentSlice';
 import TableList from './TableList';
 
 
@@ -11,15 +13,15 @@ const UserList = () => {
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
   const dispatch = useDispatch()
 
-  const removeUser = userId => {
+  const removeUserHandler = userId => {
     deleteUser(userId)
     .then(data => {
-      dispatch({ type: REMOVE_USER, payload: data.user })
+      dispatch(removeUser(data.user))
       for (let project of data.projects) {
-        dispatch({ type: UPDATE_PROJECT, payload: project })
+        dispatch(updateProject(project))
       }
       for (let document of data.documents) {
-        dispatch({ type: REMOVE_DOCUMENT, payload: document })
+        dispatch(removeDocument(document))
       }
     })
   }
@@ -32,7 +34,7 @@ const UserList = () => {
       header="Collaborators"
       isLoaded={isLoading.includes("users")} 
       items={users}
-      func={removeUser}
+      func={removeUserHandler}
     />
   )
 }

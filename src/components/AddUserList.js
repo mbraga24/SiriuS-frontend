@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Icon, Divider, Form } from 'semantic-ui-react';
-import { ADD_USER_TO_TEMP_PROJECT, UPDATE_PROJECT, UPDATE_USER, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { ADD_USER_TO_TEMP_PROJECT, REMOVE_USER_FROM_TEMP_PROJECT } from '../store/type';
+import { updateProject } from '../store/slices/projectSlice';
+import { updateUser } from '../store/slices/userSlice';
 import { availableUsers, fullName } from '../helpers/userHelpers';
 import { addUserProject } from '../api';
 import MissingAsset from './MissingAsset';
@@ -70,16 +72,16 @@ const AddUserList = ( { defaultActions = true, relaunchProject = true, ...props 
 
   const addCollaborators = () => {
     props.setOpen(false)
-    const updateProject = {
+    const updateProjectData = {
       users: addUsersId,
       projectId: projectId
     }
-    addUserProject(updateProject)
+    addUserProject(updateProjectData)
     .then(data => {
       dispatch({ type: REMOVE_USER_FROM_TEMP_PROJECT, payload: [] }) // set selected user ids back to an empty array 
-      dispatch({ type: UPDATE_PROJECT, payload: data.project })
+      dispatch(updateProject(data.project))
       for (let user of data.users) {
-        dispatch({ type: UPDATE_USER, payload: user })
+        dispatch(updateUser(user))
       }
     })
   }

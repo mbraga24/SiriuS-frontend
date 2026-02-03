@@ -13,7 +13,7 @@ const ProjectList = () => {
   const isLoading = useSelector(state => state.load.isLoadingRequestIds) 
   
   const projects = useSelector(state => state.project.projects)
-  const archiveProjects = useSelector(state => state.archiveProject.archive)
+  const archiveProjects = useSelector(state => state.archive.projects)
 
   const renderProjects = () => {
     return projects.map(project => (

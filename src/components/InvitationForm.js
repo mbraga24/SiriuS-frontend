@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Checkbox, Icon, Divider, Transition, List, Message, Header, Button } from 'semantic-ui-react';
 import { inviteUser } from '../api';
+import { addInvitation } from '../store/slices/invitationSlice';
 import useFormFields from '../hooks/useFormFields'
 import '../resources/InvitationForm.css';
-import { ADD_INVITATION } from '../store/type';
 
 const InvitationForm = props => {
   
@@ -65,7 +65,7 @@ const InvitationForm = props => {
         runAlert(header, error)
         setSending(false)
       } else {
-        dispatch({ type: ADD_INVITATION, payload: data.invite })
+        dispatch(addInvitation(data.invite))
         props.setSecondOpen(true)
         setSending(false)
       }
