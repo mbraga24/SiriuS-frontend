@@ -1,0 +1,9 @@
+.PageHeader {
+  display: flex;
+  align-items: center;
+}
+
+.PageHeader-Title {
+  font-size: 30px;
+  padding-left: 8px;
+}
