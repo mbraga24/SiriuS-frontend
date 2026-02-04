@@ -56,7 +56,7 @@ const Login = (props) => {
         localStorage.token = token
         localStorage.admin = user.admin
         // send loggedin user to their account
-        props.history.push(`/users/${user.id}`)
+        props.history.push('/my-account')
         changeAppColors(user)
       }
     })

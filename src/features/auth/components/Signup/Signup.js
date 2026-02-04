@@ -85,7 +85,7 @@ const Signup = props => {
         const body = document.querySelector('body')
         body.classList.remove("bg-color-home")
 
-        props.history.push(`/users/${user.id}`)
+        props.history.push('/my-account')
       }
     })
   }
